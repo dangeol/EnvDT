@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace EnvDT.Model
 {
@@ -8,6 +11,9 @@ namespace EnvDT.Model
         public void Configure(EntityTypeBuilder<Medium> builder)
         {
             builder.HasKey(m => m.MediumId);
+            var mediumJson = File.ReadAllText(Resources.mediumJson);
+            var media = JsonSerializer.Deserialize<List<Medium>>(mediumJson);
+            builder.HasData(media);
         }
     }
 }

@@ -1,0 +1,58 @@
+[
+  {
+    "ValuationClassId": "50d48c39-8bd0-48f5-b404-857a5deb51aa",
+    "MedSubTypeId": "5310cb97-cd20-4e7c-b2b2-3dd13a95d54d"
+  },
+  {
+    "ValuationClassId": "d053fe3f-c4ab-4026-a5ed-930e28f957cc",
+    "MedSubTypeId": "0d203fff-8022-42c0-a901-84b1ae537f78"
+  },
+  {
+    "ValuationClassId": "d053fe3f-c4ab-4026-a5ed-930e28f957cc",
+    "MedSubTypeId": "4980a37c-7a15-4a72-b3c7-efd8d4c3f0e3"
+  },
+  {
+    "ValuationClassId": "8b3efec0-855b-461d-909b-eafb846fc6f3",
+    "MedSubTypeId": "188648d4-5ecb-47f5-ab54-aa7597a07b85"
+  },
+  {
+    "ValuationClassId": "b97e9117-bcca-4513-8d97-3b917a8f8309",
+    "MedSubTypeId": "5310cb97-cd20-4e7c-b2b2-3dd13a95d54d"
+  },
+  {
+    "ValuationClassId": "b97e9117-bcca-4513-8d97-3b917a8f8309",
+    "MedSubTypeId": "0d203fff-8022-42c0-a901-84b1ae537f78"
+  },
+  {
+    "ValuationClassId": "468005cf-f171-44cf-8f1b-d10f55be38c9",
+    "MedSubTypeId": "188648d4-5ecb-47f5-ab54-aa7597a07b85"
+  },
+  {
+    "ValuationClassId": "c5531b15-7354-4b2f-9512-4c7bf5fd89c1",
+    "MedSubTypeId": "5310cb97-cd20-4e7c-b2b2-3dd13a95d54d"
+  },
+  {
+    "ValuationClassId": "c5531b15-7354-4b2f-9512-4c7bf5fd89c1",
+    "MedSubTypeId": "0d203fff-8022-42c0-a901-84b1ae537f78"
+  },
+  {
+    "ValuationClassId": "badf5439-2cf6-4adb-884a-bd6de91cbfa6",
+    "MedSubTypeId": "188648d4-5ecb-47f5-ab54-aa7597a07b85"
+  },
+  {
+    "ValuationClassId": "0c40332c-262b-45b6-90c2-fc9e187f5a10",
+    "MedSubTypeId": "5310cb97-cd20-4e7c-b2b2-3dd13a95d54d"
+  },
+  {
+    "ValuationClassId": "3e6c7ebf-15f0-4a30-b779-0fda0b7ed43a",
+    "MedSubTypeId": "0d203fff-8022-42c0-a901-84b1ae537f78"
+  },
+  {
+    "ValuationClassId": "3e6c7ebf-15f0-4a30-b779-0fda0b7ed43a",
+    "MedSubTypeId": "4980a37c-7a15-4a72-b3c7-efd8d4c3f0e3"
+  },
+  {
+    "ValuationClassId": "e0044da1-dbcc-4975-9ed0-a21d8ba51e93",
+    "MedSubTypeId": "188648d4-5ecb-47f5-ab54-aa7597a07b85"
+  }
+]

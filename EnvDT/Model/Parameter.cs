@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace EnvDT.Model
 {
     public class Parameter
     {
-        public int ParameterId { get; set; }
+        public Guid ParameterId { get; set; }
         public string ParamNameEn { get; set; }
         public string ParamNameDe { get; set; }
-        public string CommentEn { get; set; }
-        public string CommentDe { get; set; }
+        public string ParamAnnotation { get; set; }
 
-        public List<RefValueParam> RefValueParams { get; } = new List<RefValueParam>();
+        public List<RefValue> RefValues { get; } = new List<RefValue>();
         public List<CAS> CASs { get; } = new List<CAS>();
+        public List<ParameterLaboratory> ParameterLaboratories { get; set; }
     }
 }

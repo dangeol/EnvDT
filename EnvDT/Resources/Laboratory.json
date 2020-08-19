@@ -1,0 +1,13 @@
+[
+  {
+    "LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
+    "LaboratoryName": "Agrolab Bruckberg",
+    "CountryId": "9215b758-0177-4568-9fc1-fe072872a46e"
+  },              
+  {
+    "LaboratoryId": "7c991390-fbf1-476c-99eb-70f7a899e420",
+    "LaboratoryName": "Eurofins West",
+    "CountryId": "9215b758-0177-4568-9fc1-fe072872a46e"
+  }               
+]
+

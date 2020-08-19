@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace EnvDT.Model
 {
@@ -14,6 +17,9 @@ namespace EnvDT.Model
             builder.HasOne(pr => pr.Region)
                 .WithMany(p => p.PublRegions)
                 .HasForeignKey(pr => pr.RegionId);
+            var publRegionJson = File.ReadAllText(Resources.publRegionJson);
+            var publRegions = JsonSerializer.Deserialize<List<PublRegion>>(publRegionJson);
+            builder.HasData(publRegions);
         }
     }
 }
