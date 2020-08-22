@@ -17,7 +17,7 @@ namespace EnvDT.Model
             builder.HasOne(pc => pc.Country)
                 .WithMany(p => p.PublCountries)
                 .HasForeignKey(pc => pc.CountryId);
-            var publCountryJson = File.ReadAllText(Resources.publCountryJson);
+            var publCountryJson = File.ReadAllText(DbResources.publCountryJson);
             var publCountries = JsonSerializer.Deserialize<List<PublCountry>>(publCountryJson);
             builder.HasData(publCountries);
         }

@@ -1,10 +1,17 @@
 ﻿using EnvDT.Model;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.IO;
 
-namespace EnvDT
+namespace EnvDT.DataAccess
 {
-    public class EnvDTContext : DbContext
+    public class EnvDTDbContext : DbContext
     {
+        public EnvDTDbContext()
+        {
+            CreateAppDirectory();
+        }
+
         public DbSet<CAS> CASs { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -23,8 +30,12 @@ namespace EnvDT
         public DbSet<Region> Regions { get; set; }
         public DbSet<Unit> Units { get; set; }
 
+        private const string envDtDir = "EnvDT";
+        private static string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), envDtDir);
+        
+        private string sqlitePath = Path.Combine(appPath,@"envdt.db");
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite("Data Source=envdt.db");
+            => options.UseSqlite($"Data Source={sqlitePath}");
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,6 +56,11 @@ namespace EnvDT
             modelBuilder.ApplyConfiguration(new ValuationClassMedSubTypeConfig());
             modelBuilder.ApplyConfiguration(new RegionConfig());
             modelBuilder.ApplyConfiguration(new UnitConfig());
+        }
+
+        private void CreateAppDirectory()
+        {
+            Directory.CreateDirectory(Path.Combine(appPath));
         }
     }
 }

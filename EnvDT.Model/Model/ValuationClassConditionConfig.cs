@@ -17,7 +17,7 @@ namespace EnvDT.Model
             builder.HasOne(vc => vc.Condition)
                 .WithMany(v => v.ValuationClassConditions)
                 .HasForeignKey(vc => vc.ConditionId);
-            var valuationClassConditionJson = File.ReadAllText(Resources.valuationClassConditionJson);
+            var valuationClassConditionJson = File.ReadAllText(DbResources.valuationClassConditionJson);
             var valuationClassConditions = JsonSerializer.Deserialize<List<ValuationClassCondition>>(valuationClassConditionJson);
             builder.HasData(valuationClassConditions);
         }

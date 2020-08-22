@@ -26,7 +26,7 @@ namespace EnvDT.Model
             builder.HasOne(r => r.Medium)
                 .WithMany(r => r.RefValues)
                 .HasForeignKey(r => r.MediumId);
-            var refValueJson = File.ReadAllText(Resources.refValueJson);
+            var refValueJson = File.ReadAllText(DbResources.refValueJson);
             var refValues = JsonSerializer.Deserialize<List<RefValue>>(refValueJson);
             builder.HasData(refValues);
         }

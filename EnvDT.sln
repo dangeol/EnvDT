@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT", "EnvDT\EnvDT.csproj", "{B83CAD76-E154-4517-928E-F3B4EA313996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.Model", "EnvDT.Model\EnvDT.Model.csproj", "{B83CAD76-E154-4517-928E-F3B4EA313996}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.UI", "EnvDT.UI\EnvDT.UI.csproj", "{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.DataAccess", "EnvDT.DataAccess\EnvDT.DataAccess.csproj", "{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{B83CAD76-E154-4517-928E-F3B4EA313996}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B83CAD76-E154-4517-928E-F3B4EA313996}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B83CAD76-E154-4517-928E-F3B4EA313996}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

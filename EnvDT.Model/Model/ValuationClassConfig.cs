@@ -14,7 +14,7 @@ namespace EnvDT.Model
             builder.HasOne(vp => vp.Publication)
                 .WithMany(p => p.ValuationClasses)
                 .HasForeignKey(vp => vp.PublicationId);
-            var valuationClassJson = File.ReadAllText(Resources.valuationClassJson);
+            var valuationClassJson = File.ReadAllText(DbResources.valuationClassJson);
             var valuationClasses = JsonSerializer.Deserialize<List<ValuationClass>>(valuationClassJson);
             builder.HasData(valuationClasses);
         }

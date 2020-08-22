@@ -11,7 +11,7 @@ namespace EnvDT.Model
         public void Configure(EntityTypeBuilder<Publication> builder)
         {
             builder.HasKey(p => p.PublicationId);
-            var publicationJson = File.ReadAllText(Resources.publicationJson);
+            var publicationJson = File.ReadAllText(DbResources.publicationJson);
             var publications = JsonSerializer.Deserialize<List<Publication>>(publicationJson);
             builder.HasData(publications);
         }

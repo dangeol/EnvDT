@@ -11,7 +11,7 @@ namespace EnvDT.Model
         public void Configure(EntityTypeBuilder<Unit> builder)
         {
             builder.HasKey(u => u.UnitId);
-            var unitJson = File.ReadAllText(Resources.unitJson);
+            var unitJson = File.ReadAllText(DbResources.unitJson);
             var units = JsonSerializer.Deserialize<List<Unit>>(unitJson);
             builder.HasData(units);
         }

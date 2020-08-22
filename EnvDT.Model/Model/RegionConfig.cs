@@ -14,7 +14,7 @@ namespace EnvDT.Model
             builder.HasOne(rc => rc.Country)
                 .WithMany(c => c.Regions)
                 .HasForeignKey(rc => rc.CountryId);
-            var regionJson = File.ReadAllText(Resources.regionJson);
+            var regionJson = File.ReadAllText(DbResources.regionJson);
             var regions = JsonSerializer.Deserialize<List<Region>>(regionJson);
             builder.HasData(regions);
         }

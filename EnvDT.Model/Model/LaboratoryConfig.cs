@@ -14,7 +14,7 @@ namespace EnvDT.Model
             builder.HasOne(lc => lc.Country)
                 .WithMany(p => p.Laboratories)
                 .HasForeignKey(lc => lc.CountryId);
-            var laboratoryJson = File.ReadAllText(Resources.laboratoryJson);
+            var laboratoryJson = File.ReadAllText(DbResources.laboratoryJson);
             var laboratories = JsonSerializer.Deserialize<List<Laboratory>>(laboratoryJson);
             builder.HasData(laboratories);
         }

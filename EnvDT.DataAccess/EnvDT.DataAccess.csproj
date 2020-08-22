@@ -1,0 +1,66 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EnvDT.Model\EnvDT.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="DbDataSeeds\Condition.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Country.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Laboratory.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Medium.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\MediumSubType.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Parameter.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ParameterLaboratory.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\PublCountry.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Publication.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\PublRegion.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\RefValue.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Region.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Unit.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ValuationClass.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ValuationClassCondition.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ValuationClassMedSubType.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if not exist $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess mkdir $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess&#xD;&#xA;if not exist $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds mkdir $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds&quot;" />
+  </Target>
+  
+</Project>

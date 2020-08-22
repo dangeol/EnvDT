@@ -11,7 +11,7 @@ namespace EnvDT.Model
         public void Configure(EntityTypeBuilder<Country> builder)
         {
             builder.HasKey(c => c.CountryId);
-            var countryJson = File.ReadAllText(Resources.countryJson);
+            var countryJson = File.ReadAllText(DbResources.countryJson);
             var countries = JsonSerializer.Deserialize<List<Country>>(countryJson);
             builder.HasData(countries);
         }

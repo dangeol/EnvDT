@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EnvDT {
+namespace EnvDT.UI.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace EnvDT {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EnvDT.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("EnvDT.UI.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,7 +61,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Condition.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Condition.json.
         /// </summary>
         internal static string conditionJson {
             get {
@@ -70,7 +70,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Country.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Country.json.
         /// </summary>
         internal static string countryJson {
             get {
@@ -79,7 +79,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Laboratory.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Laboratory.json.
         /// </summary>
         internal static string laboratoryJson {
             get {
@@ -88,7 +88,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Medium.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Medium.json.
         /// </summary>
         internal static string mediumJson {
             get {
@@ -97,7 +97,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/MediumSubType.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/MediumSubType.json.
         /// </summary>
         internal static string mediumSubTypeJson {
             get {
@@ -106,7 +106,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Parameter.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Parameter.json.
         /// </summary>
         internal static string parameterJson {
             get {
@@ -115,7 +115,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/ParameterLaboratory.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ParameterLaboratory.json.
         /// </summary>
         internal static string parameterLaboratoryJson {
             get {
@@ -124,7 +124,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/PublCountry.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublCountry.json.
         /// </summary>
         internal static string publCountryJson {
             get {
@@ -133,7 +133,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Publication.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Publication.json.
         /// </summary>
         internal static string publicationJson {
             get {
@@ -142,7 +142,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/PublRegion.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublRegion.json.
         /// </summary>
         internal static string publRegionJson {
             get {
@@ -151,7 +151,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/RefValue.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/RefValue.json.
         /// </summary>
         internal static string refValueJson {
             get {
@@ -160,7 +160,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Region.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Region.json.
         /// </summary>
         internal static string regionJson {
             get {
@@ -169,7 +169,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/Unit.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Unit.json.
         /// </summary>
         internal static string unitJson {
             get {
@@ -178,7 +178,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/ValuationClassCondition.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClassCondition.json.
         /// </summary>
         internal static string valuationClassConditionJson {
             get {
@@ -187,7 +187,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/ValuationClass.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClass.json.
         /// </summary>
         internal static string valuationClassJson {
             get {
@@ -196,7 +196,7 @@ namespace EnvDT {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Resources/ValuationClassMedSubType.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClassMedSubType.json.
         /// </summary>
         internal static string valuationClassMedSubTypeJson {
             get {

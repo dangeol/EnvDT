@@ -17,7 +17,7 @@ namespace EnvDT.Model
             builder.HasOne(vm => vm.MediumSubType)
                 .WithMany(v => v.ValuationClassMedSubTypes)
                 .HasForeignKey(vm => vm.MedSubTypeId);
-            var valuationClassMedSubTypeJson = File.ReadAllText(Resources.valuationClassMedSubTypeJson);
+            var valuationClassMedSubTypeJson = File.ReadAllText(DbResources.valuationClassMedSubTypeJson);
             var valuationClassMedSubTypes = JsonSerializer.Deserialize<List<ValuationClassMedSubType>>(valuationClassMedSubTypeJson);
             builder.HasData(valuationClassMedSubTypes);
         }
