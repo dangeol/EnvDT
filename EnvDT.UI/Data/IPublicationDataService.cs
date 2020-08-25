@@ -1,10 +1,11 @@
 ﻿using EnvDT.Model;
-using System.Collections.Generic;
+using System;
 
 namespace EnvDT.UI.Data
 {
     public interface IPublicationDataService
     {
-        IEnumerable<Publication> GetAll();
+        Publication GetById(Guid publicationId);
+        void Save(Publication publication);
     }
 }

@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:view="clr-namespace:EnvDT.UI.View"
         mc:Ignorable="d"
         Title="EnvDT" Height="450" Width="800" FontSize="20">
     <Grid>
@@ -10,31 +11,7 @@
             <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
-        <ListView ItemsSource="{Binding Publications}"
-                  SelectedItem="{Binding SelectedPublication,Mode=TwoWay}"
-                  DisplayMemberPath="Abbreviation"/>
-
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
-            <Label Content="Title" Margin="10 10 10 10"/>
-            <TextBox Grid.Row="1" Text="{Binding SelectedPublication.Title,
-                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
-
-            <Label Grid.Row="2"  Content="Publisher" Margin="10 0"/>
-            <TextBox Grid.Row="3" Text="{Binding SelectedPublication.Publisher,
-                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
-
-            <Label Grid.Row="4"  Content="Year" Margin="10 0"/>
-            <TextBox Grid.Row="5" Text="{Binding SelectedPublication.Year,
-                Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
-        </Grid>
+        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
+        <view:PublicationDetailView Grid.Column="1" DataContext="{Binding PublicationDetailViewModel}"/>
     </Grid>
 </Window>
