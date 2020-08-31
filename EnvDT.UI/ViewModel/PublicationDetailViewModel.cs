@@ -1,5 +1,5 @@
 ﻿using EnvDT.Model;
-using EnvDT.UI.Data;
+using EnvDT.UI.Data.Repositories;
 using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
@@ -10,23 +10,22 @@ namespace EnvDT.UI.ViewModel
 {
     class PublicationDetailViewModel : ViewModelBase, IPublicationDetailViewModel
     {
-        private IPublicationDataService _dataService;
+        private IPublicationRepository _publicationRepository;
         private IEventAggregator _eventAggregator;
+        private Publication _publication;
 
-        public PublicationDetailViewModel(IPublicationDataService dataService,
+        public PublicationDetailViewModel(IPublicationRepository publicationRepository,
             IEventAggregator eventAggregator)
         {
-            _dataService = dataService;
+            _publicationRepository = publicationRepository;
             _eventAggregator = eventAggregator;
-            _eventAggregator.GetEvent<OpenPublicationDetailViewEvent>()
-                .Subscribe(OnOpenPublicationDetailView);
 
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
         private void OnSaveExecute()
         {
-            _dataService.Save(Publication);
+            _publicationRepository.Save();
             _eventAggregator.GetEvent<AfterPublicationSavedEvent>().Publish(
                 new AfterPublicationSavedEventArgs
                 {
@@ -41,17 +40,11 @@ namespace EnvDT.UI.ViewModel
             return true;
         }
 
-        private void OnOpenPublicationDetailView(Guid publicationId)
-        {
-            Load(publicationId);
-        }
-
         public void Load(Guid publicationId)
         {
-            Publication = _dataService.GetById(publicationId);
+            Publication = _publicationRepository.GetById(publicationId);
         }
 
-        private Publication _publication;
         public Publication Publication
         {
             get { return _publication; }

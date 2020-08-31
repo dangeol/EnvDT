@@ -12,6 +12,7 @@ namespace EnvDT.DataAccess
             CreateAppDirectory();
         }
 
+        // Guidelines
         public DbSet<CAS> CASs { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Country> Countries { get; set; }
@@ -30,6 +31,12 @@ namespace EnvDT.DataAccess
         public DbSet<Region> Regions { get; set; }
         public DbSet<Unit> Units { get; set; }
 
+        //LabReports
+        public DbSet<LabReport> LabReports { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<Sample> Samples { get; set; }
+        public DbSet<SampleValue> SampleValues { get; set; }
+
         private const string envDtDir = "EnvDT";
         private static string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), envDtDir);
         
@@ -39,6 +46,8 @@ namespace EnvDT.DataAccess
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.RemovePluralizingTableNameConvention();
+            // Guidelines
             modelBuilder.ApplyConfiguration(new CASConfig());
             modelBuilder.ApplyConfiguration(new ConditionConfig());
             modelBuilder.ApplyConfiguration(new CountryConfig());
@@ -56,6 +65,12 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new ValuationClassMedSubTypeConfig());
             modelBuilder.ApplyConfiguration(new RegionConfig());
             modelBuilder.ApplyConfiguration(new UnitConfig());
+
+            // LabReports
+            modelBuilder.ApplyConfiguration(new LabReportConfig());
+            modelBuilder.ApplyConfiguration(new ProjectConfig());
+            modelBuilder.ApplyConfiguration(new SampleConfig());
+            modelBuilder.ApplyConfiguration(new SampleValueConfig());
         }
 
         private void CreateAppDirectory()

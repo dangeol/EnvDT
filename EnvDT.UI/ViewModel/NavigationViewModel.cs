@@ -1,8 +1,6 @@
-﻿using EnvDT.Model.Model;
-using EnvDT.UI.Data;
+﻿using EnvDT.UI.Data.Lookups;
 using EnvDT.UI.Event;
 using Prism.Events;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 

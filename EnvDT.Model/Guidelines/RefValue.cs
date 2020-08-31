@@ -5,7 +5,7 @@ namespace EnvDT.Model
     public class RefValue
     {
         public Guid RefValueId { get; set; }
-        public double Value { get; set; }
+        public double RValue { get; set; }
         public Guid PublicationId { get; set; }
         public Publication Publication { get; set; }
         public Guid ParameterId { get; set; }

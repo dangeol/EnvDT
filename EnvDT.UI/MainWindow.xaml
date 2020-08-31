@@ -5,13 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:EnvDT.UI.View"
         mc:Ignorable="d"
-        Title="EnvDT" Height="450" Width="800" FontSize="20">
+        Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
     <Grid>
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
         <view:PublicationDetailView Grid.Column="1" DataContext="{Binding PublicationDetailViewModel}"/>
+        <view:GetLabReportView Grid.Column="2" DataContext="{Binding GetLabReportViewModel}"/>
     </Grid>
 </Window>

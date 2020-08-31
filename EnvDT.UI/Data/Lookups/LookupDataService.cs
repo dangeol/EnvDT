@@ -1,11 +1,11 @@
 ﻿using EnvDT.DataAccess;
-using EnvDT.Model.Model;
+using EnvDT.Model.Guidelines;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnvDT.UI.Data
+namespace EnvDT.UI.Data.Lookups
 {
     public class LookupDataService : IPublicationLookupDataService
     {

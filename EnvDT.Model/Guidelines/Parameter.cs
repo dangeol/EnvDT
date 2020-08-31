@@ -13,5 +13,6 @@ namespace EnvDT.Model
         public List<RefValue> RefValues { get; } = new List<RefValue>();
         public List<CAS> CASs { get; } = new List<CAS>();
         public List<ParameterLaboratory> ParameterLaboratories { get; set; }
+        public List<SampleValue> SampleValues { get; set; }
     }
 }

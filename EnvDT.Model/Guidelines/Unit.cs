@@ -11,5 +11,6 @@ namespace EnvDT.Model
         public string UnitDescDe { get; set; }
 
         public List<RefValue> RefValues { get; } = new List<RefValue>();
+        public List<SampleValue> SampleValues { get; } = new List<SampleValue>();
     }
 }
