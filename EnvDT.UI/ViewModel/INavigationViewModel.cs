@@ -2,6 +2,5 @@
 {
     public interface INavigationViewModel
     {
-        void Load();
     }
 }

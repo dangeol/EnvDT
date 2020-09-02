@@ -1,60 +1,46 @@
-﻿using EnvDT.UI.Data.Lookups;
-using EnvDT.UI.Event;
-using Prism.Events;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using EnvDT.UI.Data.Services;
+using Prism.Commands;
+using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
     public class NavigationViewModel : ViewModelBase, INavigationViewModel
     {
-        private IPublicationLookupDataService _publicationLookupService;
-        private IEventAggregator _eventAggregator;
+        private IOpenLabReportService _openLabReportService;
+        private IEvalLabReportService _evalLabReportService;
 
-        public NavigationViewModel(IPublicationLookupDataService publicationLookupDataService,
-            IEventAggregator eventAggregator)
+        public NavigationViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
         {
-            _publicationLookupService = publicationLookupDataService;
-            _eventAggregator = eventAggregator;
-            Publications = new ObservableCollection<NavigationItemViewModel>();
-            _eventAggregator.GetEvent<AfterPublicationSavedEvent>()
-                .Subscribe(AfterFriendSaved);
+            _openLabReportService = openLabReportService;
+            _evalLabReportService = evalLabReportService;
+
+            OpenLabReportCommand = new DelegateCommand(OnOpenExecute, OnOpenCanExecute);
+            EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
         }
 
-        private void AfterFriendSaved(AfterPublicationSavedEventArgs obj)
+        private void OnOpenExecute()
         {
-            var lookupItem = Publications.Single(l => l.LookupItemId == obj.PublicationId);
-            lookupItem.DisplayMember = obj.DisplayMember;
+            _openLabReportService.OpenLabReport();
         }
 
-        public void Load()
+        private bool OnOpenCanExecute()
         {
-            var lookup = _publicationLookupService.GetPublicationLookup();
-            Publications.Clear();
-            foreach (var item in lookup)
-            {
-                Publications.Add(new NavigationItemViewModel(item.LookupItemId, item.DisplayMember));
-            }
+            // TODO: Check if publication is valid
+            return true;
         }
 
-        public ObservableCollection<NavigationItemViewModel> Publications { get; }
-
-        private NavigationItemViewModel _selectedPublication;
-
-        public NavigationItemViewModel SelectedPublication
+        private void OnEvalExecute()
         {
-            get { return _selectedPublication; }
-            set 
-            { 
-                _selectedPublication = value;
-                OnPropertyChanged();
-                if(_selectedPublication != null)
-                {
-                    _eventAggregator.GetEvent<OpenPublicationDetailViewEvent>()
-                        .Publish(_selectedPublication.LookupItemId);
-                }
-            }
+            _evalLabReportService.evalLabReport();
         }
 
+        private bool OnEvalCanExecute()
+        {
+            // TODO: Check if publication is valid
+            return true;
+        }
+
+        public ICommand OpenLabReportCommand { get; }
+        public ICommand EvalLabReportCommand { get; }
     }
 }

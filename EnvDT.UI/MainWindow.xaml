@@ -9,11 +9,8 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        <view:PublicationDetailView Grid.Column="1" DataContext="{Binding PublicationDetailViewModel}"/>
-        <view:GetLabReportView Grid.Column="2" DataContext="{Binding GetLabReportViewModel}"/>
     </Grid>
 </Window>

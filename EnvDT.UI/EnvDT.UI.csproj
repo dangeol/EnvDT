@@ -26,6 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Lookups\" />
+    <Folder Include="Data\Repositories\" />
+    <Folder Include="Event\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 
