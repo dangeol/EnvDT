@@ -7,7 +7,7 @@
 	{
 		"ParameterId": "178e2453-8cb7-487b-a545-89777ac20e02",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "TOC"
+		"LabParamName": "Kohlenstoff(C) organisch (TOC)"
 	},
 	{
 		"ParameterId": "93c16f9c-5c89-48f2-8157-659e9698ca68",
@@ -17,17 +17,17 @@
 	{
 		"ParameterId": "b41f5cb3-74a8-4b7b-915a-ab2e3e8f0281",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Kohlenwasserstoffe C10-C22"
+		"LabParamName": "Kohlenwasserstoffe C10-C22 (GC)"
 	},
 	{
 		"ParameterId": "d690e694-07ef-4df9-8bf7-04d110ca9012",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Kohlenwasserstoffe C10-C40"
+		"LabParamName": "Kohlenwasserstoffe C10-C40 (GC)"
 	},
 	{
 		"ParameterId": "263368f8-4aa5-4eed-9664-ad08824261d2",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "PAK nach EPA"
+		"LabParamName": "PAK-Summe (nach EPA)"
 	},
 	{
 		"ParameterId": "7a7d9e70-7484-4529-85df-dfccec111731",
@@ -42,32 +42,32 @@
 	{
 		"ParameterId": "4659034a-3672-4851-9fda-5e34ea011dc6",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "PCB6"
+		"LabParamName": "PCB-Summe (6 Kongenere)"
 	},
 	{
 		"ParameterId": "fa609ce0-9165-4c52-8928-48a3e35edf3b",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "PCB7"
+		"LabParamName": "PCB-Summe"
 	},
 	{
 		"ParameterId": "e71095e6-8be3-47bb-82a1-004019e8f7a1",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Arsen"
+		"LabParamName": "Arsen (As)"
 	},
 	{
 		"ParameterId": "1aa085d0-423b-402d-bfe6-662aae6f60cb",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Blei"
+		"LabParamName": "Blei (Pb)"
 	},
 	{
 		"ParameterId": "6517ed08-1e14-4445-add3-3aa313bfe962",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Cadmium"
+		"LabParamName": "Cadmium (Cd)"
 	},
 	{
 		"ParameterId": "8d9e46c1-dcbc-40d9-8b80-440b9f104486",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Chrom Gesamt"
+		"LabParamName": "Chrom (Cr)"
 	},
 	{
 		"ParameterId": "c7faa279-5838-4f54-92fb-e7830929566a",
@@ -82,12 +82,12 @@
 	{
 		"ParameterId": "bf2827a7-9b58-49ce-997b-8c9d5851b4d0",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Molybd\u00E4n"
+		"LabParamName": "Molybd\u00E4n (Mo)"
 	},
 	{
 		"ParameterId": "712fb2e6-f1d7-4272-8990-e941aee52272",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Antimon"
+		"LabParamName": "Antimon (Sb)"
 	},
 	{
 		"ParameterId": "fdbab1a9-1c5c-4b32-a781-fe4f95fa8ecf",
@@ -97,47 +97,47 @@
 	{
 		"ParameterId": "a64f9340-9d8f-4bf3-878e-b857095e5b54",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Selen"
+		"LabParamName": "Selen (Se)"
 	},
 	{
 		"ParameterId": "02059352-ea6b-4ad6-9a54-74124641b8ee",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Thallium"
+		"LabParamName": "Thallium (Tl)"
 	},
 	{
 		"ParameterId": "b98699fb-df9d-4ff6-9202-24d27530b6fd",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Kupfer"
+		"LabParamName": "Kupfer (Cu)"
 	},
 	{
 		"ParameterId": "357eec92-a175-42d2-97e5-0bf36af34fe4",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Nickel"
+		"LabParamName": "Nickel (Ni)"
 	},
 	{
 		"ParameterId": "eef34ebb-4fcf-495b-a64b-b72848cd881f",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Quecksilber"
+		"LabParamName": "Quecksilber (Hg)"
 	},
 	{
 		"ParameterId": "80622228-e555-47f4-95da-35b3137619ce",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Zink"
+		"LabParamName": "Zink (Zn)"
 	},
 	{
 		"ParameterId": "ecb39ece-9129-446d-bdff-72fcc56f3f0d",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Penole"
+		"LabParamName": "Phenolindex"
 	},
 	{
 		"ParameterId": "fd2929d5-58e1-4305-9ef7-a4612d6ec379",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Chlorid"
+		"LabParamName": "Chlorid (Cl)"
 	},
 	{
 		"ParameterId": "fc25a292-f7c3-45aa-9434-573cf85a245c",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Sulfat"
+		"LabParamName": "Sulfat (SO4)"
 	},
 	{
 		"ParameterId": "eeabe458-352b-4d66-a8cb-205812516aec",
@@ -152,37 +152,37 @@
 	{
 		"ParameterId": "184a8d1a-2560-4e92-bc9c-d44d76d49b99",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "elektr. Leitf\u00E4higkeit"
+		"LabParamName": "elektrische Leitf\u00E4higkeit"
 	},
 	{
 		"ParameterId": "9d8fb566-372d-4c45-adbe-1db7f52f27e4",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Cyanide, gesamt"
+		"LabParamName": "Cyanide ges."
 	},
 	{
 		"ParameterId": "2b80d917-f105-4e4c-8733-2cb9853b4a7e",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Cyanide, leicht freisetzbar"
+		"LabParamName": "Cyanide leicht freisetzbar"
 	},
 	{
 		"ParameterId": "73a57bd7-b618-4a7b-aff1-be776b24b562",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Fluorid"
+		"LabParamName": "Fluorid (F)"
 	},
 	{
 		"ParameterId": "196634aa-dfe4-4e15-9c51-95f8bdd003cc",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Barium"
+		"LabParamName": "Barium (Ba)"
 	},
 	{
 		"ParameterId": "eee4ed4f-0116-4453-99b4-aad31e6b21e0",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "BTEX"
+		"LabParamName": "Summe BTX"
 	},
 	{
 		"ParameterId": "16eb58c7-5df6-4070-8cc9-4ca7988cc5eb",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "LHKW"
+		"LabParamName": "LHKW - Summe"
 	},
 	{
 		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
@@ -202,7 +202,7 @@
 	{
 		"ParameterId": "ed258872-d4cd-47fd-9c29-2e1949285cc8",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Gel\u00F6ste Stoffe, gesamt"
+		"LabParamName": "Gesamtgehalt an gel\u00F6sten Stoffen"
 	},
 	{
 		"ParameterId": "eeb4ae81-216b-4ce4-8120-64af93613135",

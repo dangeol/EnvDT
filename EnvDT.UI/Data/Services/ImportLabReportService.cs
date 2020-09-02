@@ -37,7 +37,6 @@ namespace EnvDT.UI.Data.Services
                     throw new NotSupportedException("Wrong file extension");
                 }
 
-                //DataSet workSheets = reader.AsDataSet();
                 DataTable workSheet = reader.AsDataSet(new ExcelDataSetConfiguration()
                 {
                     ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
@@ -45,13 +44,20 @@ namespace EnvDT.UI.Data.Services
                         UseHeaderRow = false
                     }
                 }).Tables["Datenblatt"];
-                //System.Diagnostics.Debug.WriteLine(workSheet.TableName);
-                //foreach (var row in workSheet.Rows)
-                //System.Diagnostics.Debug.WriteLine(((DataRow)row)[0]);
+
                 var reportLabIdent = workSheet.Rows[2][4].ToString();
-                Guid projectId = Guid.NewGuid();
+                var projectId = Guid.NewGuid();
                 var laboratoryName = "Agrolab Bruckberg";
-                addLabReportToDb((string)reportLabIdent, projectId, (string)laboratoryName);
+                Guid labReportId = addLabReportToDb(reportLabIdent, projectId, laboratoryName);
+
+                int c = 4;
+                while (c < workSheet.Columns.Count)
+                {
+                    Guid sampleId = addSampleToDb(workSheet.Rows[3][c].ToString(), workSheet.Rows[4][c].ToString(), labReportId);
+                    addSampleValuesToDb(workSheet, sampleId, c);
+                    c++;
+                }
+
                 reader.Close();
             }
             else
@@ -60,7 +66,7 @@ namespace EnvDT.UI.Data.Services
             }
         }
 
-        private void addLabReportToDb(string reportLabIdent, Guid projectId, string laboratoryName)
+        private Guid addLabReportToDb(string reportLabIdent, Guid projectId, string laboratoryName)
         {
             using (var ctx = _contextCreator())
             {
@@ -74,7 +80,7 @@ namespace EnvDT.UI.Data.Services
                 Guid laboratoryId = ctx.Laboratories
                     .Single(l => l.LaboratoryName == laboratoryName).LaboratoryId;
 
-                Guid labReportId = Guid.NewGuid();
+                var labReportId = Guid.NewGuid();
                 ctx.Add(new LabReport
                 { 
                     LabReportId = labReportId,
@@ -82,6 +88,80 @@ namespace EnvDT.UI.Data.Services
                     LaboratoryId = laboratoryId,
                     ProjectId = projectId
                 });
+                ctx.SaveChanges();
+                return labReportId;
+            }
+        }
+
+        private Guid addSampleToDb(string sampleLabIdent, string sampleName, Guid labReportId)
+        {
+            using (var ctx = _contextCreator())
+            {
+                var sampleId = Guid.NewGuid();
+                ctx.Add(new Sample
+                {
+                    SampleId = sampleId,
+                    SampleLabIdent = sampleLabIdent,
+                    //SampleDate
+                    SampleName = sampleName,
+                    LabReportId = labReportId
+                });
+                ctx.SaveChanges();
+                return sampleId;
+            }
+        }
+
+        private void addSampleValuesToDb(DataTable workSheet, Guid sampleId, int c)
+        {
+            using (var ctx = _contextCreator())
+            {
+                int r = 7;
+                while (r < workSheet.Rows.Count)
+                {
+                    double sValue = 0.0;
+                    double testVar;
+                    if (workSheet.Rows[r][c] != System.DBNull.Value && Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                    {
+                        sValue = (double)workSheet.Rows[r][c];
+                    }
+                    double detectionLimit = 0.0;
+                    if (workSheet.Rows[r][2] != System.DBNull.Value)
+                    {
+                        detectionLimit = (double)workSheet.Rows[r][2];
+                    }
+                    var paramLabs = ctx.ParameterLaboratories
+                        .Where(pl => pl.LabParamName == workSheet.Rows[r][0].ToString()); 
+                    var unitId = ctx.Units
+                        .FirstOrDefault(u => u.UnitName == workSheet.Rows[r][1].ToString())?.UnitId ?? Guid.Empty;
+
+                    if (workSheet.Rows[r][1].ToString() == "µg/l")
+                    {
+                        unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
+                    } 
+                    else if (workSheet.Rows[r][1].ToString() == "µS/cm")
+                    {
+                        unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
+                    }
+
+                    if (paramLabs.Count() > 0)
+                    { 
+                        foreach (var paramLab in paramLabs)
+                        {
+                            var sampleValueId = Guid.NewGuid();
+
+                            ctx.Add(new SampleValue
+                            {
+                                SampleValueId = sampleValueId,
+                                SValue = sValue,
+                                DetectionLimit = detectionLimit,
+                                SampleId = sampleId,
+                                ParameterId = paramLab.ParameterId,
+                                UnitId = unitId
+                            });
+                        }
+                    }
+                    r++;
+                }
                 ctx.SaveChanges();
             }
         }

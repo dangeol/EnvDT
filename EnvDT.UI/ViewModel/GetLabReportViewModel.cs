@@ -7,13 +7,15 @@ namespace EnvDT.UI.ViewModel
     public class GetLabReportViewModel : ViewModelBase, IGetLabReportViewModel
     {
         private IOpenLabReportService _openLabReportService;
+        private IEvalLabReportService _evalLabReportService;
 
-        public GetLabReportViewModel(IOpenLabReportService openLabReportService)
+        public GetLabReportViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
         {
             _openLabReportService = openLabReportService;
+            _evalLabReportService = evalLabReportService;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenExecute, OnOpenCanExecute);
-            ImportLabReportCommand = new DelegateCommand(OnImportExecute, OnImportCanExecute);
+            EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
         }
 
         private void OnOpenExecute()
@@ -27,18 +29,18 @@ namespace EnvDT.UI.ViewModel
             return true;
         }
 
-        private void OnImportExecute()
+        private void OnEvalExecute()
         {
-
+            _evalLabReportService.evalLabReport();
         }
 
-        private bool OnImportCanExecute()
+        private bool OnEvalCanExecute()
         {
             // TODO: Check if publication is valid
             return true;
         }
 
         public ICommand OpenLabReportCommand { get; }
-        public ICommand ImportLabReportCommand { get; }
+        public ICommand EvalLabReportCommand { get; }
     }
 }
