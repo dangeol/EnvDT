@@ -5,9 +5,14 @@ VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.Model", "EnvDT.Model\EnvDT.Model.csproj", "{B83CAD76-E154-4517-928E-F3B4EA313996}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.UI", "EnvDT.UI\EnvDT.UI.csproj", "{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.UI", "EnvDT.UI\EnvDT.UI.csproj", "{F2488B6C-A275-4D6B-803D-F6D0CBEF5EA8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.DataAccess", "EnvDT.DataAccess\EnvDT.DataAccess.csproj", "{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.DataAccess", "EnvDT.DataAccess\EnvDT.DataAccess.csproj", "{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.UITests", "EnvDT.UITests\EnvDT.UITests.csproj", "{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B83CAD76-E154-4517-928E-F3B4EA313996} = {B83CAD76-E154-4517-928E-F3B4EA313996}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +32,10 @@ Global
 		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{268FADB7-A5FE-4581-B97B-FA6AF2445EA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

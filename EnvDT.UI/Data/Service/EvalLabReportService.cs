@@ -6,13 +6,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnvDT.UI.Data.Services
+namespace EnvDT.UI.Data.Service
 {
     public class EvalLabReportService : IEvalLabReportService
     {
         private Func<EnvDTDbContext> _contextCreator;
 
-        private const string projectName = "Sample-Project";
+        private const string projectName = "Sample-Project 1";
         private const string publicationAbbr = "Dihlmann-Erlass";
 
         public EvalLabReportService(Func<EnvDTDbContext> contextCreator)

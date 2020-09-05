@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnvDT.Model.Guidelines
+namespace EnvDT.Model
 {
     public class LookupItem
     {

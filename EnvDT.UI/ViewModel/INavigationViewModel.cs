@@ -2,5 +2,6 @@
 {
     public interface INavigationViewModel
     {
+        public void LoadProjects();
     }
 }

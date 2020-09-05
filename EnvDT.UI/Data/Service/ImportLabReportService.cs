@@ -1,19 +1,23 @@
 ﻿using EnvDT.DataAccess;
 using EnvDT.Model;
+using EnvDT.UI.Data.Repository;
 using ExcelDataReader;
 using System;
 using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace EnvDT.UI.Data.Services
+namespace EnvDT.UI.Data.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
         private Func<EnvDTDbContext> _contextCreator;
-        public ImportLabReportService(Func<EnvDTDbContext> contextCreator)
+        private IProjectRepository _projectRepository;
+
+        public ImportLabReportService(Func<EnvDTDbContext> contextCreator, IProjectRepository projectRepository)
         {
             _contextCreator = contextCreator;
+            _projectRepository = projectRepository;
         }
 
         public void importLabReport(string file)
@@ -46,9 +50,9 @@ namespace EnvDT.UI.Data.Services
                 }).Tables["Datenblatt"];
 
                 var reportLabIdent = workSheet.Rows[2][4].ToString();
-                var projectId = Guid.NewGuid();
+       
                 var laboratoryName = "Agrolab Bruckberg";
-                Guid labReportId = addLabReportToDb(reportLabIdent, projectId, laboratoryName);
+                Guid labReportId = addLabReportToDb(reportLabIdent, laboratoryName);
 
                 int c = 4;
                 while (c < workSheet.Columns.Count)
@@ -66,16 +70,11 @@ namespace EnvDT.UI.Data.Services
             }
         }
 
-        private Guid addLabReportToDb(string reportLabIdent, Guid projectId, string laboratoryName)
+        private Guid addLabReportToDb(string reportLabIdent, string laboratoryName)
         {
             using (var ctx = _contextCreator())
             {
-                ctx.Add(new Project
-                {
-                    ProjectId = projectId,
-                    ProjectName = "Sample-Project",
-                    ProjectAddress = "Sample-Address"
-                });
+                var projectId = _projectRepository.GetFirstProject().ProjectId;
 
                 Guid laboratoryId = ctx.Laboratories
                     .Single(l => l.LaboratoryName == laboratoryName).LaboratoryId;

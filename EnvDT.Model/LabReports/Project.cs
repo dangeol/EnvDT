@@ -6,6 +6,7 @@ namespace EnvDT.Model
     public class Project
     {
         public Guid ProjectId { get; set; }
+        public string ProjectNumber { get; set; }
         public string ProjectName { get; set; }
         public string ProjectAddress { get; set; }
 

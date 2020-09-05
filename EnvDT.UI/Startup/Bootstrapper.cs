@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using EnvDT.DataAccess;
-using EnvDT.UI.Data.Services;
+using EnvDT.UI.Data.Repository;
+using EnvDT.UI.Data.Service;
 using EnvDT.UI.ViewModel;
 using Prism.Events;
 
@@ -15,10 +16,12 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
 
             builder.RegisterType<EnvDTDbContext>().AsSelf();
-           
+
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
+
+            builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
 
             builder.RegisterType<OpenLabReportService>().As<IOpenLabReportService>();
             builder.RegisterType<ImportLabReportService>().As<IImportLabReportService>();

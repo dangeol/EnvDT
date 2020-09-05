@@ -138,6 +138,9 @@
   <data name="parameterLaboratoryJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/ParameterLaboratory.json</value>
   </data>
+  <data name="projectJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/Project.json</value>
+  </data>
   <data name="publCountryJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/PublCountry.json</value>
   </data>

@@ -6,6 +6,11 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
 
+        public MainViewModel(INavigationViewModel navigationViewModel)
+        {
+            NavigationViewModel = navigationViewModel;
+        }
+
         public MainViewModel(INavigationViewModel navigationViewModel, 
             IEventAggregator eventAggregator)
         {
@@ -16,6 +21,7 @@ namespace EnvDT.UI.ViewModel
 
         public void Load()
         {
+            NavigationViewModel.LoadProjects();
         }
 
         public INavigationViewModel NavigationViewModel { get; }

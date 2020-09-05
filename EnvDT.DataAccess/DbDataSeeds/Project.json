@@ -1,0 +1,14 @@
+[
+  {
+    "ProjectId": "d51e6315-7a80-4b70-b0ad-f75afb203655",
+    "ProjectNumber": "123.456.111",
+    "ProjectName": "Sample-Project 1",
+    "ProjectAddress": "Sample-Address 1"
+  },
+  {
+    "ProjectId": "8d41e508-cefe-4585-b27d-11396f448715",
+    "ProjectNumber": "123.456.222",
+    "ProjectName": "Sample-Project 2",
+    "ProjectAddress": "Sample-Address 2"
+  }
+]

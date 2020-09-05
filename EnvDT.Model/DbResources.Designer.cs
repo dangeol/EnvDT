@@ -124,6 +124,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Project.json.
+        /// </summary>
+        internal static string projectJson {
+            get {
+                return ResourceManager.GetString("projectJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublCountry.json.
         /// </summary>
         internal static string publCountryJson {

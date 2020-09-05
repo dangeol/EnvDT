@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnvDT.UI.Data.Services
+namespace EnvDT.UI.Data.Service
 {
     public class OpenLabReportService : IOpenLabReportService
     {
