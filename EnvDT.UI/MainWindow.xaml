@@ -9,8 +9,10 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
+        <view:ProjectEditView Grid.Column="1" DataContext="{Binding ProjectEditViewModel}"/>
     </Grid>
 </Window>

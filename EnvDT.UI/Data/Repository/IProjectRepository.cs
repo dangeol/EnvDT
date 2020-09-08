@@ -9,6 +9,9 @@ namespace EnvDT.UI.Data.Repository
         Project GetProjectById(Guid projectId);
         Project GetFirstProject();
         IEnumerable<LookupItem> GetAllProjects();
+        void SaveProject(Project project);
+        void DeleteProject(Guid projectId);
         void Save();
+
     }
 }

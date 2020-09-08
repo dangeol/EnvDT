@@ -2,6 +2,7 @@
 using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Data.Service;
 using Prism.Commands;
+using Prism.Events;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -12,24 +13,28 @@ namespace EnvDT.UI.ViewModel
         private IOpenLabReportService _openLabReportService;
         private IEvalLabReportService _evalLabReportService;
         private IProjectRepository _projectRepository;
+        private IEventAggregator _eventAggregator;
 
-        public NavigationViewModel(IProjectRepository projectRepository)
+        public NavigationViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
         {
             _projectRepository = projectRepository;
-            Projects = new ObservableCollection<LookupItem>();
+            _eventAggregator = eventAggregator;
+            Projects = new ObservableCollection<ProjectItemViewModel>();
         }
 
-        public NavigationViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService,
-            IProjectRepository projectRepository)
+        public NavigationViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
+            IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
         {
+
+            _projectRepository = projectRepository;
+            _eventAggregator = eventAggregator;
             _openLabReportService = openLabReportService;
             _evalLabReportService = evalLabReportService;
-            _projectRepository = projectRepository;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenExecute, OnOpenCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
 
-            Projects = new ObservableCollection<LookupItem>();
+            Projects = new ObservableCollection<ProjectItemViewModel>();
         }
 
         private void OnOpenExecute()
@@ -59,14 +64,15 @@ namespace EnvDT.UI.ViewModel
             Projects.Clear();
             foreach (var project in _projectRepository.GetAllProjects())
             {
-                Projects.Add(project);
+                Projects.Add(new ProjectItemViewModel(
+                    project.LookupItemId, project.DisplayMember, _eventAggregator));
             }
         }
 
         public ICommand OpenLabReportCommand { get; }
         public ICommand EvalLabReportCommand { get; }
 
-        public ObservableCollection<LookupItem> Projects { get; private set; }
+        public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
         public Project SelectedProject { get; set; }
     }
 }

@@ -16,14 +16,14 @@
 
         <StackPanel Grid.Row="0" Orientation="Vertical">
             <Button Content="Add project" Width="125" Margin="10"
-                    Command="{Binding OpenFriendEditViewCommand}"/>
+                    Command="{Binding OpenProjectEditViewCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical">
             <ComboBox Height="20" IsEditable="True"
                     ItemsSource="{Binding Projects}"
                     DisplayMemberPath="DisplayMember"
-                    SelectedItem="{Binding SelectedProject}"/>
+                    SelectedItem="{Binding OpenProjectEditViewCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Vertical">

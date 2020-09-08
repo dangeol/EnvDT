@@ -1,22 +1,29 @@
-﻿using Prism.Events;
+﻿using EnvDT.UI.Event;
+using Prism.Events;
+using System;
 
 namespace EnvDT.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
+        private IProjectEditViewModel _projectEditViewModel;
+        private Func<IProjectEditViewModel> _projectEditVmCreator;
 
-        public MainViewModel(INavigationViewModel navigationViewModel)
-        {
-            NavigationViewModel = navigationViewModel;
-        }
-
-        public MainViewModel(INavigationViewModel navigationViewModel, 
+        public MainViewModel(INavigationViewModel navigationViewModel,
+            Func<IProjectEditViewModel> projectEditVmCreator,
             IEventAggregator eventAggregator)
         {
-            _eventAggregator = eventAggregator;
-
             NavigationViewModel = navigationViewModel;
+            _projectEditVmCreator = projectEditVmCreator;
+            eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
+
+        }
+
+        private void OnOpenProjectEditView(Guid publicationId)
+        {
+            ProjectEditViewModel = _projectEditVmCreator();
+            ProjectEditViewModel.Load(publicationId);
         }
 
         public void Load()
@@ -24,6 +31,16 @@ namespace EnvDT.UI.ViewModel
             NavigationViewModel.LoadProjects();
         }
 
-        public INavigationViewModel NavigationViewModel { get; }
+        public INavigationViewModel NavigationViewModel { get; private set; }
+
+        public IProjectEditViewModel ProjectEditViewModel
+        {
+            get { return _projectEditViewModel; }
+            set
+            {
+                _projectEditViewModel = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }
