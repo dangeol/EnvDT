@@ -20,6 +20,8 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<NavigationViewModel>().As<INavigationViewModel>();
+            builder.RegisterType<ProjectItemViewModel>().AsSelf();
+            builder.RegisterType<ProjectEditViewModel>().As<IProjectEditViewModel>();
 
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
 

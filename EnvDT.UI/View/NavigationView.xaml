@@ -23,7 +23,7 @@
             <ComboBox Height="20" IsEditable="True"
                     ItemsSource="{Binding Projects}"
                     DisplayMemberPath="DisplayMember"
-                    SelectedItem="{Binding OpenProjectEditViewCommand}"/>
+                    SelectedItem="{Binding SelectedProject}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="3" Orientation="Vertical">

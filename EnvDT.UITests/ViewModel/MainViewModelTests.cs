@@ -1,5 +1,4 @@
-﻿using Castle.Components.DictionaryAdapter;
-using EnvDT.Model;
+﻿using EnvDT.Model;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using Moq;
@@ -7,7 +6,7 @@ using Prism.Events;
 using System;
 using Xunit;
 using EnvDT.UITests.Extensions;
-using EnvDT.UI.View;
+using EnvDT.UI.Wrapper;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -40,7 +39,7 @@ namespace EnvDT.UITests.ViewModel
                 .Callback<Guid>(projectId =>
                 {
                     projectEditViewModelMock.Setup(vm => vm.Project)
-                    .Returns(new Project { ProjectId = projectId });
+                    .Returns(new ProjectWrapper(new Project { ProjectId = projectId }));
                 });
             _projectEditViewModelMock = projectEditViewModelMock;
             return projectEditViewModelMock.Object;

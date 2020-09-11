@@ -1,9 +1,11 @@
 ﻿using EnvDT.Model;
 using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Data.Service;
+using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -14,11 +16,13 @@ namespace EnvDT.UI.ViewModel
         private IEvalLabReportService _evalLabReportService;
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
+        private ProjectItemViewModel _selectedProject;
 
         public NavigationViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
             Projects = new ObservableCollection<ProjectItemViewModel>();
         }
 
@@ -28,6 +32,7 @@ namespace EnvDT.UI.ViewModel
 
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
             _openLabReportService = openLabReportService;
             _evalLabReportService = evalLabReportService;
 
@@ -59,6 +64,12 @@ namespace EnvDT.UI.ViewModel
             return true;
         }
 
+        private void OnProjectSaved(Project project)
+        {
+            var projectItem = Projects.Single(p => p.LookupItemId == project.ProjectId);
+            projectItem.DisplayMember = $"{project.ProjectNumber} {project.ProjectName}";
+        }
+
         public void LoadProjects()
         {
             Projects.Clear();
@@ -73,6 +84,20 @@ namespace EnvDT.UI.ViewModel
         public ICommand EvalLabReportCommand { get; }
 
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
-        public Project SelectedProject { get; set; }
+        
+        public ProjectItemViewModel SelectedProject
+        {
+            get { return _selectedProject; }
+            set
+            {
+                _selectedProject = value;
+                OnPropertyChanged();
+                if (_selectedProject != null)
+                {
+                    _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
+                        .Publish(_selectedProject.LookupItemId);
+                }
+            }
+        }
     }
 }

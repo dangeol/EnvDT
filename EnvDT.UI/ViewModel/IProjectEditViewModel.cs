@@ -1,4 +1,4 @@
-﻿using EnvDT.Model;
+﻿using EnvDT.UI.Wrapper;
 using System;
 
 namespace EnvDT.UI.ViewModel
@@ -6,6 +6,6 @@ namespace EnvDT.UI.ViewModel
     public interface IProjectEditViewModel
     {
         void Load(Guid projectId);
-        Project Project { get; }
+        ProjectWrapper Project { get; }
     }
 }

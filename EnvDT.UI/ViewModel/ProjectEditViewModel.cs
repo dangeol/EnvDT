@@ -1,25 +1,29 @@
-﻿using EnvDT.Model;
-using EnvDT.UI.Data.Repository;
+﻿using EnvDT.UI.Data.Repository;
+using EnvDT.UI.Event;
+using EnvDT.UI.Wrapper;
+using Prism.Commands;
+using Prism.Events;
 using System;
+using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
     public class ProjectEditViewModel : ViewModelBase, IProjectEditViewModel
     {
         private IProjectRepository _projectRepository;
-        private Project _project;
+        private IEventAggregator _eventAggregator;
+        private ProjectWrapper _project;
 
-        public ProjectEditViewModel(IProjectRepository projectRepository)
+        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
         {
             _projectRepository = projectRepository;
+            _eventAggregator = eventAggregator;
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
         }
 
-        public void Load(Guid projectId)
-        {
-            Project = _projectRepository.GetProjectById(projectId);
-        }
+        public ICommand SaveCommand { get; private set; }
 
-        public Project Project
+        public ProjectWrapper Project
         {
             get { return _project; }
             private set
@@ -27,6 +31,32 @@ namespace EnvDT.UI.ViewModel
                 _project = value;
                 OnPropertyChanged();
             }
+        }
+
+        public void Load(Guid projectId)
+        {
+            var project = _projectRepository.GetProjectById(projectId);
+            Project = new ProjectWrapper(project);
+            Project.PropertyChanged += Project_PropertyChanged;
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnSaveExecute()
+        {
+            _projectRepository.SaveProject(Project.Model);
+            Project.AcceptChanges();
+            _eventAggregator.GetEvent<ProjectSavedEvent>()
+                .Publish(Project.Model);
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return Project != null && Project.IsChanged;
         }
     }
 }

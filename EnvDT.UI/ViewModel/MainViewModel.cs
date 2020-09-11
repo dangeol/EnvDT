@@ -16,14 +16,14 @@ namespace EnvDT.UI.ViewModel
         {
             NavigationViewModel = navigationViewModel;
             _projectEditVmCreator = projectEditVmCreator;
-            eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
-
+            _eventAggregator = eventAggregator;
+            _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
         }
 
-        private void OnOpenProjectEditView(Guid publicationId)
+        private void OnOpenProjectEditView(Guid projectId)
         {
             ProjectEditViewModel = _projectEditVmCreator();
-            ProjectEditViewModel.Load(publicationId);
+            ProjectEditViewModel.Load(projectId);
         }
 
         public void Load()

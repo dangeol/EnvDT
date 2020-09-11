@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model;
 using EnvDT.UI.Data.Repository;
+using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using Moq;
 using Prism.Events;
@@ -13,10 +14,17 @@ namespace EnvDT.UITests.ViewModel
     public class NavigationViewModelTests
     {
         private NavigationViewModel _viewModel;
+        private Mock<IEventAggregator> _eventAggregatorMock;
+        private ProjectSavedEvent _projectSavedEvent;
 
         public NavigationViewModelTests()
         {
-            var eventAggregatorMock = new Mock<IEventAggregator>();
+            _projectSavedEvent = new ProjectSavedEvent();
+            _eventAggregatorMock = new Mock<IEventAggregator>();
+            _eventAggregatorMock
+                .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+                .Returns(_projectSavedEvent);
+
             var projectRepositoryMock = new Mock<IProjectRepository>();
             projectRepositoryMock.Setup(pr => pr.GetAllProjects())
                 .Returns(new List<LookupItem>
@@ -35,8 +43,7 @@ namespace EnvDT.UITests.ViewModel
                 });
             _viewModel = new NavigationViewModel(
                 projectRepositoryMock.Object,
-                eventAggregatorMock.Object);
-
+                _eventAggregatorMock.Object);
         }
 
         [Fact]
@@ -64,6 +71,25 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.LoadProjects();
 
             Assert.Equal(2, _viewModel.Projects.Count);
+        }
+
+        [Fact]
+        public void ShouldUpdateProjectItemWhenProjectSaved()
+        {
+            _viewModel.LoadProjects();
+            var projectItem = _viewModel.Projects.First();
+
+            var projectId = projectItem.LookupItemId;
+
+            _projectSavedEvent.Publish(
+                new Project
+                {
+                    ProjectId = projectId,
+                    ProjectNumber = "0123",
+                    ProjectName = "ProName1Changed",
+                });
+
+            Assert.Equal("0123 ProName1Changed", projectItem.DisplayMember);
         }
     }
 }
