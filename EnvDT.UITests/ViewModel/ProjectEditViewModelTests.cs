@@ -15,6 +15,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private ProjectEditViewModel _viewModel;
+        private NavigationViewModel _navigationViewModelMock;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
 
 
@@ -28,7 +29,8 @@ namespace EnvDT.UITests.ViewModel
                 .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
 
-            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
+            _navigationViewModelMock = new NavigationViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
+            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object, _navigationViewModelMock);
         }
 
         [Fact]
@@ -41,6 +43,15 @@ namespace EnvDT.UITests.ViewModel
 
             _projectRepositoryMock.Verify(pr => pr.GetProjectById(_projectId), Times.Once);
         }
+
+
+        /* TO DO
+        [Fact]
+        public void ShouldCallTheLoadMethodOfTheNavigationViewModel()
+        {
+            _navigationViewModelMock.Verify(vm => vm.LoadProjects(), Times.Once);
+        }
+        */
 
         [Fact]
         public void ShoudlRaisePropertyChangedEventForProject()

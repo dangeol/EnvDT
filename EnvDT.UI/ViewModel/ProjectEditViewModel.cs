@@ -14,11 +14,32 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private ProjectWrapper _project;
 
-        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
+        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
+            INavigationViewModel navigationViewModel)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            NavigationViewModel = navigationViewModel;
+            NavigationViewModel.LoadProjects();
+        }
+
+        private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+        }
+
+        private void OnSaveExecute()
+        {
+            _projectRepository.SaveProject(Project.Model);
+            Project.AcceptChanges();
+            _eventAggregator.GetEvent<ProjectSavedEvent>()
+                .Publish(Project.Model);
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return Project != null && Project.IsChanged;
         }
 
         public ICommand SaveCommand { get; private set; }
@@ -39,24 +60,8 @@ namespace EnvDT.UI.ViewModel
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-        }
+        } 
 
-        private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-        }
-
-        private void OnSaveExecute()
-        {
-            _projectRepository.SaveProject(Project.Model);
-            Project.AcceptChanges();
-            _eventAggregator.GetEvent<ProjectSavedEvent>()
-                .Publish(Project.Model);
-        }
-
-        private bool OnSaveCanExecute()
-        {
-            return Project != null && Project.IsChanged;
-        }
+        public INavigationViewModel NavigationViewModel { get; private set; }
     }
 }

@@ -45,13 +45,6 @@ namespace EnvDT.UITests.ViewModel
             return projectEditViewModelMock.Object;
         }
 
-        [Fact]
-        public void ShouldCallTheLoadMethodOfTheNavigationViewModel()
-        {
-            _viewModel.Load();
-
-            _navigationViewModelMock.Verify(vm => vm.LoadProjects(), Times.Once);
-        }
 
         [Fact]
         public void ShouldLoadProjectEditViewModel()

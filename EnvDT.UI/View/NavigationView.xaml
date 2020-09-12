@@ -9,28 +9,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="300"/>
             <RowDefinition />
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Vertical">
-            <Button Content="Add project" Width="125" Margin="10"
-                    Command="{Binding OpenProjectEditViewCommand}"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="1" Orientation="Vertical">
-            <ComboBox Height="20" IsEditable="True"
+            <ComboBox Height="30" IsEditable="True"
                     ItemsSource="{Binding Projects}"
                     DisplayMemberPath="DisplayMember"
                     SelectedItem="{Binding SelectedProject}"/>
-        </StackPanel>
-
-        <StackPanel Grid.Row="3" Orientation="Vertical">
-            <Button Content="Open" Width="125" Margin="10"
-                    Command="{Binding OpenLabReportCommand}"/>
-            <Button Content="Eval" Width="125" Margin="10"
-                    Command="{Binding EvalLabReportCommand}"/>
         </StackPanel>
 
     </Grid>
