@@ -15,18 +15,18 @@ namespace EnvDT.UI.ViewModel
         private ProjectWrapper _project;
 
         public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
-            INavigationViewModel navigationViewModel)
+            IProjectMainViewModel projectMainViewModel)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
-            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            NavigationViewModel = navigationViewModel;
-            NavigationViewModel.LoadProjects();
+            SaveProjectCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            ProjectMainViewModel = projectMainViewModel;
+            ProjectMainViewModel.LoadProjects();
         }
 
         private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
         }
 
         private void OnSaveExecute()
@@ -42,7 +42,7 @@ namespace EnvDT.UI.ViewModel
             return Project != null && Project.IsChanged;
         }
 
-        public ICommand SaveCommand { get; private set; }
+        public ICommand SaveProjectCommand { get; private set; }
 
         public ProjectWrapper Project
         {
@@ -59,9 +59,9 @@ namespace EnvDT.UI.ViewModel
             var project = _projectRepository.GetProjectById(projectId);
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
-            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
         } 
 
-        public INavigationViewModel NavigationViewModel { get; private set; }
+        public IProjectMainViewModel ProjectMainViewModel { get; private set; }
     }
 }

@@ -12,7 +12,7 @@ namespace EnvDT.UITests.ViewModel
 {
     public class MainViewModelTests
     {
-        private Mock<INavigationViewModel> _navigationViewModelMock;
+        private Mock<IProjectMainViewModel> _projectMainViewModelMock;
         private OpenProjectEditViewEvent _openProjectEditViewEvent;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private MainViewModel _viewModel;
@@ -20,14 +20,14 @@ namespace EnvDT.UITests.ViewModel
 
         public MainViewModelTests()
         {
-            _navigationViewModelMock = new Mock<INavigationViewModel>();
+            _projectMainViewModelMock = new Mock<IProjectMainViewModel>();
 
             _openProjectEditViewEvent = new OpenProjectEditViewEvent();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
                 .Returns(_openProjectEditViewEvent);
 
-            _viewModel = new MainViewModel(_navigationViewModelMock.Object,
+            _viewModel = new MainViewModel(_projectMainViewModelMock.Object,
                 CreateProjectEditViewModel, _eventAggregatorMock.Object);
 
         }

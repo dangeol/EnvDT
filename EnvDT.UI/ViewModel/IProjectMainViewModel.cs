@@ -1,6 +1,6 @@
 ﻿namespace EnvDT.UI.ViewModel
 {
-    public interface INavigationViewModel
+    public interface IProjectMainViewModel
     {
         public void LoadProjects();
     }

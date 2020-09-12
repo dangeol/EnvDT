@@ -15,7 +15,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private ProjectEditViewModel _viewModel;
-        private NavigationViewModel _navigationViewModelMock;
+        private ProjectMainViewModel _projectMainViewModelMock;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
 
 
@@ -29,8 +29,8 @@ namespace EnvDT.UITests.ViewModel
                 .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
 
-            _navigationViewModelMock = new NavigationViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
-            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object, _navigationViewModelMock);
+            _projectMainViewModelMock = new ProjectMainViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
+            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object, _projectMainViewModelMock);
         }
 
         [Fact]
@@ -47,9 +47,9 @@ namespace EnvDT.UITests.ViewModel
 
         /* TO DO
         [Fact]
-        public void ShouldCallTheLoadMethodOfTheNavigationViewModel()
+        public void ShouldCallTheLoadMethodOfTheProjectMainViewModel()
         {
-            _navigationViewModelMock.Verify(vm => vm.LoadProjects(), Times.Once);
+            _projectMainViewModelMock.Verify(vm => vm.LoadProjects(), Times.Once);
         }
         */
 
@@ -64,74 +64,74 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldDisableSaveCommandWhenProjectIsLoaded()
+        public void ShouldDisableSaveProjectCommandWhenProjectIsLoaded()
         {
             _viewModel.Load(_projectId);
 
-            Assert.False(_viewModel.SaveCommand.CanExecute(null));
+            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldEnableSaveCommandWhenProjectIsChanged()
+        public void ShouldEnableSaveProjectCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            Assert.True(_viewModel.SaveCommand.CanExecute(null));
+            Assert.True(_viewModel.SaveProjectCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldDisableSaveCommandWithoutLoad()
+        public void ShouldDisableSaveProjectCommandWithoutLoad()
         {
-            Assert.False(_viewModel.SaveCommand.CanExecute(null));
+            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForSaveCommandWhenProjectIsChanged()
+        public void ShouldRaiseCanExecuteChangedForSaveProjectCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
             var fired = false;
-            _viewModel.SaveCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.SaveProjectCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Project.ProjectNumber = "Changed";
             Assert.True(fired);
         }
 
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForSaveCommandAfterLoad()
+        public void ShouldRaiseCanExecuteChangedForSaveProjectCommandAfterLoad()
         {
             var fired = false;
-            _viewModel.SaveCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.SaveProjectCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Load(_projectId);
             Assert.True(fired);
         }
 
         [Fact]
-        public void ShouldCallSaveMethodOfProjectRepositoryWhenSaveCommandIsExecuted()
+        public void ShouldCallSaveMethodOfProjectRepositoryWhenSaveProjectCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveCommand.Execute(null);
+            _viewModel.SaveProjectCommand.Execute(null);
             _projectRepositoryMock.Verify(pr => pr.SaveProject(_viewModel.Project.Model), Times.Once);
         }
 
         [Fact]
-        public void ShouldAcceptChangesWhenSaveCommandIsExecuted()
+        public void ShouldAcceptChangesWhenSaveProjectCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveCommand.Execute(null);
+            _viewModel.SaveProjectCommand.Execute(null);
             Assert.False(_viewModel.Project.IsChanged);
         }
 
         [Fact]
-        public void ShouldPublishProjectSavedEventWhenSaveCommandIsExecuted()
+        public void ShouldPublishProjectSavedEventWhenSaveProjectCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveCommand.Execute(null);
+            _viewModel.SaveProjectCommand.Execute(null);
 
             _projectSavedEventMock.Verify(e => e.Publish(_viewModel.Project.Model), Times.Once);
         }

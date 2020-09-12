@@ -11,13 +11,13 @@ using Xunit;
 
 namespace EnvDT.UITests.ViewModel
 {
-    public class NavigationViewModelTests
+    public class ProjectMainViewModelTests
     {
-        private NavigationViewModel _viewModel;
+        private ProjectMainViewModel _viewModel;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private ProjectSavedEvent _projectSavedEvent;
 
-        public NavigationViewModelTests()
+        public ProjectMainViewModelTests()
         {
             _projectSavedEvent = new ProjectSavedEvent();
             _eventAggregatorMock = new Mock<IEventAggregator>();
@@ -41,7 +41,7 @@ namespace EnvDT.UITests.ViewModel
                     }
 
                 });
-            _viewModel = new NavigationViewModel(
+            _viewModel = new ProjectMainViewModel(
                 projectRepositoryMock.Object,
                 _eventAggregatorMock.Object);
         }

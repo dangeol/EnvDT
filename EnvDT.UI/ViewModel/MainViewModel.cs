@@ -10,11 +10,11 @@ namespace EnvDT.UI.ViewModel
         private IProjectEditViewModel _projectEditViewModel;
         private Func<IProjectEditViewModel> _projectEditVmCreator;
 
-        public MainViewModel(INavigationViewModel navigationViewModel,
+        public MainViewModel(IProjectMainViewModel projectMainViewModel,
             Func<IProjectEditViewModel> projectEditVmCreator,
             IEventAggregator eventAggregator)
         {
-            NavigationViewModel = navigationViewModel;
+            ProjectMainViewModel = projectMainViewModel;
             _projectEditVmCreator = projectEditVmCreator;
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
@@ -30,7 +30,7 @@ namespace EnvDT.UI.ViewModel
         {
         }
 
-        public INavigationViewModel NavigationViewModel { get; private set; }
+        public IProjectMainViewModel ProjectMainViewModel { get; private set; }
 
         public IProjectEditViewModel ProjectEditViewModel
         {
