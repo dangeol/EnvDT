@@ -13,6 +13,6 @@
         </Grid.ColumnDefinitions>
 
         <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        <view:ProjectEditView Grid.Column="1" DataContext="{Binding ProjectEditViewModel}"/>
+        <view:ProjectMainView Grid.Column="1" DataContext="{Binding ProjectMainViewModel}"/>
     </Grid>
 </Window>

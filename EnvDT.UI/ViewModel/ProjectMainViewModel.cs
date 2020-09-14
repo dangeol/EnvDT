@@ -14,12 +14,18 @@ namespace EnvDT.UI.ViewModel
     {
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
+
+        private Func<IProjectEditViewModel> _projectEditVmCreator;
+        private bool _isProjectEditViewEnabled = false;
+        private IProjectEditViewModel _projectEditViewModel;
         private ProjectItemViewModel _selectedProject;
 
-        public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
+        public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, Func<IProjectEditViewModel> projectEditVmCreator)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
+            _projectEditVmCreator = projectEditVmCreator;
+            _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
             _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
             Projects = new ObservableCollection<ProjectItemViewModel>();
             AddProjectCommand = new DelegateCommand(OnAddProjectExecute);
@@ -27,13 +33,35 @@ namespace EnvDT.UI.ViewModel
 
         private void OnAddProjectExecute()
         {
-            throw new NotImplementedException();
+            CreateAndLoadProjectEditViewModel(null);
+        }
+
+        private void OnOpenProjectEditView(Guid projectId)
+        {
+            CreateAndLoadProjectEditViewModel(projectId);
+        }
+
+        private void CreateAndLoadProjectEditViewModel(Guid? projectId)
+        {
+            ProjectEditViewModel = _projectEditVmCreator();
+            ProjectEditViewModel.Load(projectId);
+            IsProjectEditViewEnabled = true;
         }
 
         private void OnProjectSaved(Project project)
         {
-            var projectItem = Projects.Single(p => p.LookupItemId == project.ProjectId);
-            projectItem.DisplayMember = $"{project.ProjectNumber} {project.ProjectName}";
+            var displayMember = $"{project.ProjectNumber} {project.ProjectName}";
+            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == project.ProjectId);
+            if (projectItem != null)
+            { 
+                projectItem.DisplayMember = displayMember;
+            }
+            else
+            {
+                projectItem = new ProjectItemViewModel(project.ProjectId, 
+                    displayMember, _eventAggregator);
+                Projects.Add(projectItem);
+            }
         }
 
         public ICommand AddProjectCommand { get; private set; }
@@ -50,7 +78,27 @@ namespace EnvDT.UI.ViewModel
         }
 
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
-        
+
+        public bool IsProjectEditViewEnabled 
+        {
+            get { return _isProjectEditViewEnabled; }
+            set
+            {
+                _isProjectEditViewEnabled = value; 
+                OnPropertyChanged(); 
+            }
+        }
+
+        public IProjectEditViewModel ProjectEditViewModel
+        {
+            get { return _projectEditViewModel; }
+            set
+            {
+                _projectEditViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ProjectItemViewModel SelectedProject
         {
             get { return _selectedProject; }

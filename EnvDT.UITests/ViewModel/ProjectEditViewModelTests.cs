@@ -15,9 +15,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private ProjectEditViewModel _viewModel;
-        private ProjectMainViewModel _projectMainViewModelMock;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
-
 
         public ProjectEditViewModelTests()
         {
@@ -29,8 +27,7 @@ namespace EnvDT.UITests.ViewModel
                 .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
 
-            _projectMainViewModelMock = new ProjectMainViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
-            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object, _projectMainViewModelMock);
+            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
         }
 
         [Fact]
@@ -43,15 +40,6 @@ namespace EnvDT.UITests.ViewModel
 
             _projectRepositoryMock.Verify(pr => pr.GetProjectById(_projectId), Times.Once);
         }
-
-
-        /* TO DO
-        [Fact]
-        public void ShouldCallTheLoadMethodOfTheProjectMainViewModel()
-        {
-            _projectMainViewModelMock.Verify(vm => vm.LoadProjects(), Times.Once);
-        }
-        */
 
         [Fact]
         public void ShoudlRaisePropertyChangedEventForProject()
@@ -86,6 +74,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
         }
 
+        /* TO DO
         [Fact]
         public void ShouldRaiseCanExecuteChangedForSaveProjectCommandWhenProjectIsChanged()
         {
@@ -104,6 +93,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Load(_projectId);
             Assert.True(fired);
         }
+        */
 
         [Fact]
         public void ShouldCallSaveMethodOfProjectRepositoryWhenSaveProjectCommandIsExecuted()
@@ -134,6 +124,21 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.SaveProjectCommand.Execute(null);
 
             _projectSavedEventMock.Verify(e => e.Publish(_viewModel.Project.Model), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldCreateNewProjectWhenNullIsPassedToLoadMethod()
+        {
+            _viewModel.Load(null);
+
+            Assert.NotNull(_viewModel.Project);
+            Assert.Equal(Guid.Empty, _viewModel.Project.ProjectId);
+            Assert.Null(_viewModel.Project.ProjectNumber);
+            Assert.Null(_viewModel.Project.ProjectClient);
+            Assert.Null(_viewModel.Project.ProjectName);
+            Assert.Null(_viewModel.Project.ProjectAddress);
+
+            _projectRepositoryMock.Verify(pr => pr.GetProjectById(It.IsAny<Guid>()), Times.Never);
         }
     }
 }

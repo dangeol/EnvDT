@@ -1,0 +1,183 @@
+﻿using EnvDT.Model;
+using EnvDT.UI.Data.Repository;
+using EnvDT.UI.Event;
+using EnvDT.UI.ViewModel;
+using EnvDT.UI.Wrapper;
+using EnvDT.UITests.Extensions;
+using Moq;
+using Prism.Events;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Xunit;
+
+namespace EnvDT.UITests.ViewModel
+{
+    public class ProjectMainViewModelTests
+    {
+        private ProjectMainViewModel _viewModel;
+        private Mock<IProjectEditViewModel> _projectEditViewModelMock;
+        private Mock<IEventAggregator> _eventAggregatorMock;
+        private OpenProjectEditViewEvent _openProjectEditViewEvent;
+        private ProjectSavedEvent _projectSavedEvent;
+
+        public ProjectMainViewModelTests()
+        {
+            _openProjectEditViewEvent = new OpenProjectEditViewEvent();
+            _projectSavedEvent = new ProjectSavedEvent();
+            _eventAggregatorMock = new Mock<IEventAggregator>();
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
+                .Returns(_openProjectEditViewEvent);
+            _eventAggregatorMock
+                .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+                .Returns(_projectSavedEvent);
+
+            var projectRepositoryMock = new Mock<IProjectRepository>();
+            projectRepositoryMock.Setup(pr => pr.GetAllProjects())
+                .Returns(new List<LookupItem>
+                {
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("67455421-0498-46af-9241-7287539fcade"),
+                        DisplayMember = "111.111 MockProject1"
+                    },
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("13ce3bee-d343-4851-81a8-ce916f6756db"),
+                        DisplayMember = "222.222 MockProject2"
+                    }
+
+                });
+            _viewModel = new ProjectMainViewModel(
+                projectRepositoryMock.Object,
+                _eventAggregatorMock.Object,
+                CreateProjectEditViewModel);
+        }
+
+        private IProjectEditViewModel CreateProjectEditViewModel()
+        {
+            var projectEditViewModelMock = new Mock<IProjectEditViewModel>();
+            projectEditViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
+                .Callback<Guid?>(projectId =>
+                {
+                    projectEditViewModelMock.Setup(vm => vm.Project)
+                    .Returns(new ProjectWrapper(new Project { ProjectId = projectId.Value }));
+                });
+            _projectEditViewModelMock = projectEditViewModelMock;
+            return projectEditViewModelMock.Object;
+        }
+
+        [Fact]
+        public void ShouldLoadProjects()
+        {
+            _viewModel.LoadProjects();
+
+            Assert.Equal(2, _viewModel.Projects.Count);
+
+            var project = _viewModel.Projects.SingleOrDefault(
+                p => p.LookupItemId == Guid.Parse("67455421-0498-46af-9241-7287539fcade"));
+            Assert.NotNull(project);
+            Assert.Equal("111.111 MockProject1", project.DisplayMember);
+
+            project = _viewModel.Projects.SingleOrDefault(
+                p => p.LookupItemId == Guid.Parse("13ce3bee-d343-4851-81a8-ce916f6756db"));
+            Assert.NotNull(project);
+            Assert.Equal("222.222 MockProject2", project.DisplayMember);
+        }
+
+        [Fact]
+        public void ShouldLoadProjectEditViewModel()
+        {
+            var projectId = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
+            _openProjectEditViewEvent.Publish(projectId);
+
+            Assert.NotNull(_viewModel.ProjectEditViewModel);
+            var projectEditVm = _viewModel.ProjectEditViewModel;
+            Assert.Equal(projectEditVm, _viewModel.ProjectEditViewModel);
+            _projectEditViewModelMock.Verify(vm => vm.Load(projectId), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldLoadProjectEditViewModelAndLoadItWithIdNull()
+        {
+            _viewModel.AddProjectCommand.Execute(null);
+
+            Assert.NotNull(_viewModel.ProjectEditViewModel);
+            var projectEditVm = _viewModel.ProjectEditViewModel;
+            Assert.Equal(projectEditVm, _viewModel.ProjectEditViewModel);
+            _projectEditViewModelMock.Verify(vm => vm.Load(null), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldEnableProjectEditViewWhenProjectSelected()
+        {
+            var projectId = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
+            _openProjectEditViewEvent.Publish(projectId);
+
+            Assert.True(_viewModel.IsProjectEditViewEnabled);
+        }
+
+        [Fact]
+        public void ShouldRaisePropertyChangedEventForSelectedProject()
+        {
+            var projectEditVmMock = new Mock<IProjectEditViewModel>();
+            var fired = _viewModel.IsPropertyChangedFired(() =>
+            {
+                _viewModel.ProjectEditViewModel = projectEditVmMock.Object;
+            }, nameof(_viewModel.ProjectEditViewModel));
+
+            Assert.True(fired);
+        }
+
+        [Fact]
+        public void ShouldLoadProjectsOnlyOnce()
+        {
+            _viewModel.LoadProjects();
+            _viewModel.LoadProjects();
+
+            Assert.Equal(2, _viewModel.Projects.Count);
+        }
+
+        [Fact]
+        public void ShouldUpdateProjectItemWhenProjectSaved()
+        {
+            _viewModel.LoadProjects();
+
+            var projectItem = _viewModel.Projects.First();
+
+            var projectId = projectItem.LookupItemId;
+
+            _projectSavedEvent.Publish(
+                new Project
+                {
+                    ProjectId = projectId,
+                    ProjectNumber = "0123",
+                    ProjectName = "ProName1Changed",
+                });
+
+            Assert.Equal("0123 ProName1Changed", projectItem.DisplayMember);
+        }
+
+        [Fact]
+        public void ShouldAddProjectItemWhenAddedProjectIsSaved()
+        {
+            _viewModel.LoadProjects();
+
+            var newProjectId = new Guid("097e364a-5ef3-40a0-bde5-51caa26d7f48");
+
+            _projectSavedEvent.Publish(
+                new Project
+                {
+                    ProjectId = newProjectId,
+                    ProjectNumber = "8888",
+                    ProjectName = "New Project",
+                });
+
+            Assert.Equal(3, _viewModel.Projects.Count);
+
+            var addedItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
+            Assert.NotNull(addedItem);
+            Assert.Equal("8888 New Project", addedItem.DisplayMember);
+        }
+    }
+}

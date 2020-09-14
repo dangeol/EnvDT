@@ -23,8 +23,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <local:ProjectMainView DataContext="{Binding ProjectMainViewModel}"/>
-
         <Label Grid.Row="1" Content="ProjectNumber" Margin="10 0"/>
         <TextBox Grid.Row="2" Text="{Binding Project.ProjectNumber,
                 Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>

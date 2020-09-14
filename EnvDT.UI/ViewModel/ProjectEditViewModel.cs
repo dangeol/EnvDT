@@ -1,4 +1,5 @@
-﻿using EnvDT.UI.Data.Repository;
+﻿using EnvDT.Model;
+using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
@@ -14,14 +15,11 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private ProjectWrapper _project;
 
-        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
-            IProjectMainViewModel projectMainViewModel)
+        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
             SaveProjectCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            ProjectMainViewModel = projectMainViewModel;
-            ProjectMainViewModel.LoadProjects();
         }
 
         private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -54,14 +52,14 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public void Load(Guid projectId)
+        public void Load(Guid? projectId)
         {
-            var project = _projectRepository.GetProjectById(projectId);
+            var project = projectId.HasValue
+                ? _projectRepository.GetProjectById(projectId.Value)
+                : new Project();
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
             ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
         } 
-
-        public IProjectMainViewModel ProjectMainViewModel { get; private set; }
     }
 }

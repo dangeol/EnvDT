@@ -5,7 +5,7 @@ namespace EnvDT.UI.ViewModel
 {
     public interface IProjectEditViewModel
     {
-        void Load(Guid projectId);
+        void Load(Guid? projectId);
         ProjectWrapper Project { get; }
     }
 }
