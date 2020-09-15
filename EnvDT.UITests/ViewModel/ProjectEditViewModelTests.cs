@@ -16,16 +16,20 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private ProjectEditViewModel _viewModel;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
+        private Mock<ProjectDeletedEvent> _projectDeletedEventMock;
 
         public ProjectEditViewModelTests()
         {
             _projectSavedEventMock = new Mock<ProjectSavedEvent>();
+            _projectDeletedEventMock = new Mock<ProjectDeletedEvent>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
             _projectRepositoryMock.Setup(pr => pr.GetProjectById(_projectId))
                 .Returns(new Model.Project { ProjectId = _projectId, ProjectNumber = "012345" });
-            _eventAggregatorMock = new Mock<IEventAggregator>(); _eventAggregatorMock
-                .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+            _eventAggregatorMock = new Mock<IEventAggregator>(); 
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
+                .Returns(_projectDeletedEventMock.Object);
 
             _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
         }
@@ -93,6 +97,26 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Load(_projectId);
             Assert.True(fired);
         }
+
+        [Fact]
+        public void ShouldRaiseCanExecuteChangedForDeleteProjectCommandWhenAcceptingChanges()
+        {
+            _viewModel.Load(_projectId);
+            var fired = false;
+            _viewModel.Project.ProjectNumber = "Changed";
+            _viewModel.DeleteProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.Project.AcceptChanges();
+            Assert.True(fired);
+        }   
+        
+        [Fact]
+        public void ShouldRaiseCanExecuteChangedForDeleteProjectCommandAfterLoad()
+        {
+            var fired = false;
+            _viewModel.DeleteProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.Load(_projectId);
+            Assert.True(fired);
+        }
         */
 
         [Fact]
@@ -139,6 +163,46 @@ namespace EnvDT.UITests.ViewModel
             Assert.Null(_viewModel.Project.ProjectAddress);
 
             _projectRepositoryMock.Verify(pr => pr.GetProjectById(It.IsAny<Guid>()), Times.Never);
+        }
+
+        [Fact]
+        public void ShouldEnableDeleteCommandForExistingProject()
+        {
+            _viewModel.Load(_projectId);
+
+            Assert.True(_viewModel.DeleteProjectCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldDisableDeleteCommandForNewProject()
+        {
+            _viewModel.Load(null);
+
+            Assert.False(_viewModel.DeleteProjectCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldDisableDeleteCommandWithoudLoad()
+        {
+            Assert.False(_viewModel.DeleteProjectCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteProjectCommandIsExecuted()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.DeleteProjectCommand.Execute(null);
+            _projectRepositoryMock.Verify(pr => pr.DeleteProject(_projectId), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldPublishProjectDeletedEventWhenDeleteProjectCommandIsExecuted()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.DeleteProjectCommand.Execute(null);
+            _projectDeletedEventMock.Verify(e => e.Publish(_viewModel.Project.Model.ProjectId), Times.Once);
         }
     }
 }

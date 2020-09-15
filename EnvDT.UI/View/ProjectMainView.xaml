@@ -20,9 +20,6 @@
 
             <Button Content="Add project" Width="125" Margin="10"
                     Command="{Binding AddProjectCommand}"/>
-
-            <Button Content="Delete" Width="125" Margin="10"
-                    Command="{Binding DeleteProjectCommand}"/>
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsProjectEditViewEnabled}">

@@ -20,17 +20,20 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private OpenProjectEditViewEvent _openProjectEditViewEvent;
         private ProjectSavedEvent _projectSavedEvent;
+        private ProjectDeletedEvent _projectDeletedEvent;
 
         public ProjectMainViewModelTests()
         {
             _openProjectEditViewEvent = new OpenProjectEditViewEvent();
             _projectSavedEvent = new ProjectSavedEvent();
+            _projectDeletedEvent = new ProjectDeletedEvent();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
                 .Returns(_openProjectEditViewEvent);
-            _eventAggregatorMock
-                .Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEvent);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
+                .Returns(_projectDeletedEvent);
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
             projectRepositoryMock.Setup(pr => pr.GetAllProjects())
@@ -46,7 +49,6 @@ namespace EnvDT.UITests.ViewModel
                         LookupItemId = new Guid("13ce3bee-d343-4851-81a8-ce916f6756db"),
                         DisplayMember = "222.222 MockProject2"
                     }
-
                 });
             _viewModel = new ProjectMainViewModel(
                 projectRepositoryMock.Object,
@@ -178,6 +180,35 @@ namespace EnvDT.UITests.ViewModel
             var addedItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
             Assert.NotNull(addedItem);
             Assert.Equal("8888 New Project", addedItem.DisplayMember);
+        }
+
+        [Fact]
+        public void ShouldRemoveProjectItemWhenProjectIsDeleted()
+        {
+            _viewModel.LoadProjects();
+
+            var existingProjectId = _viewModel.Projects.First().LookupItemId;
+
+            _projectDeletedEvent.Publish(existingProjectId);
+
+            Assert.Single(_viewModel.Projects);
+
+            var deletedItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == existingProjectId);
+            Assert.Null(deletedItem);
+        }
+
+        [Fact]
+        public void ShouldRemoveProjectEditViewModelOnProjectDeletedEvent()
+        {
+            var deletedProjectId = Guid.Parse("8abbae81-ad7e-4453-8546-1278b625c50f");
+            _openProjectEditViewEvent.Publish(Guid.Parse("d24af541-2cda-4580-bbb1-675b41f16dea"));
+            _openProjectEditViewEvent.Publish(Guid.Parse("2f9f2fa5-9db0-4aae-ba28-113e282e65c5"));
+            _openProjectEditViewEvent.Publish(deletedProjectId);
+
+            _projectDeletedEvent.Publish(deletedProjectId);
+
+            Assert.Null(_viewModel.ProjectEditViewModel.Project);
+            Assert.False(_viewModel.IsProjectEditViewEnabled);
         }
     }
 }

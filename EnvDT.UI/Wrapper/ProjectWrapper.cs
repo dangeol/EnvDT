@@ -7,7 +7,7 @@ namespace EnvDT.UI.Wrapper
 {
     public class ProjectWrapper : ViewModelBase
     {
-        private Project _project;
+        private readonly Project _project;
         private bool _isChanged;
 
         public ProjectWrapper(Project project)

@@ -20,11 +20,18 @@ namespace EnvDT.UI.ViewModel
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
             SaveProjectCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+            DeleteProjectCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
         }
 
         private void Project_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            InvalidateCommands();
+        }
+
+        private void InvalidateCommands()
+        {
             ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)DeleteProjectCommand).RaiseCanExecuteChanged();
         }
 
         private void OnSaveExecute()
@@ -40,7 +47,20 @@ namespace EnvDT.UI.ViewModel
             return Project != null && Project.IsChanged;
         }
 
+        private void OnDeleteExecute()
+        {
+            _eventAggregator.GetEvent<ProjectDeletedEvent>()
+                .Publish(Project.Model.ProjectId);
+            _projectRepository.DeleteProject(Project.Model.ProjectId);
+        }
+
+        private bool OnDeleteCanExecute()
+        {
+            return Project != null && Project.ProjectId != Guid.Empty;
+        }
+
         public ICommand SaveProjectCommand { get; private set; }
+        public ICommand DeleteProjectCommand { get; private set; }
 
         public ProjectWrapper Project
         {
@@ -59,7 +79,8 @@ namespace EnvDT.UI.ViewModel
                 : new Project();
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
-            ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
+
+            InvalidateCommands();
         } 
     }
 }

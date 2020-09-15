@@ -27,6 +27,7 @@ namespace EnvDT.UI.ViewModel
             _projectEditVmCreator = projectEditVmCreator;
             _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
             _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
+            _eventAggregator.GetEvent<ProjectDeletedEvent>().Subscribe(OnProjectDeleted);
             Projects = new ObservableCollection<ProjectItemViewModel>();
             AddProjectCommand = new DelegateCommand(OnAddProjectExecute);
         }
@@ -64,8 +65,18 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        private void OnProjectDeleted(Guid projectId)
+        {
+            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == projectId);
+            CreateAndLoadProjectEditViewModel(null);
+            IsProjectEditViewEnabled = false;
+            if (projectItem != null)
+            {
+                Projects.Remove(projectItem);
+            }
+        }
+
         public ICommand AddProjectCommand { get; private set; }
-        public ICommand DeleteProjectCommand { get; private set; }
 
         public void LoadProjects()
         {
