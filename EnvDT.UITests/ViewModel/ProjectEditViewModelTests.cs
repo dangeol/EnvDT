@@ -1,4 +1,5 @@
-﻿using EnvDT.UI.Data.Repository;
+﻿using EnvDT.UI.Data.Dialogs;
+using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UITests.Extensions;
@@ -14,6 +15,7 @@ namespace EnvDT.UITests.ViewModel
         private Guid _projectId = new Guid("77ec605f-3909-471f-a866-a2c4759bf5a0");
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private ProjectEditViewModel _viewModel;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
         private Mock<ProjectDeletedEvent> _projectDeletedEventMock;
@@ -31,7 +33,10 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
                 .Returns(_projectDeletedEventMock.Object);
 
-            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, _eventAggregatorMock.Object);
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
+
+            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, 
+                _eventAggregatorMock.Object, _messageDialogServiceMock.Object);
         }
 
         [Fact]
@@ -187,22 +192,58 @@ namespace EnvDT.UITests.ViewModel
             Assert.False(_viewModel.DeleteProjectCommand.CanExecute(null));
         }
 
-        [Fact]
-        public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteProjectCommandIsExecuted()
+        [Theory]
+        [InlineData(MessageDialogResult.Yes, 1)]
+        [InlineData(MessageDialogResult.No, 0)]
+        public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteProjectCommandIsExecuted(
+            MessageDialogResult result, int expectedDeleteProjectCalls)
         {
             _viewModel.Load(_projectId);
 
+            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(result);
+
             _viewModel.DeleteProjectCommand.Execute(null);
-            _projectRepositoryMock.Verify(pr => pr.DeleteProject(_projectId), Times.Once);
+
+            _projectRepositoryMock.Verify(pr => pr.DeleteProject(_projectId), 
+                Times.Exactly(expectedDeleteProjectCalls));
+            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
+        }
+
+        [Theory]
+        [InlineData(MessageDialogResult.Yes, 1)]
+        [InlineData(MessageDialogResult.No, 0)]
+        public void ShouldPublishProjectDeletedEventWhenDeleteProjectCommandIsExecuted(
+            MessageDialogResult result, int expectedPublishCalls)
+        {
+            _viewModel.Load(_projectId);
+
+            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(result);
+
+            _viewModel.DeleteProjectCommand.Execute(null);
+            _projectDeletedEventMock.Verify(e => e.Publish(_viewModel.Project.Model.ProjectId), 
+                Times.Exactly(expectedPublishCalls));
+
+            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
         }
 
         [Fact]
-        public void ShouldPublishProjectDeletedEventWhenDeleteProjectCommandIsExecuted()
+        public void ShouldDisplayCorrectMessageInDeleteDialog()
         {
             _viewModel.Load(_projectId);
 
+            var p = _viewModel.Project;
+            p.ProjectClient = "Client";
+            p.ProjectName = "ProjectName";
+
             _viewModel.DeleteProjectCommand.Execute(null);
-            _projectDeletedEventMock.Verify(e => e.Publish(_viewModel.Project.Model.ProjectId), Times.Once);
+
+            _messageDialogServiceMock.Verify(d => d.ShowYesNoDialog("Delete Project",
+                $"Do you really want to delete the friend '{p.ProjectClient} {p.ProjectName}'?"),
+                Times.Once);
         }
     }
 }

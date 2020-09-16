@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model;
+using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
@@ -13,12 +14,15 @@ namespace EnvDT.UI.ViewModel
     {
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
+        private IMessageDialogService _messageDialogService;
         private ProjectWrapper _project;
 
-        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator)
+        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
+            IMessageDialogService messageDialogService)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
             SaveProjectCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteProjectCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
         }
@@ -49,9 +53,14 @@ namespace EnvDT.UI.ViewModel
 
         private void OnDeleteExecute()
         {
-            _eventAggregator.GetEvent<ProjectDeletedEvent>()
-                .Publish(Project.Model.ProjectId);
-            _projectRepository.DeleteProject(Project.Model.ProjectId);
+            var result = _messageDialogService.ShowYesNoDialog("Delete Project",
+                $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
+            if (result == MessageDialogResult.Yes)
+            { 
+                _eventAggregator.GetEvent<ProjectDeletedEvent>()
+                    .Publish(Project.Model.ProjectId);
+                _projectRepository.DeleteProject(Project.Model.ProjectId);
+            }
         }
 
         private bool OnDeleteCanExecute()

@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using EnvDT.DataAccess;
+using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Data.Service;
 using EnvDT.UI.ViewModel;
@@ -14,6 +15,8 @@ namespace EnvDT.UI.Startup
             var builder = new ContainerBuilder();
 
             builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+
+            builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
 
             builder.RegisterType<EnvDTDbContext>().AsSelf();
 
