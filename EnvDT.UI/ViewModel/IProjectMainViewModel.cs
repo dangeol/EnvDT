@@ -2,6 +2,5 @@
 {
     public interface IProjectMainViewModel
     {
-        public void LoadProjects();
     }
 }

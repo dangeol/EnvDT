@@ -70,6 +70,12 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
+        public void ShouldCallTheLoadMethod()
+        {
+            Assert.Equal(2, _viewModel.Projects.Count);
+        }
+
+        [Fact]
         public void ShouldLoadProjects()
         {
             _viewModel.LoadProjects();

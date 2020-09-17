@@ -1,20 +1,48 @@
-﻿using System;
+﻿using Autofac;
+using EnvDT.UI.Startup;
+using Prism.Commands;
+using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
-
     {
-        public MainViewModel(IProjectMainViewModel projectMainViewModel)
+        private ViewModelBase _currentViewModel;
+        private IProjectMainViewModel _projectMainViewModel;
+        private ILabReportMainViewModel _labReportMainViewModel;
+
+        public MainViewModel(IProjectMainViewModel projectMainViewModel, ILabReportMainViewModel labReportMainViewModel)
         {
-            ProjectMainViewModel = projectMainViewModel;
+            NavCommand = new DelegateCommand<string>(OnNavigationExecute);
+
+            _projectMainViewModel = projectMainViewModel;
+            _labReportMainViewModel = labReportMainViewModel;
         }
 
-        public void Load()
+        private void OnNavigationExecute(string destination)
         {
-            ProjectMainViewModel.LoadProjects();
+            switch (destination)
+            {
+                case "projects":
+                    CurrentViewModel = (ViewModelBase)_projectMainViewModel;
+                    break;
+                case "labReports":
+                default:
+                    CurrentViewModel = (ViewModelBase)_labReportMainViewModel;
+                    break;
+            }
         }
 
-        public IProjectMainViewModel ProjectMainViewModel { get; private set; }
+        public ICommand NavCommand { get; private set; }
+
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set 
+            { 
+                _currentViewModel = value; 
+                OnPropertyChanged(); 
+            } 
+        }
     }
 }

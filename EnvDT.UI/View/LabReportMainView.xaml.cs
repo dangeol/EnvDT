@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace EnvDT.UI.View
 {
     /// <summary>
-    /// Interaction logic for NavigationView.xaml
+    /// Interaction logic for LabReportMainView.xaml
     /// </summary>
-    public partial class NavigationView : UserControl
+    public partial class LabReportMainView : UserControl
     {
-        public NavigationView()
+        public LabReportMainView()
         {
             InitializeComponent();
         }

@@ -3,16 +3,42 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:view="clr-namespace:EnvDT.UI.View"
+        xmlns:view="clr-namespace:EnvDT.UI.View" xmlns:local="clr-namespace:EnvDT.UI.ViewModel"
         mc:Ignorable="d"
+        d:DataContext="{d:DesignInstance local:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
         Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:ProjectMainViewModel}">
+            <view:ProjectMainView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type local:LabReportMainViewModel}">
+            <view:LabReportMainView />
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <view:NavigationView DataContext="{Binding NavigationViewModel}"/>
-        <view:ProjectMainView Grid.Column="1" DataContext="{Binding ProjectMainViewModel}"/>
+        <Grid x:Name="NavBar">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Button Content="Projects"
+                    Command="{Binding NavCommand}"
+                    CommandParameter="projects" />
+            <Button Content="LabReports"
+                    Command="{Binding NavCommand}"
+                    CommandParameter="labReports"
+                    Grid.Row="1" />                 
+        </Grid>
+        <Grid x:Name="MainContent" Grid.Column="1">
+            <ContentControl Content="{Binding CurrentViewModel}" />
+        </Grid>
     </Grid>
 </Window>

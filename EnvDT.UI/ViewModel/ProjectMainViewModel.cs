@@ -30,6 +30,7 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<ProjectDeletedEvent>().Subscribe(OnProjectDeleted);
             Projects = new ObservableCollection<ProjectItemViewModel>();
             AddProjectCommand = new DelegateCommand(OnAddProjectExecute);
+            LoadProjects();
         }
 
         private void OnAddProjectExecute()
@@ -78,16 +79,6 @@ namespace EnvDT.UI.ViewModel
 
         public ICommand AddProjectCommand { get; private set; }
 
-        public void LoadProjects()
-        {
-            Projects.Clear();
-            foreach (var project in _projectRepository.GetAllProjects())
-            {
-                Projects.Add(new ProjectItemViewModel(
-                    project.LookupItemId, project.DisplayMember, _eventAggregator));
-            }
-        }
-
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
 
         public bool IsProjectEditViewEnabled 
@@ -122,6 +113,16 @@ namespace EnvDT.UI.ViewModel
                     _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
                         .Publish(_selectedProject.LookupItemId);
                 }
+            }
+        }
+
+        public void LoadProjects()
+        {
+            Projects.Clear();
+            foreach (var project in _projectRepository.GetAllProjects())
+            {
+                Projects.Add(new ProjectItemViewModel(
+                    project.LookupItemId, project.DisplayMember, _eventAggregator));
             }
         }
     }

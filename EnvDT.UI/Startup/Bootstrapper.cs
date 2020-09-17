@@ -22,9 +22,11 @@ namespace EnvDT.UI.Startup
 
             builder.RegisterType<MainWindow>().AsSelf();
             builder.RegisterType<MainViewModel>().AsSelf();
+            builder.RegisterType<MainViewModelDesignTime>().AsSelf();
             builder.RegisterType<ProjectMainViewModel>().As<IProjectMainViewModel>();
             builder.RegisterType<ProjectItemViewModel>().AsSelf();
             builder.RegisterType<ProjectEditViewModel>().As<IProjectEditViewModel>();
+            builder.RegisterType<LabReportMainViewModel>().As<ILabReportMainViewModel>();
 
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
 
