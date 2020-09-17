@@ -26,7 +26,7 @@ namespace EnvDT.UITests.ViewModel
             _projectDeletedEventMock = new Mock<ProjectDeletedEvent>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
             _projectRepositoryMock.Setup(pr => pr.GetProjectById(_projectId))
-                .Returns(new Model.Project { ProjectId = _projectId, ProjectNumber = "012345" });
+                .Returns(new Model.Entity.Project { ProjectId = _projectId, ProjectNumber = "012345" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);

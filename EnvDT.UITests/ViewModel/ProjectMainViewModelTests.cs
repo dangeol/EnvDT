@@ -1,4 +1,4 @@
-﻿using EnvDT.Model;
+﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;

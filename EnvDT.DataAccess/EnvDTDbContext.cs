@@ -1,4 +1,4 @@
-﻿using EnvDT.Model;
+﻿using EnvDT.Model.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.IO;

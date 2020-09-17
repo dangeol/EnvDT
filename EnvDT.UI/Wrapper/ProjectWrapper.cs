@@ -1,4 +1,4 @@
-﻿using EnvDT.Model;
+﻿using EnvDT.Model.Entity;
 using EnvDT.UI.ViewModel;
 using System;
 using System.Runtime.CompilerServices;

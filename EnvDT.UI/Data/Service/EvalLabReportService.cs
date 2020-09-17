@@ -1,5 +1,5 @@
 ﻿using EnvDT.DataAccess;
-using EnvDT.Model;
+using EnvDT.Model.Entity;
 using EnvDT.UI.Data.HelperClasses;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
