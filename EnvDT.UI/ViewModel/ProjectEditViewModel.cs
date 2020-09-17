@@ -1,6 +1,6 @@
 ﻿using EnvDT.Model;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
-using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;

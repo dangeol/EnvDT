@@ -1,6 +1,6 @@
 ﻿using EnvDT.DataAccess;
 using EnvDT.Model;
-using EnvDT.UI.Data.Repository;
+using EnvDT.Model.IRepository;
 using ExcelDataReader;
 using System;
 using System.Data;

@@ -1,5 +1,5 @@
 ﻿using EnvDT.Model;
-using EnvDT.UI.Data.Repository;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;

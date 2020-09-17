@@ -59,6 +59,10 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DbDataService\" />
+  </ItemGroup>
+
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
     <Exec Command="if not exist $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess mkdir $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess&#xD;&#xA;if not exist $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds mkdir $(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.UI\bin\Debug\EnvDT.DataAccess\DbDataSeeds&quot;" />
   </Target>

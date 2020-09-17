@@ -1,8 +1,7 @@
-﻿using EnvDT.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace EnvDT.UI.Data.Repository
+namespace EnvDT.Model.IRepository
 {
     public interface IProjectRepository
     {

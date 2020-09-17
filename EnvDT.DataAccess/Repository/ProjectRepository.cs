@@ -1,10 +1,10 @@
-﻿using EnvDT.DataAccess;
-using EnvDT.Model;
+﻿using EnvDT.Model;
+using EnvDT.Model.IRepository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnvDT.UI.Data.Repository
+namespace EnvDT.DataAccess.Repository
 {
     public class ProjectRepository : IProjectRepository
     {

@@ -1,5 +1,5 @@
 ﻿using EnvDT.Model;
-using EnvDT.UI.Data.Repository;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;

@@ -1,6 +1,4 @@
-﻿using Autofac;
-using EnvDT.UI.Startup;
-using Prism.Commands;
+﻿using Prism.Commands;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel

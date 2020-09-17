@@ -26,7 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Lookup\" />
     <Folder Include="Properties\" />
   </ItemGroup>
 

@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using EnvDT.DataAccess;
+using EnvDT.DataAccess.Repository;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
-using EnvDT.UI.Data.Repository;
 using EnvDT.UI.Data.Service;
 using EnvDT.UI.ViewModel;
 using Prism.Events;
