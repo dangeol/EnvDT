@@ -1,21 +1,27 @@
 ﻿using EnvDT.Model.Entity;
-using EnvDT.UI.ViewModel;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 
 namespace EnvDT.UI.Wrapper
 {
-    public class ProjectWrapper : ViewModelBase
+    public class ProjectWrapper : ModelWrapper<Project>
     {
-        private readonly Project _project;
         private bool _isChanged;
 
-        public ProjectWrapper(Project project)
+        public ProjectWrapper(Project model) : base(model)
         {
-            _project = project;
         }
 
-        public Project Model {  get { return _project;  } }
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            if (propertyName != nameof(IsChanged))
+            {
+                IsChanged = true;
+            }
+        }
 
         public bool IsChanged
         {
@@ -34,57 +40,45 @@ namespace EnvDT.UI.Wrapper
 
         public Guid ProjectId 
         { 
-            get { return _project.ProjectId; } 
+            get { return Model.ProjectId; } 
         }
 
         public string ProjectNumber 
         {
-            get { return _project.ProjectNumber; }
-            set
-            {
-                _project.ProjectNumber = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string ProjectClient 
         {
-            get { return _project.ProjectClient; }
-            set
-            {
-                _project.ProjectClient = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string ProjectName 
         {
-            get { return _project.ProjectName; }
-            set
-            {
-                _project.ProjectName = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
         public string ProjectAddress 
         {
-            get { return _project.ProjectAddress; }
-            set
-            {
-                _project.ProjectAddress = value;
-                OnPropertyChanged();
-            }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
         }
 
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
-            base.OnPropertyChanged(propertyName);
-            if (propertyName != nameof(IsChanged))
+            ClearErrors(propertyName);
+            switch (propertyName)
             {
-                IsChanged = true;
+                case nameof(ProjectName):
+                    if (string.Equals(ProjectName, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return "Project Name cannot be empty.";
+                    }
+                    break;
             }
         }
-
     }
 }

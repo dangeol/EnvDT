@@ -33,50 +33,6 @@ namespace EnvDT.UI.ViewModel
             LoadProjects();
         }
 
-        private void OnAddProjectExecute()
-        {
-            CreateAndLoadProjectEditViewModel(null);
-        }
-
-        private void OnOpenProjectEditView(Guid projectId)
-        {
-            CreateAndLoadProjectEditViewModel(projectId);
-        }
-
-        private void CreateAndLoadProjectEditViewModel(Guid? projectId)
-        {
-            ProjectEditViewModel = _projectEditVmCreator();
-            ProjectEditViewModel.Load(projectId);
-            IsProjectEditViewEnabled = true;
-        }
-
-        private void OnProjectSaved(Project project)
-        {
-            var displayMember = $"{project.ProjectNumber} {project.ProjectName}";
-            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == project.ProjectId);
-            if (projectItem != null)
-            { 
-                projectItem.DisplayMember = displayMember;
-            }
-            else
-            {
-                projectItem = new ProjectItemViewModel(project.ProjectId, 
-                    displayMember, _eventAggregator);
-                Projects.Add(projectItem);
-            }
-        }
-
-        private void OnProjectDeleted(Guid projectId)
-        {
-            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == projectId);
-            CreateAndLoadProjectEditViewModel(null);
-            IsProjectEditViewEnabled = false;
-            if (projectItem != null)
-            {
-                Projects.Remove(projectItem);
-            }
-        }
-
         public ICommand AddProjectCommand { get; private set; }
 
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
@@ -123,6 +79,50 @@ namespace EnvDT.UI.ViewModel
             {
                 Projects.Add(new ProjectItemViewModel(
                     project.LookupItemId, project.DisplayMember, _eventAggregator));
+            }
+        }
+
+        private void OnAddProjectExecute()
+        {
+            CreateAndLoadProjectEditViewModel(null);
+        }
+
+        private void OnOpenProjectEditView(Guid projectId)
+        {
+            CreateAndLoadProjectEditViewModel(projectId);
+        }
+
+        private void CreateAndLoadProjectEditViewModel(Guid? projectId)
+        {
+            ProjectEditViewModel = _projectEditVmCreator();
+            ProjectEditViewModel.Load(projectId);
+            IsProjectEditViewEnabled = true;
+        }
+
+        private void OnProjectSaved(Project project)
+        {
+            var displayMember = $"{project.ProjectNumber} {project.ProjectName}";
+            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == project.ProjectId);
+            if (projectItem != null)
+            {
+                projectItem.DisplayMember = displayMember;
+            }
+            else
+            {
+                projectItem = new ProjectItemViewModel(project.ProjectId,
+                    displayMember, _eventAggregator);
+                Projects.Add(projectItem);
+            }
+        }
+
+        private void OnProjectDeleted(Guid projectId)
+        {
+            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == projectId);
+            CreateAndLoadProjectEditViewModel(null);
+            IsProjectEditViewEnabled = false;
+            if (projectItem != null)
+            {
+                Projects.Remove(projectItem);
             }
         }
     }

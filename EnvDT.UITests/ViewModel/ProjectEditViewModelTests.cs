@@ -69,6 +69,16 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
+        public void ShouldDisableSaveProjectCommandWhenProjectHasValidationErrors()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.Project.ProjectName = "";
+
+            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
+        }
+
+        [Fact]
         public void ShouldEnableSaveProjectCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
@@ -164,7 +174,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal(Guid.Empty, _viewModel.Project.ProjectId);
             Assert.Null(_viewModel.Project.ProjectNumber);
             Assert.Null(_viewModel.Project.ProjectClient);
-            Assert.Null(_viewModel.Project.ProjectName);
+            Assert.Equal("", _viewModel.Project.ProjectName);
             Assert.Null(_viewModel.Project.ProjectAddress);
 
             _projectRepositoryMock.Verify(pr => pr.GetProjectById(It.IsAny<Guid>()), Times.Never);

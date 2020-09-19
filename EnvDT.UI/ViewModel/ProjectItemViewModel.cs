@@ -20,12 +20,6 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator = eventAggregator;
         }
 
-        private void OnProjectEditViewExecute()
-        {
-            _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
-                .Publish(LookupItemId);
-        }
-
         public Guid LookupItemId { get; private set; }
         public string DisplayMember
         {
@@ -36,6 +30,13 @@ namespace EnvDT.UI.ViewModel
                 OnPropertyChanged();
             }
         }
+
         public ICommand OpenProjectEditViewCommand { get; private set; }
+
+        private void OnProjectEditViewExecute()
+        {
+            _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
+                .Publish(LookupItemId);
+        }
     }
 }

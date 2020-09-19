@@ -17,6 +17,10 @@ namespace EnvDT.UI.ViewModel
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
 
         }
+
+        public ICommand OpenLabReportCommand { get; }
+        public ICommand EvalLabReportCommand { get; }
+
         private void OnOpenExecute()
         {
             _openLabReportService.OpenLabReport();
@@ -38,8 +42,5 @@ namespace EnvDT.UI.ViewModel
             // TODO: Check if publication is valid
             return true;
         }
-
-        public ICommand OpenLabReportCommand { get; }
-        public ICommand EvalLabReportCommand { get; }
     }
 }

@@ -17,6 +17,18 @@ namespace EnvDT.UI.ViewModel
             _labReportMainViewModel = labReportMainViewModel;
         }
 
+        public ICommand NavCommand { get; private set; }
+
+        public ViewModelBase CurrentViewModel
+        {
+            get { return _currentViewModel; }
+            set 
+            { 
+                _currentViewModel = value; 
+                OnPropertyChanged(); 
+            } 
+        }
+
         private void OnNavigationExecute(string destination)
         {
             switch (destination)
@@ -29,18 +41,6 @@ namespace EnvDT.UI.ViewModel
                     CurrentViewModel = (ViewModelBase)_labReportMainViewModel;
                     break;
             }
-        }
-
-        public ICommand NavCommand { get; private set; }
-
-        public ViewModelBase CurrentViewModel
-        {
-            get { return _currentViewModel; }
-            set 
-            { 
-                _currentViewModel = value; 
-                OnPropertyChanged(); 
-            } 
         }
     }
 }
