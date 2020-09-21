@@ -16,6 +16,7 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private ProjectWrapper _project;
+        private bool _hasChanges;
 
         public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
@@ -40,16 +41,31 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set 
+            { 
+                if (_hasChanges != value)
+                { 
+                    _hasChanges = value;
+                    OnPropertyChanged();
+                    ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
+                }
+            }
+            
+        }
+
         public void Load(Guid? projectId)
         {
             var project = projectId.HasValue
                 ? _projectRepository.GetProjectById(projectId.Value)
-                :  new Project() ;
+                : CreateNewProject();
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
 
             InvalidateCommands();
-            if (Project.ProjectId == Guid.Empty)
+            if (projectId == null)
             {
                 // Trigger the validation
                 Project.ProjectName = "";
@@ -68,6 +84,10 @@ namespace EnvDT.UI.ViewModel
 
             Project.PropertyChanged += (s, e) =>
             {
+                if (!HasChanges)
+                {
+                    HasChanges = _projectRepository.HasChanges();
+                }
                 if (e.PropertyName == nameof(Project.HasErrors))
                 {
                     ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
@@ -77,15 +97,15 @@ namespace EnvDT.UI.ViewModel
 
         private void OnSaveExecute()
         {
-            _projectRepository.SaveProject(Project.Model);
-            Project.AcceptChanges();
+            _projectRepository.Save();
+            HasChanges = _projectRepository.HasChanges();
             _eventAggregator.GetEvent<ProjectSavedEvent>()
                 .Publish(Project.Model);
         }
 
         private bool OnSaveCanExecute()
         {
-            return Project != null && Project.IsChanged && !Project.HasErrors;
+            return Project != null && !Project.HasErrors && HasChanges;
         }
 
         private void OnDeleteExecute()
@@ -97,12 +117,20 @@ namespace EnvDT.UI.ViewModel
                 _eventAggregator.GetEvent<ProjectDeletedEvent>()
                     .Publish(Project.Model.ProjectId);
                 _projectRepository.DeleteProject(Project.Model.ProjectId);
+                _projectRepository.Save();
             }
         }
 
         private bool OnDeleteCanExecute()
         {
             return Project != null && Project.ProjectId != Guid.Empty;
+        }
+
+        private Project CreateNewProject()
+        {
+            var project = new Project();
+            _projectRepository.CreateProject(project);
+            return project;
         }
     }
 }

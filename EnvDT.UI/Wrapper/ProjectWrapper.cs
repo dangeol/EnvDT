@@ -1,41 +1,13 @@
 ﻿using EnvDT.Model.Entity;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 namespace EnvDT.UI.Wrapper
 {
     public class ProjectWrapper : ModelWrapper<Project>
     {
-        private bool _isChanged;
-
         public ProjectWrapper(Project model) : base(model)
         {
-        }
-
-        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            base.OnPropertyChanged(propertyName);
-            if (propertyName != nameof(IsChanged))
-            {
-                IsChanged = true;
-            }
-        }
-
-        public bool IsChanged
-        {
-            get { return _isChanged; }
-            private set 
-            { 
-                _isChanged = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void AcceptChanges()
-        {
-            IsChanged = false;
         }
 
         public Guid ProjectId 

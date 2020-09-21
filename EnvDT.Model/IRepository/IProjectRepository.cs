@@ -9,9 +9,9 @@ namespace EnvDT.Model.IRepository
         Project GetProjectById(Guid projectId);
         Project GetFirstProject();
         IEnumerable<LookupItem> GetAllProjects();
-        void SaveProject(Project project);
+        void CreateProject(Project project);
         void DeleteProject(Guid projectId);
         void Save();
-
+        bool HasChanges();
     }
 }

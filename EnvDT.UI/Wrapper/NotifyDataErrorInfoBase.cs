@@ -12,6 +12,17 @@ namespace EnvDT.UI.Wrapper
         private Dictionary<string, List<string>> _errorsByPropertyName
             = new Dictionary<string, List<string>>();
 
+        public bool HasErrors => _errorsByPropertyName.Any();
+
+        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
+
+        public IEnumerable GetErrors(string propertyName)
+        {
+            return _errorsByPropertyName.ContainsKey(propertyName)
+                ? _errorsByPropertyName[propertyName]
+                : null;
+        }
+
         protected virtual void OnErrorsChanged(string propertyName)
         {
             ErrorsChanged?.Invoke(this, new DataErrorsChangedEventArgs(propertyName));
@@ -38,17 +49,6 @@ namespace EnvDT.UI.Wrapper
                 _errorsByPropertyName.Remove(propertyName);
                 OnErrorsChanged(propertyName);
             }
-        }
-
-        public bool HasErrors => _errorsByPropertyName.Any();
-
-        public event EventHandler<DataErrorsChangedEventArgs> ErrorsChanged;
-
-        public IEnumerable GetErrors(string propertyName)
-        {
-            return _errorsByPropertyName.ContainsKey(propertyName)
-                ? _errorsByPropertyName[propertyName]
-                : null;
         }
     }
 }

@@ -141,7 +141,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Project.ProjectNumber = "Changed";
 
             _viewModel.SaveProjectCommand.Execute(null);
-            _projectRepositoryMock.Verify(pr => pr.SaveProject(_viewModel.Project.Model), Times.Once);
+            _projectRepositoryMock.Verify(pr => pr.Save(), Times.Once);
         }
 
         [Fact]
@@ -151,7 +151,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Project.ProjectNumber = "Changed";
 
             _viewModel.SaveProjectCommand.Execute(null);
-            Assert.False(_viewModel.Project.IsChanged);
+            Assert.False(_viewModel.HasChanges);
         }
 
         [Fact]

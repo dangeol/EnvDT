@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;
@@ -17,16 +18,20 @@ namespace EnvDT.UITests.ViewModel
     {
         private ProjectMainViewModel _viewModel;
         private Mock<IProjectEditViewModel> _projectEditViewModelMock;
+
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private OpenProjectEditViewEvent _openProjectEditViewEvent;
         private ProjectSavedEvent _projectSavedEvent;
         private ProjectDeletedEvent _projectDeletedEvent;
+        private Project _project;
 
         public ProjectMainViewModelTests()
         {
             _openProjectEditViewEvent = new OpenProjectEditViewEvent();
             _projectSavedEvent = new ProjectSavedEvent();
             _projectDeletedEvent = new ProjectDeletedEvent();
+            _project = new Project();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
                 .Returns(_openProjectEditViewEvent);
@@ -34,6 +39,8 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_projectSavedEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
                 .Returns(_projectDeletedEvent);
+
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
             var projectRepositoryMock = new Mock<IProjectRepository>();
             projectRepositoryMock.Setup(pr => pr.GetAllProjects())
@@ -53,7 +60,8 @@ namespace EnvDT.UITests.ViewModel
             _viewModel = new ProjectMainViewModel(
                 projectRepositoryMock.Object,
                 _eventAggregatorMock.Object,
-                CreateProjectEditViewModel);
+                CreateProjectEditViewModel,
+                _messageDialogServiceMock.Object);
         }
 
         private IProjectEditViewModel CreateProjectEditViewModel()
@@ -62,8 +70,9 @@ namespace EnvDT.UITests.ViewModel
             projectEditViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
                 .Callback<Guid?>(projectId =>
                 {
+                    _project.ProjectId = projectId.Value;
                     projectEditViewModelMock.Setup(vm => vm.Project)
-                    .Returns(new ProjectWrapper(new Project { ProjectId = projectId.Value }));
+                    .Returns(new ProjectWrapper(_project));
                 });
             _projectEditViewModelMock = projectEditViewModelMock;
             return projectEditViewModelMock.Object;
@@ -216,5 +225,30 @@ namespace EnvDT.UITests.ViewModel
             Assert.Null(_viewModel.ProjectEditViewModel.Project);
             Assert.False(_viewModel.IsProjectEditViewEnabled);
         }
+
+        [Theory]
+        [InlineData(MessageDialogResult.Yes, 1)]
+        [InlineData(MessageDialogResult.No, 0)]
+        public void ShouldNotLoadNewProjectWhenUnsavedChangesLeft(
+            MessageDialogResult result, int projectViewLoaded)
+        {    
+            _project.ProjectName = "unchanged";
+
+            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(result);
+
+            var projectId1 = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
+            _openProjectEditViewEvent.Publish(projectId1);
+
+            _projectEditViewModelMock.Object.Project.ProjectName = "changed";
+
+            var projectId2 = new Guid("aa4ec543-065e-41c5-8324-ccb39d071d0b");
+            _openProjectEditViewEvent.Publish(projectId2);
+
+            _projectEditViewModelMock.Verify(vm => vm.Load(projectId2), Times.Exactly(projectViewLoaded));
+            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
+        }
     }
 }
+

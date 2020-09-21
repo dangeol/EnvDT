@@ -7,5 +7,6 @@ namespace EnvDT.UI.ViewModel
     {
         void Load(Guid? projectId);
         ProjectWrapper Project { get; }
+        bool HasChanges { get; }
     }
 }

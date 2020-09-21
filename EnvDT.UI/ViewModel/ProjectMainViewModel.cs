@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
@@ -14,17 +15,20 @@ namespace EnvDT.UI.ViewModel
     {
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
+        private IMessageDialogService _messageDialogService;
 
         private Func<IProjectEditViewModel> _projectEditVmCreator;
         private bool _isProjectEditViewEnabled = false;
         private IProjectEditViewModel _projectEditViewModel;
         private ProjectItemViewModel _selectedProject;
 
-        public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, Func<IProjectEditViewModel> projectEditVmCreator)
+        public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, 
+            Func<IProjectEditViewModel> projectEditVmCreator, IMessageDialogService messageDialogService)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
             _projectEditVmCreator = projectEditVmCreator;
+            _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
             _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
             _eventAggregator.GetEvent<ProjectDeletedEvent>().Subscribe(OnProjectDeleted);
@@ -94,6 +98,15 @@ namespace EnvDT.UI.ViewModel
 
         private void CreateAndLoadProjectEditViewModel(Guid? projectId)
         {
+            if (ProjectEditViewModel != null && ProjectEditViewModel.HasChanges)
+            { 
+                var result = _messageDialogService.ShowYesNoDialog("Question",
+                    $"You've made changes. Navigate away?");
+                if (result == MessageDialogResult.No)
+                {
+                    return;
+                }
+            }
             ProjectEditViewModel = _projectEditVmCreator();
             ProjectEditViewModel.Load(projectId);
             IsProjectEditViewEnabled = true;
