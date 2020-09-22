@@ -30,8 +30,8 @@ namespace EnvDT.UI.ViewModel
             _projectEditVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
-            _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
-            _eventAggregator.GetEvent<ProjectDeletedEvent>().Subscribe(OnProjectDeleted);
+            _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
+            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<ProjectItemViewModel>();
             AddProjectCommand = new DelegateCommand(OnAddProjectExecute);
             LoadProjects();
@@ -136,32 +136,42 @@ namespace EnvDT.UI.ViewModel
             IsProjectDetailViewEnabled = true;
         }
 
-        private void OnProjectSaved(Project project)
+        private void OnDetailSaved(DetailSavedEventArgs args)
         {
-            var displayMember = $"{project.ProjectNumber} {project.ProjectName}";
-            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == project.ProjectId);
-            if (projectItem != null)
-            {
-                projectItem.DisplayMember = displayMember;
-            }
-            else
-            {
-                projectItem = new ProjectItemViewModel(project.ProjectId, displayMember, 
-                    nameof(ProjectDetailViewModel),
-                    _eventAggregator);
-                Projects.Add(projectItem);
-            }
-        }
+            var displayMember = args.DisplayMember;
 
-        private void OnProjectDeleted(Guid projectId)
-        {
-            var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == projectId);
-            CreateAndLoadProjectDetailViewModel(null);
-            IsProjectDetailViewEnabled = false;
-            if (projectItem != null)
+            switch(args.ViewModelName)
             {
-                Projects.Remove(projectItem);
+                case nameof(ProjectDetailViewModel):
+                    var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == args.Id);
+                    if (projectItem != null)
+                    {
+                        projectItem.DisplayMember = displayMember;
+                    }
+                    else
+                    {
+                        projectItem = new ProjectItemViewModel(args.Id, displayMember, 
+                            nameof(ProjectDetailViewModel),
+                            _eventAggregator);
+                        Projects.Add(projectItem);
+                    }
+                    break;
             }
-        }
+    }
+
+        private void OnDetailDeleted(DetailDeletedEventArgs args)
+        {
+            switch(args.ViewModelName)
+            {
+                case nameof(ProjectDetailViewModel):
+                    var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == args.Id);
+                    IsProjectDetailViewEnabled = false;
+                    if (projectItem != null)
+                    {
+                        Projects.Remove(projectItem);
+                    }
+                    break;
+            }
+    }
     }
 }

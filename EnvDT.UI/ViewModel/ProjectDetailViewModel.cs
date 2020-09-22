@@ -99,8 +99,15 @@ namespace EnvDT.UI.ViewModel
         {
             _projectRepository.Save();
             HasChanges = _projectRepository.HasChanges();
-            _eventAggregator.GetEvent<ProjectSavedEvent>()
-                .Publish(Project.Model);
+            _eventAggregator.GetEvent<DetailSavedEvent>()
+                .Publish(
+                new DetailSavedEventArgs
+                    {    
+                        Id = Project.ProjectId,
+                        DisplayMember = $"{Project.ProjectNumber} {Project.ProjectName}",
+                        ViewModelName = nameof(ProjectDetailViewModel)
+                    }
+                );
         }
 
         private bool OnSaveCanExecute()
@@ -114,8 +121,13 @@ namespace EnvDT.UI.ViewModel
                 $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
             if (result == MessageDialogResult.Yes)
             {
-                _eventAggregator.GetEvent<ProjectDeletedEvent>()
-                    .Publish(Project.Model.ProjectId);
+                _eventAggregator.GetEvent<DetailDeletedEvent>()
+                    .Publish(
+                        new DetailDeletedEventArgs
+                        {
+                            Id = Project.Model.ProjectId,
+                            ViewModelName = nameof(ProjectDetailViewModel)
+                        });
                 _projectRepository.DeleteProject(Project.Model.ProjectId);
                 _projectRepository.Save();
             }

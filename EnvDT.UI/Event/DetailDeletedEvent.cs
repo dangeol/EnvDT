@@ -3,11 +3,11 @@ using System;
 
 namespace EnvDT.UI.Event
 {
-    public class OpenDetailViewEvent : PubSubEvent<OpenDetailViewEventArgs>
+    public class DetailDeletedEvent : PubSubEvent<DetailDeletedEventArgs>
     {
     }
 
-    public class OpenDetailViewEventArgs
+    public class DetailDeletedEventArgs
     {
         public Guid? Id { get; set; }
         public string ViewModelName { get; set; }

@@ -22,7 +22,7 @@
                     Command="{Binding AddProjectCommand}"/>
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsProjectEditViewEnabled}">
+        <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsProjectDetailViewEnabled}">
             <local:ProjectDetailView DataContext="{Binding DetailViewModel}" />
         </StackPanel>
     </Grid>

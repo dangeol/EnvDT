@@ -17,21 +17,21 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private ProjectDetailViewModel _viewModel;
-        private Mock<ProjectSavedEvent> _projectSavedEventMock;
-        private Mock<ProjectDeletedEvent> _projectDeletedEventMock;
+        private Mock<DetailSavedEvent> _projectSavedEventMock;
+        private Mock<DetailDeletedEvent> _projectDeletedEventMock;
 
         public ProjectDetailViewModelTests()
         {
-            _projectSavedEventMock = new Mock<ProjectSavedEvent>();
-            _projectDeletedEventMock = new Mock<ProjectDeletedEvent>();
+            _projectSavedEventMock = new Mock<DetailSavedEvent>();
+            _projectDeletedEventMock = new Mock<DetailDeletedEvent>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
             _projectRepositoryMock.Setup(pr => pr.GetProjectById(_projectId))
                 .Returns(new Model.Entity.Project { ProjectId = _projectId, 
                     ProjectNumber = "012345", ProjectName = "name" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
                 .Returns(_projectDeletedEventMock.Object);
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
@@ -156,15 +156,22 @@ namespace EnvDT.UITests.ViewModel
             Assert.False(_viewModel.HasChanges);
         }
 
+        // TO DO: Find reason why this test fails. Same case as ShouldPublishOpenDetailViewEvent test.
         [Fact]
         public void ShouldPublishProjectSavedEventWhenSaveProjectCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
+            var detailSavedEventArgs = new DetailSavedEventArgs
+            {
+                Id = _viewModel.Project.Model.ProjectId,
+                DisplayMember = $"{_viewModel.Project.Model.ProjectNumber} {_viewModel.Project.Model.ProjectName}",
+                ViewModelName = nameof(ProjectDetailViewModel)
+            };
 
             _viewModel.SaveProjectCommand.Execute(null);
 
-            _projectSavedEventMock.Verify(e => e.Publish(_viewModel.Project.Model), Times.Once);
+            _projectSavedEventMock.Verify(e => e.Publish(detailSavedEventArgs), Times.Once);
         }
 
         [Fact]
@@ -223,6 +230,7 @@ namespace EnvDT.UITests.ViewModel
                 It.IsAny<string>()), Times.Once);
         }
 
+        // TO DO: Find reason why this test fails. Same case as ShouldPublishOpenDetailViewEvent test.
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
@@ -235,7 +243,14 @@ namespace EnvDT.UITests.ViewModel
                 It.IsAny<string>())).Returns(result);
 
             _viewModel.DeleteProjectCommand.Execute(null);
-            _projectDeletedEventMock.Verify(e => e.Publish(_viewModel.Project.Model.ProjectId), 
+
+            var detailViewModelName = "ProjectDetailViewModel";
+            _projectDeletedEventMock.Verify(e => e.Publish(
+                new DetailDeletedEventArgs
+                {
+                    Id = _viewModel.Project.Model.ProjectId,
+                    ViewModelName = detailViewModelName
+                }), 
                 Times.Exactly(expectedPublishCalls));
 
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),

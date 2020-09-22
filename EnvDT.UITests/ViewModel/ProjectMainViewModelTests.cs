@@ -22,24 +22,24 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private OpenDetailViewEvent _openDetailViewEvent;
-        private ProjectSavedEvent _projectSavedEvent;
-        private ProjectDeletedEvent _projectDeletedEvent;
+        private DetailSavedEvent _projectSavedEvent;
+        private DetailDeletedEvent _projectDeletedEvent;
         private Project _project;
         private string _detailViewModelName;
 
         public ProjectMainViewModelTests()
         {
             _openDetailViewEvent = new OpenDetailViewEvent();
-            _projectSavedEvent = new ProjectSavedEvent();
-            _projectDeletedEvent = new ProjectDeletedEvent();
+            _projectSavedEvent = new DetailSavedEvent();
+            _projectDeletedEvent = new DetailDeletedEvent();
             _project = new Project();
             _detailViewModelName = "ProjectDetailViewModel";
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
                 .Returns(_openDetailViewEvent);
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailSavedEvent>())
                 .Returns(_projectSavedEvent);
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
                 .Returns(_projectDeletedEvent);
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
@@ -175,13 +175,15 @@ namespace EnvDT.UITests.ViewModel
             var projectItem = _viewModel.Projects.First();
 
             var projectId = projectItem.LookupItemId;
+            var projectNumber = "0123";
+            var projectName = "ProName1Changed";
 
             _projectSavedEvent.Publish(
-                new Project
+                new DetailSavedEventArgs
                 {
-                    ProjectId = projectId,
-                    ProjectNumber = "0123",
-                    ProjectName = "ProName1Changed",
+                    Id = projectId,
+                    DisplayMember = $"{projectNumber} {projectName}",
+                    ViewModelName = nameof(ProjectDetailViewModel)
                 });
 
             Assert.Equal("0123 ProName1Changed", projectItem.DisplayMember);
@@ -193,13 +195,15 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.LoadProjects();
 
             var newProjectId = new Guid("097e364a-5ef3-40a0-bde5-51caa26d7f48");
+            var projectNumber = "8888";
+            var projectName = "New Project";
 
             _projectSavedEvent.Publish(
-                new Project
+                new DetailSavedEventArgs
                 {
-                    ProjectId = newProjectId,
-                    ProjectNumber = "8888",
-                    ProjectName = "New Project",
+                    Id = newProjectId,
+                    DisplayMember = $"{projectNumber} {projectName}",
+                    ViewModelName = nameof(ProjectDetailViewModel)
                 });
 
             Assert.Equal(3, _viewModel.Projects.Count);
@@ -216,7 +220,12 @@ namespace EnvDT.UITests.ViewModel
 
             var existingProjectId = _viewModel.Projects.First().LookupItemId;
 
-            _projectDeletedEvent.Publish(existingProjectId);
+            _projectDeletedEvent.Publish(
+            new DetailDeletedEventArgs
+            {
+                Id = existingProjectId,
+                ViewModelName = _detailViewModelName
+            });
 
             Assert.Single(_viewModel.Projects);
 
@@ -241,7 +250,12 @@ namespace EnvDT.UITests.ViewModel
                 ViewModelName = _detailViewModelName
             });
 
-            _projectDeletedEvent.Publish(deletedProjectId);
+            _projectDeletedEvent.Publish(
+            new DetailDeletedEventArgs
+            {
+                Id = deletedProjectId,
+                ViewModelName = _detailViewModelName
+            });
 
 
             //The next line should rather test DetailViewModel object of the viewmodel, to be checked
