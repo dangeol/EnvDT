@@ -10,13 +10,16 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private string _displayMember;
+        private string _detailViewModelName;
 
         public ProjectItemViewModel(Guid lookupItemId, string displayMember,
+            string detailViewModelName,
             IEventAggregator eventAggregator)
         {
             LookupItemId = lookupItemId;
             DisplayMember = displayMember;
-            OpenProjectEditViewCommand = new DelegateCommand(OnProjectEditViewExecute);
+            _detailViewModelName = detailViewModelName;
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
             _eventAggregator = eventAggregator;
         }
 
@@ -31,12 +34,17 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public ICommand OpenProjectEditViewCommand { get; private set; }
+        public ICommand OpenDetailViewCommand { get; private set; }
 
-        private void OnProjectEditViewExecute()
+        private void OnOpenDetailViewExecute()
         {
-            _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
-                .Publish(LookupItemId);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                .Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = LookupItemId,
+                    ViewModelName = _detailViewModelName
+                }); 
         }
     }
 }

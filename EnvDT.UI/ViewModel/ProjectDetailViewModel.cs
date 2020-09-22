@@ -10,7 +10,7 @@ using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ProjectEditViewModel : ViewModelBase, IProjectEditViewModel
+    public class ProjectDetailViewModel : ViewModelBase, IProjectDetailViewModel
     {
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
@@ -18,7 +18,7 @@ namespace EnvDT.UI.ViewModel
         private ProjectWrapper _project;
         private bool _hasChanges;
 
-        public ProjectEditViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
+        public ProjectDetailViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
         {
             _projectRepository = projectRepository;

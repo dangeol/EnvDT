@@ -26,7 +26,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<MainViewModelDesignTime>().AsSelf();
             builder.RegisterType<ProjectMainViewModel>().As<IProjectMainViewModel>();
             builder.RegisterType<ProjectItemViewModel>().AsSelf();
-            builder.RegisterType<ProjectEditViewModel>().As<IProjectEditViewModel>();
+            builder.RegisterType<ProjectDetailViewModel>().As<IProjectDetailViewModel>();
             builder.RegisterType<LabReportMainViewModel>().As<ILabReportMainViewModel>();
 
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();

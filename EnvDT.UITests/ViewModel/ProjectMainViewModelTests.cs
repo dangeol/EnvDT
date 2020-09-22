@@ -17,24 +17,26 @@ namespace EnvDT.UITests.ViewModel
     public class ProjectMainViewModelTests
     {
         private ProjectMainViewModel _viewModel;
-        private Mock<IProjectEditViewModel> _projectEditViewModelMock;
+        private Mock<IProjectDetailViewModel> _projectDetailViewModelMock;
 
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
-        private OpenProjectEditViewEvent _openProjectEditViewEvent;
+        private OpenDetailViewEvent _openDetailViewEvent;
         private ProjectSavedEvent _projectSavedEvent;
         private ProjectDeletedEvent _projectDeletedEvent;
         private Project _project;
+        private string _detailViewModelName;
 
         public ProjectMainViewModelTests()
         {
-            _openProjectEditViewEvent = new OpenProjectEditViewEvent();
+            _openDetailViewEvent = new OpenDetailViewEvent();
             _projectSavedEvent = new ProjectSavedEvent();
             _projectDeletedEvent = new ProjectDeletedEvent();
             _project = new Project();
+            _detailViewModelName = "ProjectDetailViewModel";
             _eventAggregatorMock = new Mock<IEventAggregator>();
-            _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
-                .Returns(_openProjectEditViewEvent);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
+                .Returns(_openDetailViewEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectDeletedEvent>())
@@ -60,22 +62,22 @@ namespace EnvDT.UITests.ViewModel
             _viewModel = new ProjectMainViewModel(
                 projectRepositoryMock.Object,
                 _eventAggregatorMock.Object,
-                CreateProjectEditViewModel,
+                CreateProjectDetailViewModel,
                 _messageDialogServiceMock.Object);
         }
 
-        private IProjectEditViewModel CreateProjectEditViewModel()
+        private IProjectDetailViewModel CreateProjectDetailViewModel()
         {
-            var projectEditViewModelMock = new Mock<IProjectEditViewModel>();
-            projectEditViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
+            var projectDetailViewModelMock = new Mock<IProjectDetailViewModel>();
+            projectDetailViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
                 .Callback<Guid?>(projectId =>
                 {
                     _project.ProjectId = projectId.Value;
-                    projectEditViewModelMock.Setup(vm => vm.Project)
+                    projectDetailViewModelMock.Setup(vm => vm.Project)
                     .Returns(new ProjectWrapper(_project));
                 });
-            _projectEditViewModelMock = projectEditViewModelMock;
-            return projectEditViewModelMock.Object;
+            _projectDetailViewModelMock = projectDetailViewModelMock;
+            return projectDetailViewModelMock.Object;
         }
 
         [Fact]
@@ -103,45 +105,55 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldLoadProjectEditViewModel()
+        public void ShouldLoadProjectDetailViewModel()
         {
             var projectId = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
-            _openProjectEditViewEvent.Publish(projectId);
+            _openDetailViewEvent.Publish(
+            new OpenDetailViewEventArgs
+            {
+                Id = projectId,
+                ViewModelName = _detailViewModelName
+            });
 
-            Assert.NotNull(_viewModel.ProjectEditViewModel);
-            var projectEditVm = _viewModel.ProjectEditViewModel;
-            Assert.Equal(projectEditVm, _viewModel.ProjectEditViewModel);
-            _projectEditViewModelMock.Verify(vm => vm.Load(projectId), Times.Once);
+            Assert.NotNull(_viewModel.DetailViewModel);
+            var projectDetailVm = _viewModel.DetailViewModel;
+            Assert.Equal(projectDetailVm, _viewModel.DetailViewModel);
+            _projectDetailViewModelMock.Verify(vm => vm.Load(projectId), Times.Once);
         }
 
         [Fact]
-        public void ShouldLoadProjectEditViewModelAndLoadItWithIdNull()
+        public void ShouldLoadProjectDetailViewModelAndLoadItWithIdNull()
         {
             _viewModel.AddProjectCommand.Execute(null);
 
-            Assert.NotNull(_viewModel.ProjectEditViewModel);
-            var projectEditVm = _viewModel.ProjectEditViewModel;
-            Assert.Equal(projectEditVm, _viewModel.ProjectEditViewModel);
-            _projectEditViewModelMock.Verify(vm => vm.Load(null), Times.Once);
+            Assert.NotNull(_viewModel.DetailViewModel);
+            var projectDetailVm = _viewModel.DetailViewModel;
+            Assert.Equal(projectDetailVm, _viewModel.DetailViewModel);
+            _projectDetailViewModelMock.Verify(vm => vm.Load(null), Times.Once);
         }
 
         [Fact]
-        public void ShouldEnableProjectEditViewWhenProjectSelected()
+        public void ShouldEnableProjectDetailViewWhenProjectSelected()
         {
             var projectId = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
-            _openProjectEditViewEvent.Publish(projectId);
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = projectId,
+                    ViewModelName = _detailViewModelName
+                });
 
-            Assert.True(_viewModel.IsProjectEditViewEnabled);
+            Assert.True(_viewModel.IsProjectDetailViewEnabled);
         }
 
         [Fact]
         public void ShouldRaisePropertyChangedEventForSelectedProject()
         {
-            var projectEditVmMock = new Mock<IProjectEditViewModel>();
+            var projectDetailVmMock = new Mock<IProjectDetailViewModel>();
             var fired = _viewModel.IsPropertyChangedFired(() =>
             {
-                _viewModel.ProjectEditViewModel = projectEditVmMock.Object;
-            }, nameof(_viewModel.ProjectEditViewModel));
+                _viewModel.DetailViewModel = projectDetailVmMock.Object;
+            }, nameof(_viewModel.DetailViewModel));
 
             Assert.True(fired);
         }
@@ -192,9 +204,9 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.Equal(3, _viewModel.Projects.Count);
 
-            var addedItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
-            Assert.NotNull(addedItem);
-            Assert.Equal("8888 New Project", addedItem.DisplayMember);
+            var addDetailem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
+            Assert.NotNull(addDetailem);
+            Assert.Equal("8888 New Project", addDetailem.DisplayMember);
         }
 
         [Fact]
@@ -208,42 +220,63 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.Single(_viewModel.Projects);
 
-            var deletedItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == existingProjectId);
-            Assert.Null(deletedItem);
+            var deletDetailem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == existingProjectId);
+            Assert.Null(deletDetailem);
         }
 
         [Fact]
-        public void ShouldRemoveProjectEditViewModelOnProjectDeletedEvent()
+        public void ShouldRemoveProjectDetailViewModelOnProjectDeletedEvent()
         {
             var deletedProjectId = Guid.Parse("8abbae81-ad7e-4453-8546-1278b625c50f");
-            _openProjectEditViewEvent.Publish(Guid.Parse("d24af541-2cda-4580-bbb1-675b41f16dea"));
-            _openProjectEditViewEvent.Publish(Guid.Parse("2f9f2fa5-9db0-4aae-ba28-113e282e65c5"));
-            _openProjectEditViewEvent.Publish(deletedProjectId);
+            _openDetailViewEvent.Publish(
+            new OpenDetailViewEventArgs
+            {
+                Id = Guid.Parse("d24af541-2cda-4580-bbb1-675b41f16dea"),
+                ViewModelName = _detailViewModelName
+            });
+            _openDetailViewEvent.Publish(
+            new OpenDetailViewEventArgs
+            {
+                Id = Guid.Parse("2f9f2fa5-9db0-4aae-ba28-113e282e65c5"),
+                ViewModelName = _detailViewModelName
+            });
 
             _projectDeletedEvent.Publish(deletedProjectId);
 
-            Assert.Null(_viewModel.ProjectEditViewModel.Project);
-            Assert.False(_viewModel.IsProjectEditViewEnabled);
+
+            //The next line should rather test DetailViewModel object of the viewmodel, to be checked
+            Assert.Null(_projectDetailViewModelMock.Object.Project);
+            Assert.False(_viewModel.IsProjectDetailViewEnabled);
         }
 
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
-        public void ShouldNotLoadNewProjectEditViewModelWhenUnsavedChangesLeft(
+        public void ShouldNotLoadNewProjectDetailViewModelWhenUnsavedChangesLeft(
             MessageDialogResult result, int projectViewLoaded)
         {    
             _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
             var projectId1 = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
-            _openProjectEditViewEvent.Publish(projectId1);
+            _openDetailViewEvent.Publish(
+            new OpenDetailViewEventArgs
+            {
+                Id = projectId1,
+                ViewModelName = _detailViewModelName
+            });
 
-            _projectEditViewModelMock.Setup(vm => vm.HasChanges).Returns(true);
+            _projectDetailViewModelMock.Setup(vm => vm.HasChanges).Returns(true);
 
             var projectId2 = new Guid("aa4ec543-065e-41c5-8324-ccb39d071d0b");
-            _openProjectEditViewEvent.Publish(projectId2);
+            _openDetailViewEvent.Publish(
+            new OpenDetailViewEventArgs
+            {
+                Id = projectId2,
+                ViewModelName = _detailViewModelName
+            });
 
-            _projectEditViewModelMock.Verify(vm => vm.Load(projectId2), Times.Exactly(projectViewLoaded));
+            _projectDetailViewModelMock.Verify(vm => vm.Load(projectId2), Times.Exactly(projectViewLoaded));
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }

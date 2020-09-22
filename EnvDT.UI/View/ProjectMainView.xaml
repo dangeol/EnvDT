@@ -23,7 +23,7 @@
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsProjectEditViewEnabled}">
-            <local:ProjectEditView DataContext="{Binding ProjectEditViewModel}" />
+            <local:ProjectDetailView DataContext="{Binding DetailViewModel}" />
         </StackPanel>
     </Grid>
 </UserControl>

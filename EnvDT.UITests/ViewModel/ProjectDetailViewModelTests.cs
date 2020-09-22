@@ -10,17 +10,17 @@ using Xunit;
 
 namespace EnvDT.UITests.ViewModel
 {
-    public class ProjectEditViewModelTests
+    public class ProjectDetailViewModelTests
     {
         private Guid _projectId = new Guid("77ec605f-3909-471f-a866-a2c4759bf5a0");
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
-        private ProjectEditViewModel _viewModel;
+        private ProjectDetailViewModel _viewModel;
         private Mock<ProjectSavedEvent> _projectSavedEventMock;
         private Mock<ProjectDeletedEvent> _projectDeletedEventMock;
 
-        public ProjectEditViewModelTests()
+        public ProjectDetailViewModelTests()
         {
             _projectSavedEventMock = new Mock<ProjectSavedEvent>();
             _projectDeletedEventMock = new Mock<ProjectDeletedEvent>();
@@ -36,7 +36,7 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
-            _viewModel = new ProjectEditViewModel(_projectRepositoryMock.Object, 
+            _viewModel = new ProjectDetailViewModel(_projectRepositoryMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object);
         }
 

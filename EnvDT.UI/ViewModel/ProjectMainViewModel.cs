@@ -17,19 +17,19 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
-        private Func<IProjectEditViewModel> _projectEditVmCreator;
+        private Func<IProjectDetailViewModel> _projectEditVmCreator;
         private bool _isProjectEditViewEnabled = false;
-        private IProjectEditViewModel _projectEditViewModel;
+        private IDetailViewModel _detailViewModel;
         private ProjectItemViewModel _selectedProject;
 
         public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, 
-            Func<IProjectEditViewModel> projectEditVmCreator, IMessageDialogService messageDialogService)
+            Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
-            _projectEditVmCreator = projectEditVmCreator;
+            _projectEditVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenProjectEditViewEvent>().Subscribe(OnOpenProjectEditView);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
             _eventAggregator.GetEvent<ProjectSavedEvent>().Subscribe(OnProjectSaved);
             _eventAggregator.GetEvent<ProjectDeletedEvent>().Subscribe(OnProjectDeleted);
             Projects = new ObservableCollection<ProjectItemViewModel>();
@@ -41,7 +41,7 @@ namespace EnvDT.UI.ViewModel
 
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
 
-        public bool IsProjectEditViewEnabled 
+        public bool IsProjectDetailViewEnabled 
         {
             get { return _isProjectEditViewEnabled; }
             set
@@ -51,12 +51,12 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public IProjectEditViewModel ProjectEditViewModel
+        public IDetailViewModel DetailViewModel
         {
-            get { return _projectEditViewModel; }
+            get { return _detailViewModel; }
             set
             {
-                _projectEditViewModel = value;
+                _detailViewModel = value;
                 OnPropertyChanged();
             }
         }
@@ -70,8 +70,13 @@ namespace EnvDT.UI.ViewModel
                 OnPropertyChanged();
                 if (_selectedProject != null)
                 {
-                    _eventAggregator.GetEvent<OpenProjectEditViewEvent>()
-                        .Publish(_selectedProject.LookupItemId);
+                    _eventAggregator.GetEvent<OpenDetailViewEvent>()
+                        .Publish(
+                            new OpenDetailViewEventArgs
+                            {
+                                Id = _selectedProject.LookupItemId,
+                                ViewModelName = nameof(ProjectItemViewModel)
+                            });
                 }
             }
         }
@@ -82,23 +87,25 @@ namespace EnvDT.UI.ViewModel
             foreach (var project in _projectRepository.GetAllProjects())
             {
                 Projects.Add(new ProjectItemViewModel(
-                    project.LookupItemId, project.DisplayMember, _eventAggregator));
+                    project.LookupItemId, project.DisplayMember, 
+                    nameof(ProjectDetailViewModel),
+                    _eventAggregator));
             }
         }
 
         private void OnAddProjectExecute()
         {
-            CreateAndLoadProjectEditViewModel(null);
+            CreateAndLoadProjectDetailViewModel(null);
         }
 
-        private void OnOpenProjectEditView(Guid projectId)
+        private void OnOpenDetailView(OpenDetailViewEventArgs args)
         {
-            CreateAndLoadProjectEditViewModel(projectId);
+            CreateAndLoadProjectDetailViewModel(args);
         }
 
-        private void CreateAndLoadProjectEditViewModel(Guid? projectId)
+        private void CreateAndLoadProjectDetailViewModel(OpenDetailViewEventArgs args)
         {
-            if (ProjectEditViewModel != null && ProjectEditViewModel.HasChanges)
+            if (DetailViewModel != null && DetailViewModel.HasChanges)
             { 
                 var result = _messageDialogService.ShowYesNoDialog("Question",
                     $"You've made changes. Navigate away?");
@@ -107,9 +114,26 @@ namespace EnvDT.UI.ViewModel
                     return;
                 }
             }
-            ProjectEditViewModel = _projectEditVmCreator();
-            ProjectEditViewModel.Load(projectId);
-            IsProjectEditViewEnabled = true;
+
+            if (args != null)
+            { 
+                switch (args.ViewModelName)
+                {
+                    case nameof(ProjectItemViewModel):
+                        DetailViewModel = _projectEditVmCreator();
+                        break;
+                    case nameof(ProjectDetailViewModel):
+                        DetailViewModel = _projectEditVmCreator();
+                        break;
+                }
+                DetailViewModel.Load(args.Id);
+            }
+            else
+            {
+                DetailViewModel = _projectEditVmCreator();
+                DetailViewModel.Load(null);
+            }
+            IsProjectDetailViewEnabled = true;
         }
 
         private void OnProjectSaved(Project project)
@@ -122,8 +146,9 @@ namespace EnvDT.UI.ViewModel
             }
             else
             {
-                projectItem = new ProjectItemViewModel(project.ProjectId,
-                    displayMember, _eventAggregator);
+                projectItem = new ProjectItemViewModel(project.ProjectId, displayMember, 
+                    nameof(ProjectDetailViewModel),
+                    _eventAggregator);
                 Projects.Add(projectItem);
             }
         }
@@ -131,8 +156,8 @@ namespace EnvDT.UI.ViewModel
         private void OnProjectDeleted(Guid projectId)
         {
             var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == projectId);
-            CreateAndLoadProjectEditViewModel(null);
-            IsProjectEditViewEnabled = false;
+            CreateAndLoadProjectDetailViewModel(null);
+            IsProjectDetailViewEnabled = false;
             if (projectItem != null)
             {
                 Projects.Remove(projectItem);

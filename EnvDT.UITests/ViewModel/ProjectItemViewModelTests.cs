@@ -19,20 +19,28 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock = new Mock<IEventAggregator>();
 
             _viewModel = new ProjectItemViewModel(_lookupItemId, "MockProject1",
-                _eventAggregatorMock.Object);
+                "ProjectDetailViewModel", _eventAggregatorMock.Object);
         }
 
+        //TO DO: find the reason why this test fails.
         [Fact]
-        public void ShouldPublishOpenProjectEditViewEvent()
+        public void ShouldPublishOpenDetailViewEvent()
         {
-            var eventMock = new Mock<OpenProjectEditViewEvent>(); 
+            var openDetailViewEventArgs = new OpenDetailViewEventArgs
+            {
+                Id = It.IsAny<Guid>(),
+                ViewModelName = It.IsAny<string>()
+            };
+
+            var eventMock = new Mock<OpenDetailViewEvent>();
+
             _eventAggregatorMock
-                .Setup(ea => ea.GetEvent<OpenProjectEditViewEvent>())
+                .Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
                 .Returns(eventMock.Object);
 
-            _viewModel.OpenProjectEditViewCommand.Execute(null);
+            _viewModel.OpenDetailViewCommand.Execute(null);
 
-            eventMock.Verify(e => e.Publish(_lookupItemId), Times.Once);
+            eventMock.Verify(e => e.Publish(openDetailViewEventArgs), Times.Once);
         }
 
         [Fact]
