@@ -229,18 +229,16 @@ namespace EnvDT.UITests.ViewModel
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
-        public void ShouldNotLoadNewProjectWhenUnsavedChangesLeft(
+        public void ShouldNotLoadNewProjectEditViewModelWhenUnsavedChangesLeft(
             MessageDialogResult result, int projectViewLoaded)
         {    
-            _project.ProjectName = "unchanged";
-
             _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
             var projectId1 = new Guid("891d2d54-e1ad-4431-ab22-8e0899f08a14");
             _openProjectEditViewEvent.Publish(projectId1);
 
-            _projectEditViewModelMock.Object.Project.ProjectName = "changed";
+            _projectEditViewModelMock.Setup(vm => vm.HasChanges).Returns(true);
 
             var projectId2 = new Guid("aa4ec543-065e-41c5-8324-ccb39d071d0b");
             _openProjectEditViewEvent.Publish(projectId2);

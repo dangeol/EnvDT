@@ -26,7 +26,8 @@ namespace EnvDT.UITests.ViewModel
             _projectDeletedEventMock = new Mock<ProjectDeletedEvent>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
             _projectRepositoryMock.Setup(pr => pr.GetProjectById(_projectId))
-                .Returns(new Model.Entity.Project { ProjectId = _projectId, ProjectNumber = "012345" });
+                .Returns(new Model.Entity.Project { ProjectId = _projectId, 
+                    ProjectNumber = "012345", ProjectName = "name" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<ProjectSavedEvent>())
                 .Returns(_projectSavedEventMock.Object);
@@ -82,7 +83,8 @@ namespace EnvDT.UITests.ViewModel
         public void ShouldEnableSaveProjectCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
-            _viewModel.Project.ProjectNumber = "Changed";
+            //_viewModel.Project.ProjectNumber = "Changed";
+            _viewModel.HasChanges = true;
 
             Assert.True(_viewModel.SaveProjectCommand.CanExecute(null));
         }
@@ -120,7 +122,7 @@ namespace EnvDT.UITests.ViewModel
             var fired = false;
             _viewModel.Project.ProjectNumber = "Changed";
             _viewModel.DeleteProjectCommand.CanExecuteChanged += (s, e) => fired = true;
-            _viewModel.Project.AcceptChanges();
+            _viewModel.HasChanges = true;
             Assert.True(fired);
         }   
         

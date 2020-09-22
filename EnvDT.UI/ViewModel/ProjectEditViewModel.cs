@@ -123,7 +123,8 @@ namespace EnvDT.UI.ViewModel
 
         private bool OnDeleteCanExecute()
         {
-            return Project != null && Project.ProjectId != Guid.Empty;
+            return Project != null && Project.ProjectId != Guid.Empty 
+                && _projectRepository.GetProjectById(Project.ProjectId) != null;
         }
 
         private Project CreateNewProject()

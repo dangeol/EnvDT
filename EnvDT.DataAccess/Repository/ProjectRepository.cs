@@ -27,7 +27,7 @@ namespace EnvDT.DataAccess.Repository
 
         public Project GetProjectById(Guid projectId)
         {
-            return _context.Projects.Single(p => p.ProjectId == projectId);
+            return _context.Projects.FirstOrDefault(p => p.ProjectId == projectId);
         }
 
         public Project GetFirstProject()
