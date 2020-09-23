@@ -1,35 +1,27 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
-using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ProjectDetailViewModel : ViewModelBase, IProjectDetailViewModel
+    public class ProjectDetailViewModel : DetailViewModelBase, IProjectDetailViewModel
     {
         private IProjectRepository _projectRepository;
-        private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private ProjectWrapper _project;
         private bool _hasChanges;
 
         public ProjectDetailViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
+            :base(eventAggregator)
         {
             _projectRepository = projectRepository;
-            _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            SaveProjectCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
-            DeleteProjectCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
         }
-
-        public ICommand SaveProjectCommand { get; private set; }
-        public ICommand DeleteProjectCommand { get; private set; }
 
         public ProjectWrapper Project
         {
@@ -41,22 +33,7 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public bool HasChanges
-        {
-            get { return _hasChanges; }
-            set 
-            { 
-                if (_hasChanges != value)
-                { 
-                    _hasChanges = value;
-                    OnPropertyChanged();
-                    ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
-                }
-            }
-            
-        }
-
-        public void Load(Guid? projectId)
+        public override void Load(Guid? projectId)
         {
             var project = projectId.HasValue
                 ? _projectRepository.GetById(projectId.Value)
@@ -79,8 +56,8 @@ namespace EnvDT.UI.ViewModel
 
         private void InvalidateCommands()
         {
-            ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
-            ((DelegateCommand)DeleteProjectCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
 
             Project.PropertyChanged += (s, e) =>
             {
@@ -90,50 +67,37 @@ namespace EnvDT.UI.ViewModel
                 }
                 if (e.PropertyName == nameof(Project.HasErrors))
                 {
-                    ((DelegateCommand)SaveProjectCommand).RaiseCanExecuteChanged();
+                    ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
             };
         }
 
-        private void OnSaveExecute()
+        protected override void OnSaveExecute()
         {
             _projectRepository.Save();
             HasChanges = _projectRepository.HasChanges();
-            _eventAggregator.GetEvent<DetailSavedEvent>()
-                .Publish(
-                new DetailSavedEventArgs
-                    {    
-                        Id = Project.ProjectId,
-                        DisplayMember = $"{Project.ProjectNumber} {Project.ProjectName}",
-                        ViewModelName = nameof(ProjectDetailViewModel)
-                    }
-                );
+            RaiseDetailSavedEventd(Project.ProjectId,
+                $"{Project.ProjectNumber} {Project.ProjectName}");
         }
 
-        private bool OnSaveCanExecute()
+        protected override bool OnSaveCanExecute()
         {
             return Project != null && !Project.HasErrors && HasChanges;
         }
 
-        private void OnDeleteExecute()
+        protected override void OnDeleteExecute()
         {
             var result = _messageDialogService.ShowYesNoDialog("Delete Project",
                 $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
             if (result == MessageDialogResult.Yes)
             {
-                _eventAggregator.GetEvent<DetailDeletedEvent>()
-                    .Publish(
-                        new DetailDeletedEventArgs
-                        {
-                            Id = Project.Model.ProjectId,
-                            ViewModelName = nameof(ProjectDetailViewModel)
-                        });
+                RaiseDetailDeletedEvent(Project.Model.ProjectId);
                 _projectRepository.Delete(Project.Model);
                 _projectRepository.Save();
             }
         }
 
-        private bool OnDeleteCanExecute()
+        protected override bool OnDeleteCanExecute()
         {
             return Project != null && Project.ProjectId != Guid.Empty 
                 && _projectRepository.GetById(Project.ProjectId) != null;

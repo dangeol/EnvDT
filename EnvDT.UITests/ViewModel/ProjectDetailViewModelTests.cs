@@ -62,107 +62,107 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldDisableSaveProjectCommandWhenProjectIsLoaded()
+        public void ShouldDisableSaveCommandWhenProjectIsLoaded()
         {
             _viewModel.Load(_projectId);
 
-            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
+            Assert.False(_viewModel.SaveCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldDisableSaveProjectCommandWhenProjectHasValidationErrors()
+        public void ShouldDisableSaveCommandWhenProjectHasValidationErrors()
         {
             _viewModel.Load(_projectId);
 
             _viewModel.Project.ProjectName = "";
 
-            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
+            Assert.False(_viewModel.SaveCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldEnableSaveProjectCommandWhenProjectIsChanged()
+        public void ShouldEnableSaveCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
             //_viewModel.Project.ProjectNumber = "Changed";
             _viewModel.HasChanges = true;
 
-            Assert.True(_viewModel.SaveProjectCommand.CanExecute(null));
+            Assert.True(_viewModel.SaveCommand.CanExecute(null));
         }
 
         [Fact]
-        public void ShouldDisableSaveProjectCommandWithoutLoad()
+        public void ShouldDisableSaveCommandWithoutLoad()
         {
-            Assert.False(_viewModel.SaveProjectCommand.CanExecute(null));
+            Assert.False(_viewModel.SaveCommand.CanExecute(null));
         }
 
         /* TO DO
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForSaveProjectCommandWhenProjectIsChanged()
+        public void ShouldRaiseCanExecuteChangedForSaveCommandWhenProjectIsChanged()
         {
             _viewModel.Load(_projectId);
             var fired = false;
-            _viewModel.SaveProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.SaveCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Project.ProjectNumber = "Changed";
             Assert.True(fired);
         }
 
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForSaveProjectCommandAfterLoad()
+        public void ShouldRaiseCanExecuteChangedForSaveCommandAfterLoad()
         {
             var fired = false;
-            _viewModel.SaveProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.SaveCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Load(_projectId);
             Assert.True(fired);
         }
 
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForDeleteProjectCommandWhenAcceptingChanges()
+        public void ShouldRaiseCanExecuteChangedForDeleteCommandWhenAcceptingChanges()
         {
             _viewModel.Load(_projectId);
             var fired = false;
             _viewModel.Project.ProjectNumber = "Changed";
-            _viewModel.DeleteProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.DeleteCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.HasChanges = true;
             Assert.True(fired);
         }   
         
         [Fact]
-        public void ShouldRaiseCanExecuteChangedForDeleteProjectCommandAfterLoad()
+        public void ShouldRaiseCanExecuteChangedForDeleteCommandAfterLoad()
         {
             var fired = false;
-            _viewModel.DeleteProjectCommand.CanExecuteChanged += (s, e) => fired = true;
+            _viewModel.DeleteCommand.CanExecuteChanged += (s, e) => fired = true;
             _viewModel.Load(_projectId);
             Assert.True(fired);
         }
         */
 
         [Fact]
-        public void ShouldCallSaveMethodOfProjectRepositoryWhenSaveProjectCommandIsExecuted()
+        public void ShouldCallSaveMethodOfProjectRepositoryWhenSaveCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveProjectCommand.Execute(null);
+            _viewModel.SaveCommand.Execute(null);
             _projectRepositoryMock.Verify(pr => pr.Save(), Times.Once);
         }
 
         [Fact]
-        public void ShouldAcceptChangesWhenSaveProjectCommandIsExecuted()
+        public void ShouldAcceptChangesWhenSaveCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveProjectCommand.Execute(null);
+            _viewModel.SaveCommand.Execute(null);
             Assert.False(_viewModel.HasChanges);
         }
 
         [Fact]
-        public void ShouldPublishProjectSavedEventWhenSaveProjectCommandIsExecuted()
+        public void ShouldPublishProjectSavedEventWhenSaveCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
 
-            _viewModel.SaveProjectCommand.Execute(null);
+            _viewModel.SaveCommand.Execute(null);
 
             _projectSavedEventMock.Verify(e => e.Publish(It.IsAny<DetailSavedEventArgs>()), Times.Once);
         }
@@ -187,7 +187,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.Load(_projectId);
 
-            Assert.True(_viewModel.DeleteProjectCommand.CanExecute(null));
+            Assert.True(_viewModel.DeleteCommand.CanExecute(null));
         }
 
         [Fact]
@@ -195,19 +195,19 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.Load(null);
 
-            Assert.False(_viewModel.DeleteProjectCommand.CanExecute(null));
+            Assert.False(_viewModel.DeleteCommand.CanExecute(null));
         }
 
         [Fact]
         public void ShouldDisableDeleteCommandWithoudLoad()
         {
-            Assert.False(_viewModel.DeleteProjectCommand.CanExecute(null));
+            Assert.False(_viewModel.DeleteCommand.CanExecute(null));
         }
 
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
-        public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteProjectCommandIsExecuted(
+        public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteCommandIsExecuted(
             MessageDialogResult result, int expectedDeleteProjectCalls)
         {
             _viewModel.Load(_projectId);
@@ -215,7 +215,7 @@ namespace EnvDT.UITests.ViewModel
             _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
-            _viewModel.DeleteProjectCommand.Execute(null);
+            _viewModel.DeleteCommand.Execute(null);
 
             _projectRepositoryMock.Verify(pr => pr.Delete(_viewModel.Project.Model), 
                 Times.Exactly(expectedDeleteProjectCalls));
@@ -226,7 +226,7 @@ namespace EnvDT.UITests.ViewModel
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
-        public void ShouldPublishProjectDeletedEventWhenDeleteProjectCommandIsExecuted(
+        public void ShouldPublishProjectDeletedEventWhenDeleteCommandIsExecuted(
             MessageDialogResult result, int expectedPublishCalls)
         {
             _viewModel.Load(_projectId);
@@ -234,7 +234,7 @@ namespace EnvDT.UITests.ViewModel
             _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
-            _viewModel.DeleteProjectCommand.Execute(null);
+            _viewModel.DeleteCommand.Execute(null);
 
             _projectDeletedEventMock.Verify(e => e.Publish(It.IsAny<DetailDeletedEventArgs>()), 
                 Times.Exactly(expectedPublishCalls));
@@ -252,7 +252,7 @@ namespace EnvDT.UITests.ViewModel
             p.ProjectClient = "Client";
             p.ProjectName = "ProjectName";
 
-            _viewModel.DeleteProjectCommand.Execute(null);
+            _viewModel.DeleteCommand.Execute(null);
 
             _messageDialogServiceMock.Verify(d => d.ShowYesNoDialog("Delete Project",
                 $"Do you really want to delete the friend '{p.ProjectClient} {p.ProjectName}'?"),
