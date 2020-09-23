@@ -59,7 +59,7 @@ namespace EnvDT.UI.ViewModel
         public void Load(Guid? projectId)
         {
             var project = projectId.HasValue
-                ? _projectRepository.GetProjectById(projectId.Value)
+                ? _projectRepository.GetById(projectId.Value)
                 : CreateNewProject();
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += Project_PropertyChanged;
@@ -128,7 +128,7 @@ namespace EnvDT.UI.ViewModel
                             Id = Project.Model.ProjectId,
                             ViewModelName = nameof(ProjectDetailViewModel)
                         });
-                _projectRepository.DeleteProject(Project.Model.ProjectId);
+                _projectRepository.Delete(Project.Model);
                 _projectRepository.Save();
             }
         }
@@ -136,13 +136,13 @@ namespace EnvDT.UI.ViewModel
         private bool OnDeleteCanExecute()
         {
             return Project != null && Project.ProjectId != Guid.Empty 
-                && _projectRepository.GetProjectById(Project.ProjectId) != null;
+                && _projectRepository.GetById(Project.ProjectId) != null;
         }
 
         private Project CreateNewProject()
         {
             var project = new Project();
-            _projectRepository.CreateProject(project);
+            _projectRepository.Create(project);
             return project;
         }
     }

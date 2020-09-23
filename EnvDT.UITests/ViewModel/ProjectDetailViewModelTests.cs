@@ -25,7 +25,7 @@ namespace EnvDT.UITests.ViewModel
             _projectSavedEventMock = new Mock<DetailSavedEvent>();
             _projectDeletedEventMock = new Mock<DetailDeletedEvent>();
             _projectRepositoryMock = new Mock<IProjectRepository>();
-            _projectRepositoryMock.Setup(pr => pr.GetProjectById(_projectId))
+            _projectRepositoryMock.Setup(pr => pr.GetById(_projectId))
                 .Returns(new Model.Entity.Project { ProjectId = _projectId, 
                     ProjectNumber = "012345", ProjectName = "name" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
@@ -48,7 +48,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.NotNull(_viewModel.Project);
             Assert.Equal(_projectId, _viewModel.Project.ProjectId);
 
-            _projectRepositoryMock.Verify(pr => pr.GetProjectById(_projectId), Times.Once);
+            _projectRepositoryMock.Verify(pr => pr.GetById(_projectId), Times.Once);
         }
 
         [Fact]
@@ -179,7 +179,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal("", _viewModel.Project.ProjectName);
             Assert.Null(_viewModel.Project.ProjectAddress);
 
-            _projectRepositoryMock.Verify(pr => pr.GetProjectById(It.IsAny<Guid>()), Times.Never);
+            _projectRepositoryMock.Verify(pr => pr.GetById(It.IsAny<Guid>()), Times.Never);
         }
 
         [Fact]
@@ -217,7 +217,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.DeleteProjectCommand.Execute(null);
 
-            _projectRepositoryMock.Verify(pr => pr.DeleteProject(_projectId), 
+            _projectRepositoryMock.Verify(pr => pr.Delete(_viewModel.Project.Model), 
                 Times.Exactly(expectedDeleteProjectCalls));
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);

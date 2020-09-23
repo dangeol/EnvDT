@@ -6,18 +6,17 @@ using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
-    public class ProjectRepository : IProjectRepository
+    public class ProjectRepository : GenericRepository<Project,EnvDTDbContext>,
+        IProjectRepository
     {
-        private EnvDTDbContext _context;
-
         public ProjectRepository(EnvDTDbContext context)
+            :base(context)
         {
-            _context = context;
         }
 
         public IEnumerable<LookupItem> GetAllProjects()
         {
-            return _context.Projects.ToList()
+            return Context.Projects.ToList()
                 .Select(p => new LookupItem
                 {
                     LookupItemId = p.ProjectId,
@@ -25,42 +24,18 @@ namespace EnvDT.DataAccess.Repository
                 });
         }
 
-        public Project GetProjectById(Guid projectId)
+        public override Project GetById(Guid projectId)
         {
-            return _context.Projects.FirstOrDefault(p => p.ProjectId == projectId);
+            return Context.Projects.FirstOrDefault(p => p.ProjectId == projectId);
         }
 
-        public Project GetFirstProject()
+        public override Project GetFirst()
         {
-            return _context.Projects.First();
-        }
-
-        public void CreateProject(Project project)
-        {
-            _context.Projects.Add(project);
-        }
-
-        public void DeleteProject(Guid projectId)
-        {
-            var existing = _context.Projects.FirstOrDefault(p => p.ProjectId == projectId);
-            if (existing != null)
-            { 
-                _context.Projects.Remove(existing);
-            }   
+            return Context.Projects.First();
         }
 
         public void Dispose()
         {
-        }
-
-        public void Save()
-        {
-            _context.SaveChanges();
-        }
-
-        public bool HasChanges()
-        {
-            return _context.ChangeTracker.HasChanges();
         }
     }
 }

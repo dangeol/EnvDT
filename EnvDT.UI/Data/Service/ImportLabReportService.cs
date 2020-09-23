@@ -74,7 +74,7 @@ namespace EnvDT.UI.Data.Service
         {
             using (var ctx = _contextCreator())
             {
-                var projectId = _projectRepository.GetFirstProject().ProjectId;
+                var projectId = _projectRepository.GetFirst().ProjectId;
 
                 Guid laboratoryId = ctx.Laboratories
                     .Single(l => l.LaboratoryName == laboratoryName).LaboratoryId;
