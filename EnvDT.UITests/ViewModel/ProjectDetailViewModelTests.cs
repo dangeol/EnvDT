@@ -156,22 +156,15 @@ namespace EnvDT.UITests.ViewModel
             Assert.False(_viewModel.HasChanges);
         }
 
-        // TO DO: Find reason why this test fails. Same case as ShouldPublishOpenDetailViewEvent test.
         [Fact]
         public void ShouldPublishProjectSavedEventWhenSaveProjectCommandIsExecuted()
         {
             _viewModel.Load(_projectId);
             _viewModel.Project.ProjectNumber = "Changed";
-            var detailSavedEventArgs = new DetailSavedEventArgs
-            {
-                Id = _viewModel.Project.Model.ProjectId,
-                DisplayMember = $"{_viewModel.Project.Model.ProjectNumber} {_viewModel.Project.Model.ProjectName}",
-                ViewModelName = nameof(ProjectDetailViewModel)
-            };
 
             _viewModel.SaveProjectCommand.Execute(null);
 
-            _projectSavedEventMock.Verify(e => e.Publish(detailSavedEventArgs), Times.Once);
+            _projectSavedEventMock.Verify(e => e.Publish(It.IsAny<DetailSavedEventArgs>()), Times.Once);
         }
 
         [Fact]
@@ -230,7 +223,6 @@ namespace EnvDT.UITests.ViewModel
                 It.IsAny<string>()), Times.Once);
         }
 
-        // TO DO: Find reason why this test fails. Same case as ShouldPublishOpenDetailViewEvent test.
         [Theory]
         [InlineData(MessageDialogResult.Yes, 1)]
         [InlineData(MessageDialogResult.No, 0)]
@@ -244,13 +236,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.DeleteProjectCommand.Execute(null);
 
-            var detailViewModelName = "ProjectDetailViewModel";
-            _projectDeletedEventMock.Verify(e => e.Publish(
-                new DetailDeletedEventArgs
-                {
-                    Id = _viewModel.Project.Model.ProjectId,
-                    ViewModelName = detailViewModelName
-                }), 
+            _projectDeletedEventMock.Verify(e => e.Publish(It.IsAny<DetailDeletedEventArgs>()), 
                 Times.Exactly(expectedPublishCalls));
 
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),

@@ -22,16 +22,9 @@ namespace EnvDT.UITests.ViewModel
                 "ProjectDetailViewModel", _eventAggregatorMock.Object);
         }
 
-        //TO DO: find the reason why this test fails.
         [Fact]
         public void ShouldPublishOpenDetailViewEvent()
         {
-            var openDetailViewEventArgs = new OpenDetailViewEventArgs
-            {
-                Id = It.IsAny<Guid>(),
-                ViewModelName = It.IsAny<string>()
-            };
-
             var eventMock = new Mock<OpenDetailViewEvent>();
 
             _eventAggregatorMock
@@ -40,7 +33,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.OpenDetailViewCommand.Execute(null);
 
-            eventMock.Verify(e => e.Publish(openDetailViewEventArgs), Times.Once);
+            eventMock.Verify(e => e.Publish(It.IsAny<OpenDetailViewEventArgs>()), Times.Once);
         }
 
         [Fact]

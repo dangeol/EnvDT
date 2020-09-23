@@ -1,5 +1,4 @@
-﻿using EnvDT.Model.Entity;
-using EnvDT.Model.IRepository;
+﻿using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Event;
 using Prism.Commands;
@@ -7,6 +6,7 @@ using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -17,7 +17,7 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
-        private Func<IProjectDetailViewModel> _projectEditVmCreator;
+        private Func<IProjectDetailViewModel> _projectDetailVmCreator;
         private bool _isProjectEditViewEnabled = false;
         private IDetailViewModel _detailViewModel;
         private ProjectItemViewModel _selectedProject;
@@ -27,17 +27,17 @@ namespace EnvDT.UI.ViewModel
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
-            _projectEditVmCreator = projectDetailVmCreator;
+            _projectDetailVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<ProjectItemViewModel>();
-            AddProjectCommand = new DelegateCommand(OnAddProjectExecute);
+            CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
             LoadProjects();
         }
 
-        public ICommand AddProjectCommand { get; private set; }
+        public ICommand CreateNewDetailCommand { get; private set; }
 
         public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
 
@@ -75,7 +75,7 @@ namespace EnvDT.UI.ViewModel
                             new OpenDetailViewEventArgs
                             {
                                 Id = _selectedProject.LookupItemId,
-                                ViewModelName = nameof(ProjectItemViewModel)
+                                ViewModelName = nameof(ProjectDetailViewModel)
                             });
                 }
             }
@@ -93,9 +93,13 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        private void OnAddProjectExecute()
+        private void OnCreateNewDetailExecute(Type viewModelType)
         {
-            CreateAndLoadProjectDetailViewModel(null);
+            OnOpenDetailView(
+                new OpenDetailViewEventArgs
+                {
+                    ViewModelName = viewModelType.Name
+                });
         }
 
         private void OnOpenDetailView(OpenDetailViewEventArgs args)
@@ -115,24 +119,13 @@ namespace EnvDT.UI.ViewModel
                 }
             }
 
-            if (args != null)
-            { 
-                switch (args.ViewModelName)
-                {
-                    case nameof(ProjectItemViewModel):
-                        DetailViewModel = _projectEditVmCreator();
-                        break;
-                    case nameof(ProjectDetailViewModel):
-                        DetailViewModel = _projectEditVmCreator();
-                        break;
-                }
-                DetailViewModel.Load(args.Id);
-            }
-            else
+            switch (args.ViewModelName)
             {
-                DetailViewModel = _projectEditVmCreator();
-                DetailViewModel.Load(null);
+                case nameof(ProjectDetailViewModel):
+                    DetailViewModel = _projectDetailVmCreator();
+                    break;
             }
+            DetailViewModel.Load(args.Id);
             IsProjectDetailViewEnabled = true;
         }
 
@@ -170,8 +163,15 @@ namespace EnvDT.UI.ViewModel
                     {
                         Projects.Remove(projectItem);
                     }
+                    SetPropertyValueToNull(this);
                     break;
             }
-    }
+        }
+
+        private void SetPropertyValueToNull(object instance)
+        {
+            PropertyInfo prop = instance.GetType().GetProperty("DetailViewModel");
+            prop.SetValue(instance, null, null); //We need this overload for .NET < 4.5
+        }
     }
 }

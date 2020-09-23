@@ -21,9 +21,10 @@ namespace EnvDT.UITests.ViewModel
 
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
+        private Mock<IProjectRepository> _projectRepositoryMock;
         private OpenDetailViewEvent _openDetailViewEvent;
         private DetailSavedEvent _projectSavedEvent;
-        private DetailDeletedEvent _projectDeletedEvent;
+        private DetailDeletedEvent _detailDeletedEvent;
         private Project _project;
         private string _detailViewModelName;
 
@@ -31,7 +32,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _openDetailViewEvent = new OpenDetailViewEvent();
             _projectSavedEvent = new DetailSavedEvent();
-            _projectDeletedEvent = new DetailDeletedEvent();
+            _detailDeletedEvent = new DetailDeletedEvent();
             _project = new Project();
             _detailViewModelName = "ProjectDetailViewModel";
             _eventAggregatorMock = new Mock<IEventAggregator>();
@@ -40,12 +41,12 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailSavedEvent>())
                 .Returns(_projectSavedEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
-                .Returns(_projectDeletedEvent);
+                .Returns(_detailDeletedEvent);
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
-            var projectRepositoryMock = new Mock<IProjectRepository>();
-            projectRepositoryMock.Setup(pr => pr.GetAllProjects())
+            _projectRepositoryMock = new Mock<IProjectRepository>();
+            _projectRepositoryMock.Setup(pr => pr.GetAllProjects())
                 .Returns(new List<LookupItem>
                 {
                     new LookupItem
@@ -60,7 +61,7 @@ namespace EnvDT.UITests.ViewModel
                     }
                 });
             _viewModel = new ProjectMainViewModel(
-                projectRepositoryMock.Object,
+                _projectRepositoryMock.Object,
                 _eventAggregatorMock.Object,
                 CreateProjectDetailViewModel,
                 _messageDialogServiceMock.Object);
@@ -124,7 +125,8 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldLoadProjectDetailViewModelAndLoadItWithIdNull()
         {
-            _viewModel.AddProjectCommand.Execute(null);
+            Type type = typeof(ProjectDetailViewModel);
+            _viewModel.CreateNewDetailCommand.Execute(parameter: type);
 
             Assert.NotNull(_viewModel.DetailViewModel);
             var projectDetailVm = _viewModel.DetailViewModel;
@@ -220,7 +222,7 @@ namespace EnvDT.UITests.ViewModel
 
             var existingProjectId = _viewModel.Projects.First().LookupItemId;
 
-            _projectDeletedEvent.Publish(
+            _detailDeletedEvent.Publish(
             new DetailDeletedEventArgs
             {
                 Id = existingProjectId,
@@ -234,7 +236,7 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldRemoveProjectDetailViewModelOnProjectDeletedEvent()
+        public void ShouldRemoveDetailViewModelOnDeletedEvent()
         {
             var deletedProjectId = Guid.Parse("8abbae81-ad7e-4453-8546-1278b625c50f");
             _openDetailViewEvent.Publish(
@@ -250,16 +252,14 @@ namespace EnvDT.UITests.ViewModel
                 ViewModelName = _detailViewModelName
             });
 
-            _projectDeletedEvent.Publish(
+            _detailDeletedEvent.Publish(
             new DetailDeletedEventArgs
             {
                 Id = deletedProjectId,
                 ViewModelName = _detailViewModelName
             });
 
-
-            //The next line should rather test DetailViewModel object of the viewmodel, to be checked
-            Assert.Null(_projectDetailViewModelMock.Object.Project);
+            Assert.Null(_viewModel.DetailViewModel);
             Assert.False(_viewModel.IsProjectDetailViewEnabled);
         }
 
