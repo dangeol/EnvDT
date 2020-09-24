@@ -4,11 +4,11 @@ using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class LabReportMainViewModel : ViewModelBase, ILabReportMainViewModel
+    public class EvalViewModel : ViewModelBase, IEvalViewModel
     {
         private IOpenLabReportService _openLabReportService;
         private IEvalLabReportService _evalLabReportService;
-        public LabReportMainViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
+        public EvalViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
         {
             _openLabReportService = openLabReportService;
             _evalLabReportService = evalLabReportService;

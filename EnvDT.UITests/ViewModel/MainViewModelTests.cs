@@ -9,15 +9,15 @@ namespace EnvDT.UITests.ViewModel
     {
         private MainViewModel _viewModel;
         private ViewModelBase _viewModelBase;
-        private Mock<IProjectMainViewModel> _projectMainViewModelMock;
-        private Mock<ILabReportMainViewModel> _labReportMainViewModelMock;
+        private Mock<IProjectViewModel> _projectViewModelMock;
+        private Mock<IEvalViewModel> _labReportMainViewModelMock;
 
         public MainViewModelTests()
         {
             _viewModelBase = new ViewModelBase();
-            _projectMainViewModelMock = new Mock<IProjectMainViewModel>();
-            _labReportMainViewModelMock = new Mock<ILabReportMainViewModel>();
-            _viewModel = new MainViewModel(_projectMainViewModelMock.Object, _labReportMainViewModelMock.Object);
+            _projectViewModelMock = new Mock<IProjectViewModel>();
+            _labReportMainViewModelMock = new Mock<IEvalViewModel>();
+            _viewModel = new MainViewModel(_projectViewModelMock.Object, _labReportMainViewModelMock.Object);
         }
 
         [Fact]

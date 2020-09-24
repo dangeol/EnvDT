@@ -1,29 +1,25 @@
 ﻿using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
 using EnvDT.UI.Event;
-using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
-using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ProjectMainViewModel : ViewModelBase, IProjectMainViewModel
+    public class ProjectViewModel : NavViewModelBase, IProjectViewModel
     {
         private IProjectRepository _projectRepository;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
         private Func<IProjectDetailViewModel> _projectDetailVmCreator;
-        private bool _isProjectEditViewEnabled = false;
-        private IDetailViewModel _detailViewModel;
-        private ProjectItemViewModel _selectedProject;
 
-        public ProjectMainViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, 
+        public ProjectViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, 
             Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
+            : base(eventAggregator)
         {
             _projectRepository = projectRepository;
             _eventAggregator = eventAggregator;
@@ -32,77 +28,25 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
-            Projects = new ObservableCollection<ProjectItemViewModel>();
-            CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
-            LoadProjects();
+            Projects = new ObservableCollection<NavItemViewModel>();
+            LoadModels();
         }
 
-        public ICommand CreateNewDetailCommand { get; private set; }
+        public ObservableCollection<NavItemViewModel> Projects { get; private set; }
 
-        public ObservableCollection<ProjectItemViewModel> Projects { get; private set; }
-
-        public bool IsProjectDetailViewEnabled 
-        {
-            get { return _isProjectEditViewEnabled; }
-            set
-            {
-                _isProjectEditViewEnabled = value; 
-                OnPropertyChanged(); 
-            }
-        }
-
-        public IDetailViewModel DetailViewModel
-        {
-            get { return _detailViewModel; }
-            set
-            {
-                _detailViewModel = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ProjectItemViewModel SelectedProject
-        {
-            get { return _selectedProject; }
-            set
-            {
-                _selectedProject = value;
-                OnPropertyChanged();
-                if (_selectedProject != null)
-                {
-                    _eventAggregator.GetEvent<OpenDetailViewEvent>()
-                        .Publish(
-                            new OpenDetailViewEventArgs
-                            {
-                                Id = _selectedProject.LookupItemId,
-                                ViewModelName = nameof(ProjectDetailViewModel)
-                            });
-                }
-            }
-        }
-
-        public void LoadProjects()
+        public override void LoadModels()
         {
             Projects.Clear();
             foreach (var project in _projectRepository.GetAllProjects())
             {
-                Projects.Add(new ProjectItemViewModel(
+                Projects.Add(new NavItemViewModel(
                     project.LookupItemId, project.DisplayMember, 
                     nameof(ProjectDetailViewModel),
                     _eventAggregator));
             }
         }
 
-        private void OnCreateNewDetailExecute(Type viewModelType)
-        {
-            OnOpenDetailView(
-                new OpenDetailViewEventArgs
-                {
-                    ViewModelName = viewModelType.Name
-                });
-        }
-
-        private void OnOpenDetailView(OpenDetailViewEventArgs args)
+        protected override void OnOpenDetailView(OpenDetailViewEventArgs args)
         {
             CreateAndLoadProjectDetailViewModel(args);
         }
@@ -126,7 +70,7 @@ namespace EnvDT.UI.ViewModel
                     break;
             }
             DetailViewModel.Load(args.Id);
-            IsProjectDetailViewEnabled = true;
+            IsDetailViewEnabled = true;
         }
 
         private void OnDetailSaved(DetailSavedEventArgs args)
@@ -143,14 +87,14 @@ namespace EnvDT.UI.ViewModel
                     }
                     else
                     {
-                        projectItem = new ProjectItemViewModel(args.Id, displayMember, 
+                        projectItem = new NavItemViewModel(args.Id, displayMember, 
                             nameof(ProjectDetailViewModel),
                             _eventAggregator);
                         Projects.Add(projectItem);
                     }
                     break;
             }
-    }
+        }
 
         private void OnDetailDeleted(DetailDeletedEventArgs args)
         {
@@ -158,7 +102,7 @@ namespace EnvDT.UI.ViewModel
             {
                 case nameof(ProjectDetailViewModel):
                     var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == args.Id);
-                    IsProjectDetailViewEnabled = false;
+                    IsDetailViewEnabled = false;
                     if (projectItem != null)
                     {
                         Projects.Remove(projectItem);

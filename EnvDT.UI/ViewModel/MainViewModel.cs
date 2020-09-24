@@ -6,14 +6,14 @@ namespace EnvDT.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ViewModelBase _currentViewModel;
-        private IProjectMainViewModel _projectMainViewModel;
-        private ILabReportMainViewModel _labReportMainViewModel;
+        private IProjectViewModel _projectViewModel;
+        private IEvalViewModel _labReportMainViewModel;
 
-        public MainViewModel(IProjectMainViewModel projectMainViewModel, ILabReportMainViewModel labReportMainViewModel)
+        public MainViewModel(IProjectViewModel projectViewModel, IEvalViewModel labReportMainViewModel)
         {
             NavCommand = new DelegateCommand<string>(OnNavigationExecute);
 
-            _projectMainViewModel = projectMainViewModel;
+            _projectViewModel = projectViewModel;
             _labReportMainViewModel = labReportMainViewModel;
         }
 
@@ -34,7 +34,7 @@ namespace EnvDT.UI.ViewModel
             switch (destination)
             {
                 case "projects":
-                    CurrentViewModel = (ViewModelBase)_projectMainViewModel;
+                    CurrentViewModel = (ViewModelBase)_projectViewModel;
                     break;
                 case "labReports":
                 default:

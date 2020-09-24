@@ -11,14 +11,14 @@ namespace EnvDT.UITests.ViewModel
     public class ProjectItemViewModelTests
     {
         private Mock<IEventAggregator> _eventAggregatorMock;
-        private ProjectItemViewModel _viewModel;
+        private NavItemViewModel _viewModel;
         private Guid _lookupItemId = new Guid("d18949b1-076c-4da9-9f7e-7e10ce4553a0");
 
         public ProjectItemViewModelTests()
         {
             _eventAggregatorMock = new Mock<IEventAggregator>();
 
-            _viewModel = new ProjectItemViewModel(_lookupItemId, "MockProject1",
+            _viewModel = new NavItemViewModel(_lookupItemId, "MockProject1",
                 "ProjectDetailViewModel", _eventAggregatorMock.Object);
         }
 

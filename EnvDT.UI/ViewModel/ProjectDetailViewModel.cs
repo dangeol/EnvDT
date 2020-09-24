@@ -13,7 +13,6 @@ namespace EnvDT.UI.ViewModel
         private IProjectRepository _projectRepository;
         private IMessageDialogService _messageDialogService;
         private ProjectWrapper _project;
-        private bool _hasChanges;
 
         public ProjectDetailViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)

@@ -5,9 +5,9 @@ namespace EnvDT.UI.Wrapper
 {
     public class ModelWrapper<T> : NotifyDataErrorInfoBase
     {
-        public ModelWrapper(T project)
+        public ModelWrapper(T model)
         {
-            Model = project;
+            Model = model;
         }
 
         public T Model { get; }

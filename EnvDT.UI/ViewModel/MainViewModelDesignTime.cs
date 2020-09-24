@@ -6,8 +6,8 @@ namespace EnvDT.UI.ViewModel
     public class MainViewModelDesignTime : MainViewModel
     {
         public MainViewModelDesignTime()
-            : base(ContainerProvider.Container.Resolve<IProjectMainViewModel>(), 
-                  ContainerProvider.Container.Resolve<ILabReportMainViewModel>())
+            : base(ContainerProvider.Container.Resolve<IProjectViewModel>(), 
+                  ContainerProvider.Container.Resolve<IEvalViewModel>())
         {
         }
     }

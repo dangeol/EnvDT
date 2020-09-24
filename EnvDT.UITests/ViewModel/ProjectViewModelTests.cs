@@ -14,9 +14,9 @@ using Xunit;
 
 namespace EnvDT.UITests.ViewModel
 {
-    public class ProjectMainViewModelTests
+    public class ProjectViewModelTests
     {
-        private ProjectMainViewModel _viewModel;
+        private ProjectViewModel _viewModel;
         private Mock<IProjectDetailViewModel> _projectDetailViewModelMock;
 
         private Mock<IEventAggregator> _eventAggregatorMock;
@@ -28,7 +28,7 @@ namespace EnvDT.UITests.ViewModel
         private Project _project;
         private string _detailViewModelName;
 
-        public ProjectMainViewModelTests()
+        public ProjectViewModelTests()
         {
             _openDetailViewEvent = new OpenDetailViewEvent();
             _projectSavedEvent = new DetailSavedEvent();
@@ -60,7 +60,7 @@ namespace EnvDT.UITests.ViewModel
                         DisplayMember = "222.222 MockProject2"
                     }
                 });
-            _viewModel = new ProjectMainViewModel(
+            _viewModel = new ProjectViewModel(
                 _projectRepositoryMock.Object,
                 _eventAggregatorMock.Object,
                 CreateProjectDetailViewModel,
@@ -90,7 +90,7 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldLoadProjects()
         {
-            _viewModel.LoadProjects();
+            _viewModel.LoadModels();
 
             Assert.Equal(2, _viewModel.Projects.Count);
 
@@ -145,7 +145,7 @@ namespace EnvDT.UITests.ViewModel
                     ViewModelName = _detailViewModelName
                 });
 
-            Assert.True(_viewModel.IsProjectDetailViewEnabled);
+            Assert.True(_viewModel.IsDetailViewEnabled);
         }
 
         [Fact]
@@ -163,8 +163,8 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldLoadProjectsOnlyOnce()
         {
-            _viewModel.LoadProjects();
-            _viewModel.LoadProjects();
+            _viewModel.LoadModels();
+            _viewModel.LoadModels();
 
             Assert.Equal(2, _viewModel.Projects.Count);
         }
@@ -172,7 +172,7 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldUpdateProjectItemWhenProjectSaved()
         {
-            _viewModel.LoadProjects();
+            _viewModel.LoadModels();
 
             var projectItem = _viewModel.Projects.First();
 
@@ -194,7 +194,7 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldAddProjectItemWhenAddedProjectIsSaved()
         {
-            _viewModel.LoadProjects();
+            _viewModel.LoadModels();
 
             var newProjectId = new Guid("097e364a-5ef3-40a0-bde5-51caa26d7f48");
             var projectNumber = "8888";
@@ -218,7 +218,7 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldRemoveProjectItemWhenProjectIsDeleted()
         {
-            _viewModel.LoadProjects();
+            _viewModel.LoadModels();
 
             var existingProjectId = _viewModel.Projects.First().LookupItemId;
 
@@ -260,7 +260,7 @@ namespace EnvDT.UITests.ViewModel
             });
 
             Assert.Null(_viewModel.DetailViewModel);
-            Assert.False(_viewModel.IsProjectDetailViewEnabled);
+            Assert.False(_viewModel.IsDetailViewEnabled);
         }
 
         [Theory]

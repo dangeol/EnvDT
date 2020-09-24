@@ -6,13 +6,13 @@ using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ProjectItemViewModel : ViewModelBase
+    public class NavItemViewModel : ViewModelBase
     {
         private IEventAggregator _eventAggregator;
         private string _displayMember;
         private string _detailViewModelName;
 
-        public ProjectItemViewModel(Guid lookupItemId, string displayMember,
+        public NavItemViewModel(Guid lookupItemId, string displayMember,
             string detailViewModelName,
             IEventAggregator eventAggregator)
         {

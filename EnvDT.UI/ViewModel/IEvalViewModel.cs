@@ -2,7 +2,7 @@
 
 namespace EnvDT.UI.ViewModel
 {
-    public interface ILabReportMainViewModel
+    public interface IEvalViewModel
     {
         ICommand EvalLabReportCommand { get; }
         ICommand OpenLabReportCommand { get; }

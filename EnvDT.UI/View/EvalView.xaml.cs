@@ -2,9 +2,9 @@
 
 namespace EnvDT.UI.View
 {
-    public partial class ProjectMainView : UserControl
+    public partial class EvalView : UserControl
     {
-        public ProjectMainView()
+        public EvalView()
         {
             InitializeComponent();
         }

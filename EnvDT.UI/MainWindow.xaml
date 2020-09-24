@@ -3,16 +3,17 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:view="clr-namespace:EnvDT.UI.View" xmlns:local="clr-namespace:EnvDT.UI.ViewModel"
+        xmlns:view="clr-namespace:EnvDT.UI.View" 
+        xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
         Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:ProjectMainViewModel}">
-            <view:ProjectMainView />
+        <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
+            <view:ProjectView />
         </DataTemplate>
-        <DataTemplate DataType="{x:Type local:LabReportMainViewModel}">
-            <view:LabReportMainView />
+        <DataTemplate DataType="{x:Type viewModel:EvalViewModel}">
+            <view:EvalView />
         </DataTemplate>
     </Window.Resources>
     
