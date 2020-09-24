@@ -8,38 +8,38 @@
         mc:Ignorable="d"
         d:DataContext="{d:DesignInstance local:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
         Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
-    <Window.Resources>
-        <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
-            <view:ProjectView />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type viewModel:EvalViewModel}">
-            <view:EvalView />
-        </DataTemplate>
-    </Window.Resources>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+  <Window.Resources>
+    <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
+      <view:ProjectView />
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:EvalViewModel}">
+      <view:EvalView />
+    </DataTemplate>
+  </Window.Resources>
+  
+  <Grid>
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="200"/>
+      <ColumnDefinition />
+    </Grid.ColumnDefinitions>
 
-        <Grid x:Name="NavBar">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
-                <RowDefinition />
-            </Grid.RowDefinitions>
+    <Grid x:Name="NavBar">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="40"/>
+        <RowDefinition Height="40"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
 
-            <Button Content="Projects"
-                    Command="{Binding NavCommand}"
-                    CommandParameter="projects" />
-            <Button Content="LabReports"
-                    Command="{Binding NavCommand}"
-                    CommandParameter="labReports"
-                    Grid.Row="1" />                 
-        </Grid>
-        <Grid x:Name="MainContent" Grid.Column="1">
-            <ContentControl Content="{Binding CurrentViewModel}" />
-        </Grid>
+      <Button Content="Projects"
+              Command="{Binding NavCommand}"
+              CommandParameter="projects" />
+      <Button Content="LabReports"
+              Command="{Binding NavCommand}"
+              CommandParameter="labReports"
+              Grid.Row="1" />         
     </Grid>
+    <Grid x:Name="MainContent" Grid.Column="1">
+      <ContentControl Content="{Binding CurrentViewModel}" />
+    </Grid>
+  </Grid>
 </Window>

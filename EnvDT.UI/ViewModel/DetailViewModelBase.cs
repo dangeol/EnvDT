@@ -5,7 +5,7 @@ using System;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
-{
+{   
     public abstract class DetailViewModelBase : ViewModelBase, IDetailViewModel
     {
         private bool _hasChanges;
