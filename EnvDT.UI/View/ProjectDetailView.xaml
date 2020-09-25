@@ -18,7 +18,6 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
       <RowDefinition />
       <RowDefinition Height="Auto"/>
     </Grid.RowDefinitions>
@@ -39,7 +38,24 @@
     <TextBox Grid.Row="8" Text="{Binding Project.ProjectAddress,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-    <StackPanel Grid.Row="11" Orientation="Horizontal">
+    <DockPanel Grid.Row="9" Margin="10">
+      <StackPanel DockPanel.Dock="Right">
+        <Button Content="Load" Width="125"  Margin="10"
+                Command="{Binding OpenLabReportCommand}"/>
+        <Button Content="Remove" Width="125"  Margin="10"
+                Command="{Binding RemoveSampleCommand}"/>
+      </StackPanel>
+      <DataGrid ItemsSource="{Binding LabReports}" 
+                SelectedItem="{Binding SelectedLabReport,Mode=TwoWay}"
+                AutoGenerateColumns="False" RowHeaderWidth="0">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="LabReports" Width="*"
+             Binding="{Binding LabReport,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+    </DockPanel>
+
+    <StackPanel Grid.Row="10" Orientation="Horizontal">
       <Button Content="Save" Width="125" Margin="10"
               Command="{Binding SaveCommand}"/>
 

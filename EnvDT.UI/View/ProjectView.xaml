@@ -14,7 +14,7 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Horizontal">
-      <ComboBox Height="30" Width="400" IsEditable="True"
+      <ComboBox Height="30" Width="400" IsEditable="True" Margin="10 10 10 10"
                 ItemsSource="{Binding Projects}"
                 DisplayMemberPath="DisplayMember"
                 SelectedItem="{Binding SelectedItem}"/>
@@ -24,7 +24,7 @@
               CommandParameter="{x:Type viewModel:ProjectDetailViewModel}"/>
     </StackPanel>
 
-    <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsProjectDetailViewEnabled}">
+    <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsDetailViewEnabled}">
       <view:ProjectDetailView DataContext="{Binding DetailViewModel}" />
     </StackPanel>
   </Grid>

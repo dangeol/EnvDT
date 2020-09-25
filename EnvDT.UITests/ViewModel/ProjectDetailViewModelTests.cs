@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.IRepository;
 using EnvDT.UI.Data.Dialogs;
+using EnvDT.UI.Data.Service;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UITests.Extensions;
@@ -16,6 +17,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
+        private Mock<IOpenLabReportService> _openLabReportService;
         private ProjectDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _projectSavedEventMock;
         private Mock<DetailDeletedEvent> _projectDeletedEventMock;
@@ -35,9 +37,11 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_projectDeletedEventMock.Object);
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _openLabReportService = new Mock<IOpenLabReportService>();
 
             _viewModel = new ProjectDetailViewModel(_projectRepositoryMock.Object, 
-                _eventAggregatorMock.Object, _messageDialogServiceMock.Object);
+                _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
+                _openLabReportService.Object);
         }
 
         [Fact]

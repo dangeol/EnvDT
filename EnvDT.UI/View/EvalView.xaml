@@ -13,8 +13,6 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Vertical">
-      <Button Content="Open" Width="125" Margin="10"
-              Command="{Binding OpenLabReportCommand}"/>
       <Button Content="Eval" Width="125" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
     </StackPanel>

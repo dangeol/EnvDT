@@ -6,31 +6,15 @@ namespace EnvDT.UI.ViewModel
 {
     public class EvalViewModel : ViewModelBase, IEvalViewModel
     {
-        private IOpenLabReportService _openLabReportService;
         private IEvalLabReportService _evalLabReportService;
-        public EvalViewModel(IOpenLabReportService openLabReportService, IEvalLabReportService evalLabReportService)
+        public EvalViewModel(IEvalLabReportService evalLabReportService)
         {
-            _openLabReportService = openLabReportService;
             _evalLabReportService = evalLabReportService;
 
-            OpenLabReportCommand = new DelegateCommand(OnOpenExecute, OnOpenCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
-
         }
 
-        public ICommand OpenLabReportCommand { get; }
         public ICommand EvalLabReportCommand { get; }
-
-        private void OnOpenExecute()
-        {
-            _openLabReportService.OpenLabReport();
-        }
-
-        private bool OnOpenCanExecute()
-        {
-            // TODO: Check if publication is valid
-            return true;
-        }
 
         private void OnEvalExecute()
         {

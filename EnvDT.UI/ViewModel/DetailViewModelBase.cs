@@ -41,7 +41,7 @@ namespace EnvDT.UI.ViewModel
         protected abstract void OnDeleteExecute();
         protected abstract bool OnDeleteCanExecute();
 
-        protected virtual void RaiseDetailSavedEventd(Guid modelId, string displayMember)
+        protected virtual void RaiseDetailSavedEvent(Guid modelId, string displayMember)
         {
             EventAggregator.GetEvent<DetailSavedEvent>()
                 .Publish(
