@@ -1,12 +1,12 @@
 ﻿using EnvDT.DataAccess;
 using EnvDT.Model.Entity;
-using EnvDT.UI.Data.HelperClasses;
+using EnvDT.UI.HelperClasses;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnvDT.UI.Data.Service
+namespace EnvDT.UI.Service
 {
     public class EvalLabReportService : IEvalLabReportService
     {

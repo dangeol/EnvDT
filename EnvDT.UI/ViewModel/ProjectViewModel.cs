@@ -1,5 +1,5 @@
-﻿using EnvDT.Model.IRepository;
-using EnvDT.UI.Data.Dialogs;
+﻿using EnvDT.Model.IDataService;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using Prism.Events;
 using System;
@@ -11,17 +11,17 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectViewModel : NavViewModelBase, IProjectViewModel
     {
-        private IProjectRepository _projectRepository;
+        private IProjectDataService _projectDataService;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
         private Func<IProjectDetailViewModel> _projectDetailVmCreator;
 
-        public ProjectViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator, 
+        public ProjectViewModel(IProjectDataService projectDataService, IEventAggregator eventAggregator, 
             Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
             : base(eventAggregator)
         {
-            _projectRepository = projectRepository;
+            _projectDataService = projectDataService;
             _eventAggregator = eventAggregator;
             _projectDetailVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
@@ -37,7 +37,7 @@ namespace EnvDT.UI.ViewModel
         public override void LoadModels()
         {
             Projects.Clear();
-            foreach (var project in _projectRepository.GetAllProjects())
+            foreach (var project in _projectDataService.GetAllProjectsLookup())
             {
                 Projects.Add(new NavItemViewModel(
                     project.LookupItemId, project.DisplayMember, 

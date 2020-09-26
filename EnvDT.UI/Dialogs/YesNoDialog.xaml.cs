@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace FriendStorage.UI.Dialogs
+namespace EnvDT.UI.Dialogs
 {
   public partial class YesNoDialog : Window
   {

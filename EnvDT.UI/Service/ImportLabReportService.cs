@@ -7,7 +7,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 
-namespace EnvDT.UI.Data.Service
+namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {

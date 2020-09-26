@@ -1,4 +1,4 @@
-﻿namespace EnvDT.UI.Data.Service
+﻿namespace EnvDT.UI.Service
 {
     public interface IImportLabReportService
     {

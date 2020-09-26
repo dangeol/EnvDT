@@ -1,7 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
-using EnvDT.UI.Data.Dialogs;
-using EnvDT.UI.Data.Service;
+using EnvDT.UI.Dialogs;
+using EnvDT.UI.Service;
 using EnvDT.UI.Wrapper;
 using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
@@ -87,7 +87,7 @@ namespace EnvDT.UI.ViewModel
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
             };
-
+            ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             if (projectId == null)
             {

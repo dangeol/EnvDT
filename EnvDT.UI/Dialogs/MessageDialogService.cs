@@ -1,7 +1,6 @@
-﻿using FriendStorage.UI.Dialogs;
-using System.Windows;
+﻿using System.Windows;
 
-namespace EnvDT.UI.Data.Dialogs
+namespace EnvDT.UI.Dialogs
 {
     public class MessageDialogService : IMessageDialogService
     {

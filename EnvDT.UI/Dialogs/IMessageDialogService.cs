@@ -1,4 +1,4 @@
-﻿namespace EnvDT.UI.Data.Dialogs
+﻿namespace EnvDT.UI.Dialogs
 {
     public interface IMessageDialogService
     {

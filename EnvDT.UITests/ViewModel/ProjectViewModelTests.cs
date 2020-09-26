@@ -1,6 +1,6 @@
 ﻿using EnvDT.Model.Entity;
-using EnvDT.Model.IRepository;
-using EnvDT.UI.Data.Dialogs;
+using EnvDT.Model.IDataService;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;
@@ -21,7 +21,7 @@ namespace EnvDT.UITests.ViewModel
 
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
-        private Mock<IProjectRepository> _projectRepositoryMock;
+        private Mock<IProjectDataService> _projectDataServiceMock;
         private OpenDetailViewEvent _openDetailViewEvent;
         private DetailSavedEvent _projectSavedEvent;
         private DetailDeletedEvent _detailDeletedEvent;
@@ -45,8 +45,8 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
-            _projectRepositoryMock = new Mock<IProjectRepository>();
-            _projectRepositoryMock.Setup(pr => pr.GetAllProjects())
+            _projectDataServiceMock = new Mock<IProjectDataService>();
+            _projectDataServiceMock.Setup(pr => pr.GetAllProjectsLookup())
                 .Returns(new List<LookupItem>
                 {
                     new LookupItem
@@ -61,7 +61,7 @@ namespace EnvDT.UITests.ViewModel
                     }
                 });
             _viewModel = new ProjectViewModel(
-                _projectRepositoryMock.Object,
+                _projectDataServiceMock.Object,
                 _eventAggregatorMock.Object,
                 CreateProjectDetailViewModel,
                 _messageDialogServiceMock.Object);

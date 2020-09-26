@@ -2,7 +2,6 @@
 using EnvDT.Model.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
@@ -13,16 +12,6 @@ namespace EnvDT.DataAccess.Repository
         public ProjectRepository(EnvDTDbContext context)
             :base(context)
         {
-        }
-
-        public IEnumerable<LookupItem> GetAllProjects()
-        {
-            return Context.Projects.ToList()
-                .Select(p => new LookupItem
-                {
-                    LookupItemId = p.ProjectId,
-                    DisplayMember = $"{p.ProjectNumber} {p.ProjectName}"
-                });
         }
 
         public override Project GetById(Guid projectId)
