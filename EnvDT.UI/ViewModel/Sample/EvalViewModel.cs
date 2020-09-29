@@ -1,4 +1,4 @@
-﻿using EnvDT.UI.Service;
+﻿using EnvDT.Model.Core;
 using Prism.Commands;
 using System.Windows.Input;
 
@@ -18,7 +18,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
-            _evalLabReportService.evalLabReport();
+           // _evalLabReportService.evalLabReport();
         }
 
         private bool OnEvalCanExecute()

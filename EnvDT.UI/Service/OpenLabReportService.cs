@@ -4,13 +4,11 @@ namespace EnvDT.UI.Service
 {
     public class OpenLabReportService : IOpenLabReportService
     {
-        private IImportLabReportService _importLabReportService;
 
-        public OpenLabReportService(IImportLabReportService importLabReportService)
+        public OpenLabReportService()
         {
-            _importLabReportService = importLabReportService;
         }
-        public void OpenLabReport()
+        public string OpenLabReport()
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document";
@@ -22,8 +20,9 @@ namespace EnvDT.UI.Service
             if (result == true)
             {
                 string filename = dlg.FileName;
-                _importLabReportService.importLabReport(filename);
+                return filename;
             }
+            return "<< error >>";
         }
     }
 }

@@ -58,7 +58,7 @@ namespace EnvDT.UI.ViewModel
                             new OpenDetailViewEventArgs
                             {
                                 Id = _selectedItem.LookupItemId,
-                                ViewModelName = nameof(ProjectDetailViewModel)
+                                ViewModelName = _selectedItem.DetailViewModelName
                             });
                 }
             }

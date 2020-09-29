@@ -2,6 +2,7 @@
 using EnvDT.DataAccess;
 using EnvDT.DataAccess.DataService;
 using EnvDT.DataAccess.Repository;
+using EnvDT.Model.Core;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Service;
@@ -29,6 +30,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<NavItemViewModel>().AsSelf();
             builder.RegisterType<EvalViewModel>().As<IEvalViewModel>();
             builder.RegisterType<ProjectDetailViewModel>().As<IProjectDetailViewModel>();
+            builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();
 
             builder.RegisterType<OpenLabReportService>().As<IOpenLabReportService>();
             builder.RegisterType<ImportLabReportService>().As<IImportLabReportService>();
@@ -36,6 +38,9 @@ namespace EnvDT.UI.Startup
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
+            builder.RegisterType<LabReportRepository>().As<ILabReportRepository>();
+            builder.RegisterType<SampleRepository>().As<ISampleRepository>();
+            builder.RegisterType<SampleValueRepository>().As<ISampleValueRepository>();
 
             return builder.Build();
         }

@@ -2,7 +2,7 @@
 
 namespace EnvDT.Model.IRepository
 {
-    public interface IProjectRepository : IGenericRepository<Project>
+    public interface ISampleRepository : IGenericRepository<Sample>
     {
     }
 }

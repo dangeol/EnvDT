@@ -1,7 +1,8 @@
-﻿using EnvDT.DataAccess;
-using EnvDT.Model.Entity;
+﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Event;
 using ExcelDataReader;
+using Prism.Events;
 using System;
 using System.Data;
 using System.IO;
@@ -11,16 +12,22 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
-        private Func<EnvDTDbContext> _contextCreator;
-        private IProjectRepository _projectRepository;
+        private IEventAggregator _eventAggregator;
+        private ILabReportRepository _labReportRepository;
+        private ISampleRepository _sampleRepository;
+        private ISampleValueRepository _sampleValueRepository;
 
-        public ImportLabReportService(Func<EnvDTDbContext> contextCreator, IProjectRepository projectRepository)
+        public ImportLabReportService(IEventAggregator eventAggregator, 
+            ILabReportRepository labReportRepository, ISampleRepository sampleRepository, 
+            ISampleValueRepository sampleValueRepository)
         {
-            _contextCreator = contextCreator;
-            _projectRepository = projectRepository;
+            _eventAggregator = eventAggregator;
+            _labReportRepository = labReportRepository;
+            _sampleRepository = sampleRepository;
+            _sampleValueRepository = sampleValueRepository;
         }
 
-        public void importLabReport(string file)
+        public void importLabReport(string file, Guid projectId)
         {
             if (file != null && file.Length > 0)
             {
@@ -52,17 +59,24 @@ namespace EnvDT.UI.Service
                 var reportLabIdent = workSheet.Rows[2][4].ToString();
        
                 var laboratoryName = "Agrolab Bruckberg";
-                Guid labReportId = addLabReportToDb(reportLabIdent, laboratoryName);
+                Guid labReportId = CreateLabReport(reportLabIdent, laboratoryName, projectId).LabReportId;
 
                 int c = 4;
                 while (c < workSheet.Columns.Count)
                 {
-                    Guid sampleId = addSampleToDb(workSheet.Rows[3][c].ToString(), workSheet.Rows[4][c].ToString(), labReportId);
-                    addSampleValuesToDb(workSheet, sampleId, c);
+                    Guid sampleId = CreateSample(
+                        workSheet.Rows[3][c].ToString(), 
+                        workSheet.Rows[4][c].ToString(), 
+                        labReportId
+                    ).SampleId;
+                    CreateSampleValues(workSheet, sampleId, c);
                     c++;
                 }
 
                 reader.Close();
+
+                RaiseLabReportImportedEvent(labReportId,
+                    $"{reportLabIdent} {laboratoryName}");
             }
             else
             {
@@ -70,99 +84,92 @@ namespace EnvDT.UI.Service
             }
         }
 
-        private Guid addLabReportToDb(string reportLabIdent, string laboratoryName)
+        private LabReport CreateLabReport(string reportLabIdent, string laboratoryName, Guid projectId)
         {
-            using (var ctx = _contextCreator())
-            {
-                var projectId = _projectRepository.GetFirst().ProjectId;
+            Guid laboratoryId = _labReportRepository.GetLabIdByName(laboratoryName).LaboratoryId;
 
-                Guid laboratoryId = ctx.Laboratories
-                    .Single(l => l.LaboratoryName == laboratoryName).LaboratoryId;
+            var labReport = new LabReport();
+            labReport.ReportLabIdent = reportLabIdent;
+            labReport.LaboratoryId = laboratoryId;
+            labReport.ProjectId = projectId;
 
-                var labReportId = Guid.NewGuid();
-                ctx.Add(new LabReport
-                { 
-                    LabReportId = labReportId,
-                    ReportLabIdent = reportLabIdent,
-                    LaboratoryId = laboratoryId,
-                    ProjectId = projectId
-                });
-                ctx.SaveChanges();
-                return labReportId;
-            }
+            _labReportRepository.Create(labReport);
+
+            return labReport;
         }
 
-        private Guid addSampleToDb(string sampleLabIdent, string sampleName, Guid labReportId)
+        private Sample CreateSample(string sampleLabIdent, string sampleName, Guid labReportId)
         {
-            using (var ctx = _contextCreator())
-            {
-                var sampleId = Guid.NewGuid();
-                ctx.Add(new Sample
-                {
-                    SampleId = sampleId,
-                    SampleLabIdent = sampleLabIdent,
-                    //SampleDate
-                    SampleName = sampleName,
-                    LabReportId = labReportId
-                });
-                ctx.SaveChanges();
-                return sampleId;
-            }
+            var sample = new Sample();
+            sample.SampleLabIdent = sampleLabIdent;
+            sample.SampleName = sampleName;
+            sample.LabReportId = labReportId;
+
+            _sampleRepository.Create(sample);
+
+            return sample;
         }
 
-        private void addSampleValuesToDb(DataTable workSheet, Guid sampleId, int c)
+        private void CreateSampleValues(DataTable workSheet, Guid sampleId, int c)
         {
-            using (var ctx = _contextCreator())
+            int r = 7;
+            while (r < workSheet.Rows.Count)
             {
-                int r = 7;
-                while (r < workSheet.Rows.Count)
+                double sValue = 0.0;
+                double testVar;
+                if (workSheet.Rows[r][c] != System.DBNull.Value 
+                    && Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
                 {
-                    double sValue = 0.0;
-                    double testVar;
-                    if (workSheet.Rows[r][c] != System.DBNull.Value && Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
-                    {
-                        sValue = (double)workSheet.Rows[r][c];
-                    }
-                    double detectionLimit = 0.0;
-                    if (workSheet.Rows[r][2] != System.DBNull.Value)
-                    {
-                        detectionLimit = (double)workSheet.Rows[r][2];
-                    }
-                    var paramLabs = ctx.ParameterLaboratories
-                        .Where(pl => pl.LabParamName == workSheet.Rows[r][0].ToString()); 
-                    var unitId = ctx.Units
-                        .FirstOrDefault(u => u.UnitName == workSheet.Rows[r][1].ToString())?.UnitId ?? Guid.Empty;
-
-                    if (workSheet.Rows[r][1].ToString() == "µg/l")
-                    {
-                        unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
-                    } 
-                    else if (workSheet.Rows[r][1].ToString() == "µS/cm")
-                    {
-                        unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
-                    }
-
-                    if (paramLabs.Count() > 0)
-                    { 
-                        foreach (var paramLab in paramLabs)
-                        {
-                            var sampleValueId = Guid.NewGuid();
-
-                            ctx.Add(new SampleValue
-                            {
-                                SampleValueId = sampleValueId,
-                                SValue = sValue,
-                                DetectionLimit = detectionLimit,
-                                SampleId = sampleId,
-                                ParameterId = paramLab.ParameterId,
-                                UnitId = unitId
-                            });
-                        }
-                    }
-                    r++;
+                    sValue = (double)workSheet.Rows[r][c];
                 }
-                ctx.SaveChanges();
+                double detectionLimit = 0.0;
+                if (workSheet.Rows[r][2] != System.DBNull.Value)
+                {
+                    detectionLimit = (double)workSheet.Rows[r][2];
+                }
+                var labParamName = workSheet.Rows[r][0].ToString();
+                var paramLabs = _sampleValueRepository.GetParamLabsByLabParamName(labParamName);
+                var unitName = workSheet.Rows[r][1].ToString();
+                var unitId = _sampleValueRepository.GetUnitIdByName(unitName)?.UnitId ?? Guid.Empty;
+
+
+                //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
+                if (unitName == "µg/l")
+                {
+                    unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
+                } 
+                else if (unitName == "µS/cm")
+                {
+                    unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
+                }
+
+                if (paramLabs.Count() > 0)
+                { 
+                    foreach (var paramLab in paramLabs)
+                    {
+                        var sampleValue = new SampleValue();
+                        sampleValue.SValue = sValue;
+                        sampleValue.DetectionLimit = detectionLimit;
+                        sampleValue.SampleId = sampleId;
+                        sampleValue.ParameterId = paramLab.ParameterId;
+                        sampleValue.UnitId = unitId;
+
+                        _sampleValueRepository.Create(sampleValue);
+                    }
+                }
+                r++;
             }
+        }
+
+        private void RaiseLabReportImportedEvent(Guid modelId, string displayMember)
+        {
+            _eventAggregator.GetEvent<LabReportImportedEvent>()
+                .Publish(
+                new LabReportImportedEventArgs
+                {
+                    Id = modelId,
+                    DisplayMember = displayMember
+                });
         }
     }
 }

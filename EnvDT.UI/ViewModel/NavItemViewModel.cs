@@ -10,7 +10,6 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private string _displayMember;
-        private string _detailViewModelName;
 
         public NavItemViewModel(Guid lookupItemId, string displayMember,
             string detailViewModelName,
@@ -18,7 +17,7 @@ namespace EnvDT.UI.ViewModel
         {
             LookupItemId = lookupItemId;
             DisplayMember = displayMember;
-            _detailViewModelName = detailViewModelName;
+            DetailViewModelName = detailViewModelName;
             OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
             _eventAggregator = eventAggregator;
         }
@@ -34,6 +33,8 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public string DetailViewModelName { get; private set; }
+
         public ICommand OpenDetailViewCommand { get; private set; }
 
         private void OnOpenDetailViewExecute()
@@ -43,7 +44,7 @@ namespace EnvDT.UI.ViewModel
                 new OpenDetailViewEventArgs
                 {
                     Id = LookupItemId,
-                    ViewModelName = _detailViewModelName
+                    ViewModelName = DetailViewModelName
                 }); 
         }
     }

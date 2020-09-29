@@ -25,14 +25,5 @@ namespace EnvDT.DataAccess.Repository
         {
             return Context.Projects.First();
         }
-
-        public void DeleteLabReport(LabReport model)
-        {
-            Context.LabReports.Remove(model);
-        }
-
-        public void Dispose()
-        {
-        }
     }
 }

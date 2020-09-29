@@ -1,4 +1,4 @@
-﻿namespace EnvDT.UI.HelperClasses
+﻿namespace EnvDT.Model.Core.HelperClasses
 {
     public class ExceedingValue
     {

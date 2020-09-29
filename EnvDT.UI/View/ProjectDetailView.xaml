@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:view="clr-namespace:EnvDT.UI.View"
+             xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -18,8 +19,8 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
-      <RowDefinition />
       <RowDefinition Height="Auto"/>
+      <RowDefinition />
     </Grid.RowDefinitions>
 
     <Label Grid.Row="1" Content="ProjectNumber" Margin="10 0"/>
@@ -38,30 +39,17 @@
     <TextBox Grid.Row="8" Text="{Binding Project.ProjectAddress,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-    <DockPanel Grid.Row="9" Margin="10">
-      <StackPanel DockPanel.Dock="Right">
-        <Button Content="Load" Width="125"  Margin="10"
-                Command="{Binding OpenLabReportCommand}"/>
-        <Button Content="Remove" Width="125"  Margin="10"
-                Command="{Binding RemoveSampleCommand}"/>
-      </StackPanel>
-      <DataGrid ItemsSource="{Binding LabReports}" 
-                SelectedItem="{Binding SelectedLabReport,Mode=TwoWay}"
-                AutoGenerateColumns="False" RowHeaderWidth="0">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="LabReports" Width="*"
-             Binding="{Binding LabReport,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-        </DataGrid.Columns>
-      </DataGrid>
-    </DockPanel>
-
-    <StackPanel Grid.Row="10" Orientation="Horizontal">
+    <StackPanel Grid.Row="9" Orientation="Horizontal">
       <Button Content="Save" Width="125" Margin="10"
               Command="{Binding SaveCommand}"/>
 
       <Button Content="Delete" Width="125" Margin="10"
               Command="{Binding DeleteCommand}"/>
-    </StackPanel>    
-    
+    </StackPanel>
+
+    <StackPanel Grid.Row="10" Orientation="Vertical">
+      <view:LabReportView DataContext="{Binding LabReportViewModel}" />
+    </StackPanel>
+
   </Grid>
 </UserControl>

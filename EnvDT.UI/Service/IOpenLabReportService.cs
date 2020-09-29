@@ -2,6 +2,6 @@
 {
     public interface IOpenLabReportService
     {
-        void OpenLabReport();
+        string OpenLabReport();
     }
 }

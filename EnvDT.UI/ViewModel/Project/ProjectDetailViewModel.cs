@@ -1,17 +1,10 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
-using EnvDT.UI.Service;
 using EnvDT.UI.Wrapper;
-using FriendOrganizer.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -19,27 +12,19 @@ namespace EnvDT.UI.ViewModel
     {
         private IProjectRepository _projectRepository;
         private IMessageDialogService _messageDialogService;
-        private IOpenLabReportService _openLabReportService;
+        private Func<ILabReportViewModel> _labReportDetailVmCreator;
+        private ILabReportViewModel _labReportViewModel;
+
         private ProjectWrapper _project;
-        private LabReportWrapper _labReport;
 
         public ProjectDetailViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService, IOpenLabReportService openLabReportService)
+            IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator)
             :base(eventAggregator)
         {
             _projectRepository = projectRepository;
             _messageDialogService = messageDialogService;
-            _openLabReportService = openLabReportService;
-
-            OpenLabReportCommand = new DelegateCommand(OnOpenLabReportExecute, OnOpenLabReportCanExecute);
-            DeleteLabReportCommand = new DelegateCommand(OnDeleteLabReportExecute, OnDeleteLabReportCanExecute);
-
-            LabReports = new ObservableCollection<LabReportWrapper>();
+            _labReportDetailVmCreator = labReportDetailVmCreator;
         }
-
-        public ICommand OpenLabReportCommand { get; }
-        public ICommand DeleteLabReportCommand { get; }
-        public ObservableCollection<LabReportWrapper> LabReports { get; }
 
         public ProjectWrapper Project
         {
@@ -51,14 +36,13 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public LabReportWrapper SelectedLabReport
+        public ILabReportViewModel LabReportViewModel
         {
-            get { return _labReport; }
+            get { return _labReportViewModel; }
             set
             {
-                _labReport = value;
+                _labReportViewModel = value;
                 OnPropertyChanged();
-                ((DelegateCommand)DeleteLabReportCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -70,7 +54,7 @@ namespace EnvDT.UI.ViewModel
 
             InitializeProject(projectId, project);
 
-            //InitializeLabReports(project.LabReports);
+            CreateLabReportVm(projectId);
         }
 
         private void InitializeProject(Guid? projectId, Project project)
@@ -96,31 +80,10 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        private void InitializeLabReports(ICollection<LabReport> labReports)
+        private void CreateLabReportVm(Guid? projectId)
         {
-            foreach (var wrapper in LabReports)
-            {
-                wrapper.PropertyChanged -= LabReportWrapper_PropertyChanged;
-            }
-            LabReports.Clear();
-            foreach (var labReport in labReports)
-            {
-                var wrapper = new LabReportWrapper(labReport);
-                LabReports.Add(wrapper);
-                wrapper.PropertyChanged += LabReportWrapper_PropertyChanged;
-            }
-        }
-
-        private void LabReportWrapper_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (!HasChanges)
-            {
-                HasChanges = _projectRepository.HasChanges();
-            }
-            if (e.PropertyName == nameof(LabReportWrapper.HasErrors))
-            {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            }
+            LabReportViewModel = _labReportDetailVmCreator();
+            LabReportViewModel.Load(projectId);
         }
 
         protected override void OnSaveExecute()
@@ -130,13 +93,13 @@ namespace EnvDT.UI.ViewModel
             RaiseDetailSavedEvent(Project.ProjectId,
                 $"{Project.ProjectNumber} {Project.ProjectName}");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
+            CreateLabReportVm(Project.ProjectId);
         }
 
         protected override bool OnSaveCanExecute()
         {
             return Project != null 
                 && !Project.HasErrors 
-                && LabReports.All(lr => !lr.HasErrors)
                 && HasChanges;
         }
 
@@ -156,27 +119,6 @@ namespace EnvDT.UI.ViewModel
         {
             return Project != null && Project.ProjectId != Guid.Empty 
                 && _projectRepository.GetById(Project.ProjectId) != null;
-        }
-
-        private void OnOpenLabReportExecute()
-        {
-            _openLabReportService.OpenLabReport();
-        }
-
-        private bool OnOpenLabReportCanExecute()
-        {
-            // TODO: Check if publication is valid
-            return true;
-        }
-
-        private void OnDeleteLabReportExecute()
-        {
-            throw new NotImplementedException();
-        }
-
-        private bool OnDeleteLabReportCanExecute()
-        {
-            return SelectedLabReport != null;
         }
 
         private Project CreateNewProject()

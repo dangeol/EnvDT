@@ -1,15 +1,17 @@
-﻿using EnvDT.DataAccess;
+﻿using EnvDT.Model.Core;
 using EnvDT.Model.Entity;
-using EnvDT.UI.HelperClasses;
+using EnvDT.Model.Core.HelperClasses;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnvDT.UI.Service
+namespace EnvDT.Model.Core
 {
     public class EvalLabReportService : IEvalLabReportService
     {
+        /* TO DO: Refactor this spike.
+        
         private Func<EnvDTDbContext> _contextCreator;
 
         private const string projectName = "Sample-Project 1";
@@ -156,6 +158,6 @@ namespace EnvDT.UI.Service
                 .FirstOrDefault(v => v.ValClassLevel == level + 1 && v.PublicationId == publication.PublicationId)?
                     .ValuationClassName ?? string.Empty;
             }
-        }
+        }*/
     }
 }

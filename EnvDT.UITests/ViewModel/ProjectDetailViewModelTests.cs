@@ -17,7 +17,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IProjectRepository> _projectRepositoryMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
-        private Mock<IOpenLabReportService> _openLabReportService;
+        private Mock<ILabReportViewModel> _labReportViewModelMock;
         private ProjectDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _projectSavedEventMock;
         private Mock<DetailDeletedEvent> _projectDeletedEventMock;
@@ -37,11 +37,24 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_projectDeletedEventMock.Object);
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
-            _openLabReportService = new Mock<IOpenLabReportService>();
 
             _viewModel = new ProjectDetailViewModel(_projectRepositoryMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
-                _openLabReportService.Object);
+                CreateLabReportViewModel);
+        }
+
+        private ILabReportViewModel CreateLabReportViewModel()
+        {
+            var labReportViewModelMock = new Mock<ILabReportViewModel>();
+            labReportViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
+                .Callback<Guid?>(projectId =>
+                {
+                    //_project.ProjectId = projectId.Value;
+                    //projectDetailViewModelMock.Setup(vm => vm.Project)
+                    //.Returns(new ProjectWrapper(_project));
+                });
+            _labReportViewModelMock = labReportViewModelMock;
+            return labReportViewModelMock.Object;
         }
 
         [Fact]
@@ -55,6 +68,14 @@ namespace EnvDT.UITests.ViewModel
             _projectRepositoryMock.Verify(pr => pr.GetById(_projectId), Times.Once);
         }
 
+        [Fact]
+        public void ShouldLoadLabReportViewModel()
+        {
+            _viewModel.Load(_projectId);
+
+            _labReportViewModelMock.Verify(lr => lr.Load(_projectId), Times.Once);
+        }
+        
         [Fact]
         public void ShoudlRaisePropertyChangedEventForProject()
         {
