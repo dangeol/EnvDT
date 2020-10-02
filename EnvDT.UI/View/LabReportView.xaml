@@ -14,20 +14,25 @@
     <DockPanel Margin="10">
       <StackPanel DockPanel.Dock="Right">
         
-        <Button Content="Load Report" Width="125"  Margin="10"
-              Command="{Binding OpenLabReportCommand}"/>
-        
-        <Button Content="Remove" Width="125"  Margin="10"
+        <Button Content="Load Report" Width="125" Margin="10 10 10 0"
+                Command="{Binding OpenLabReportCommand}"/>
+        <TextBlock Name="LabReportFileNameBlock" Text="{Binding LabReportFileName}"/>
+
+        <Button Content="Import Report" Width="125" Margin="10 5 10 10"
+                Command="{Binding ImportLabReportCommand}"/>
+
+        <Button Content="Remove" Width="125" Margin="10"
                 Command="{Binding DeleteLabReportCommand}"/>
         
       </StackPanel>
+      
       <DataGrid ItemsSource="{Binding LabReports}" 
-                SelectedItem="{Binding SelectedItem}"
-                AutoGenerateColumns="False" RowHeaderWidth="0">
+                SelectedItem="{Binding SelectedLabReport}"
+                IsReadOnly="True" AutoGenerateColumns="False" RowHeaderWidth="0">
         
         <DataGrid.Columns>
           <DataGridTextColumn Header="LabReports" Width="*"
-             Binding="{Binding LabReport,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+             Binding="{Binding DisplayMember,UpdateSourceTrigger=PropertyChanged}"/>
         </DataGrid.Columns>
       </DataGrid>
     </DockPanel>

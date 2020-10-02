@@ -14,5 +14,16 @@ namespace EnvDT.UI.Dialogs
                 ? MessageDialogResult.Yes
                 : MessageDialogResult.No;
         }
+
+        public MessageDialogResult ShowOkDialog(string title, string message)
+        {
+            return new OkDialog(title, message)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = App.Current.MainWindow
+            }.ShowDialog().GetValueOrDefault()
+                ? MessageDialogResult.OK
+                : MessageDialogResult.OK;
+        }
     }
 }

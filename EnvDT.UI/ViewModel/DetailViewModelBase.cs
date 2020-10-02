@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -40,6 +41,12 @@ namespace EnvDT.UI.ViewModel
         protected abstract bool OnSaveCanExecute();
         protected abstract void OnDeleteExecute();
         protected abstract bool OnDeleteCanExecute();
+
+        protected void SetPropertyValueToNull(object instance, string property)
+        {
+            PropertyInfo prop = instance.GetType().GetProperty(property);
+            prop.SetValue(instance, null, null);
+        }
 
         protected virtual void RaiseDetailSavedEvent(Guid modelId, string displayMember)
         {

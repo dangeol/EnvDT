@@ -5,7 +5,6 @@ using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Reflection;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -25,7 +24,7 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator = eventAggregator;
             _projectDetailVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnOpenDetailView);
+            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<NavItemViewModel>();
@@ -46,7 +45,7 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        protected override void OnOpenDetailView(OpenDetailViewEventArgs args)
+        protected override void OnItemSelected(OpenDetailViewEventArgs args)
         {
             CreateAndLoadProjectDetailViewModel(args);
         }
@@ -107,15 +106,9 @@ namespace EnvDT.UI.ViewModel
                     {
                         Projects.Remove(projectItem);
                     }
-                    SetPropertyValueToNull(this);
+                    SetPropertyValueToNull(this, "DetailViewModel");
                     break;
             }
-        }
-
-        private void SetPropertyValueToNull(object instance)
-        {
-            PropertyInfo prop = instance.GetType().GetProperty("DetailViewModel");
-            prop.SetValue(instance, null, null); //We need this overload for .NET < 4.5
         }
     }
 }

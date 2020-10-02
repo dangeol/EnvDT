@@ -210,9 +210,9 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.Equal(3, _viewModel.Projects.Count);
 
-            var addDetailem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
-            Assert.NotNull(addDetailem);
-            Assert.Equal("8888 New Project", addDetailem.DisplayMember);
+            var addDetailItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
+            Assert.NotNull(addDetailItem);
+            Assert.Equal("8888 New Project", addDetailItem.DisplayMember);
         }
 
         [Fact]

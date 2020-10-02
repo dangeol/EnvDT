@@ -1,6 +1,5 @@
 ﻿using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
-using EnvDT.UI.Service;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UITests.Extensions;
@@ -8,6 +7,7 @@ using Moq;
 using Prism.Events;
 using System;
 using Xunit;
+using System.Collections.ObjectModel;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -49,9 +49,9 @@ namespace EnvDT.UITests.ViewModel
             labReportViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
                 .Callback<Guid?>(projectId =>
                 {
-                    //_project.ProjectId = projectId.Value;
-                    //projectDetailViewModelMock.Setup(vm => vm.Project)
-                    //.Returns(new ProjectWrapper(_project));
+                    _projectId = projectId.Value;
+                    labReportViewModelMock.Setup(vm => vm.LabReports)
+                        .Returns(new ObservableCollection<NavItemViewModel>());
                 });
             _labReportViewModelMock = labReportViewModelMock;
             return labReportViewModelMock.Object;
@@ -230,10 +230,10 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Theory]
-        [InlineData(MessageDialogResult.Yes, 1)]
-        [InlineData(MessageDialogResult.No, 0)]
+        [InlineData(MessageDialogResult.Yes, 1, true)]
+        [InlineData(MessageDialogResult.No, 0, false)]
         public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteCommandIsExecuted(
-            MessageDialogResult result, int expectedDeleteProjectCalls)
+            MessageDialogResult result, int expectedDeleteProjectCalls, bool laboratoryReportViewModelIsNull)
         {
             _viewModel.Load(_projectId);
 
@@ -244,6 +244,7 @@ namespace EnvDT.UITests.ViewModel
 
             _projectRepositoryMock.Verify(pr => pr.Delete(_viewModel.Project.Model), 
                 Times.Exactly(expectedDeleteProjectCalls));
+            Assert.Equal(laboratoryReportViewModelIsNull, _viewModel.LabReportViewModel == null);
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }

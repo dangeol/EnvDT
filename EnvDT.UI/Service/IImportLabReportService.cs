@@ -4,6 +4,7 @@ namespace EnvDT.UI.Service
 {
     public interface IImportLabReportService
     {
-        void importLabReport(string filename, Guid projectId);
+        public void ImportLabReport(string filename, Guid? projectId);
+        public bool IsLabReportAlreadyPresent(string reportLabIdent);
     }
 }

@@ -27,15 +27,15 @@
     <TextBox Grid.Row="2" Text="{Binding Project.ProjectNumber,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-    <Label Grid.Row="3"  Content="ProjectClient" Margin="10 0"/>
+    <Label Grid.Row="3" Content="ProjectClient" Margin="10 0"/>
     <TextBox Grid.Row="4" Text="{Binding Project.ProjectClient,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-    <Label Grid.Row="5"  Content="ProjectName" Margin="10 0"/>
+    <Label Grid.Row="5" Content="ProjectName" Margin="10 0"/>
     <TextBox Grid.Row="6" Text="{Binding Project.ProjectName,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 
-    <Label Grid.Row="7"  Content="ProjectAddress" Margin="10 0"/>
+    <Label Grid.Row="7" Content="ProjectAddress" Margin="10 0"/>
     <TextBox Grid.Row="8" Text="{Binding Project.ProjectAddress,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
 

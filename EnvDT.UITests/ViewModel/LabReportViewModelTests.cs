@@ -1,5 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IDataService;
+using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.Service;
 using EnvDT.UI.ViewModel;
@@ -15,13 +17,20 @@ namespace EnvDT.UITests.ViewModel
     public class LabReportViewModelTests
     {
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IOpenLabReportService> _openLabReportServiceMock;
         private Mock<ILabReportDataService> _labReportDataServiceMock;
+        private Mock<ILabReportRepository> _labReportRepositoryMock;
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
         private LabReportImportedEvent _labReportImportedEvent;
+
         private string _labReportFilePath = "C:\\Directory\\LabReport.xls";
+        private string _labReportFileName = "LabReport.xls";
+        private string _reportLabIdent = "ident";
+        private Guid _lookupItemId1 = new Guid("09d26650-6d03-4676-a0cb-35ef0052171a");
+        private Guid _lookupItemId2 = new Guid("190f6042-bdc0-4416-826b-94179458762e");
 
         public LabReportViewModelTests()
         {
@@ -29,29 +38,38 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<LabReportImportedEvent>())
                 .Returns(_labReportImportedEvent);
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _openLabReportServiceMock = new Mock<IOpenLabReportService>();
             _openLabReportServiceMock.Setup(ol => ol.OpenLabReport())
                 .Returns(_labReportFilePath);
             _labReportDataServiceMock = new Mock<ILabReportDataService>();
+            _labReportRepositoryMock = new Mock<ILabReportRepository>();
+            _labReportRepositoryMock.Setup(lr => lr.GetById(_lookupItemId1))
+                .Returns(new Model.Entity.LabReport
+                {
+                    LabReportId = _lookupItemId1,
+                    ReportLabIdent = _reportLabIdent
+                });
             _projectId = new Guid("e26b1ce2-d946-41c7-9edf-ca55b0a47fa0");
             _labReportDataServiceMock.Setup(lr => lr.GetAllLabReportsLookupByProjectId(_projectId))
                 .Returns(new List<LookupItem>
                 {
                     new LookupItem
                     {
-                        LookupItemId = new Guid("09d26650-6d03-4676-a0cb-35ef0052171a"),
+                        LookupItemId = _lookupItemId1,
                         DisplayMember = "Id111 Lab1"
                     },
                     new LookupItem
                     {
-                        LookupItemId = new Guid("190f6042-bdc0-4416-826b-94179458762e"),
+                        LookupItemId = _lookupItemId2,
                         DisplayMember = "Id222 Lab2"
                     }
                 });
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
-                _labReportDataServiceMock.Object, _openLabReportServiceMock.Object,
+                _messageDialogServiceMock.Object, _labReportDataServiceMock.Object, 
+                _labReportRepositoryMock.Object, _openLabReportServiceMock.Object, 
                 _importLabReportServiceMock.Object);
         }
 
@@ -113,6 +131,98 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.OpenLabReportCommand.Execute(null);
             Assert.Equal(_labReportFilePath, _viewModel.LabReportFilePath);
+        }
+
+        [Fact]
+        public void ShouldSetTheCorrectLabReportFileNameWhenOpenLabReportCommandIsExecuted()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.OpenLabReportCommand.Execute(null);
+
+            Assert.Equal(_labReportFileName, _viewModel.LabReportFileName);
+        }
+
+        [Fact]
+        public void ShouldDisableImportLabReportCommandAndDeleteLabReportCommandWhenNoFileIsOpened()
+        {
+            Assert.False(_viewModel.ImportLabReportCommand.CanExecute(null));
+            Assert.False(_viewModel.DeleteLabReportCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldEnableImportLabReportCommandWhenLabReportIsOpened()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.OpenLabReportCommand.Execute(null);
+
+            Assert.True(_viewModel.ImportLabReportCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldAddLabReportItemWhenNewLabReportHasBeenImported()
+        {
+            _viewModel.Load(_projectId);
+
+            var newLabReportId = new Guid("7ddc7822-7447-4210-a5d4-cfb88e5a7655");
+            var reportLabIdent = "New1234";
+            var laboratoryName = "NewLab";
+
+            _labReportImportedEvent.Publish(
+                new LabReportImportedEventArgs
+                {
+                    Id = newLabReportId,
+                    DisplayMember = $"{reportLabIdent} {laboratoryName}"
+                });
+
+            Assert.Equal(3, _viewModel.LabReports.Count);
+
+            var addLabReportItem = _viewModel.LabReports.SingleOrDefault(lr => lr.LookupItemId == newLabReportId);
+            Assert.NotNull(addLabReportItem);
+            Assert.Equal("New1234 NewLab", addLabReportItem.DisplayMember);
+        }
+
+        [Fact]
+        public void ShouldNotAddLabReportItemWhichAlreadyExists()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.OpenLabReportCommand.Execute(null);
+            _importLabReportServiceMock.Setup(lr => lr.IsLabReportAlreadyPresent(_reportLabIdent))
+                .Returns(true);
+
+            Assert.Equal(2, _viewModel.LabReports.Count);
+        }
+
+        [Fact]
+        public void ShouldEnableDeleteLabReportCommandWhenLabReportIsSelected()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.SelectedLabReport = new NavItemViewModel(new Guid(), "", "", _eventAggregatorMock.Object);
+
+            Assert.True(_viewModel.DeleteLabReportCommand.CanExecute(null));
+        }
+
+        [Theory]
+        [InlineData(MessageDialogResult.Yes, 1)]
+        [InlineData(MessageDialogResult.No, 2)]
+        public void ShouldDeleteSelectedLabReportWhenDeleteLabReportCommandIsExecuted(
+            MessageDialogResult result, int expectedLabReportsCount)
+        {
+            _viewModel.Load(_projectId);
+
+            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(result);
+
+            _viewModel.SelectedLabReport = new NavItemViewModel(_lookupItemId1, "", "", _eventAggregatorMock.Object);
+            _viewModel.DeleteLabReportCommand.Execute(null);
+
+            Assert.Equal(expectedLabReportsCount, _viewModel.LabReports.Count);
+
+            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
         }
     }
 }

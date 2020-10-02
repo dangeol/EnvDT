@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using ExcelDataReader;
 using Prism.Events;
@@ -13,21 +14,23 @@ namespace EnvDT.UI.Service
     public class ImportLabReportService : IImportLabReportService
     {
         private IEventAggregator _eventAggregator;
+        private IMessageDialogService _messageDialogService;
         private ILabReportRepository _labReportRepository;
         private ISampleRepository _sampleRepository;
         private ISampleValueRepository _sampleValueRepository;
 
-        public ImportLabReportService(IEventAggregator eventAggregator, 
+        public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             ILabReportRepository labReportRepository, ISampleRepository sampleRepository, 
             ISampleValueRepository sampleValueRepository)
         {
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
             _labReportRepository = labReportRepository;
             _sampleRepository = sampleRepository;
             _sampleValueRepository = sampleValueRepository;
         }
 
-        public void importLabReport(string file, Guid projectId)
+        public void ImportLabReport(string file, Guid? projectId)
         {
             if (file != null && file.Length > 0)
             {
@@ -57,7 +60,11 @@ namespace EnvDT.UI.Service
                 }).Tables["Datenblatt"];
 
                 var reportLabIdent = workSheet.Rows[2][4].ToString();
-       
+                if (IsLabReportAlreadyPresent(reportLabIdent))
+                {
+                    return;
+                }
+
                 var laboratoryName = "Agrolab Bruckberg";
                 Guid labReportId = CreateLabReport(reportLabIdent, laboratoryName, projectId).LabReportId;
 
@@ -75,6 +82,10 @@ namespace EnvDT.UI.Service
 
                 reader.Close();
 
+                _labReportRepository.Save();
+                _sampleRepository.Save();
+                _sampleValueRepository.Save();
+
                 RaiseLabReportImportedEvent(labReportId,
                     $"{reportLabIdent} {laboratoryName}");
             }
@@ -84,14 +95,29 @@ namespace EnvDT.UI.Service
             }
         }
 
-        private LabReport CreateLabReport(string reportLabIdent, string laboratoryName, Guid projectId)
+        public bool IsLabReportAlreadyPresent(string reportLabIdent)
         {
-            Guid laboratoryId = _labReportRepository.GetLabIdByName(laboratoryName).LaboratoryId;
+            var foundLabReport = _labReportRepository.GetByReportLabIdent(reportLabIdent);
+            if (foundLabReport != null) { 
+                var result = _messageDialogService.ShowOkDialog("Import LabReport",
+                    $"This LabReport has already been imported. Please chose another file or" +
+                    $" delete the LabReport first.");
+                if (result == MessageDialogResult.OK)
+                {
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private LabReport CreateLabReport(string reportLabIdent, string laboratoryName, Guid? projectId)
+        {
+            Guid laboratoryId = _labReportRepository.GetLabIdByLabName(laboratoryName).LaboratoryId;
 
             var labReport = new LabReport();
             labReport.ReportLabIdent = reportLabIdent;
             labReport.LaboratoryId = laboratoryId;
-            labReport.ProjectId = projectId;
+            labReport.ProjectId = (Guid)projectId;
 
             _labReportRepository.Create(labReport);
 

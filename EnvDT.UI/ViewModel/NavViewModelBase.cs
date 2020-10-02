@@ -3,6 +3,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
+using System.Reflection;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -66,7 +67,7 @@ namespace EnvDT.UI.ViewModel
 
         public void OnCreateNewDetailExecute(Type viewModelType)
         {
-            OnOpenDetailView(
+            OnItemSelected(
                 new OpenDetailViewEventArgs
                 {
                     ViewModelName = viewModelType.Name
@@ -75,6 +76,12 @@ namespace EnvDT.UI.ViewModel
 
         public abstract void LoadModels();
 
-        protected abstract void OnOpenDetailView(OpenDetailViewEventArgs args);
+        protected void SetPropertyValueToNull(object instance, string property)
+        {
+            PropertyInfo prop = instance.GetType().GetProperty(property);
+            prop.SetValue(instance, null, null);
+        }
+
+        protected abstract void OnItemSelected(OpenDetailViewEventArgs args);
     }
 }

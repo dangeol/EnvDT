@@ -3,10 +3,12 @@
     public interface IMessageDialogService
     {
         MessageDialogResult ShowYesNoDialog(string title, string message);
+        MessageDialogResult ShowOkDialog(string title, string message);
     }
     public enum MessageDialogResult
     {
         Yes,
-        No
+        No,
+        OK
     }
 }

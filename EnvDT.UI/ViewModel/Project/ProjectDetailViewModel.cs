@@ -110,6 +110,7 @@ namespace EnvDT.UI.ViewModel
             if (result == MessageDialogResult.Yes)
             {
                 RaiseDetailDeletedEvent(Project.Model.ProjectId);
+                SetPropertyValueToNull(this, "LabReportViewModel");
                 _projectRepository.Delete(Project.Model);
                 _projectRepository.Save();
             }
