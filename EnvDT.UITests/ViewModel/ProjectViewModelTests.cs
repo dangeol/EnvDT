@@ -84,7 +84,8 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldCallTheLoadMethod()
         {
-            Assert.Equal(2, _viewModel.Projects.Count);
+            //2 Projects + 1 NavItemViewModelNull
+            Assert.Equal(3, _viewModel.Projects.Count);
         }
 
         [Fact]
@@ -92,7 +93,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.LoadModels();
 
-            Assert.Equal(2, _viewModel.Projects.Count);
+            Assert.Equal(3, _viewModel.Projects.Count);
 
             var project = _viewModel.Projects.SingleOrDefault(
                 p => p.LookupItemId == Guid.Parse("67455421-0498-46af-9241-7287539fcade"));
@@ -123,6 +124,18 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
+        public void ShouldNotLoadProjectDetailViewModelWhenDefaultItemIsSelected()
+        {
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = new Guid(),
+                    ViewModelName = _detailViewModelName
+                });
+            Assert.Null(_viewModel.DetailViewModel);
+        }
+
+            [Fact]
         public void ShouldLoadProjectDetailViewModelAndLoadItWithIdNull()
         {
             Type type = typeof(ProjectDetailViewModel);
@@ -166,7 +179,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.LoadModels();
             _viewModel.LoadModels();
 
-            Assert.Equal(2, _viewModel.Projects.Count);
+            Assert.Equal(3, _viewModel.Projects.Count);
         }
 
         [Fact]
@@ -208,7 +221,7 @@ namespace EnvDT.UITests.ViewModel
                     ViewModelName = nameof(ProjectDetailViewModel)
                 });
 
-            Assert.Equal(3, _viewModel.Projects.Count);
+            Assert.Equal(4, _viewModel.Projects.Count);
 
             var addDetailItem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == newProjectId);
             Assert.NotNull(addDetailItem);
@@ -229,7 +242,7 @@ namespace EnvDT.UITests.ViewModel
                 ViewModelName = _detailViewModelName
             });
 
-            Assert.Single(_viewModel.Projects);
+            Assert.Equal(2, _viewModel.Projects.Count);
 
             var deletDetailem = _viewModel.Projects.SingleOrDefault(p => p.LookupItemId == existingProjectId);
             Assert.Null(deletDetailem);

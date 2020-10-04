@@ -16,29 +16,23 @@
       <view:EvalView />
     </DataTemplate>
   </Window.Resources>
-  
+
   <Grid>
-    <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="200"/>
-      <ColumnDefinition />
-    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
 
-    <Grid x:Name="NavBar">
-      <Grid.RowDefinitions>
-        <RowDefinition Height="40"/>
-        <RowDefinition Height="40"/>
-        <RowDefinition />
-      </Grid.RowDefinitions>
+    <Menu FontSize="20">
+      <MenuItem Header="Main"
+                Command="{Binding NavCommand}"
+                CommandParameter="projects" />
+      <MenuItem Header="Eval"
+                Command="{Binding NavCommand}"
+                CommandParameter="labReports" />
+    </Menu>
 
-      <Button Content="Projects"
-              Command="{Binding NavCommand}"
-              CommandParameter="projects" />
-      <Button Content="LabReports"
-              Command="{Binding NavCommand}"
-              CommandParameter="labReports"
-              Grid.Row="1" />         
-    </Grid>
-    <Grid x:Name="MainContent" Grid.Column="1">
+    <Grid x:Name="MainContent" Grid.Row="1">
       <ContentControl Content="{Binding CurrentViewModel}" />
     </Grid>
   </Grid>

@@ -36,6 +36,9 @@ namespace EnvDT.UI.ViewModel
         public override void LoadModels()
         {
             Projects.Clear();
+            var navItemViewModelNull = new NavItemViewModelNull();
+            Projects.Add(navItemViewModelNull);
+            SelectedItem = navItemViewModelNull;
             foreach (var project in _projectDataService.GetAllProjectsLookup())
             {
                 Projects.Add(new NavItemViewModel(
@@ -47,7 +50,10 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnItemSelected(OpenDetailViewEventArgs args)
         {
-            CreateAndLoadProjectDetailViewModel(args);
+            if (args.Id != Guid.Empty)
+            {
+                CreateAndLoadProjectDetailViewModel(args);
+            }
         }
 
         private void CreateAndLoadProjectDetailViewModel(OpenDetailViewEventArgs args)

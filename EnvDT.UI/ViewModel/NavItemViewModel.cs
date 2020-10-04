@@ -11,6 +11,10 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private string _displayMember;
 
+        public NavItemViewModel()
+        {
+        }
+
         public NavItemViewModel(Guid lookupItemId, string displayMember,
             string detailViewModelName,
             IEventAggregator eventAggregator)
@@ -23,6 +27,7 @@ namespace EnvDT.UI.ViewModel
         }
 
         public Guid LookupItemId { get; private set; }
+
         public string DisplayMember
         {
             get { return _displayMember; } 
@@ -33,7 +38,7 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public string DetailViewModelName { get; private set; }
+        public string DetailViewModelName { get; protected set; }
 
         public ICommand OpenDetailViewCommand { get; private set; }
 
@@ -47,5 +52,11 @@ namespace EnvDT.UI.ViewModel
                     ViewModelName = DetailViewModelName
                 }); 
         }
+    }
+
+    public class NavItemViewModelNull : NavItemViewModel
+    {
+        public new Guid? LookupItemId { get { return null; } }
+        public new string DisplayMember { get { return " - "; } }
     }
 }
