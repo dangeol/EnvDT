@@ -6,10 +6,10 @@ namespace EnvDT.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ViewModelBase _currentViewModel;
-        private MainTabViewModel _mainTabViewModel;
+        private IMainTabViewModel _mainTabViewModel;
         private ISettingsDetailViewModel _settingsDetailViewModel;
 
-        public MainViewModel(MainTabViewModel mainTabViewModel, ISettingsDetailViewModel settingsDetailViewModel)
+        public MainViewModel(IMainTabViewModel mainTabViewModel, ISettingsDetailViewModel settingsDetailViewModel)
         {
             NavCommand = new DelegateCommand<string>(OnNavigationExecute);
 
@@ -34,7 +34,7 @@ namespace EnvDT.UI.ViewModel
             switch (destination)
             {
                 case "main":
-                    CurrentViewModel = _mainTabViewModel;
+                    CurrentViewModel = (ViewModelBase)_mainTabViewModel;
                     break;
                 case "settings":
                 default:

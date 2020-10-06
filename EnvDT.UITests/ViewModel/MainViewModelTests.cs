@@ -9,28 +9,26 @@ namespace EnvDT.UITests.ViewModel
     {
         private MainViewModel _viewModel;
         private ViewModelBase _viewModelBase;
-        private Mock<MainTabViewModel> _mainTabViewModelMock;
+        private Mock<IMainTabViewModel> _mainTabViewModelMock;
         private Mock<ISettingsDetailViewModel> _settingsDetailViewModelMock;
 
         public MainViewModelTests()
         {
             _viewModelBase = new ViewModelBase();
-            _mainTabViewModelMock = new Mock<MainTabViewModel>();
+            _mainTabViewModelMock = new Mock<IMainTabViewModel>();
             _settingsDetailViewModelMock = new Mock<ISettingsDetailViewModel>();
             _viewModel = new MainViewModel(_mainTabViewModelMock.Object, _settingsDetailViewModelMock.Object);
         }
 
-        /* TO DO: update test case
         [Fact]
         public void ShouldRaisePropertyChangedEventForSelectedViewModel()
         {
             var fired = _viewModel.IsPropertyChangedFired(() =>
             {
-                _viewModel CurrentViewModel = _viewModelBase;
+                _viewModel.CurrentViewModel = _viewModelBase;
             }, nameof(_viewModel.CurrentViewModel));
 
             Assert.True(fired);
         }
-        */
     }
 }

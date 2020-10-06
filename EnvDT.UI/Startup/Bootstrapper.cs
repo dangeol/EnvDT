@@ -29,7 +29,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<ProjectViewModel>().As<IProjectViewModel>();
             builder.RegisterType<ProjectDetailViewModel>().As<IProjectDetailViewModel>();
             builder.RegisterType<NavItemViewModel>().AsSelf();
-            builder.RegisterType<MainTabViewModel>().AsSelf();
+            builder.RegisterType<MainTabViewModel>().As<IMainTabViewModel>().SingleInstance();
             builder.RegisterType<SampleViewModel>().As<ISampleViewModel>();
             builder.RegisterType<SampleDetailViewModel>().As<ISampleDetailViewModel>();
             builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();

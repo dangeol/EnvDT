@@ -22,6 +22,7 @@ namespace EnvDT.UI.ViewModel
         private IOpenLabReportService _openLabReportService;
         private IImportLabReportService _importLabReportService;
         private ISampleDetailViewModel _sampleDetailViewModel;
+        private IMainTabViewModel _mainTabViewModel;
         private Guid? _projectId;
         private string _labReportFileName;
         private NavItemViewModel _selectedLabReport;
@@ -29,7 +30,7 @@ namespace EnvDT.UI.ViewModel
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
             ILabReportDataService labReportDataService, ILabReportRepository labReportRepository, 
             IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService,
-            ISampleDetailViewModel sampleDetailViewModel)
+            ISampleDetailViewModel sampleDetailViewModel, IMainTabViewModel mainTabViewModel)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -40,6 +41,7 @@ namespace EnvDT.UI.ViewModel
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
             _sampleDetailViewModel = sampleDetailViewModel;
+            _mainTabViewModel = mainTabViewModel;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenLabReportExecute, OnOpenLabReportCanExecute);
             ImportLabReportCommand = new DelegateCommand(OnImportLabReportExecute, OnImportLabReportCanExecute);
@@ -130,8 +132,8 @@ namespace EnvDT.UI.ViewModel
         private void OnOpenSampleDetailViewExecute()
         {
             var newSampleDetailViewModel = (ViewModelBase)_sampleDetailViewModel;
-            TabbedViewModels.Add(newSampleDetailViewModel);
-            SelectedTabbedViewModel = newSampleDetailViewModel;
+            _mainTabViewModel.TabbedViewModels.Add(newSampleDetailViewModel);
+            _mainTabViewModel.SelectedTabbedViewModel = newSampleDetailViewModel;
         }
 
         private bool OnOpenSampleDetailViewCanExecute()
