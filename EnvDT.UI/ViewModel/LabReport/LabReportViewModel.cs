@@ -21,13 +21,15 @@ namespace EnvDT.UI.ViewModel
         private ILabReportRepository _labReportRepository;
         private IOpenLabReportService _openLabReportService;
         private IImportLabReportService _importLabReportService;
+        private ISampleDetailViewModel _sampleDetailViewModel;
         private Guid? _projectId;
         private string _labReportFileName;
         private NavItemViewModel _selectedLabReport;
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
             ILabReportDataService labReportDataService, ILabReportRepository labReportRepository, 
-            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
+            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService,
+            ISampleDetailViewModel sampleDetailViewModel)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -37,9 +39,11 @@ namespace EnvDT.UI.ViewModel
             _labReportRepository = labReportRepository;
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
+            _sampleDetailViewModel = sampleDetailViewModel;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenLabReportExecute, OnOpenLabReportCanExecute);
             ImportLabReportCommand = new DelegateCommand(OnImportLabReportExecute, OnImportLabReportCanExecute);
+            OpenSampleDetailViewCommand = new DelegateCommand(OnOpenSampleDetailViewExecute, OnOpenSampleDetailViewCanExecute);
             DeleteLabReportCommand = new DelegateCommand(OnDeleteLabReportExecute, OnDeleteLabReportCanExecute);
 
             LabReports = new ObservableCollection<NavItemViewModel>();
@@ -47,6 +51,7 @@ namespace EnvDT.UI.ViewModel
 
         public ICommand OpenLabReportCommand { get; }
         public ICommand ImportLabReportCommand { get; }
+        public ICommand OpenSampleDetailViewCommand { get; }
         public ICommand DeleteLabReportCommand { get; }
         public ObservableCollection<NavItemViewModel> LabReports { get; }
         public string LabReportFilePath { get; set; }
@@ -120,6 +125,18 @@ namespace EnvDT.UI.ViewModel
         private bool OnImportLabReportCanExecute()
         {
             return LabReportFilePath != null;
+        }
+
+        private void OnOpenSampleDetailViewExecute()
+        {
+            var newSampleDetailViewModel = (ViewModelBase)_sampleDetailViewModel;
+            TabbedViewModels.Add(newSampleDetailViewModel);
+            SelectedTabbedViewModel = newSampleDetailViewModel;
+        }
+
+        private bool OnOpenSampleDetailViewCanExecute()
+        {
+            return true;
         }
 
         private void OnDeleteLabReportExecute()

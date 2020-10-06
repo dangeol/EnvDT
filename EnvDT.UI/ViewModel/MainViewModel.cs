@@ -6,15 +6,15 @@ namespace EnvDT.UI.ViewModel
     public class MainViewModel : ViewModelBase
     {
         private ViewModelBase _currentViewModel;
-        private IProjectViewModel _projectViewModel;
-        private IEvalViewModel _labReportMainViewModel;
+        private MainTabViewModel _mainTabViewModel;
+        private ISettingsDetailViewModel _settingsDetailViewModel;
 
-        public MainViewModel(IProjectViewModel projectViewModel, IEvalViewModel labReportMainViewModel)
+        public MainViewModel(MainTabViewModel mainTabViewModel, ISettingsDetailViewModel settingsDetailViewModel)
         {
             NavCommand = new DelegateCommand<string>(OnNavigationExecute);
 
-            _projectViewModel = projectViewModel;
-            _labReportMainViewModel = labReportMainViewModel;
+            _mainTabViewModel = mainTabViewModel;
+            _settingsDetailViewModel = settingsDetailViewModel;
         }
 
         public ICommand NavCommand { get; private set; }
@@ -33,12 +33,12 @@ namespace EnvDT.UI.ViewModel
         {
             switch (destination)
             {
-                case "projects":
-                    CurrentViewModel = (ViewModelBase)_projectViewModel;
+                case "main":
+                    CurrentViewModel = _mainTabViewModel;
                     break;
-                case "labReports":
+                case "settings":
                 default:
-                    CurrentViewModel = (ViewModelBase)_labReportMainViewModel;
+                    CurrentViewModel = (ViewModelBase)_settingsDetailViewModel;
                     break;
             }
         }

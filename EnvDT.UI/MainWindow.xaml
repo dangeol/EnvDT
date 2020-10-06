@@ -9,11 +9,11 @@
         d:DataContext="{d:DesignInstance local:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
         Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
   <Window.Resources>
-    <DataTemplate DataType="{x:Type viewModel:ProjectViewModel}">
-      <view:ProjectView />
+    <DataTemplate DataType="{x:Type viewModel:MainTabViewModel}">
+      <view:MainTabView />
     </DataTemplate>
-    <DataTemplate DataType="{x:Type viewModel:EvalViewModel}">
-      <view:EvalView />
+    <DataTemplate DataType="{x:Type viewModel:SettingsDetailViewModel}">
+      <view:SettingsDetailView />
     </DataTemplate>
   </Window.Resources>
 
@@ -26,10 +26,10 @@
     <Menu FontSize="20">
       <MenuItem Header="Main"
                 Command="{Binding NavCommand}"
-                CommandParameter="projects" />
-      <MenuItem Header="Eval"
+                CommandParameter="main" />
+      <MenuItem Header="Settings"
                 Command="{Binding NavCommand}"
-                CommandParameter="labReports" />
+                CommandParameter="settings" />
     </Menu>
 
     <Grid x:Name="MainContent" Grid.Row="1">

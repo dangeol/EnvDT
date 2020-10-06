@@ -23,6 +23,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILabReportRepository> _labReportRepositoryMock;
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
+        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private LabReportViewModel _viewModel;
         private LabReportImportedEvent _labReportImportedEvent;
 
@@ -66,11 +67,12 @@ namespace EnvDT.UITests.ViewModel
                     }
                 });
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
+            _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _labReportDataServiceMock.Object, 
                 _labReportRepositoryMock.Object, _openLabReportServiceMock.Object, 
-                _importLabReportServiceMock.Object);
+                _importLabReportServiceMock.Object, _sampleDetailViewModelMock.Object);
         }
 
         [Fact]

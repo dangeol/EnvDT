@@ -27,10 +27,13 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<MainViewModel>().AsSelf();
             builder.RegisterType<MainViewModelDesignTime>().AsSelf();
             builder.RegisterType<ProjectViewModel>().As<IProjectViewModel>();
-            builder.RegisterType<NavItemViewModel>().AsSelf();
-            builder.RegisterType<EvalViewModel>().As<IEvalViewModel>();
             builder.RegisterType<ProjectDetailViewModel>().As<IProjectDetailViewModel>();
+            builder.RegisterType<NavItemViewModel>().AsSelf();
+            builder.RegisterType<MainTabViewModel>().AsSelf();
+            builder.RegisterType<SampleViewModel>().As<ISampleViewModel>();
+            builder.RegisterType<SampleDetailViewModel>().As<ISampleDetailViewModel>();
             builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();
+            builder.RegisterType<SettingsDetailViewModel>().As<ISettingsDetailViewModel>();
 
             builder.RegisterType<OpenLabReportService>().As<IOpenLabReportService>();
             builder.RegisterType<ImportLabReportService>().As<IImportLabReportService>();
