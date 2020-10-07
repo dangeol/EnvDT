@@ -50,7 +50,7 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnItemSelected(OpenDetailViewEventArgs args)
         {
-            if (args.Id != Guid.Empty)
+            if (args.Id != Guid.Empty && args.ViewModelName == nameof(ProjectDetailViewModel))
             {
                 CreateAndLoadProjectDetailViewModel(args);
             }
@@ -68,12 +68,7 @@ namespace EnvDT.UI.ViewModel
                 }
             }
 
-            switch (args.ViewModelName)
-            {
-                case nameof(ProjectDetailViewModel):
-                    DetailViewModel = _projectDetailVmCreator();
-                    break;
-            }
+            DetailViewModel = _projectDetailVmCreator();
             DetailViewModel.Load(args.Id);
             IsDetailViewEnabled = true;
         }

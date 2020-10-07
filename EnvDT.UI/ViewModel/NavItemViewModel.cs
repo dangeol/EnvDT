@@ -15,6 +15,11 @@ namespace EnvDT.UI.ViewModel
         {
         }
 
+        public NavItemViewModel(IEventAggregator eventAggregator)
+        {
+            _eventAggregator = eventAggregator;
+        }
+
         public NavItemViewModel(Guid lookupItemId, string displayMember,
             string detailViewModelName,
             IEventAggregator eventAggregator)
@@ -22,11 +27,11 @@ namespace EnvDT.UI.ViewModel
             LookupItemId = lookupItemId;
             DisplayMember = displayMember;
             DetailViewModelName = detailViewModelName;
-            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute);
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute, OnOpenDetailViewCanExecute);
             _eventAggregator = eventAggregator;
         }
 
-        public Guid LookupItemId { get; private set; }
+        public Guid LookupItemId { get; protected set; }
 
         public string DisplayMember
         {
@@ -40,9 +45,9 @@ namespace EnvDT.UI.ViewModel
 
         public string DetailViewModelName { get; protected set; }
 
-        public ICommand OpenDetailViewCommand { get; private set; }
+        public virtual ICommand OpenDetailViewCommand { get; protected set; }
 
-        private void OnOpenDetailViewExecute()
+        protected void OnOpenDetailViewExecute()
         {
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
                 .Publish(
@@ -51,6 +56,11 @@ namespace EnvDT.UI.ViewModel
                     Id = LookupItemId,
                     ViewModelName = DetailViewModelName
                 }); 
+        }
+
+        protected virtual bool OnOpenDetailViewCanExecute()
+        {
+            return LookupItemId != null;
         }
     }
 

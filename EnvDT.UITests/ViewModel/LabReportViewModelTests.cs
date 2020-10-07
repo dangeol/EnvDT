@@ -23,8 +23,6 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILabReportRepository> _labReportRepositoryMock;
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
-        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
-        private Mock<IMainTabViewModel> _mainTabViewModelMock;
         private LabReportViewModel _viewModel;
         private LabReportImportedEvent _labReportImportedEvent;
 
@@ -68,14 +66,11 @@ namespace EnvDT.UITests.ViewModel
                     }
                 });
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
-            _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
-            _mainTabViewModelMock = new Mock<IMainTabViewModel>();
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _labReportDataServiceMock.Object, 
                 _labReportRepositoryMock.Object, _openLabReportServiceMock.Object, 
-                _importLabReportServiceMock.Object, _sampleDetailViewModelMock.Object,
-                _mainTabViewModelMock.Object);
+                _importLabReportServiceMock.Object);
         }
 
         [Fact]
@@ -228,6 +223,22 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldPublishOpenDetailViewEvent()
+        {
+            var eventMock = new Mock<OpenDetailViewEvent>();
+
+            _eventAggregatorMock
+                .Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
+                .Returns(eventMock.Object);
+            _viewModel.SelectedLabReport = new NavItemViewModel(
+                Guid.NewGuid(), "", "SampleDetailViewModel", _eventAggregatorMock.Object);
+
+            _viewModel.OpenDetailViewCommand.Execute(null);
+
+            eventMock.Verify(e => e.Publish(It.IsAny<OpenDetailViewEventArgs>()), Times.Once);
         }
     }
 }

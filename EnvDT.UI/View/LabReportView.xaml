@@ -22,7 +22,7 @@
                 Command="{Binding ImportLabReportCommand}"/>
 
         <Button Content="Evaluate" Width="125" Margin="10"
-                Command="{Binding OpenSampleDetailViewCommand}"/>
+                Command="{Binding OpenDetailViewCommand}"/>
 
         <Button Content="Remove" Width="125" Margin="10"
                 Command="{Binding DeleteLabReportCommand}"/>

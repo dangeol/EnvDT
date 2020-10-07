@@ -13,7 +13,7 @@ using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class LabReportViewModel : NavViewModelBase, ILabReportViewModel
+    public class LabReportViewModel : NavItemViewModel, ILabReportViewModel
     {
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
@@ -21,16 +21,14 @@ namespace EnvDT.UI.ViewModel
         private ILabReportRepository _labReportRepository;
         private IOpenLabReportService _openLabReportService;
         private IImportLabReportService _importLabReportService;
-        private ISampleDetailViewModel _sampleDetailViewModel;
-        private IMainTabViewModel _mainTabViewModel;
         private Guid? _projectId;
         private string _labReportFileName;
         private NavItemViewModel _selectedLabReport;
+        private const string _sampleDetailViewModelName = "SampleDetailViewModel";
 
-        public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
-            ILabReportDataService labReportDataService, ILabReportRepository labReportRepository, 
-            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService,
-            ISampleDetailViewModel sampleDetailViewModel, IMainTabViewModel mainTabViewModel)
+        public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
+            ILabReportDataService labReportDataService, ILabReportRepository labReportRepository,
+            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -40,12 +38,10 @@ namespace EnvDT.UI.ViewModel
             _labReportRepository = labReportRepository;
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
-            _sampleDetailViewModel = sampleDetailViewModel;
-            _mainTabViewModel = mainTabViewModel;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenLabReportExecute, OnOpenLabReportCanExecute);
             ImportLabReportCommand = new DelegateCommand(OnImportLabReportExecute, OnImportLabReportCanExecute);
-            OpenSampleDetailViewCommand = new DelegateCommand(OnOpenSampleDetailViewExecute, OnOpenSampleDetailViewCanExecute);
+            OpenDetailViewCommand = new DelegateCommand(OnOpenDetailViewExecute, OnOpenDetailViewCanExecute);
             DeleteLabReportCommand = new DelegateCommand(OnDeleteLabReportExecute, OnDeleteLabReportCanExecute);
 
             LabReports = new ObservableCollection<NavItemViewModel>();
@@ -53,7 +49,6 @@ namespace EnvDT.UI.ViewModel
 
         public ICommand OpenLabReportCommand { get; }
         public ICommand ImportLabReportCommand { get; }
-        public ICommand OpenSampleDetailViewCommand { get; }
         public ICommand DeleteLabReportCommand { get; }
         public ObservableCollection<NavItemViewModel> LabReports { get; }
         public string LabReportFilePath { get; set; }
@@ -74,8 +69,11 @@ namespace EnvDT.UI.ViewModel
             set 
             { 
                 _selectedLabReport = value;
+                LookupItemId = _selectedLabReport.LookupItemId;
+                DetailViewModelName = _sampleDetailViewModelName;
                 OnPropertyChanged();
                 ((DelegateCommand)DeleteLabReportCommand).RaiseCanExecuteChanged();
+                ((DelegateCommand)OpenDetailViewCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -92,11 +90,6 @@ namespace EnvDT.UI.ViewModel
                     labReport.LookupItemId, labReport.DisplayMember, "",
                     _eventAggregator));
             }
-        }
-
-        public override void LoadModels()
-        {
-            throw new NotImplementedException();
         }
 
         private void OnOpenLabReportExecute()
@@ -129,16 +122,9 @@ namespace EnvDT.UI.ViewModel
             return LabReportFilePath != null;
         }
 
-        private void OnOpenSampleDetailViewExecute()
+        protected override bool OnOpenDetailViewCanExecute()
         {
-            var newSampleDetailViewModel = (ViewModelBase)_sampleDetailViewModel;
-            _mainTabViewModel.TabbedViewModels.Add(newSampleDetailViewModel);
-            _mainTabViewModel.SelectedTabbedViewModel = newSampleDetailViewModel;
-        }
-
-        private bool OnOpenSampleDetailViewCanExecute()
-        {
-            return true;
+            return SelectedLabReport != null;
         }
 
         private void OnDeleteLabReportExecute()
@@ -179,11 +165,6 @@ namespace EnvDT.UI.ViewModel
                     _eventAggregator);
                 LabReports.Add(labReportItem);
             }
-        }
-
-        protected override void OnItemSelected(OpenDetailViewEventArgs args)
-        {
-            throw new NotImplementedException();
         }
     }
 }
