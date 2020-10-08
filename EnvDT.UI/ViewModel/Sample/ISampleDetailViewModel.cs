@@ -1,6 +1,6 @@
 ﻿namespace EnvDT.UI.ViewModel
 {
-    public interface ISampleDetailViewModel : IDetailViewModel
+    public interface ISampleDetailViewModel : IDetailViewModel, IMainTabViewModel
     {
     }
 }

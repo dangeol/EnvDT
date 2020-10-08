@@ -5,7 +5,7 @@ namespace EnvDT.UI.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ViewModelBase _currentViewModel;
+        private IMenuViewModel _currentViewModel;
         private IMainTabViewModel _mainTabViewModel;
         private ISettingsDetailViewModel _settingsDetailViewModel;
 
@@ -19,7 +19,7 @@ namespace EnvDT.UI.ViewModel
 
         public ICommand NavCommand { get; private set; }
 
-        public ViewModelBase CurrentViewModel
+        public IMenuViewModel CurrentViewModel
         {
             get { return _currentViewModel; }
             set 
@@ -34,11 +34,11 @@ namespace EnvDT.UI.ViewModel
             switch (destination)
             {
                 case "main":
-                    CurrentViewModel = (ViewModelBase)_mainTabViewModel;
+                    CurrentViewModel = _mainTabViewModel;
                     break;
                 case "settings":
                 default:
-                    CurrentViewModel = (ViewModelBase)_settingsDetailViewModel;
+                    CurrentViewModel = _settingsDetailViewModel;
                     break;
             }
         }

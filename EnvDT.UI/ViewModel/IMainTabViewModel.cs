@@ -1,10 +1,6 @@
-﻿using System.Collections.ObjectModel;
-
-namespace EnvDT.UI.ViewModel
+﻿namespace EnvDT.UI.ViewModel
 {
-    public interface IMainTabViewModel 
+    public interface IMainTabViewModel : IMenuViewModel
     {
-        public ObservableCollection<ViewModelBase> TabbedViewModels { get; }
-        public ViewModelBase SelectedTabbedViewModel { get; set; }
     }
 }

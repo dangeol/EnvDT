@@ -1,6 +1,6 @@
 ﻿namespace EnvDT.UI.ViewModel
 {
-    public interface ISettingsDetailViewModel
+    public interface ISettingsDetailViewModel : IMenuViewModel
     {
     }
 }

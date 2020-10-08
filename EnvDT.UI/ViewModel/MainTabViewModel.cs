@@ -10,6 +10,7 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IProjectViewModel _projectViewModel;
         private Func<ISampleDetailViewModel> _sampleDetailVmCreator;
+        private IMainTabViewModel _selectedTabbedViewModel;
 
         public MainTabViewModel(IEventAggregator eventAggregator, IProjectViewModel projectViewModel,
             Func<ISampleDetailViewModel> sampleDetailVmCreator)
@@ -18,17 +19,15 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
             _projectViewModel = projectViewModel;
             _sampleDetailVmCreator = sampleDetailVmCreator;
-            TabbedViewModels = new ObservableCollection<ViewModelBase>();
+            TabbedViewModels = new ObservableCollection<IMainTabViewModel>();
             TabbedViewModels.Clear();
-            TabbedViewModels.Add((ViewModelBase)_projectViewModel);
+            TabbedViewModels.Add(_projectViewModel);
             SelectedTabbedViewModel = TabbedViewModels[0];
         }
 
-        private ViewModelBase _selectedTabbedViewModel;
+        public ObservableCollection<IMainTabViewModel> TabbedViewModels { get; set; }
 
-        public ObservableCollection<ViewModelBase> TabbedViewModels { get; set; }
-
-        public ViewModelBase SelectedTabbedViewModel
+        public IMainTabViewModel SelectedTabbedViewModel
         {
             get { return _selectedTabbedViewModel; }
             set
@@ -49,8 +48,8 @@ namespace EnvDT.UI.ViewModel
         private void CreateAndLoadSampleDetailViewModel(OpenDetailViewEventArgs args)
         {
             ISampleDetailViewModel detailViewModel = _sampleDetailVmCreator(); 
-            TabbedViewModels.Add((ViewModelBase)detailViewModel);
-            SelectedTabbedViewModel = (ViewModelBase)detailViewModel;
+            TabbedViewModels.Add(detailViewModel);
+            SelectedTabbedViewModel = detailViewModel;
             //detailViewModel.Load(args.Id);
         }
     }

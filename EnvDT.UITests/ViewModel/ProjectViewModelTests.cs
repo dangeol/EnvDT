@@ -142,8 +142,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.CreateNewDetailCommand.Execute(parameter: type);
 
             Assert.NotNull(_viewModel.DetailViewModel);
-            var projectDetailVm = _viewModel.DetailViewModel;
-            Assert.Equal(projectDetailVm, _viewModel.DetailViewModel);
+            Assert.Equal(_projectDetailViewModelMock.Object, _viewModel.DetailViewModel);
             _projectDetailViewModelMock.Verify(vm => vm.Load(null), Times.Once);
         }
 
