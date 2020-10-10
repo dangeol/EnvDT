@@ -11,9 +11,7 @@ namespace EnvDT.UITests.Service
     public class ImportLabReportServiceTests
     {
         private Mock<IEventAggregator> _eventAggregatorMock;
-        private Mock<ILabReportRepository> _labReportRepositoryMock;
-        private Mock<ISampleRepository> _sampleRepositoryMock;
-        private Mock<ISampleValueRepository> _sampleValueRepositoryMock;
+        private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private ImportLabReportService _importLabReportService;
         private LabReport _labReport;
@@ -24,17 +22,14 @@ namespace EnvDT.UITests.Service
             _labReport = new LabReport();
             _labReport.ReportLabIdent = _reportLabIdent;
             _eventAggregatorMock = new Mock<IEventAggregator>();
-            _labReportRepositoryMock = new Mock<ILabReportRepository>();
-            _labReportRepositoryMock.Setup(lr => lr.GetByReportLabIdent(_reportLabIdent))
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _unitOfWorkMock.Setup(uw => uw.LabReports.GetByReportLabIdent(_reportLabIdent))
                 .Returns(_labReport);
-            _sampleRepositoryMock = new Mock<ISampleRepository>();
-            _sampleValueRepositoryMock = new Mock<ISampleValueRepository>();
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
             _importLabReportService = new ImportLabReportService(_eventAggregatorMock.Object,
-                _messageDialogServiceMock.Object, _labReportRepositoryMock.Object,
-                _sampleRepositoryMock.Object, _sampleValueRepositoryMock.Object);
+                _messageDialogServiceMock.Object, _unitOfWorkMock.Object);
         }
 
         [Fact]

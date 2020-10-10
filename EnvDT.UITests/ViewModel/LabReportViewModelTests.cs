@@ -20,7 +20,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IOpenLabReportService> _openLabReportServiceMock;
         private Mock<ILabReportDataService> _labReportDataServiceMock;
-        private Mock<ILabReportRepository> _labReportRepositoryMock;
+        private Mock<IUnitOfWork> _unitOfWorkMock;
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
@@ -43,8 +43,8 @@ namespace EnvDT.UITests.ViewModel
             _openLabReportServiceMock.Setup(ol => ol.OpenLabReport())
                 .Returns(_labReportFilePath);
             _labReportDataServiceMock = new Mock<ILabReportDataService>();
-            _labReportRepositoryMock = new Mock<ILabReportRepository>();
-            _labReportRepositoryMock.Setup(lr => lr.GetById(_lookupItemId1))
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(_lookupItemId1))
                 .Returns(new Model.Entity.LabReport
                 {
                     LabReportId = _lookupItemId1,
@@ -68,8 +68,8 @@ namespace EnvDT.UITests.ViewModel
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
-                _messageDialogServiceMock.Object, _labReportDataServiceMock.Object, 
-                _labReportRepositoryMock.Object, _openLabReportServiceMock.Object, 
+                _messageDialogServiceMock.Object, _labReportDataServiceMock.Object,
+                _unitOfWorkMock.Object, _openLabReportServiceMock.Object, 
                 _importLabReportServiceMock.Object);
         }
 

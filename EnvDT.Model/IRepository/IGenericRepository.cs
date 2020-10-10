@@ -8,7 +8,6 @@ namespace EnvDT.Model.IRepository
         T GetFirst();
         void Create(T model);
         void Delete(T model);
-        void Save();
         bool HasChanges();
     }
 }

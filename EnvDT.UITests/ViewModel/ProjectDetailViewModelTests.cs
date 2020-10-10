@@ -14,7 +14,7 @@ namespace EnvDT.UITests.ViewModel
     public class ProjectDetailViewModelTests
     {
         private Guid _projectId = new Guid("77ec605f-3909-471f-a866-a2c4759bf5a0");
-        private Mock<IProjectRepository> _projectRepositoryMock;
+        private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<ILabReportViewModel> _labReportViewModelMock;
@@ -26,8 +26,8 @@ namespace EnvDT.UITests.ViewModel
         {
             _projectSavedEventMock = new Mock<DetailSavedEvent>();
             _projectDeletedEventMock = new Mock<DetailDeletedEvent>();
-            _projectRepositoryMock = new Mock<IProjectRepository>();
-            _projectRepositoryMock.Setup(pr => pr.GetById(_projectId))
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _unitOfWorkMock.Setup(pr => pr.Projects.GetById(_projectId))
                 .Returns(new Model.Entity.Project { ProjectId = _projectId, 
                     ProjectNumber = "012345", ProjectName = "name" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
@@ -38,7 +38,7 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
 
-            _viewModel = new ProjectDetailViewModel(_projectRepositoryMock.Object, 
+            _viewModel = new ProjectDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
                 CreateLabReportViewModel);
         }
@@ -65,7 +65,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.NotNull(_viewModel.Project);
             Assert.Equal(_projectId, _viewModel.Project.ProjectId);
 
-            _projectRepositoryMock.Verify(pr => pr.GetById(_projectId), Times.Once);
+            _unitOfWorkMock.Verify(uw => uw.Projects.GetById(_projectId), Times.Once);
         }
 
         [Fact]
@@ -168,7 +168,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Project.ProjectNumber = "Changed";
 
             _viewModel.SaveCommand.Execute(null);
-            _projectRepositoryMock.Verify(pr => pr.Save(), Times.Once);
+            _unitOfWorkMock.Verify(uw => uw.Save(), Times.Once);
         }
 
         [Fact]
@@ -204,7 +204,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal("", _viewModel.Project.ProjectName);
             Assert.Null(_viewModel.Project.ProjectAddress);
 
-            _projectRepositoryMock.Verify(pr => pr.GetById(It.IsAny<Guid>()), Times.Never);
+            _unitOfWorkMock.Verify(uw => uw.Projects.GetById(It.IsAny<Guid>()), Times.Never);
         }
 
         [Fact]
@@ -242,7 +242,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.DeleteCommand.Execute(null);
 
-            _projectRepositoryMock.Verify(pr => pr.Delete(_viewModel.Project.Model), 
+            _unitOfWorkMock.Verify(uw => uw.Projects.Delete(_viewModel.Project.Model), 
                 Times.Exactly(expectedDeleteProjectCalls));
             Assert.Equal(laboratoryReportViewModelIsNull, _viewModel.LabReportViewModel == null);
             _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),

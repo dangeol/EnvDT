@@ -15,19 +15,14 @@ namespace EnvDT.UI.Service
     {
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
-        private ILabReportRepository _labReportRepository;
-        private ISampleRepository _sampleRepository;
-        private ISampleValueRepository _sampleValueRepository;
+        private IUnitOfWork _unitOfWork;
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            ILabReportRepository labReportRepository, ISampleRepository sampleRepository, 
-            ISampleValueRepository sampleValueRepository)
+            IUnitOfWork unitOfWork)
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
-            _labReportRepository = labReportRepository;
-            _sampleRepository = sampleRepository;
-            _sampleValueRepository = sampleValueRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public void ImportLabReport(string file, Guid? projectId)
@@ -82,9 +77,7 @@ namespace EnvDT.UI.Service
 
                 reader.Close();
 
-                _labReportRepository.Save();
-                _sampleRepository.Save();
-                _sampleValueRepository.Save();
+                _unitOfWork.Save();
 
                 RaiseLabReportImportedEvent(labReportId,
                     $"{reportLabIdent} {laboratoryName}");
@@ -97,7 +90,7 @@ namespace EnvDT.UI.Service
 
         public bool IsLabReportAlreadyPresent(string reportLabIdent)
         {
-            var foundLabReport = _labReportRepository.GetByReportLabIdent(reportLabIdent);
+            var foundLabReport = _unitOfWork.LabReports.GetByReportLabIdent(reportLabIdent);
             if (foundLabReport != null) { 
                 var result = _messageDialogService.ShowOkDialog("Import LabReport",
                     $"This LabReport has already been imported. Please chose another file or" +
@@ -112,14 +105,14 @@ namespace EnvDT.UI.Service
 
         private LabReport CreateLabReport(string reportLabIdent, string laboratoryName, Guid? projectId)
         {
-            Guid laboratoryId = _labReportRepository.GetLabIdByLabName(laboratoryName).LaboratoryId;
+            Guid laboratoryId = _unitOfWork.LabReports.GetLabIdByLabName(laboratoryName).LaboratoryId;
 
             var labReport = new LabReport();
             labReport.ReportLabIdent = reportLabIdent;
             labReport.LaboratoryId = laboratoryId;
             labReport.ProjectId = (Guid)projectId;
 
-            _labReportRepository.Create(labReport);
+            _unitOfWork.LabReports.Create(labReport);
 
             return labReport;
         }
@@ -131,7 +124,7 @@ namespace EnvDT.UI.Service
             sample.SampleName = sampleName;
             sample.LabReportId = labReportId;
 
-            _sampleRepository.Create(sample);
+            _unitOfWork.Samples.Create(sample);
 
             return sample;
         }
@@ -154,9 +147,9 @@ namespace EnvDT.UI.Service
                     detectionLimit = (double)workSheet.Rows[r][2];
                 }
                 var labParamName = workSheet.Rows[r][0].ToString();
-                var paramLabs = _sampleValueRepository.GetParamLabsByLabParamName(labParamName);
+                var paramLabs = _unitOfWork.SampleValues.GetParamLabsByLabParamName(labParamName);
                 var unitName = workSheet.Rows[r][1].ToString();
-                var unitId = _sampleValueRepository.GetUnitIdByName(unitName)?.UnitId ?? Guid.Empty;
+                var unitId = _unitOfWork.SampleValues.GetUnitIdByName(unitName)?.UnitId ?? Guid.Empty;
 
 
                 //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
@@ -180,7 +173,7 @@ namespace EnvDT.UI.Service
                         sampleValue.ParameterId = paramLab.ParameterId;
                         sampleValue.UnitId = unitId;
 
-                        _sampleValueRepository.Create(sampleValue);
+                        _unitOfWork.SampleValues.Create(sampleValue);
                     }
                 }
                 r++;

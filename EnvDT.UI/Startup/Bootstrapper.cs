@@ -40,6 +40,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<EvalLabReportService>().As<IEvalLabReportService>();
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
             builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
             builder.RegisterType<LabReportRepository>().As<ILabReportRepository>();
             builder.RegisterType<SampleRepository>().As<ISampleRepository>();

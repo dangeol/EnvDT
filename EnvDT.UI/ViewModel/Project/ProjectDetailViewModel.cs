@@ -10,18 +10,18 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectDetailViewModel : DetailViewModelBase, IProjectDetailViewModel
     {
-        private IProjectRepository _projectRepository;
+        private IUnitOfWork _unitOfWork;
         private IMessageDialogService _messageDialogService;
         private Func<ILabReportViewModel> _labReportDetailVmCreator;
         private ILabReportViewModel _labReportViewModel;
 
         private ProjectWrapper _project;
 
-        public ProjectDetailViewModel(IProjectRepository projectRepository, IEventAggregator eventAggregator,
+        public ProjectDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator)
             :base(eventAggregator)
         {
-            _projectRepository = projectRepository;
+            _unitOfWork = unitOfWork;
             _messageDialogService = messageDialogService;
             _labReportDetailVmCreator = labReportDetailVmCreator;
         }
@@ -49,7 +49,7 @@ namespace EnvDT.UI.ViewModel
         public override void Load(Guid? projectId)
         {
             var project = projectId.HasValue
-                ? _projectRepository.GetById(projectId.Value)
+                ? _unitOfWork.Projects.GetById(projectId.Value)
                 : CreateNewProject();
 
             InitializeProject(projectId, project);
@@ -64,7 +64,7 @@ namespace EnvDT.UI.ViewModel
             {
                 if (!HasChanges)
                 {
-                    HasChanges = _projectRepository.HasChanges();
+                    HasChanges = _unitOfWork.Projects.HasChanges();
                 }
                 if (e.PropertyName == nameof(Project.HasErrors))
                 {
@@ -88,8 +88,8 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnSaveExecute()
         {
-            _projectRepository.Save();
-            HasChanges = _projectRepository.HasChanges();
+            _unitOfWork.Save();
+            HasChanges = _unitOfWork.Projects.HasChanges();
             RaiseDetailSavedEvent(Project.ProjectId,
                 $"{Project.ProjectNumber} {Project.ProjectName}");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
@@ -111,21 +111,21 @@ namespace EnvDT.UI.ViewModel
             {
                 RaiseDetailDeletedEvent(Project.Model.ProjectId);
                 SetPropertyValueToNull(this, "LabReportViewModel");
-                _projectRepository.Delete(Project.Model);
-                _projectRepository.Save();
+                _unitOfWork.Projects.Delete(Project.Model);
+                _unitOfWork.Save();
             }
         }
 
         protected override bool OnDeleteCanExecute()
         {
             return Project != null && Project.ProjectId != Guid.Empty 
-                && _projectRepository.GetById(Project.ProjectId) != null;
+                && _unitOfWork.Projects.GetById(Project.ProjectId) != null;
         }
 
         private Project CreateNewProject()
         {
             var project = new Project();
-            _projectRepository.Create(project);
+            _unitOfWork.Projects.Create(project);
             return project;
         }
     }

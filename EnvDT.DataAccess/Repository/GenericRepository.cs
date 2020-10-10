@@ -39,10 +39,5 @@ namespace EnvDT.DataAccess.Repository
         {
             return Context.ChangeTracker.HasChanges();
         }
-
-        public void Save()
-        {
-            Context.SaveChanges();
-        }
     }
 }

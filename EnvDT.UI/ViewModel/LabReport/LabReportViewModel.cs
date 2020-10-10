@@ -18,7 +18,7 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private ILabReportDataService _labReportDataService;
-        private ILabReportRepository _labReportRepository;
+        private IUnitOfWork _unitOfWork;
         private IOpenLabReportService _openLabReportService;
         private IImportLabReportService _importLabReportService;
         private Guid? _projectId;
@@ -27,7 +27,7 @@ namespace EnvDT.UI.ViewModel
         private const string _sampleDetailViewModelName = "SampleDetailViewModel";
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            ILabReportDataService labReportDataService, ILabReportRepository labReportRepository,
+            ILabReportDataService labReportDataService, IUnitOfWork unitOfWork,
             IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
             : base(eventAggregator)
         {
@@ -35,7 +35,7 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<LabReportImportedEvent>().Subscribe(OnLabReportImported);
             _messageDialogService = messageDialogService;
             _labReportDataService = labReportDataService;
-            _labReportRepository = labReportRepository;
+            _unitOfWork = unitOfWork;
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
 
@@ -134,14 +134,14 @@ namespace EnvDT.UI.ViewModel
                 $"and all related samples and values?");
             if (result == MessageDialogResult.Yes)
             {
-                var labReport = _labReportRepository.GetById(SelectedLabReport.LookupItemId);
+                var labReport = _unitOfWork.LabReports.GetById(SelectedLabReport.LookupItemId);
                 var labReportItem = LabReports.SingleOrDefault(lr => lr.LookupItemId == labReport.LabReportId);
                 if (labReportItem != null)
                 {
                     LabReports.Remove(labReportItem);
                 }
-                _labReportRepository.Delete(labReport);
-                _labReportRepository.Save();
+                _unitOfWork.LabReports.Delete(labReport);
+                _unitOfWork.Save();
             }
         }
 
