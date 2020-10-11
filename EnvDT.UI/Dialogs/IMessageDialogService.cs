@@ -4,11 +4,13 @@
     {
         MessageDialogResult ShowYesNoDialog(string title, string message);
         MessageDialogResult ShowOkDialog(string title, string message);
+        MessageDialogResult ShowOkCancelDialog(string title, string message);
     }
     public enum MessageDialogResult
     {
         Yes,
         No,
-        OK
+        OK,
+        Cancel
     }
 }

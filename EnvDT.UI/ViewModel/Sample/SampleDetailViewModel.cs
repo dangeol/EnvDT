@@ -22,7 +22,7 @@ namespace EnvDT.UI.ViewModel
 
         public override void Load(Guid? id)
         {
-            throw new NotImplementedException();
+            System.Diagnostics.Debug.WriteLine("LabReportId: "+id);
         }
 
         private void OnEvalExecute()

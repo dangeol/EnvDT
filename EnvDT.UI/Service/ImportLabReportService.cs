@@ -78,6 +78,7 @@ namespace EnvDT.UI.Service
                 reader.Close();
 
                 _unitOfWork.Save();
+                _unitOfWork.Dispose();
 
                 RaiseLabReportImportedEvent(labReportId,
                     $"{reportLabIdent} {laboratoryName}");

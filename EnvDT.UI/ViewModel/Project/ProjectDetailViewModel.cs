@@ -105,7 +105,7 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
-            var result = _messageDialogService.ShowYesNoDialog("Delete Project",
+            var result = _messageDialogService.ShowOkCancelDialog("Delete Project",
                 $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
             if (result == MessageDialogResult.Yes)
             {

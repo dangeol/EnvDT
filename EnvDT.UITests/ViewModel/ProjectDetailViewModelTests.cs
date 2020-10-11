@@ -237,7 +237,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.Load(_projectId);
 
-            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
             _viewModel.DeleteCommand.Execute(null);
@@ -245,7 +245,7 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock.Verify(uw => uw.Projects.Delete(_viewModel.Project.Model), 
                 Times.Exactly(expectedDeleteProjectCalls));
             Assert.Equal(laboratoryReportViewModelIsNull, _viewModel.LabReportViewModel == null);
-            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }
 
@@ -257,7 +257,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.Load(_projectId);
 
-            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
             _viewModel.DeleteCommand.Execute(null);
@@ -265,7 +265,7 @@ namespace EnvDT.UITests.ViewModel
             _projectDeletedEventMock.Verify(e => e.Publish(It.IsAny<DetailDeletedEventArgs>()), 
                 Times.Exactly(expectedPublishCalls));
 
-            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }
 
@@ -280,7 +280,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.DeleteCommand.Execute(null);
 
-            _messageDialogServiceMock.Verify(d => d.ShowYesNoDialog("Delete Project",
+            _messageDialogServiceMock.Verify(d => d.ShowOkCancelDialog("Delete Project",
                 $"Do you really want to delete the friend '{p.ProjectClient} {p.ProjectName}'?"),
                 Times.Once);
         }

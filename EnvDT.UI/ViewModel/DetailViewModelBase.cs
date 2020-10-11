@@ -22,7 +22,7 @@ namespace EnvDT.UI.ViewModel
         public abstract void Load(Guid? id);
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
-
+        
         public bool HasChanges
         {
             get { return _hasChanges; }
@@ -64,12 +64,11 @@ namespace EnvDT.UI.ViewModel
         {
             EventAggregator.GetEvent<DetailDeletedEvent>()
                 .Publish(
-                    new DetailDeletedEventArgs
-                    {
-                        Id = modelId,
-                        ViewModelName = this.GetType().Name
-                    });
+                new DetailDeletedEventArgs
+                {
+                    Id = modelId,
+                    ViewModelName = this.GetType().Name
+                });
         }
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Core;
 using EnvDT.Model.Entity;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UITests.Extensions;
@@ -14,14 +15,16 @@ namespace EnvDT.UITests.ViewModel
     {
         private MainTabViewModel _viewModel;
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IProjectViewModel> _projectViewModelMock;
         private Mock<Func<ISampleDetailViewModel>> _sampleDetailVmCreatorMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
+        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private SampleDetailViewModel _sampleDetailViewModel;
         private OpenDetailViewEvent _openDetailViewEvent;
         private LabReport _labReport;
         private string _detailViewModelName;
-        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
+        private string _reportLabIdent = "ident";
 
         public MainTabViewModelTests()
         {
@@ -29,15 +32,19 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
                 .Returns(_openDetailViewEvent);
-            _projectViewModelMock = new Mock<IProjectViewModel>();
             _labReport = new LabReport();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _labReport.ReportLabIdent = _reportLabIdent;
+            _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(It.IsAny<Guid>()))
+                .Returns(_labReport);
+            _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailVmCreatorMock = new Mock<Func<ISampleDetailViewModel>>();
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _sampleDetailViewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
                 _evalLabReportServiceMock.Object);
             _detailViewModelName = "SampleDetailViewModel";
 
-            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object,
+            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object,
                 _projectViewModelMock.Object, CreateSampleDetailViewModel);
         }
 
@@ -84,7 +91,13 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.Equal(2, _viewModel.TabbedViewModels.Count);
             Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
-            //_sampleDetailVmCreatorMock.Verify(sd => sd.Load(labReportId), Times.Once);
+            Assert.Equal(_viewModel.Title, _reportLabIdent);
+            _sampleDetailViewModelMock.Verify(sd => sd.Load(labReportId), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldRemoveTheRightTabWhenCloseDetailViewCommandIsExecuted()
+        {
         }
     }
 }

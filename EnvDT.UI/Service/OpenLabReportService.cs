@@ -8,6 +8,7 @@ namespace EnvDT.UI.Service
         public OpenLabReportService()
         {
         }
+
         public string OpenLabReport()
         {
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
