@@ -5,6 +5,7 @@ using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -28,10 +29,18 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<NavItemViewModel>();
+            Title = "Project";
+            IsSampleTab = false;
             LoadModels();
         }
 
         public ObservableCollection<NavItemViewModel> Projects { get; private set; }
+
+        public string Title { get; private set; }
+
+        public ICommand CloseDetailViewCommand { get; }
+
+        public bool IsSampleTab { get; private set; }
 
         public override void LoadModels()
         {

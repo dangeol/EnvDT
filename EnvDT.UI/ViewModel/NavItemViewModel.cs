@@ -50,8 +50,7 @@ namespace EnvDT.UI.ViewModel
         protected void OnOpenDetailViewExecute()
         {
             _eventAggregator.GetEvent<OpenDetailViewEvent>()
-                .Publish(
-                new OpenDetailViewEventArgs
+                .Publish(new OpenDetailViewEventArgs
                 {
                     Id = LookupItemId,
                     ViewModelName = DetailViewModelName

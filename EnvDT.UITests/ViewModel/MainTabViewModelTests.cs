@@ -24,7 +24,6 @@ namespace EnvDT.UITests.ViewModel
         private OpenDetailViewEvent _openDetailViewEvent;
         private LabReport _labReport;
         private string _detailViewModelName;
-        private string _reportLabIdent = "ident";
 
         public MainTabViewModelTests()
         {
@@ -34,17 +33,14 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_openDetailViewEvent);
             _labReport = new LabReport();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _labReport.ReportLabIdent = _reportLabIdent;
-            _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(It.IsAny<Guid>()))
-                .Returns(_labReport);
             _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailVmCreatorMock = new Mock<Func<ISampleDetailViewModel>>();
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _sampleDetailViewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
-                _evalLabReportServiceMock.Object);
+                _unitOfWorkMock.Object, _evalLabReportServiceMock.Object);
             _detailViewModelName = "SampleDetailViewModel";
 
-            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object,
+            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object,
                 _projectViewModelMock.Object, CreateSampleDetailViewModel);
         }
 
@@ -83,21 +79,16 @@ namespace EnvDT.UITests.ViewModel
         {
             var labReportId = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
             _openDetailViewEvent.Publish(
-            new OpenDetailViewEventArgs
-            {
-                Id = labReportId,
-                ViewModelName = _detailViewModelName
-            });
+                new OpenDetailViewEventArgs
+                {
+                    Id = labReportId,
+                    ViewModelName = _detailViewModelName
+                }
+            );
 
             Assert.Equal(2, _viewModel.TabbedViewModels.Count);
             Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
-            Assert.Equal(_viewModel.Title, _reportLabIdent);
             _sampleDetailViewModelMock.Verify(sd => sd.Load(labReportId), Times.Once);
-        }
-
-        [Fact]
-        public void ShouldRemoveTheRightTabWhenCloseDetailViewCommandIsExecuted()
-        {
         }
     }
 }

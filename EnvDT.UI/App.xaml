@@ -10,6 +10,7 @@
       <ResourceDictionary.MergedDictionaries>
         <!--Custom Resources-->
         <ResourceDictionary>
+          <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
           <Style TargetType="TextBox">
             <Setter Property="Validation.ErrorTemplate">
               <Setter.Value>
