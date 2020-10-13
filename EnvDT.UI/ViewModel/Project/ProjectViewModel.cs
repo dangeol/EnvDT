@@ -42,6 +42,8 @@ namespace EnvDT.UI.ViewModel
 
         public bool IsSampleTab { get; private set; }
 
+        public Guid? LabReportId { get; set; }
+
         public override void LoadModels()
         {
             Projects.Clear();

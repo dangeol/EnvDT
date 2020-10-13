@@ -13,6 +13,7 @@ namespace EnvDT.UITests.ViewModel
     {
         private MainViewModel _viewModel;
         private Mock<OpenDetailViewEvent> _openDetailViewEventMock;
+        private Mock<DetailClosedEvent> _detailClosedEventMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IProjectViewModel> _projectViewModelMock;
         private Mock<Func<ISampleDetailViewModel>> _sampleDetailVmCreatorMock;
@@ -23,9 +24,12 @@ namespace EnvDT.UITests.ViewModel
         public MainViewModelTests()
         {
             _openDetailViewEventMock = new Mock<OpenDetailViewEvent>();
+            _detailClosedEventMock = new Mock<DetailClosedEvent>();
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<OpenDetailViewEvent>())
                 .Returns(_openDetailViewEventMock.Object);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
+                .Returns(_detailClosedEventMock.Object);
             _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailVmCreatorMock = new Mock<Func<ISampleDetailViewModel>>();
             _mainTabViewModel = new MainTabViewModel(_eventAggregatorMock.Object,

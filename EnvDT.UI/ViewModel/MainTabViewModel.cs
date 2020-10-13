@@ -2,6 +2,7 @@
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -17,6 +18,7 @@ namespace EnvDT.UI.ViewModel
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
+            _eventAggregator.GetEvent<DetailClosedEvent>().Subscribe(OnSampleDetailViewClosed);
             _projectViewModel = projectViewModel;
             _sampleDetailVmCreator = sampleDetailVmCreator;
             TabbedViewModels = new ObservableCollection<IMainTabViewModel>();
@@ -26,6 +28,8 @@ namespace EnvDT.UI.ViewModel
         }
 
         public ObservableCollection<IMainTabViewModel> TabbedViewModels { get; set; }
+
+        public Guid? LabReportId { get; set; }
 
         public IMainTabViewModel SelectedTabbedViewModel
         {
@@ -46,12 +50,24 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        private void OnSampleDetailViewClosed(DetailClosedEventArgs args)
+        {
+            var tabbedViewModel = TabbedViewModels
+                   .SingleOrDefault(vm => vm.LabReportId == args.Id
+                   && vm.GetType().Name == args.ViewModelName);
+            if (tabbedViewModel != null)
+            {
+                SelectedTabbedViewModel = TabbedViewModels[0];
+                TabbedViewModels.Remove(tabbedViewModel);
+            }
+        }
+
         private void CreateAndLoadSampleDetailViewModel(OpenDetailViewEventArgs args)
         {
-            ISampleDetailViewModel detailViewModel = _sampleDetailVmCreator(); 
+            ISampleDetailViewModel detailViewModel = _sampleDetailVmCreator();
+            detailViewModel.Load(args.Id);
             TabbedViewModels.Add(detailViewModel);
             SelectedTabbedViewModel = detailViewModel;
-            detailViewModel.Load(args.Id);
         }
     }
 }

@@ -17,7 +17,6 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
         private SampleDetailViewModel _viewModel;
-        private DetailClosedEvent _detailClosedEvent;
         private Mock<DetailClosedEvent> _detailClosedEventMock;
         private LabReport _labReport;
         private string _reportLabIdent = "ident";

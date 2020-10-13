@@ -33,7 +33,7 @@ namespace EnvDT.UI.ViewModel
 
         public bool IsSampleTab { get; private set; }
 
-        public Guid? LabReportId { get; private set; }
+        public Guid? LabReportId { get; set; }
 
         public string Title
         {
@@ -47,7 +47,6 @@ namespace EnvDT.UI.ViewModel
 
         public override void Load(Guid? id)
         {
-            System.Diagnostics.Debug.WriteLine("LabReportId: "+id);
             SetLabReportIdAndTitle(id);
         }
 
