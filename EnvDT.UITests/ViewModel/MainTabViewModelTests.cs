@@ -7,6 +7,7 @@ using EnvDT.UITests.Extensions;
 using Moq;
 using Prism.Events;
 using System;
+using System.Linq;
 using Xunit;
 
 namespace EnvDT.UITests.ViewModel
@@ -96,6 +97,33 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal(2, _viewModel.TabbedViewModels.Count);
             Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
             _sampleDetailViewModelMock.Verify(sd => sd.Load(labReportId), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldLoadSampleDetailViewModelOnlyOnce()
+        {
+            var labReportId = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
+            _viewModel.TabbedViewModels.Clear();
+
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = labReportId,
+                    ViewModelName = _detailViewModelName
+                }
+            );
+            _viewModel.SelectedTabbedViewModel = _viewModel.TabbedViewModels.First();
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = labReportId,
+                    ViewModelName = _detailViewModelName
+                }
+            );
+
+            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
+            Assert.Equal(_viewModel.TabbedViewModels.Last().LabReportId, 
+                _viewModel.SelectedTabbedViewModel.LabReportId);
         }
 
         [Fact]

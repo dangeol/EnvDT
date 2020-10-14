@@ -7,7 +7,7 @@ namespace EnvDT.UI.Event
     {
     }
 
-    public class OpenDetailViewEventArgs
+    public class OpenDetailViewEventArgs : IDetailEventArgs
     {
         public Guid? Id { get; set; }
         public string ViewModelName { get; set; }

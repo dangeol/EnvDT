@@ -38,28 +38,38 @@ namespace EnvDT.UI.ViewModel
             {
                 _selectedTabbedViewModel = value;
                 OnPropertyChanged();
-                System.Diagnostics.Debug.WriteLine("_selectedTabbedViewModel: "+_selectedTabbedViewModel);
             }
         }
 
         private void OnItemSelected(OpenDetailViewEventArgs args)
         {
-            if (args.Id != Guid.Empty && args.ViewModelName == nameof(SampleDetailViewModel))
+            IMainTabViewModel tabbedViewModel = GetTabbedViewModelByEventArgs(args);
+            if (args.Id != Guid.Empty && tabbedViewModel == null 
+                && args.ViewModelName == nameof(SampleDetailViewModel))
             {
                 CreateAndLoadSampleDetailViewModel(args);
+            }
+            else if (tabbedViewModel != null)
+            {
+                SelectedTabbedViewModel = tabbedViewModel;
             }
         }
 
         private void OnSampleDetailViewClosed(DetailClosedEventArgs args)
         {
-            var tabbedViewModel = TabbedViewModels
-                   .SingleOrDefault(vm => vm.LabReportId == args.Id
-                   && vm.GetType().Name == args.ViewModelName);
+            IMainTabViewModel tabbedViewModel = GetTabbedViewModelByEventArgs(args);
             if (tabbedViewModel != null)
             {
                 SelectedTabbedViewModel = TabbedViewModels[0];
                 TabbedViewModels.Remove(tabbedViewModel);
             }
+        }
+
+        private IMainTabViewModel GetTabbedViewModelByEventArgs(IDetailEventArgs args)
+        {
+            return TabbedViewModels
+                   .SingleOrDefault(vm => vm.LabReportId == args.Id
+                   && vm.GetType().Name == args.ViewModelName);
         }
 
         private void CreateAndLoadSampleDetailViewModel(OpenDetailViewEventArgs args)
