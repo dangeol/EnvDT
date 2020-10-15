@@ -2,7 +2,6 @@
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -11,9 +10,10 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IProjectViewModel _projectViewModel;
         private Func<ISampleDetailViewModel> _sampleDetailVmCreator;
+        private ITab _tab;
         private IMainTabViewModel _selectedTabbedViewModel;
         
-        public MainTabViewModel(IEventAggregator eventAggregator,
+        public MainTabViewModel(IEventAggregator eventAggregator, ITab tab,
             IProjectViewModel projectViewModel, Func<ISampleDetailViewModel> sampleDetailVmCreator)
         {
             _eventAggregator = eventAggregator;
@@ -21,13 +21,17 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<DetailClosedEvent>().Subscribe(OnSampleDetailViewClosed);
             _projectViewModel = projectViewModel;
             _sampleDetailVmCreator = sampleDetailVmCreator;
-            TabbedViewModels = new ObservableCollection<IMainTabViewModel>();
-            TabbedViewModels.Clear();
-            TabbedViewModels.Add(_projectViewModel);
-            SelectedTabbedViewModel = TabbedViewModels[0];
+            _tab = tab;
+            _tab.TabbedViewModels = new ObservableCollection<IMainTabViewModel>();
+            _tab.TabbedViewModels.Clear();
+            _tab.TabbedViewModels.Add(_projectViewModel);
+            SelectedTabbedViewModel = _tab.TabbedViewModels[0];
         }
 
-        public ObservableCollection<IMainTabViewModel> TabbedViewModels { get; set; }
+        public ObservableCollection<IMainTabViewModel> TabbedViewModels
+        {
+            get { return _tab.TabbedViewModels; }
+        }
 
         public Guid? LabReportId { get; set; }
 
@@ -43,7 +47,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnItemSelected(OpenDetailViewEventArgs args)
         {
-            IMainTabViewModel tabbedViewModel = GetTabbedViewModelByEventArgs(args);
+            IMainTabViewModel tabbedViewModel = _tab.GetTabbedViewModelByEventArgs(args);
             if (args.Id != Guid.Empty && tabbedViewModel == null 
                 && args.ViewModelName == nameof(SampleDetailViewModel))
             {
@@ -57,26 +61,19 @@ namespace EnvDT.UI.ViewModel
 
         private void OnSampleDetailViewClosed(DetailClosedEventArgs args)
         {
-            IMainTabViewModel tabbedViewModel = GetTabbedViewModelByEventArgs(args);
+            IMainTabViewModel tabbedViewModel = _tab.GetTabbedViewModelByEventArgs(args);
             if (tabbedViewModel != null)
             {
-                SelectedTabbedViewModel = TabbedViewModels[0];
-                TabbedViewModels.Remove(tabbedViewModel);
+                SelectedTabbedViewModel = _tab.TabbedViewModels[0];
+                _tab.TabbedViewModels.Remove(tabbedViewModel);
             }
-        }
-
-        private IMainTabViewModel GetTabbedViewModelByEventArgs(IDetailEventArgs args)
-        {
-            return TabbedViewModels
-                   .SingleOrDefault(vm => vm.LabReportId == args.Id
-                   && vm.GetType().Name == args.ViewModelName);
         }
 
         private void CreateAndLoadSampleDetailViewModel(OpenDetailViewEventArgs args)
         {
             ISampleDetailViewModel detailViewModel = _sampleDetailVmCreator();
             detailViewModel.Load(args.Id);
-            TabbedViewModels.Add(detailViewModel);
+            _tab.TabbedViewModels.Add(detailViewModel);
             SelectedTabbedViewModel = detailViewModel;
         }
     }

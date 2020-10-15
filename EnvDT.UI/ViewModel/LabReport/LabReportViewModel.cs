@@ -19,6 +19,7 @@ namespace EnvDT.UI.ViewModel
         private IMessageDialogService _messageDialogService;
         private ILabReportDataService _labReportDataService;
         private IUnitOfWork _unitOfWork;
+        private ITab _tab;
         private IOpenLabReportService _openLabReportService;
         private IImportLabReportService _importLabReportService;
         private Guid? _projectId;
@@ -27,7 +28,7 @@ namespace EnvDT.UI.ViewModel
         private const string _sampleDetailViewModelName = "SampleDetailViewModel";
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            ILabReportDataService labReportDataService, IUnitOfWork unitOfWork,
+            ILabReportDataService labReportDataService, IUnitOfWork unitOfWork, ITab tab,
             IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
             : base(eventAggregator)
         {
@@ -36,6 +37,7 @@ namespace EnvDT.UI.ViewModel
             _messageDialogService = messageDialogService;
             _labReportDataService = labReportDataService;
             _unitOfWork = unitOfWork;
+            _tab = tab;
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
 
@@ -129,6 +131,20 @@ namespace EnvDT.UI.ViewModel
 
         private void OnDeleteLabReportExecute()
         {
+            var detailEventArgs = new DetailClosedEventArgs
+            {
+                Id = SelectedLabReport.LookupItemId,
+                ViewModelName = _sampleDetailViewModelName
+            };
+
+            var openTab = _tab.GetTabbedViewModelByEventArgs(detailEventArgs);
+            if (openTab != null)
+            {
+                _messageDialogService.ShowOkDialog("Delete LabReport",
+                    $"Please close first related open Tab '{SelectedLabReport.DisplayMember}'.");
+                return;
+            }
+
             var result = _messageDialogService.ShowYesNoDialog("Delete LabReport",
                 $"Do you really want to delete the LabReport '{SelectedLabReport.DisplayMember}' " +
                 $"and all related samples and values?");

@@ -9,6 +9,7 @@ using Moq;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Xunit;
 
@@ -21,6 +22,8 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IOpenLabReportService> _openLabReportServiceMock;
         private Mock<ILabReportDataService> _labReportDataServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<ITab> _tabMock;
+        private ObservableCollection<IMainTabViewModel> _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
@@ -31,6 +34,8 @@ namespace EnvDT.UITests.ViewModel
         private string _reportLabIdent = "ident";
         private Guid _lookupItemId1 = new Guid("09d26650-6d03-4676-a0cb-35ef0052171a");
         private Guid _lookupItemId2 = new Guid("190f6042-bdc0-4416-826b-94179458762e");
+        private Guid _labReportId1 = new Guid("53753aad-6961-45d9-a27f-3a82867519a9");
+        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
 
         public LabReportViewModelTests()
         {
@@ -39,6 +44,8 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock.Setup(ea => ea.GetEvent<LabReportImportedEvent>())
                 .Returns(_labReportImportedEvent);
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(MessageDialogResult.OK);
             _openLabReportServiceMock = new Mock<IOpenLabReportService>();
             _openLabReportServiceMock.Setup(ol => ol.OpenLabReport())
                 .Returns(_labReportFilePath);
@@ -50,6 +57,13 @@ namespace EnvDT.UITests.ViewModel
                     LabReportId = _lookupItemId1,
                     ReportLabIdent = _reportLabIdent
                 });
+            _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
+            _sampleDetailViewModelMock.SetupGet(vm => vm.LabReportId)
+                .Returns(_labReportId1);
+            _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
+            _tabMock = new Mock<ITab>();
+            _tabMock.Setup(t => t.GetTabbedViewModelByEventArgs(It.IsAny<IDetailEventArgs>()))
+                .Returns(_tabbedViewModels.First());
             _projectId = new Guid("e26b1ce2-d946-41c7-9edf-ca55b0a47fa0");
             _labReportDataServiceMock.Setup(lr => lr.GetAllLabReportsLookupByProjectId(_projectId))
                 .Returns(new List<LookupItem>
@@ -69,7 +83,7 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _labReportDataServiceMock.Object,
-                _unitOfWorkMock.Object, _openLabReportServiceMock.Object, 
+                _unitOfWorkMock.Object, _tabMock.Object, _openLabReportServiceMock.Object, 
                 _importLabReportServiceMock.Object);
         }
 
@@ -203,6 +217,20 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.SelectedLabReport = new NavItemViewModel(new Guid(), "", "", _eventAggregatorMock.Object);
 
             Assert.True(_viewModel.DeleteLabReportCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldNotDeleteSelectedLabReportWhenRelatedTabIsOpen()
+        {
+            _viewModel.Load(_projectId);
+
+            _viewModel.SelectedLabReport = new NavItemViewModel(_labReportId1, "", "", _eventAggregatorMock.Object);
+            _viewModel.DeleteLabReportCommand.Execute(null);
+
+            Assert.Equal(2, _viewModel.LabReports.Count);
+
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
         }
 
         [Theory]

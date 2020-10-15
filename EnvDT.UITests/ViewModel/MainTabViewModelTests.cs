@@ -7,6 +7,7 @@ using EnvDT.UITests.Extensions;
 using Moq;
 using Prism.Events;
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Xunit;
 
@@ -24,6 +25,7 @@ namespace EnvDT.UITests.ViewModel
         private SampleDetailViewModel _sampleDetailViewModel;
         private OpenDetailViewEvent _openDetailViewEvent;
         private DetailClosedEvent _detailClosedEvent;
+        private Mock<ITab> _tabMock;
         private LabReport _labReport;
         private string _detailViewModelName;
         private Guid? _labReportId1;
@@ -37,6 +39,8 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_openDetailViewEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
                 .Returns(_detailClosedEvent);
+            _tabMock = new Mock<ITab>();
+            _tabMock.Setup(t => t.TabbedViewModels).Returns(new ObservableCollection<IMainTabViewModel>());
             _labReport = new LabReport();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _projectViewModelMock = new Mock<IProjectViewModel>();
@@ -47,7 +51,7 @@ namespace EnvDT.UITests.ViewModel
             _sampleDetailViewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
                 _unitOfWorkMock.Object, _evalLabReportServiceMock.Object);
 
-            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object,
+            _viewModel = new MainTabViewModel(_eventAggregatorMock.Object, _tabMock.Object,
                 _projectViewModelMock.Object, CreateSampleDetailViewModel);
         }
 
