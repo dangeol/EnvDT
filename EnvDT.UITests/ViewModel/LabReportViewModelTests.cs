@@ -23,7 +23,8 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILabReportDataService> _labReportDataServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ITab> _tabMock;
-        private ObservableCollection<IMainTabViewModel> _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
+        private ObservableCollection<IMainTabViewModel> _tabbedViewModels 
+                = new ObservableCollection<IMainTabViewModel>();
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
@@ -62,8 +63,6 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_labReportId1);
             _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
             _tabMock = new Mock<ITab>();
-            _tabMock.Setup(t => t.GetTabbedViewModelByEventArgs(It.IsAny<IDetailEventArgs>()))
-                .Returns(_tabbedViewModels.First());
             _projectId = new Guid("e26b1ce2-d946-41c7-9edf-ca55b0a47fa0");
             _labReportDataServiceMock.Setup(lr => lr.GetAllLabReportsLookupByProjectId(_projectId))
                 .Returns(new List<LookupItem>
@@ -219,29 +218,15 @@ namespace EnvDT.UITests.ViewModel
             Assert.True(_viewModel.DeleteLabReportCommand.CanExecute(null));
         }
 
-        [Fact]
-        public void ShouldNotDeleteSelectedLabReportWhenRelatedTabIsOpen()
-        {
-            _viewModel.Load(_projectId);
-
-            _viewModel.SelectedLabReport = new NavItemViewModel(_labReportId1, "", "", _eventAggregatorMock.Object);
-            _viewModel.DeleteLabReportCommand.Execute(null);
-
-            Assert.Equal(2, _viewModel.LabReports.Count);
-
-            _messageDialogServiceMock.Verify(ds => ds.ShowOkDialog(It.IsAny<string>(),
-                It.IsAny<string>()), Times.Once);
-        }
-
         [Theory]
-        [InlineData(MessageDialogResult.Yes, 1)]
-        [InlineData(MessageDialogResult.No, 2)]
+        [InlineData(MessageDialogResult.OK, 1)]
+        [InlineData(MessageDialogResult.Cancel, 2)]
         public void ShouldDeleteSelectedLabReportWhenDeleteLabReportCommandIsExecuted(
             MessageDialogResult result, int expectedLabReportsCount)
         {
             _viewModel.Load(_projectId);
 
-            _messageDialogServiceMock.Setup(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(result);
 
             _viewModel.SelectedLabReport = new NavItemViewModel(_lookupItemId1, "", "", _eventAggregatorMock.Object);
@@ -249,7 +234,22 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.Equal(expectedLabReportsCount, _viewModel.LabReports.Count);
 
-            _messageDialogServiceMock.Verify(ds => ds.ShowYesNoDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldNotDeleteSelectedLabReportWhenRelatedTabIsOpen()
+        {
+            _viewModel.Load(_projectId);
+            _tabMock.Setup(t => t.GetTabbedViewModelByEventArgs(It.IsAny<IDetailEventArgs>()))
+                .Returns(_tabbedViewModels.First());
+            _viewModel.SelectedLabReport = new NavItemViewModel(_labReportId1, "", "", _eventAggregatorMock.Object);
+            _viewModel.DeleteLabReportCommand.Execute(null);
+
+            Assert.Equal(2, _viewModel.LabReports.Count);
+
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }
 

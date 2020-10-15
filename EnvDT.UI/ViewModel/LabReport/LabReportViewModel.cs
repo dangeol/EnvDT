@@ -145,10 +145,10 @@ namespace EnvDT.UI.ViewModel
                 return;
             }
 
-            var result = _messageDialogService.ShowYesNoDialog("Delete LabReport",
+            var result = _messageDialogService.ShowOkCancelDialog("Delete LabReport",
                 $"Do you really want to delete the LabReport '{SelectedLabReport.DisplayMember}' " +
                 $"and all related samples and values?");
-            if (result == MessageDialogResult.Yes)
+            if (result == MessageDialogResult.OK)
             {
                 var labReport = _unitOfWork.LabReports.GetById(SelectedLabReport.LookupItemId);
                 var labReportItem = LabReports.SingleOrDefault(lr => lr.LookupItemId == labReport.LabReportId);

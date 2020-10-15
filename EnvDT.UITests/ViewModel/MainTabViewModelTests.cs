@@ -19,13 +19,13 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IProjectViewModel> _projectViewModelMock;
-        private Mock<Func<ISampleDetailViewModel>> _sampleDetailVmCreatorMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private SampleDetailViewModel _sampleDetailViewModel;
         private OpenDetailViewEvent _openDetailViewEvent;
         private DetailClosedEvent _detailClosedEvent;
         private Mock<ITab> _tabMock;
+        private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
         private LabReport _labReport;
         private string _detailViewModelName;
         private Guid? _labReportId1;
@@ -39,12 +39,13 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_openDetailViewEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
                 .Returns(_detailClosedEvent);
-            _tabMock = new Mock<ITab>();
-            _tabMock.Setup(t => t.TabbedViewModels).Returns(new ObservableCollection<IMainTabViewModel>());
-            _labReport = new LabReport();
-            _unitOfWorkMock = new Mock<IUnitOfWork>();
             _projectViewModelMock = new Mock<IProjectViewModel>();
-            _sampleDetailVmCreatorMock = new Mock<Func<ISampleDetailViewModel>>();
+            _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
+            _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
+            _tabMock = new Mock<ITab>();
+            _tabMock.Setup(t => t.TabbedViewModels).Returns(_tabbedViewModels);
+            _labReport = new LabReport();
+            _unitOfWorkMock = new Mock<IUnitOfWork>();            
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _detailViewModelName = "SampleDetailViewModel";
             _labReportId1 = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
@@ -89,51 +90,6 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldLoadSampleDetailViewModelIntoNewTabAndFocusToItWhenOpenDetailViewEventExecuted()
         {
-            var labReportId = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
-            _openDetailViewEvent.Publish(
-                new OpenDetailViewEventArgs
-                {
-                    Id = labReportId,
-                    ViewModelName = _detailViewModelName
-                }
-            );
-
-            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
-            Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
-            _sampleDetailViewModelMock.Verify(sd => sd.Load(labReportId), Times.Once);
-        }
-
-        [Fact]
-        public void ShouldLoadSampleDetailViewModelOnlyOnce()
-        {
-            var labReportId = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
-            _viewModel.TabbedViewModels.Clear();
-
-            _openDetailViewEvent.Publish(
-                new OpenDetailViewEventArgs
-                {
-                    Id = labReportId,
-                    ViewModelName = _detailViewModelName
-                }
-            );
-            _viewModel.SelectedTabbedViewModel = _viewModel.TabbedViewModels.First();
-            _openDetailViewEvent.Publish(
-                new OpenDetailViewEventArgs
-                {
-                    Id = labReportId,
-                    ViewModelName = _detailViewModelName
-                }
-            );
-
-            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
-            Assert.Equal(_viewModel.TabbedViewModels.Last().LabReportId, 
-                _viewModel.SelectedTabbedViewModel.LabReportId);
-        }
-
-        [Fact]
-        public void ShouldRemoveTabbedViewModelItemWhenSampleDetailViewIsClosed()
-        {
-            _labReportId1 = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
             _openDetailViewEvent.Publish(
                 new OpenDetailViewEventArgs
                 {
@@ -143,6 +99,51 @@ namespace EnvDT.UITests.ViewModel
             );
 
             Assert.Equal(2, _viewModel.TabbedViewModels.Count);
+            Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
+            _sampleDetailViewModelMock.Verify(sd => sd.Load(_labReportId1), Times.Once);
+            _tabMock.Object.TabbedViewModels.RemoveAt(1);
+        }
+
+        [Fact]
+        public void ShouldLoadSampleDetailViewModelOnlyOnce()
+        {
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = _labReportId1,
+                    ViewModelName = _detailViewModelName
+                }
+            );
+            _viewModel.SelectedTabbedViewModel = _viewModel.TabbedViewModels.First();
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = _labReportId1,
+                    ViewModelName = _detailViewModelName
+                }
+            );
+
+            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
+            Assert.Equal(_viewModel.TabbedViewModels.Last().LabReportId, 
+                _viewModel.SelectedTabbedViewModel.LabReportId);
+            _tabMock.Object.TabbedViewModels.RemoveAt(1);
+        }
+
+        [Fact]
+        public void ShouldRemoveTabbedViewModelItemWhenSampleDetailViewIsClosed()
+        {
+            _openDetailViewEvent.Publish(
+                new OpenDetailViewEventArgs
+                {
+                    Id = _labReportId1,
+                    ViewModelName = _detailViewModelName
+                }
+            );
+
+            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
+
+            _tabMock.Setup(t => t.GetTabbedViewModelByEventArgs(It.IsAny<IDetailEventArgs>()))
+                .Returns(_tabbedViewModels.Last());
 
             _detailClosedEvent.Publish(
                 new DetailClosedEventArgs

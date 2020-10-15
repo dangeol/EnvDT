@@ -21,6 +21,10 @@ namespace EnvDT.UITests.ViewModel
         private ProjectDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _projectSavedEventMock;
         private Mock<DetailDeletedEvent> _projectDeletedEventMock;
+        private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
+        private Mock<ITab> _tabMock;
+        private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
+        private Guid _labReportId1 = new Guid("53753aad-6961-45d9-a27f-3a82867519a9");
 
         public ProjectDetailViewModelTests()
         {
@@ -35,12 +39,17 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_projectSavedEventMock.Object);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
                 .Returns(_projectDeletedEventMock.Object);
-
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
+            _sampleDetailViewModelMock.SetupGet(vm => vm.LabReportId)
+                .Returns(_labReportId1);
+            _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
+            _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
+            _tabMock = new Mock<ITab>();
 
             _viewModel = new ProjectDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
-                CreateLabReportViewModel);
+                CreateLabReportViewModel, _tabMock.Object);
         }
 
         private ILabReportViewModel CreateLabReportViewModel()
@@ -283,6 +292,25 @@ namespace EnvDT.UITests.ViewModel
             _messageDialogServiceMock.Verify(d => d.ShowOkCancelDialog("Delete Project",
                 $"Do you really want to delete the friend '{p.ProjectClient} {p.ProjectName}'?"),
                 Times.Once);
+        }
+
+        [Fact]
+        public void ShouldNotDeleteSelectedProjectWhenRelatedTabIsOpen()
+        {
+            _tabMock.Setup(t => t.TabbedViewModels).Returns(_tabbedViewModels);
+            var _projectIdOpenTab = _labReportId1;
+            _viewModel.Load(_projectIdOpenTab);
+
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
+                It.IsAny<string>())).Returns(MessageDialogResult.OK);
+
+            _viewModel.DeleteCommand.Execute(null);
+
+            _unitOfWorkMock.Verify(uw => uw.Projects.Delete(_viewModel.Project.Model),
+                Times.Never);
+            Assert.NotNull(_viewModel.LabReportViewModel);
+            _messageDialogServiceMock.Verify(ds => ds.ShowOkDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
         }
     }
 }

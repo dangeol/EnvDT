@@ -5,6 +5,8 @@ using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -14,16 +16,19 @@ namespace EnvDT.UI.ViewModel
         private IMessageDialogService _messageDialogService;
         private Func<ILabReportViewModel> _labReportDetailVmCreator;
         private ILabReportViewModel _labReportViewModel;
+        private ITab _tab;
 
         private ProjectWrapper _project;
 
         public ProjectDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator)
+            IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator,
+            ITab tab)
             :base(eventAggregator)
         {
             _unitOfWork = unitOfWork;
             _messageDialogService = messageDialogService;
             _labReportDetailVmCreator = labReportDetailVmCreator;
+            _tab = tab;
         }
 
         public ProjectWrapper Project
@@ -115,6 +120,15 @@ namespace EnvDT.UI.ViewModel
                 _unitOfWork.Save();
             }
         }
+
+        /*
+        private IEnumerable<IMainTabViewModel> GetTabbedViewModelByProjectId(Guid projectId)
+        {
+            //return _tab.TabbedViewModels.ToList().Where(vm => vm.)
+                //join su in ctx.Units on s.UnitId equals su.UnitId
+                   //.SingleOrDefault(vm => vm.LabReportId == projectId);
+        }
+        */
 
         protected override bool OnDeleteCanExecute()
         {
