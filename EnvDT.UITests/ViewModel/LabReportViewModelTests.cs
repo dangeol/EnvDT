@@ -23,8 +23,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILabReportDataService> _labReportDataServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ITab> _tabMock;
-        private ObservableCollection<IMainTabViewModel> _tabbedViewModels 
-                = new ObservableCollection<IMainTabViewModel>();
+        private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
         private Guid _projectId;
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
@@ -61,6 +60,7 @@ namespace EnvDT.UITests.ViewModel
             _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
             _sampleDetailViewModelMock.SetupGet(vm => vm.LabReportId)
                 .Returns(_labReportId1);
+            _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
             _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
             _tabMock = new Mock<ITab>();
             _projectId = new Guid("e26b1ce2-d946-41c7-9edf-ca55b0a47fa0");

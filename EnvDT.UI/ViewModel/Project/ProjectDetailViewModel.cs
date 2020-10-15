@@ -5,8 +5,6 @@ using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -110,6 +108,15 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
+            // For simplicity, for now the only condition is that at least one SampleDetailViewModel Tab is open.
+            // It would be nice to check which Tabs belongs to the current project and to tell the user
+            // to close these.
+            if (_tab.TabbedViewModels.Count > 1)
+            {
+                _messageDialogService.ShowOkDialog("Delete Project",
+                    $"Please close first all open Tabs.");
+                return;
+            }
             var result = _messageDialogService.ShowOkCancelDialog("Delete Project",
                 $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
             if (result == MessageDialogResult.Yes)
@@ -120,15 +127,6 @@ namespace EnvDT.UI.ViewModel
                 _unitOfWork.Save();
             }
         }
-
-        /*
-        private IEnumerable<IMainTabViewModel> GetTabbedViewModelByProjectId(Guid projectId)
-        {
-            //return _tab.TabbedViewModels.ToList().Where(vm => vm.)
-                //join su in ctx.Units on s.UnitId equals su.UnitId
-                   //.SingleOrDefault(vm => vm.LabReportId == projectId);
-        }
-        */
 
         protected override bool OnDeleteCanExecute()
         {

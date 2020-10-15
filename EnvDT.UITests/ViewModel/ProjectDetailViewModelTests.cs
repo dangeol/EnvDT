@@ -22,6 +22,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<DetailSavedEvent> _projectSavedEventMock;
         private Mock<DetailDeletedEvent> _projectDeletedEventMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
+        private Mock<IProjectViewModel> _projectViewModelMock;
         private Mock<ITab> _tabMock;
         private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
         private Guid _labReportId1 = new Guid("53753aad-6961-45d9-a27f-3a82867519a9");
@@ -40,11 +41,11 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
                 .Returns(_projectDeletedEventMock.Object);
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
             _sampleDetailViewModelMock.SetupGet(vm => vm.LabReportId)
                 .Returns(_labReportId1);
             _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
-            _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
             _tabMock = new Mock<ITab>();
 
             _viewModel = new ProjectDetailViewModel(_unitOfWorkMock.Object, 
@@ -295,13 +296,15 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldNotDeleteSelectedProjectWhenRelatedTabIsOpen()
+        public void ShouldNotDeleteSelectedProjectWhenTabsAreOpen()
         {
+            _tabbedViewModels.Add(_projectViewModelMock.Object);
+            _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
             _tabMock.Setup(t => t.TabbedViewModels).Returns(_tabbedViewModels);
             var _projectIdOpenTab = _labReportId1;
             _viewModel.Load(_projectIdOpenTab);
 
-            _messageDialogServiceMock.Setup(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
+            _messageDialogServiceMock.Setup(ds => ds.ShowOkDialog(It.IsAny<string>(),
                 It.IsAny<string>())).Returns(MessageDialogResult.OK);
 
             _viewModel.DeleteCommand.Execute(null);
