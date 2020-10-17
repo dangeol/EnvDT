@@ -5,41 +5,39 @@ using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using EnvDT.Model.IRepository;
 
 namespace EnvDT.Model.Core
 {
     public class EvalLabReportService : IEvalLabReportService
     {
-        /* TO DO: Refactor this spike.
+        /* TO DO: Refactor this spike. 
         
-        private Func<EnvDTDbContext> _contextCreator;
+        private IUnitOfWork _unitOfWork;
 
         private const string projectName = "Sample-Project 1";
         private const string publicationAbbr = "Dihlmann-Erlass";
 
-        public EvalLabReportService(Func<EnvDTDbContext> contextCreator)
+        public EvalLabReportService(IUnitOfWork unitOfWork)
         {
-            _contextCreator = contextCreator;
+            _unitOfWork = unitOfWork;
         }
 
         public void evalLabReport()
-        {
-            using (var ctx = _contextCreator())
+    {
+            var project = _unitOfWork.Projects
+                .Single(p => p.ProjectName == projectName);
+
+            var labReport = ctx.LabReports
+                .First(l => l.Project.Equals(project));
+
+            var samples = from sample in ctx.Samples
+                            where sample.LabReport.Equals(labReport)
+                            select sample;
+
+            foreach (var sample in samples)
             {
-                var project = ctx.Projects
-                    .Single(p => p.ProjectName == projectName);
-
-                var labReport = ctx.LabReports
-                    .First(l => l.Project.Equals(project));
-
-                var samples = from sample in ctx.Samples
-                              where sample.LabReport.Equals(labReport)
-                              select sample;
-
-                foreach (var sample in samples)
-                {
-                    compareValues(sample);
-                }
+                compareValues(sample);
             }
         }
 

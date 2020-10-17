@@ -47,6 +47,8 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_labReportId1);
             _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
             _tabMock = new Mock<ITab>();
+            _tabbedViewModels.Add(_projectViewModelMock.Object);
+            _tabMock.Setup(t => t.TabbedViewModels).Returns(_tabbedViewModels);
 
             _viewModel = new ProjectDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
@@ -298,9 +300,7 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldNotDeleteSelectedProjectWhenTabsAreOpen()
         {
-            _tabbedViewModels.Add(_projectViewModelMock.Object);
             _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
-            _tabMock.Setup(t => t.TabbedViewModels).Returns(_tabbedViewModels);
             var _projectIdOpenTab = _labReportId1;
             _viewModel.Load(_projectIdOpenTab);
 

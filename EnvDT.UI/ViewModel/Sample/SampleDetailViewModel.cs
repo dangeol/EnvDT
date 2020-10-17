@@ -1,9 +1,11 @@
 ﻿using EnvDT.Model.Core;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
+using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -22,18 +24,18 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator = eventAggregator;
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
+            Samples = new ObservableCollection<SampleWrapper>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
-    }
+        }
 
         public ICommand EvalLabReportCommand { get; }
-
         public ICommand CloseDetailViewCommand { get; }
 
         public bool IsSampleTab { get; private set; }
-
         public Guid? LabReportId { get; set; }
+        public ObservableCollection<SampleWrapper> Samples { get; }
 
         public string Title
         {
@@ -45,9 +47,25 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public override void Load(Guid? id)
+        public override void Load(Guid? labReportId)
         {
-            SetLabReportIdAndTitle(id);
+            SetLabReportIdAndTitle(labReportId);
+
+            foreach (var wrapper in Samples)
+            {
+                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+            }
+
+            Samples.Clear();
+
+            var samples = _unitOfWork.Samples.GetAllByLabReportId((Guid)labReportId);
+
+            foreach (var model in samples)
+            {
+                var wrapper = new SampleWrapper(model);
+                wrapper.PropertyChanged += Wrapper_PropertyChanged;
+                Samples.Add(wrapper);
+            }
         }
 
         private void SetLabReportIdAndTitle(Guid? id)
@@ -55,6 +73,18 @@ namespace EnvDT.UI.ViewModel
             var ReportLabIdent = _unitOfWork.LabReports.GetById((Guid)id).ReportLabIdent;
             LabReportId = id;
             Title = ReportLabIdent;
+        }
+
+        private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+            {
+                HasChanges = _unitOfWork.Samples.HasChanges();
+            }
+            if (e.PropertyName == nameof(SampleWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         private void OnEvalExecute()

@@ -101,7 +101,6 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal(2, _viewModel.TabbedViewModels.Count);
             Assert.Equal(_sampleDetailViewModelMock.Object, _viewModel.SelectedTabbedViewModel);
             _sampleDetailViewModelMock.Verify(sd => sd.Load(_labReportId1), Times.Once);
-            _tabMock.Object.TabbedViewModels.RemoveAt(1);
         }
 
         [Fact]
@@ -115,6 +114,7 @@ namespace EnvDT.UITests.ViewModel
                 }
             );
             _viewModel.SelectedTabbedViewModel = _viewModel.TabbedViewModels.First();
+            var tabsCountBefore = _viewModel.TabbedViewModels.Count;
             _openDetailViewEvent.Publish(
                 new OpenDetailViewEventArgs
                 {
@@ -122,8 +122,9 @@ namespace EnvDT.UITests.ViewModel
                     ViewModelName = _detailViewModelName
                 }
             );
+            var tabsCountAfter = _viewModel.TabbedViewModels.Count;
 
-            Assert.Equal(2, _viewModel.TabbedViewModels.Count);
+            Assert.Equal(tabsCountBefore, tabsCountAfter);
             Assert.Equal(_viewModel.TabbedViewModels.Last().LabReportId, 
                 _viewModel.SelectedTabbedViewModel.LabReportId);
             _tabMock.Object.TabbedViewModels.RemoveAt(1);

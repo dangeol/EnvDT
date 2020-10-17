@@ -11,6 +11,7 @@ namespace EnvDT.UI.ViewModel
     {
         private bool _hasChanges;
         protected readonly IEventAggregator EventAggregator;
+        private Guid _id;
 
         public DetailViewModelBase(IEventAggregator eventAggregator)
         {
@@ -22,7 +23,13 @@ namespace EnvDT.UI.ViewModel
         public abstract void Load(Guid? id);
         public ICommand SaveCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
-        
+
+        public Guid Id
+        {
+            get { return _id; }
+            protected set { _id = value; }
+        }
+
         public bool HasChanges
         {
             get { return _hasChanges; }

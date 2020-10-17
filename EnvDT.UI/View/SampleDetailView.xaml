@@ -14,11 +14,17 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <StackPanel Orientation="Vertical">
-      <TextBox>
-        This is a new SampleDetailView.
-      </TextBox>
-      
+    <DataGrid ItemsSource="{Binding Samples}"
+              AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
+      <DataGrid.Columns>
+        <DataGridCheckBoxColumn Header="Selected" Width="20"
+             Binding="{Binding IsSelected}"/>
+        <DataGridTextColumn Header="Sample Name" Width="*" IsReadOnly="True"
+             Binding="{Binding SampleName}"/>
+      </DataGrid.Columns>
+    </DataGrid>
+
+    <StackPanel Grid.Row="1" Orientation="Vertical">
       <Button Content="Eval" Width="125" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
     </StackPanel>
