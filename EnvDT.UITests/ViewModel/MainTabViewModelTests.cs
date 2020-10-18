@@ -113,6 +113,8 @@ namespace EnvDT.UITests.ViewModel
                     ViewModelName = _detailViewModelName
                 }
             );
+            _tabMock.Setup(t => t.GetTabbedViewModelByEventArgs(It.IsAny<IDetailEventArgs>()))
+                .Returns(_tabbedViewModels.Last());
             _viewModel.SelectedTabbedViewModel = _viewModel.TabbedViewModels.First();
             var tabsCountBefore = _viewModel.TabbedViewModels.Count;
             _openDetailViewEvent.Publish(
@@ -127,7 +129,6 @@ namespace EnvDT.UITests.ViewModel
             Assert.Equal(tabsCountBefore, tabsCountAfter);
             Assert.Equal(_viewModel.TabbedViewModels.Last().LabReportId, 
                 _viewModel.SelectedTabbedViewModel.LabReportId);
-            _tabMock.Object.TabbedViewModels.RemoveAt(1);
         }
 
         [Fact]

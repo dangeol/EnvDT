@@ -1,6 +1,8 @@
 ﻿using EnvDT.Model.IRepository;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
@@ -33,6 +35,11 @@ namespace EnvDT.DataAccess.Repository
         public virtual TEntity GetFirst()
         {
             return Context.Set<TEntity>().Find();
+        }
+
+        public virtual IEnumerable<TEntity> GetAll()
+        {
+            return Context.Set<TEntity>().ToList();
         }
 
         public bool HasChanges()

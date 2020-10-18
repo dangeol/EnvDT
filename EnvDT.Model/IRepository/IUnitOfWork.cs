@@ -4,10 +4,15 @@ namespace EnvDT.Model.IRepository
 {
     public interface IUnitOfWork : IDisposable
     {
-        ILabReportRepository LabReports { get; }
-        IProjectRepository Projects { get; }
-        ISampleRepository Samples { get; }
-        ISampleValueRepository SampleValues { get; }
-        int Save();
+        public ILabReportRepository LabReports { get; }
+        public IParameterRepository Parameters { get; }
+        public IProjectRepository Projects { get; }
+        public IPublicationRepository Publications { get; }
+        public IRefValueRepository RefValues { get; }
+        public ISampleRepository Samples { get; }
+        public ISampleValueRepository SampleValues { get; }
+        public IUnitRepository Units { get; }
+        public IValuationClassRepository ValuationClasses { get; }
+        public int Save();
     }
 }

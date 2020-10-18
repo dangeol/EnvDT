@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Entity;
+using System;
 using System.Collections.Generic;
 
 namespace EnvDT.Model.IRepository
@@ -7,5 +8,6 @@ namespace EnvDT.Model.IRepository
     {
         public IEnumerable<ParameterLaboratory> GetParamLabsByLabParamName(string labParamName);
         public Unit GetUnitIdByName(string unitName);
+        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndRefValue(Guid sampleId, RefValue refValue);
     }
 }

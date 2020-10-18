@@ -89,7 +89,9 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
-            // _evalLabReportService.evalLabReport();
+            // For testing only:        
+            var publicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773");
+            _evalLabReportService.evalLabReport(Samples[0].SampleId, publicationId);
         }
 
         private bool OnEvalCanExecute()
