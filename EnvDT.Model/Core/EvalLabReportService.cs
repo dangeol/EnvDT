@@ -12,6 +12,7 @@ namespace EnvDT.Model.Core
         /* TO DO: Refactor this spike. */
         
         private IUnitOfWork _unitOfWork;
+        private EvalResult _evalResult;
 
         public EvalLabReportService(IUnitOfWork unitOfWork)
         {
@@ -20,22 +21,19 @@ namespace EnvDT.Model.Core
 
         public Sample Sample { get; private set; }
 
-        public void evalLabReport(Guid sampleId, Guid publicationId)
+        public EvalResult evalLabReport(Guid sampleId, Guid publicationId)
         {
-            compareValues(sampleId, publicationId);
+            Func<Guid, Guid, EvalResult> compareValuesFunc = new Func<Guid, Guid, EvalResult>(compareValues);
+            return compareValuesFunc(sampleId, publicationId);
         }
 
-        private void compareValues(Guid sampleId, Guid publicationId)
+        private EvalResult compareValues(Guid sampleId, Guid publicationId)
         {
+            _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
             var publication = _unitOfWork.Publications.GetById(publicationId);
-            System.Diagnostics.Debug.WriteLine(sample.SampleName);
-            System.Diagnostics.Debug.WriteLine("---------------------------------");
-
             var refValues = _unitOfWork.RefValues.GetRefValuesByPublicationId(publicationId);
-
             var highestLevel = 0;
-
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
             foreach (var refValue in refValues)
@@ -94,15 +92,19 @@ namespace EnvDT.Model.Core
             }
             var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(highestLevel, publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStr;
+            var exceedingValueList = "";
 
-            System.Diagnostics.Debug.WriteLine("+++++ Einstufung: " + highestValClassName);
             foreach (ExceedingValue exceedingValue in exceedingValues)
             {
                 if (exceedingValue.Level == highestLevel)
                 {
-                    System.Diagnostics.Debug.WriteLine(exceedingValue.ParamName + " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")");
+                    exceedingValueList += exceedingValue.ParamName + " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
                 }
             }
+            _evalResult.SampleName = sample.SampleName;
+            _evalResult.HighestValClassName = highestValClassName;
+            _evalResult.ExceedingValueList = exceedingValueList;
+            return _evalResult;
         }
     }
 }

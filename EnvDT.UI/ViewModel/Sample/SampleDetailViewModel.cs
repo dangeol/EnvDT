@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Core;
+using EnvDT.Model.Core.HelperClasses;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
@@ -25,6 +26,7 @@ namespace EnvDT.UI.ViewModel
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
             Samples = new ObservableCollection<SampleWrapper>();
+            EvalResults = new ObservableCollection<EvalResult>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
@@ -36,6 +38,7 @@ namespace EnvDT.UI.ViewModel
         public bool IsSampleTab { get; private set; }
         public Guid? LabReportId { get; set; }
         public ObservableCollection<SampleWrapper> Samples { get; }
+        public ObservableCollection<EvalResult> EvalResults { get; }
 
         public string Title
         {
@@ -89,9 +92,14 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
+            EvalResults.Clear();
             // For testing only:        
             var publicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773");
-            _evalLabReportService.evalLabReport(Samples[0].SampleId, publicationId);
+            foreach (var sample in Samples)
+            {
+                var evalResult = _evalLabReportService.evalLabReport(sample.SampleId, publicationId);
+                EvalResults.Add(evalResult);
+            }
         }
 
         private bool OnEvalCanExecute()

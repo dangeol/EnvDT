@@ -11,6 +11,7 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
@@ -28,5 +29,17 @@
       <Button Content="Eval" Width="125" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
     </StackPanel>
+
+    <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResults}"
+              AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
+      <DataGrid.Columns>
+        <DataGridTextColumn Header="Sample Name" IsReadOnly="True"
+             Binding="{Binding SampleName}"/>
+        <DataGridTextColumn Header="Valualtion Class" IsReadOnly="True"
+             Binding="{Binding HighestValClassName}"/>
+        <DataGridTextColumn Header="Exceeding Parameters" Width="*" IsReadOnly="True"
+             Binding="{Binding ExceedingValueList}"/>
+      </DataGrid.Columns>
+    </DataGrid>
   </Grid>
 </UserControl>
