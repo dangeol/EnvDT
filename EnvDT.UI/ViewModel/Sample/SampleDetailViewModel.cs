@@ -97,7 +97,7 @@ namespace EnvDT.UI.ViewModel
             var publicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773");
             foreach (var sample in Samples)
             {
-                var evalResult = _evalLabReportService.evalLabReport(sample.SampleId, publicationId);
+                var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, publicationId);
                 EvalResults.Add(evalResult);
             }
         }

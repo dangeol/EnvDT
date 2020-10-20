@@ -14,6 +14,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.UITests", "EnvDT.UITe
 		{B83CAD76-E154-4517-928E-F3B4EA313996} = {B83CAD76-E154-4517-928E-F3B4EA313996}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.ModelTests", "EnvDT.ModelTests\EnvDT.ModelTests.csproj", "{2D20FF6B-5D01-46AC-B433-064A144968E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1D16EC5C-762D-45F7-A57D-09DC417E7CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

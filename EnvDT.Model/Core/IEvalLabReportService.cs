@@ -5,6 +5,6 @@ namespace EnvDT.Model.Core
 {
     public interface IEvalLabReportService
     {
-        public EvalResult evalLabReport(Guid sampleId, Guid publicationId);
+        public EvalResult getEvalResult(Guid sampleId, Guid publicationId);
     }
 }

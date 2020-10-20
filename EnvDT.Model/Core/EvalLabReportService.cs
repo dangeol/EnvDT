@@ -21,19 +21,13 @@ namespace EnvDT.Model.Core
 
         public Sample Sample { get; private set; }
 
-        public EvalResult evalLabReport(Guid sampleId, Guid publicationId)
-        {
-            Func<Guid, Guid, EvalResult> compareValuesFunc = new Func<Guid, Guid, EvalResult>(compareValues);
-            return compareValuesFunc(sampleId, publicationId);
-        }
-
-        private EvalResult compareValues(Guid sampleId, Guid publicationId)
+        public EvalResult getEvalResult(Guid sampleId, Guid publicationId)
         {
             _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
             var publication = _unitOfWork.Publications.GetById(publicationId);
-            var refValues = _unitOfWork.RefValues.GetRefValuesByPublicationId(publicationId);
             var highestLevel = 0;
+            IEnumerable<RefValue> refValues = _unitOfWork.RefValues.GetRefValuesByPublicationId(publicationId);
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
             foreach (var refValue in refValues)
@@ -52,45 +46,31 @@ namespace EnvDT.Model.Core
                 var refValueValClassLevel = refValueValClass.ValClassLevel;
                 var refValueValClassName = refValueValClass.ValuationClassName;
 
-                if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == "m" && sampleValUnitName.Substring(0, 1) == "µ")
+                if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == 
+                    "m" && sampleValUnitName.Substring(0, 1) == "µ")
                     sampleVal /= 1000;
-                else if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == "µ" && sampleValUnitName.Substring(0, 1) == "m")
+                else if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == 
+                    "µ" && sampleValUnitName.Substring(0, 1) == "m")
                     sampleVal *= 1000;
 
-                if (refValParamAnnot != "lower")
+                if (refValParamAnnot != "lower" && sampleVal > refVal 
+                    || refValParamAnnot == "lower" && sampleVal < refVal)
                 {
-                    if (sampleVal > refVal)
+                    exceedingValues.Add(new ExceedingValue()
                     {
-                        if (refValueValClassLevel > highestLevel)
-                            highestLevel = refValueValClassLevel;
-
-                        exceedingValues.Add(new ExceedingValue()
-                        {
-                            Level = refValueValClassLevel,
-                            ParamName = refValParamNameDe,
-                            Value = sampleVal,
-                            Unit = sampleValUnitName
-                        });
+                        Level = refValueValClassLevel,
+                        ParamName = refValParamNameDe,
+                        Value = sampleVal,
+                        Unit = sampleValUnitName
+                    });
+                    if (refValueValClassLevel > highestLevel)
+                    { 
+                        highestLevel = refValueValClassLevel;
                     }
                 } 
-                else
-                {
-                    if (sampleVal < refVal)
-                    {
-                        if (refValueValClassLevel > highestLevel)
-                            highestLevel = refValueValClassLevel;
-
-                        exceedingValues.Add(new ExceedingValue()
-                        {
-                            Level = refValueValClassLevel,
-                            ParamName = refValParamNameDe,
-                            Value = sampleVal,
-                            Unit = sampleValUnitName
-                        });
-                    }
-                }
             }
-            var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(highestLevel, publication.PublicationId);
+            var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
+                highestLevel, publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStr;
             var exceedingValueList = "";
 
@@ -98,7 +78,8 @@ namespace EnvDT.Model.Core
             {
                 if (exceedingValue.Level == highestLevel)
                 {
-                    exceedingValueList += exceedingValue.ParamName + " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
+                    exceedingValueList += exceedingValue.ParamName + 
+                        " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
                 }
             }
             _evalResult.SampleName = sample.SampleName;
