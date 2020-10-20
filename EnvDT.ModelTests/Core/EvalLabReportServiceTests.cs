@@ -9,12 +9,16 @@ namespace EnvDT.ModelTests.Core
     {
         private EvalLabReportService _evalLabReportService;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<IEvalCalcService> _evalCalcServiceMock;
 
         public EvalLabReportServiceTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _evalCalcServiceMock = new Mock<IEvalCalcService>();
 
-            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object);
+            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object, _evalCalcServiceMock.Object);
         }
+
+        // TO DO
     }
 }

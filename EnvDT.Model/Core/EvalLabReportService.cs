@@ -12,11 +12,13 @@ namespace EnvDT.Model.Core
         /* TO DO: Refactor this spike. */
         
         private IUnitOfWork _unitOfWork;
+        private IEvalCalcService _evalCalcService;
         private EvalResult _evalResult;
 
-        public EvalLabReportService(IUnitOfWork unitOfWork)
+        public EvalLabReportService(IUnitOfWork unitOfWork, IEvalCalcService evalCalcService)
         {
             _unitOfWork = unitOfWork;
+            _evalCalcService = evalCalcService;
         }
 
         public Sample Sample { get; private set; }
@@ -32,42 +34,36 @@ namespace EnvDT.Model.Core
 
             foreach (var refValue in refValues)
             {
-                var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);              
-                var sampleVal = sampleValues.First().SValue;
-                var sampleValUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
+                var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);
+                var sampleValue = sampleValues.First().SValue;
+                var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
 
                 var refVal = refValue.RValue;
                 var refValUnitName = _unitOfWork.Units.GetById(refValue.UnitId).UnitName;
                 var refValParam = _unitOfWork.Parameters.GetById(refValue.ParameterId);
                 var refValParamNameDe = refValParam.ParamNameDe;
                 var refValParamAnnot = refValParam.ParamAnnotation;
-
                 var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
                 var refValueValClassLevel = refValueValClass.ValClassLevel;
                 var refValueValClassName = refValueValClass.ValuationClassName;
 
-                if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == 
-                    "m" && sampleValUnitName.Substring(0, 1) == "µ")
-                    sampleVal /= 1000;
-                else if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) == 
-                    "µ" && sampleValUnitName.Substring(0, 1) == "m")
-                    sampleVal *= 1000;
+                sampleValue = _evalCalcService.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
 
-                if (refValParamAnnot != "lower" && sampleVal > refVal 
-                    || refValParamAnnot == "lower" && sampleVal < refVal)
+                if (refValParamAnnot != "lower" && sampleValue > refVal
+                    || refValParamAnnot == "lower" && sampleValue < refVal)
                 {
                     exceedingValues.Add(new ExceedingValue()
                     {
                         Level = refValueValClassLevel,
                         ParamName = refValParamNameDe,
-                        Value = sampleVal,
-                        Unit = sampleValUnitName
+                        Value = sampleValue,
+                        Unit = sampleValueUnitName
                     });
                     if (refValueValClassLevel > highestLevel)
-                    { 
+                    {
                         highestLevel = refValueValClassLevel;
                     }
-                } 
+                }
             }
             var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
                 highestLevel, publication.PublicationId);
