@@ -23,6 +23,20 @@ namespace EnvDT.ModelTests.Core
                 sampleValue, sampleValueUnitName, refValUnitName);
 
             Assert.Equal(calculatedValue, expectedValue);
-    }
+        }
+
+        [Theory]
+        [InlineData(100.0, 100.0, "", false)]
+        [InlineData(100.0, 99.9, "", true)]
+        [InlineData(100.0, 99.9, "lower", false)]
+        [InlineData(99.9, 100.0, "lower", true)]
+        public void IsSampleValueExceedingRefValueShouldReturnCorrectValue(
+            double sampleValue, double refVal, string refValParamAnnot, bool expectedValue)
+        {
+            var calculatedValue = _evalCalcService.IsSampleValueExceedingRefValue(
+                sampleValue, refVal, refValParamAnnot);
+
+            Assert.Equal(calculatedValue, expectedValue);
+        }
     }
 }

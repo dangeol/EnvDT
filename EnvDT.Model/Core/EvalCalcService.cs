@@ -12,5 +12,11 @@
                 sampleValue *= 1000;
             return sampleValue;
         }
+
+        public bool IsSampleValueExceedingRefValue(double sampleValue, double refVal, string refValParamAnnot)
+        {
+            return refValParamAnnot != "lower" && sampleValue > refVal
+                   || refValParamAnnot == "lower" && sampleValue < refVal;
+        }
     }
 }

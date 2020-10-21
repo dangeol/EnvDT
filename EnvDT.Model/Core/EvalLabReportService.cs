@@ -8,9 +8,7 @@ using EnvDT.Model.IRepository;
 namespace EnvDT.Model.Core
 {
     public class EvalLabReportService : IEvalLabReportService
-    {
-        /* TO DO: Refactor this spike. */
-        
+    {   
         private IUnitOfWork _unitOfWork;
         private IEvalCalcService _evalCalcService;
         private EvalResult _evalResult;
@@ -21,8 +19,6 @@ namespace EnvDT.Model.Core
             _evalCalcService = evalCalcService;
         }
 
-        public Sample Sample { get; private set; }
-
         public EvalResult getEvalResult(Guid sampleId, Guid publicationId)
         {
             _evalResult = new EvalResult();
@@ -32,36 +28,16 @@ namespace EnvDT.Model.Core
             IEnumerable<RefValue> refValues = _unitOfWork.RefValues.GetRefValuesByPublicationId(publicationId);
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
-            foreach (var refValue in refValues)
+            foreach (RefValue refValue in refValues)
             {
-                var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);
-                var sampleValue = sampleValues.First().SValue;
-                var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
-
-                var refVal = refValue.RValue;
-                var refValUnitName = _unitOfWork.Units.GetById(refValue.UnitId).UnitName;
-                var refValParam = _unitOfWork.Parameters.GetById(refValue.ParameterId);
-                var refValParamNameDe = refValParam.ParamNameDe;
-                var refValParamAnnot = refValParam.ParamAnnotation;
-                var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
-                var refValueValClassLevel = refValueValClass.ValClassLevel;
-                var refValueValClassName = refValueValClass.ValuationClassName;
-
-                sampleValue = _evalCalcService.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
-
-                if (refValParamAnnot != "lower" && sampleValue > refVal
-                    || refValParamAnnot == "lower" && sampleValue < refVal)
+                var exceedingValue = GetExceedingValue(sampleId, refValue);
+                if (exceedingValue != null)
                 {
-                    exceedingValues.Add(new ExceedingValue()
+                    exceedingValues.Add(exceedingValue);
+
+                    if (exceedingValue.Level > highestLevel)
                     {
-                        Level = refValueValClassLevel,
-                        ParamName = refValParamNameDe,
-                        Value = sampleValue,
-                        Unit = sampleValueUnitName
-                    });
-                    if (refValueValClassLevel > highestLevel)
-                    {
-                        highestLevel = refValueValClassLevel;
+                        highestLevel = exceedingValue.Level;
                     }
                 }
             }
@@ -82,6 +58,35 @@ namespace EnvDT.Model.Core
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValueList = exceedingValueList;
             return _evalResult;
+        }
+
+        private ExceedingValue GetExceedingValue(Guid sampleId, RefValue refValue)
+        {
+            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);
+            var sampleValue = sampleValues.First().SValue;
+            var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
+
+            var refVal = refValue.RValue;
+            var refValUnitName = _unitOfWork.Units.GetById(refValue.UnitId).UnitName;
+            var refValParam = _unitOfWork.Parameters.GetById(refValue.ParameterId);
+            var refValParamNameDe = refValParam.ParamNameDe;
+            var refValParamAnnot = refValParam.ParamAnnotation;
+            var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
+            var refValueValClassLevel = refValueValClass.ValClassLevel;
+
+            sampleValue = _evalCalcService.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
+
+            if (_evalCalcService.IsSampleValueExceedingRefValue(sampleValue, refVal, refValParamAnnot))
+            {
+                return new ExceedingValue()
+                {
+                    Level = refValueValClassLevel,
+                    ParamName = refValParamNameDe,
+                    Value = sampleValue,
+                    Unit = sampleValueUnitName
+                };
+            }
+            return null;
         }
     }
 }

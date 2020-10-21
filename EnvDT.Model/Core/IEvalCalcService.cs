@@ -1,10 +1,8 @@
-﻿using EnvDT.Model.Core.HelperClasses;
-using System;
-
-namespace EnvDT.Model.Core
+﻿namespace EnvDT.Model.Core
 {
     public interface IEvalCalcService
     {
         public double SampleValueConversion(double sampleValue, string sampleValueUnitName, string refValUnitName);
+        public bool IsSampleValueExceedingRefValue(double sampleValue, double refVal, string refValParamAnnot);
     }
 }
