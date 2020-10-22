@@ -11,20 +11,21 @@
       <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
-    <DockPanel Margin="10">
+    <DockPanel Margin="20">
       <StackPanel DockPanel.Dock="Right">
         
-        <Button Content="Load Report" Width="125" Margin="10 10 10 0"
+        <Button Content="Load Report" Margin="10 0 10 0"
                 Command="{Binding OpenLabReportCommand}"/>
-        <TextBlock Name="LabReportFileNameBlock" Text="{Binding LabReportFileName}"/>
+        <TextBlock Name="LabReportFileNameBlock" Text="{Binding LabReportFileName}" 
+                   FontSize="11" Margin="10 1 10 0" Foreground="Green"/>
 
-        <Button Content="Import Report" Width="125" Margin="10 5 10 10"
+        <Button Content="Import Report" Margin="10 5 10 5"
                 Command="{Binding ImportLabReportCommand}"/>
 
-        <Button Content="Evaluate" Width="125" Margin="10"
+        <Button Content="Evaluate" Margin="10 10 10 5"
                 Command="{Binding OpenDetailViewCommand}"/>
 
-        <Button Content="Remove" Width="125" Margin="10"
+        <Button Content="Remove" Margin="10 10 10 5"
                 Command="{Binding DeleteLabReportCommand}"/>
         
       </StackPanel>

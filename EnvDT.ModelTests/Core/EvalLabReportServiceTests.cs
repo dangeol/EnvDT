@@ -23,6 +23,7 @@ namespace EnvDT.ModelTests.Core
         private Unit _unit;
         private Parameter _parameter;
         private ValuationClass _valuationClass;
+        private string _nextLevelName = "NextLevelName";
 
         public EvalLabReportServiceTests()
         {
@@ -47,7 +48,7 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
                 It.IsAny<int>(), It.IsAny<Guid>()))
-                .Returns("Level");
+                .Returns(_nextLevelName);
 
             // GetExceedingValue method
             _sampleValue = new SampleValue();
@@ -59,7 +60,7 @@ namespace EnvDT.ModelTests.Core
             _parameter = new Parameter();
             _valuationClass = new ValuationClass();
             _valuationClass.ValClassLevel = 1;
-            _valuationClass.ValuationClassName = "ValClass1";
+            _valuationClass.ValuationClassName = "LevelName";
 
             _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndRefValue(
                 It.IsAny<Guid>(), It.IsAny<RefValue>()))
@@ -93,7 +94,6 @@ namespace EnvDT.ModelTests.Core
                 _sample.SampleId, _publication.PublicationId);
 
             Assert.Equal(evalResult.SampleName, _sample.SampleName);
-            Assert.Equal(expectedResult, evalResult.HighestValClassName == _valuationClass.ValuationClassName);
             Assert.Equal(expectedResult, evalResult.ExceedingValueList.Length > 0);
         }
     }

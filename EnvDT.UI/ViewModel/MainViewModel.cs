@@ -15,6 +15,7 @@ namespace EnvDT.UI.ViewModel
 
             _mainTabViewModel = mainTabViewModel;
             _settingsDetailViewModel = settingsDetailViewModel;
+            CurrentViewModel = _mainTabViewModel;
         }
 
         public ICommand NavCommand { get; private set; }

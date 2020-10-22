@@ -36,6 +36,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Styling\Styles\DataGrid.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styling\Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styling\Styles\ComboBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styling\Styles\TextBox.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="View\SampleDetailView.xaml">
       <SubType>Designer</SubType>
     </Page>

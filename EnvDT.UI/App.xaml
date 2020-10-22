@@ -5,50 +5,26 @@
              xmlns:view="clr-namespace:EnvDT.UI.View"
              Startup="Application_Startup"
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
+  
   <Application.Resources>
     <ResourceDictionary>
       <ResourceDictionary.MergedDictionaries>
         <!--Custom Resources-->
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
-          <Style TargetType="TextBox">
-            <Setter Property="Validation.ErrorTemplate">
-              <Setter.Value>
-                <ControlTemplate>
-                  <StackPanel>
-                    <AdornedElementPlaceholder x:Name="placeholder" />
-                    <TextBlock FontSize="12"
-                           Foreground="Red"
-                           Text="{Binding ElementName=placeholder,
-                    Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
-                  </StackPanel>
-                </ControlTemplate>
-              </Setter.Value>
-            </Setter>
-            <Style.Triggers>
-              <Trigger Property="Validation.HasError" Value="True">
-                <Setter Property="Background" Value="Red" />
-                <Setter Property="ToolTip"
-                        Value="{Binding RelativeSource={RelativeSource Self},
-                        Path=(Validation.Errors)[0].ErrorContent}" />
-              </Trigger>
-            </Style.Triggers>
-          </Style>
-          <Style TargetType="{x:Type view:LabReportView}">
-            <Style.Resources>
-              <Style TargetType="{x:Type TextBlock}" BasedOn="{StaticResource {x:Type TextBlock}}">
-                <Style.Triggers>
-                  <Trigger Property="Name" Value="LabReportFileNameBlock">
-                    <Setter Property="FontSize"  Value="11" />
-                    <Setter Property="Margin"  Value="10 1 10 0" />
-                    <Setter Property="Foreground"  Value="Green" />
-                  </Trigger>
-                </Style.Triggers>
-              </Style>
-            </Style.Resources>
-          </Style>
         </ResourceDictionary>
+        <ResourceDictionary Source="Styling/Styles/Button.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/ComboBox.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/DataGrid.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/TextBlock.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/TextBox.xaml"/>
       </ResourceDictionary.MergedDictionaries>
+      <!--Default Styles-->
+      <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}"></Style>
+      <Style TargetType="ComboBox" BasedOn="{StaticResource BaseComboBoxStyle}"></Style>
+      <Style TargetType="DataGrid" BasedOn="{StaticResource BaseDataGridStyle}"></Style>
+      <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}"></Style>
+      <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}"></Style>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

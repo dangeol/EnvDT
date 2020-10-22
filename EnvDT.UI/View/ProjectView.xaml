@@ -10,21 +10,23 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <StackPanel Orientation="Horizontal">
-      <ComboBox Height="30" Width="400" IsEditable="True" Margin="10 10 10 10"
+    <Label Content="Project selection" Margin="10 0"/>
+    <StackPanel Grid.Row="1" Orientation="Horizontal">
+      <ComboBox Width="400" IsEditable="True" Margin="20 0 10 10"
                 ItemsSource="{Binding Projects}"
                 DisplayMemberPath="DisplayMember"
                 SelectedItem="{Binding SelectedItem}"/>
 
-      <Button Content="Add project" Width="125" Margin="10"
+      <Button Content="Add project" Margin="10 0 10 10"
               Command="{Binding CreateNewDetailCommand}"
               CommandParameter="{x:Type viewModel:ProjectDetailViewModel}"/>
     </StackPanel>
 
-    <StackPanel Grid.Row="1" Orientation="Vertical" IsEnabled="{Binding IsDetailViewEnabled}">
+    <StackPanel Grid.Row="2" Orientation="Vertical" IsEnabled="{Binding IsDetailViewEnabled}">
       <view:ProjectDetailView DataContext="{Binding DetailViewModel}" />
     </StackPanel>
   </Grid>

@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EnvDT.UI.Styling">
+
+  <Style x:Key="BaseDataGridStyle" TargetType="DataGrid">
+    <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
+    <Setter Property="FontSize" Value="14"/>
+    <Setter Property="GridLinesVisibility" Value="None"/>
+  </Style>
+</ResourceDictionary>

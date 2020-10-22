@@ -23,27 +23,27 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <Label Grid.Row="1" Content="ProjectNumber" Margin="10 0"/>
+    <Label Grid.Row="1" Content="Project number" Margin="10 0"/>
     <TextBox Grid.Row="2" Text="{Binding Project.ProjectNumber,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
-    <Label Grid.Row="3" Content="ProjectClient" Margin="10 0"/>
+    <Label Grid.Row="3" Content="Project client" Margin="10 0"/>
     <TextBox Grid.Row="4" Text="{Binding Project.ProjectClient,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
-    <Label Grid.Row="5" Content="ProjectName" Margin="10 0"/>
+    <Label Grid.Row="5" Content="Project name" Margin="10 0"/>
     <TextBox Grid.Row="6" Text="{Binding Project.ProjectName,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
-    <Label Grid.Row="7" Content="ProjectAddress" Margin="10 0"/>
+    <Label Grid.Row="7" Content="Project address" Margin="10 0"/>
     <TextBox Grid.Row="8" Text="{Binding Project.ProjectAddress,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10 0 10 10"/>
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
     <StackPanel Grid.Row="9" Orientation="Horizontal">
-      <Button Content="Save" Width="125" Margin="10"
+      <Button Content="Save" Margin="20 10"
               Command="{Binding SaveCommand}"/>
 
-      <Button Content="Delete" Width="125" Margin="10"
+      <Button Content="Delete" Margin="10 10"
               Command="{Binding DeleteCommand}"/>
     </StackPanel>
 

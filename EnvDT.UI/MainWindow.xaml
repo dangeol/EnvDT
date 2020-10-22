@@ -23,11 +23,11 @@
       <RowDefinition/>
     </Grid.RowDefinitions>
 
-    <Menu FontSize="20">
-      <MenuItem Header="Main"
+    <Menu VerticalAlignment="Center">
+      <MenuItem Header="Main" Height="30"
                 Command="{Binding NavCommand}"
                 CommandParameter="main" />
-      <MenuItem Header="Settings"
+      <MenuItem Header="Settings" Height="30"
                 Command="{Binding NavCommand}"
                 CommandParameter="settings" />
     </Menu>
