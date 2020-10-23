@@ -12,14 +12,21 @@
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
     <DataGrid ItemsSource="{Binding Samples}"
+              CellStyle="{StaticResource WhiteDataGridCellStyle}"
               AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
       <DataGrid.Columns>
-        <DataGridCheckBoxColumn Header="Selected" Width="20"
-             Binding="{Binding IsSelected}"/>
+        <DataGridTemplateColumn Header="Selected" Width="20">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
         <DataGridTextColumn Header="Sample Name" Width="*" IsReadOnly="True"
              Binding="{Binding SampleName}"/>
       </DataGrid.Columns>
@@ -28,18 +35,22 @@
     <StackPanel Grid.Row="1" Orientation="Vertical">
       <Button Content="Eval" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
-    </StackPanel>
 
-    <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResults}"
-              AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
-      <DataGrid.Columns>
-        <DataGridTextColumn Header="Sample Name" IsReadOnly="True"
-             Binding="{Binding SampleName}"/>
-        <DataGridTextColumn Header="Valualtion Class" IsReadOnly="True"
-             Binding="{Binding HighestValClassName}"/>
-        <DataGridTextColumn Header="Exceeding Parameters" Width="*" IsReadOnly="True"
-             Binding="{Binding ExceedingValueList}"/>
-      </DataGrid.Columns>
-    </DataGrid>
+      <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResults}"
+                Name="EvalResultsDataGrid"
+                CellStyle="{StaticResource WhiteDataGridCellStyle}"
+                AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
+        <DataGrid.Columns>
+          <DataGridTextColumn Header="Sample Name" IsReadOnly="True"
+               Binding="{Binding SampleName}"/>
+          <DataGridTextColumn Header="Valualtion Class" IsReadOnly="True"
+               Binding="{Binding HighestValClassName}"/>
+          <DataGridTextColumn Header="Exceeding Parameters" Width="*" IsReadOnly="True"
+               Binding="{Binding ExceedingValueList}"/>
+        </DataGrid.Columns>
+      </DataGrid>
+
+      <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
+    </StackPanel>
   </Grid>
 </UserControl>

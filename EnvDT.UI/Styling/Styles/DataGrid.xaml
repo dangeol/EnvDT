@@ -7,4 +7,28 @@
     <Setter Property="FontSize" Value="14"/>
     <Setter Property="GridLinesVisibility" Value="None"/>
   </Style>
+
+  <Style x:Key="WhiteDataGridCellStyle" 
+         TargetType="{x:Type DataGridCell}">
+    <Setter Property="Foreground" Value="Black"/>
+    <Setter Property="Background" Value="{x:Null}" />
+    <Setter Property="BorderBrush" Value="{x:Null}" />
+    <Style.Triggers>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+  <Style x:Key="WhiteDataGridRowStyle"
+         TargetType="{x:Type DataGridRow}">
+    <Setter Property="Background" Value="{x:Null}" />
+    <Setter Property="BorderBrush" Value="{x:Null}" />
+    <Style.Triggers>
+      <Trigger Property="IsSelected" Value="True">
+        <Setter Property="Background" Value="{x:Null}" />
+        <Setter Property="BorderBrush" Value="{x:Null}" />
+      </Trigger>
+    </Style.Triggers>
+  </Style>
 </ResourceDictionary>

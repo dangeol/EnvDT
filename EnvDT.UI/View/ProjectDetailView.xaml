@@ -36,7 +36,8 @@
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
     <Label Grid.Row="7" Content="Project address" Margin="10 0"/>
-    <TextBox Grid.Row="8" Text="{Binding Project.ProjectAddress,
+    <TextBox Style="{StaticResource HighTextBoxStyle}"
+             Grid.Row="8" Text="{Binding Project.ProjectAddress,
              Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
 
     <StackPanel Grid.Row="9" Orientation="Horizontal">
