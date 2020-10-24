@@ -1,5 +1,8 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
@@ -9,6 +12,12 @@ namespace EnvDT.DataAccess.Repository
         public UnitRepository(EnvDTDbContext context)
             :base(context)
         {
+        }
+
+        public Guid GetUnitIdOfUnknown()
+        {
+            return Context.Units.AsNoTracking()
+                .Single(u => u.UnitName == "[unknown]").UnitId;
         }
     }
 }

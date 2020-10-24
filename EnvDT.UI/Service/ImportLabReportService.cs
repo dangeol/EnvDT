@@ -78,7 +78,6 @@ namespace EnvDT.UI.Service
                 reader.Close();
 
                 _unitOfWork.Save();
-                _unitOfWork.Dispose();
 
                 RaiseLabReportImportedEvent(labReportId,
                     $"{reportLabIdent} {laboratoryName}");
@@ -135,50 +134,70 @@ namespace EnvDT.UI.Service
             int r = 7;
             while (r < workSheet.Rows.Count)
             {
-                double sValue = 0.0;
-                double testVar;
-                if (workSheet.Rows[r][c] != System.DBNull.Value 
-                    && Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                if (workSheet.Rows[r][c] != System.DBNull.Value)
                 {
-                    sValue = (double)workSheet.Rows[r][c];
-                }
-                double detectionLimit = 0.0;
-                if (workSheet.Rows[r][2] != System.DBNull.Value)
-                {
-                    detectionLimit = (double)workSheet.Rows[r][2];
-                }
-                var labParamName = workSheet.Rows[r][0].ToString();
-                var paramLabs = _unitOfWork.SampleValues.GetParamLabsByLabParamName(labParamName);
-                var unitName = workSheet.Rows[r][1].ToString();
-                var unitId = _unitOfWork.SampleValues.GetUnitIdByName(unitName)?.UnitId ?? Guid.Empty;
-
-
-                //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
-                if (unitName == "µg/l")
-                {
-                    unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
-                } 
-                else if (unitName == "µS/cm")
-                {
-                    unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
-                }
-
-                if (paramLabs.Count() > 0)
-                { 
-                    foreach (var paramLab in paramLabs)
+                    var sampleValTempObj = new SampleValue();
+                    sampleValTempObj.SampleId = sampleId;
+                    sampleValTempObj.SValue = 0.0;
+                    double testVar;
+                    if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
                     {
-                        var sampleValue = new SampleValue();
-                        sampleValue.SValue = sValue;
-                        sampleValue.DetectionLimit = detectionLimit;
-                        sampleValue.SampleId = sampleId;
-                        sampleValue.ParameterId = paramLab.ParameterId;
-                        sampleValue.UnitId = unitId;
+                        sampleValTempObj.SValue = (double)workSheet.Rows[r][c];
+                    }
+                    sampleValTempObj.DetectionLimit = 0.0;
+                    if (workSheet.Rows[r][2] != System.DBNull.Value)
+                    {
+                        sampleValTempObj.DetectionLimit = (double)workSheet.Rows[r][2];
+                    }
+                    sampleValTempObj.Method = "";
+                    if (workSheet.Rows[r][3] != System.DBNull.Value)
+                    {
+                        sampleValTempObj.Method = (string)workSheet.Rows[r][3];
+                    }
+                    var labParamName = workSheet.Rows[r][0].ToString();
+                    var paramLabs = _unitOfWork.SampleValues.GetParamLabsByLabParamName(labParamName);
+                    var unitName = workSheet.Rows[r][1].ToString();
+                    sampleValTempObj.UnitId = _unitOfWork.SampleValues.GetUnitIdByName(unitName)?.UnitId 
+                        ?? _unitOfWork.Units.GetUnitIdOfUnknown();
 
-                        _unitOfWork.SampleValues.Create(sampleValue);
+                    //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
+                    if (unitName == "µg/l")
+                    {
+                        sampleValTempObj.UnitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
+                    } 
+                    else if (unitName == "µS/cm")
+                    {
+                        sampleValTempObj.UnitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
+                    }
+
+                    if (paramLabs.Count() > 0)
+                    { 
+                        foreach (var paramLab in paramLabs)
+                        {
+                            CreateNewSampleValue(sampleValTempObj, paramLab.ParameterId);
+                        }
+                    } 
+                    else
+                    {
+                        var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
+                        CreateNewSampleValue(sampleValTempObj, unknownParameterId);
                     }
                 }
                 r++;
             }
+        }
+
+        private void CreateNewSampleValue(SampleValue sampleValTempObj, Guid parameterId)
+        {
+            var sampleValue = new SampleValue();
+            sampleValue.SValue = sampleValTempObj.SValue;
+            sampleValue.DetectionLimit = sampleValTempObj.DetectionLimit;
+            sampleValue.Method = sampleValTempObj.Method;
+            sampleValue.SampleId = sampleValTempObj.SampleId;
+            sampleValue.ParameterId = parameterId;
+            sampleValue.UnitId = sampleValTempObj.UnitId;
+
+            _unitOfWork.SampleValues.Create(sampleValue);
         }
 
         private void RaiseLabReportImportedEvent(Guid modelId, string displayMember)

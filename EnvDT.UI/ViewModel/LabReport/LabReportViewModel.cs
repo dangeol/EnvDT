@@ -71,7 +71,10 @@ namespace EnvDT.UI.ViewModel
             set 
             { 
                 _selectedLabReport = value;
-                LookupItemId = _selectedLabReport.LookupItemId;
+                if (_selectedLabReport != null)
+                {
+                    LookupItemId = _selectedLabReport.LookupItemId;
+                }
                 DetailViewModelName = _sampleDetailViewModelName;
                 OnPropertyChanged();
                 ((DelegateCommand)DeleteLabReportCommand).RaiseCanExecuteChanged();

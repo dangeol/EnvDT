@@ -63,6 +63,7 @@ namespace EnvDT.Model.Core
         private ExceedingValue GetExceedingValue(Guid sampleId, RefValue refValue)
         {
             var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);
+            // Next line: treat null
             var sampleValue = sampleValues.First().SValue;
             var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
 

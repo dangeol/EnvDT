@@ -7,6 +7,7 @@ namespace EnvDT.Model.Entity
         public Guid SampleValueId { get; set; }
         public double SValue { get; set; }
         public double DetectionLimit { get; set; }
+        public string Method { get; set; }
 
         public Guid SampleId { get; set; }
         public Sample Sample { get; set; }

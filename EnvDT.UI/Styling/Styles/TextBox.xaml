@@ -22,7 +22,7 @@
     </Setter>
     <Style.Triggers>
       <Trigger Property="Validation.HasError" Value="True">
-        <Setter Property="Background" Value="Red" />
+        <Setter Property="Background" Value="#ffd4d4" />
         <Setter Property="ToolTip"
                         Value="{Binding RelativeSource={RelativeSource Self},
                         Path=(Validation.Errors)[0].ErrorContent}" />
