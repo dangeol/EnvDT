@@ -27,7 +27,8 @@ namespace EnvDT.DataAccess.Repository
                 from rv in Context.RefValues
                     .Where(rv => rv.RefValueId == RefValueId)
                 join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
-                select GetById(pp.ParameterId)
+                select Context.Parameters.AsNoTracking()
+                        .Single(p => p.ParameterId == pp.ParameterId)
             ).First();
         }
     }

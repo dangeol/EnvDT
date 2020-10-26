@@ -29,22 +29,22 @@ namespace EnvDT.DataAccess.Repository
 
         public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndRefValue(Guid sampleId, RefValue refValue)
         {
-            var parameters = from rv in Context.RefValues
+            var parameterIds = from rv in Context.RefValues
                     .Where(rv => rv.RefValueId == refValue.RefValueId)
                 join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
-                select GetById(pp.ParameterId);
+                select pp.ParameterId;
 
-            var units = from rv in Context.RefValues
+            var unitIds = from rv in Context.RefValues
                     .Where(rv => rv.RefValueId == refValue.RefValueId)
                 join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
-                select GetById(pp.UnitId);
+                select pp.UnitId;
 
             return 
             (
                 from s in Context.SampleValues
-                    .Where(s => s.SampleId == sampleId && s.ParameterId == parameters.First().ParameterId)
+                    .Where(s => s.SampleId == sampleId && s.ParameterId == parameterIds.First())
                 join su in Context.Units on s.UnitId equals su.UnitId
-                join ru in Context.Units on units.First().UnitId equals ru.UnitId
+                join ru in Context.Units on unitIds.First() equals ru.UnitId
                 where (su.UnitName.Length > 0 &&
                     ru.UnitName.Length > 0 &&
                     su.UnitName.Substring(1, su.UnitName.Length - 1).Equals(ru.UnitName.Substring(1, ru.UnitName.Length - 1))) ||
