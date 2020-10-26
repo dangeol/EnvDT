@@ -17,8 +17,15 @@ namespace EnvDT.DataAccess.Repository
 
         public IEnumerable<RefValue> GetRefValuesByPublicationId(Guid publicationId)
         {
-            return Context.Set<RefValue>().AsNoTracking().ToList()
-                .Where(rf => rf.PublicationId == publicationId);
+            return
+            (
+                from rv in Context.RefValues
+                join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
+                where (pp.PublicationId == publicationId)
+                select rv
+            )
+            .ToList();
         }
     }
 }
+

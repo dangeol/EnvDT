@@ -147,6 +147,9 @@
   <data name="publicationJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Publication.json</value>
   </data>
+  <data name="publParamJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/PublParam.json</value>
+  </data>
   <data name="publRegionJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/PublRegion.json</value>
   </data>

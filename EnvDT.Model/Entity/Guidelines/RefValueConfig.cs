@@ -11,21 +11,12 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<RefValue> builder)
         {
             builder.HasKey(r => r.RefValueId);
-            builder.HasOne(r => r.Publication)
+            builder.HasOne(r => r.PublParam)
                 .WithMany(r => r.RefValues)
-                .HasForeignKey(r => r.PublicationId);
-            builder.HasOne(r => r.Parameter)
-                .WithMany(r => r.RefValues)
-                .HasForeignKey(r => r.ParameterId);
-            builder.HasOne(r => r.Unit)
-                .WithMany(r => r.RefValues)
-                .HasForeignKey(r => r.UnitId);
+                .HasForeignKey(r => r.PublParamId);
             builder.HasOne(r => r.ValuationClass)
                 .WithMany(r => r.RefValues)
                 .HasForeignKey(r => r.ValuationClassId);
-            builder.HasOne(r => r.Medium)
-                .WithMany(r => r.RefValues)
-                .HasForeignKey(r => r.MediumId);
             var refValueJson = File.ReadAllText(DbResources.refValueJson);
             var refValues = JsonSerializer.Deserialize<List<RefValue>>(refValueJson);
             builder.HasData(refValues);

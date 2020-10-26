@@ -19,5 +19,16 @@ namespace EnvDT.DataAccess.Repository
             return Context.Units.AsNoTracking()
                 .Single(u => u.UnitName == "[unknown]").UnitId;
         }
+
+        public Unit GetUnitByRefValueId(Guid RefValueId)
+        {
+            return
+            (
+                from rv in Context.RefValues
+                    .Where(rv => rv.RefValueId == RefValueId)
+                join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
+                select GetById(pp.UnitId)
+            ).First();
+        }
     }
 }

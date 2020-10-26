@@ -68,8 +68,8 @@ namespace EnvDT.Model.Core
             var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
 
             var refVal = refValue.RValue;
-            var refValUnitName = _unitOfWork.Units.GetById(refValue.UnitId).UnitName;
-            var refValParam = _unitOfWork.Parameters.GetById(refValue.ParameterId);
+            var refValUnitName = _unitOfWork.Units.GetUnitByRefValueId(refValue.RefValueId).UnitName;
+            var refValParam = _unitOfWork.Parameters.GetParameterByRefValueId(refValue.RefValueId);
             var refValParamNameDe = refValParam.ParamNameDe;
             var refValParamAnnot = refValParam.ParamAnnotation;
             var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);

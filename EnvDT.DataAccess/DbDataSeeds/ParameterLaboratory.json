@@ -125,7 +125,7 @@
 		"LabParamName": "Zink (Zn)"
 	},
 	{
-		"ParameterId": "ecb39ece-9129-446d-bdff-72fcc56f3f0d",
+		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
 		"LabParamName": "Phenolindex"
 	},
@@ -183,11 +183,6 @@
 		"ParameterId": "16eb58c7-5df6-4070-8cc9-4ca7988cc5eb",
 		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
 		"LabParamName": "LHKW - Summe"
-	},
-	{
-		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
-		"LaboratoryId": "686bb4ff-8d47-4a47-857a-dcea16e304ae",
-		"LabParamName": "Phenolindex"
 	},
 	{
 		"ParameterId": "e36b044b-5265-4ee2-87dd-c5deb0cd048b",

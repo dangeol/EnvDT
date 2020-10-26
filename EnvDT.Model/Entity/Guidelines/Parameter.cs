@@ -10,7 +10,7 @@ namespace EnvDT.Model.Entity
         public string ParamNameDe { get; set; }
         public string ParamAnnotation { get; set; }
 
-        public List<RefValue> RefValues { get; } = new List<RefValue>();
+        public List<PublParam> PublParams { get; } = new List<PublParam>();
         public List<CAS> CASs { get; } = new List<CAS>();
         public List<ParameterLaboratory> ParameterLaboratories { get; set; }
         public List<SampleValue> SampleValues { get; set; }

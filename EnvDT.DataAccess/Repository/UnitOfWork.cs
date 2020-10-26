@@ -13,6 +13,7 @@ namespace EnvDT.DataAccess.Repository
             Parameters = new ParameterRepository(_context);
             Projects = new ProjectRepository(_context);
             Publications = new PublicationRepository(_context);
+            PublParams = new PublParamRepository(_context);
             RefValues = new RefValueRepository(_context);
             Samples = new SampleRepository(_context);
             SampleValues = new SampleValueRepository(_context);
@@ -24,6 +25,7 @@ namespace EnvDT.DataAccess.Repository
         public IParameterRepository Parameters { get; private set; }
         public IProjectRepository Projects { get; private set; }
         public IPublicationRepository Publications { get; private set; }
+        public IPublParamRepository PublParams { get; private set; }
         public IRefValueRepository RefValues { get; private set; }
         public ISampleRepository Samples { get; private set; }
         public ISampleValueRepository SampleValues { get; private set; }

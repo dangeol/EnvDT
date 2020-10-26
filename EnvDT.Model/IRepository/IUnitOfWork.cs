@@ -8,6 +8,7 @@ namespace EnvDT.Model.IRepository
         public IParameterRepository Parameters { get; }
         public IProjectRepository Projects { get; }
         public IPublicationRepository Publications { get; }
+        public IPublParamRepository PublParams { get; }
         public IRefValueRepository RefValues { get; }
         public ISampleRepository Samples { get; }
         public ISampleValueRepository SampleValues { get; }

@@ -151,6 +151,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublParam.json.
+        /// </summary>
+        internal static string publParamJson {
+            get {
+                return ResourceManager.GetString("publParamJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublRegion.json.
         /// </summary>
         internal static string publRegionJson {

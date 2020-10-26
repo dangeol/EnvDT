@@ -23,6 +23,7 @@ namespace EnvDT.DataAccess
         public DbSet<ParameterLaboratory> ParameterLaboratories { get; set; }
         public DbSet<PublCountry> PublCountries { get; set; }
         public DbSet<Publication> Publications { get; set; }
+        public DbSet<PublParam> PublParams { get; set; }
         public DbSet<PublRegion> PublRegions { get; set; }
         public DbSet<RefValue> RefValues { get; set; }
         public DbSet<ValuationClass> ValuationClasses { get; set; }
@@ -58,6 +59,7 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new ParameterLaboratoryConfig());
             modelBuilder.ApplyConfiguration(new PublCountryConfig());
             modelBuilder.ApplyConfiguration(new PublicationConfig());
+            modelBuilder.ApplyConfiguration(new PublParamConfig());
             modelBuilder.ApplyConfiguration(new PublRegionConfig());
             modelBuilder.ApplyConfiguration(new RefValueConfig());
             modelBuilder.ApplyConfiguration(new ValuationClassConfig());

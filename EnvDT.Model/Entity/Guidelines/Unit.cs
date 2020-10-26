@@ -10,7 +10,7 @@ namespace EnvDT.Model.Entity
         public string UnitDescEn { get; set; }
         public string UnitDescDe { get; set; }
 
-        public List<RefValue> RefValues { get; } = new List<RefValue>();
+        public List<PublParam> PublParams { get; } = new List<PublParam>();
         public List<SampleValue> SampleValues { get; } = new List<SampleValue>();
     }
 }

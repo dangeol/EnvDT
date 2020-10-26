@@ -9,6 +9,6 @@ namespace EnvDT.Model.Entity
         public string MediumNameEn { get; set; }
         public string MediumNameDe { get; set; }
 
-        public List<RefValue> RefValues { get; } = new List<RefValue>();
+        public List<PublParam> PublParams { get; } = new List<PublParam>();
     }
 }

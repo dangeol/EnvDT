@@ -17,7 +17,7 @@ namespace EnvDT.Model.Entity
 
         public List<PublCountry> PublCountries { get; set; }
         public List<PublRegion> PublRegions { get; set; }
-        public List<RefValue> RefValues { get; set; }
+        public List<PublParam> PublParams { get; set; }
         public List<ValuationClass> ValuationClasses { get; set; }
     }
 }
