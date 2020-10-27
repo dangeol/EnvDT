@@ -24,20 +24,24 @@ namespace EnvDT.Model.Core
             _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
             var publication = _unitOfWork.Publications.GetById(publicationId);
+            var publParams = publication.PublParams;
             var highestLevel = 0;
-            IEnumerable<RefValue> refValues = _unitOfWork.RefValues.GetRefValuesByPublicationId(publicationId);
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
-            foreach (RefValue refValue in refValues)
+            foreach (PublParam publParam in publParams)
             {
-                var exceedingValue = GetExceedingValue(sampleId, refValue);
-                if (exceedingValue != null)
+                var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
+                foreach (RefValue refValue in refValues)
                 {
-                    exceedingValues.Add(exceedingValue);
-
-                    if (exceedingValue.Level > highestLevel)
+                    var exceedingValue = GetExceedingValue(sampleId, publParam, refValue);
+                    if (exceedingValue != null)
                     {
-                        highestLevel = exceedingValue.Level;
+                        exceedingValues.Add(exceedingValue);
+
+                        if (exceedingValue.Level > highestLevel)
+                        {
+                            highestLevel = exceedingValue.Level;
+                        }
                     }
                 }
             }
@@ -60,16 +64,16 @@ namespace EnvDT.Model.Core
             return _evalResult;
         }
 
-        private ExceedingValue GetExceedingValue(Guid sampleId, RefValue refValue)
+        private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue)
         {
-            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndRefValue(sampleId, refValue);
+            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndPublParam(sampleId, publParam);
             // Next line: treat null
             var sampleValue = sampleValues.First().SValue;
             var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
 
             var refVal = refValue.RValue;
-            var refValUnitName = _unitOfWork.Units.GetUnitByRefValueId(refValue.RefValueId).UnitName;
-            var refValParam = _unitOfWork.Parameters.GetParameterByRefValueId(refValue.RefValueId);
+            var refValUnitName = _unitOfWork.Units.GetById(publParam.UnitId).UnitName;
+            var refValParam = _unitOfWork.Parameters.GetById(publParam.ParameterId);
             var refValParamNameDe = refValParam.ParamNameDe;
             var refValParamAnnot = refValParam.ParamAnnotation;
             var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);

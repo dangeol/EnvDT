@@ -15,8 +15,10 @@ namespace EnvDT.ModelTests.Core
         private Mock<IEvalCalcService> _evalCalcServiceMock;
         private Sample _sample;
         private Publication _publication;
-        private List<RefValue> _refValues;
+        private PublParam _publParam;
+        private List<PublParam> _publParams;
         private RefValue _refValue;
+        private List<RefValue> _refValues;
 
         private List<SampleValue> _sampleValues;
         private SampleValue _sampleValue;
@@ -29,6 +31,9 @@ namespace EnvDT.ModelTests.Core
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _evalCalcServiceMock = new Mock<IEvalCalcService>();
+            _publParam = new PublParam();
+            _publParams = new List<PublParam>();
+            _publParams.Add(_publParam);
             _refValue = new RefValue();
             _refValue.RValue = 5.0;
             _refValues = new List<RefValue>();
@@ -39,12 +44,13 @@ namespace EnvDT.ModelTests.Core
             _sample.SampleName = "Sample1";
             _publication = new Publication();
             _publication.PublicationId = new Guid();
+            _publication.PublParams = _publParams;
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
                 .Returns(_sample);
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
-            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublicationId(It.IsAny<Guid>()))
+            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
                 It.IsAny<int>(), It.IsAny<Guid>()))
@@ -62,14 +68,12 @@ namespace EnvDT.ModelTests.Core
             _valuationClass.ValClassLevel = 1;
             _valuationClass.ValuationClassName = "LevelName";
 
-            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndRefValue(
-                It.IsAny<Guid>(), It.IsAny<RefValue>()))
+            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndPublParam(
+                It.IsAny<Guid>(), It.IsAny<PublParam>()))
                 .Returns(_sampleValues);
-            _unitOfWorkMock.Setup(uw => uw.Units.GetUnitByRefValueId(It.IsAny<Guid>()))
-                .Returns(_unit);
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))
                 .Returns(_unit);
-            _unitOfWorkMock.Setup(uw => uw.Parameters.GetParameterByRefValueId(It.IsAny<Guid>()))
+            _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(It.IsAny<Guid>()))
                 .Returns(_parameter);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))
                 .Returns(_valuationClass);

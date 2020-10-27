@@ -14,5 +14,12 @@ namespace EnvDT.DataAccess.Repository
             :base(context)
         {
         }
+
+        public override PublParam GetById(Guid projectParamId)
+        {
+            return Context.PublParams
+                .Include(pp => pp.RefValues)
+                .FirstOrDefault(pp => pp.PublParamId == projectParamId);
+        }
     }
 }

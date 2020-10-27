@@ -8,6 +8,6 @@ namespace EnvDT.Model.IRepository
     {
         public IEnumerable<ParameterLaboratory> GetParamLabsByLabParamName(string labParamName);
         public Unit GetUnitIdByName(string unitName);
-        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndRefValue(Guid sampleId, RefValue refValue);
+        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndPublParam(Guid sampleId, PublParam publParam);
     }
 }

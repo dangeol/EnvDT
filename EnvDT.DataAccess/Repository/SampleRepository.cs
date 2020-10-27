@@ -15,7 +15,7 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public IEnumerable<Sample> GetAllByLabReportId(Guid labReportId)
+        public IEnumerable<Sample> GetSamplesByLabReportId(Guid labReportId)
         {
             return Context.Set<Sample>().AsNoTracking().ToList()
                 .Where(s => s.LabReportId == labReportId);

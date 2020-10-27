@@ -1,5 +1,8 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
@@ -9,6 +12,13 @@ namespace EnvDT.DataAccess.Repository
         public PublicationRepository(EnvDTDbContext context)
             :base(context)
         {
+        }
+
+        public override Publication GetById(Guid publicationId)
+        {
+            return Context.Publications
+                .Include(p => p.PublParams)
+                .FirstOrDefault(p => p.PublicationId == publicationId);
         }
     }
 }

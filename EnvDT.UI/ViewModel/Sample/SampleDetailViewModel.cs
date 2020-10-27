@@ -61,7 +61,7 @@ namespace EnvDT.UI.ViewModel
 
             Samples.Clear();
 
-            var samples = _unitOfWork.Samples.GetAllByLabReportId((Guid)labReportId);
+            var samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
 
             foreach (var model in samples)
             {

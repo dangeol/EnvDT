@@ -27,28 +27,18 @@ namespace EnvDT.DataAccess.Repository
                 .FirstOrDefault(u => u.UnitName == unitName);
         }
 
-        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndRefValue(Guid sampleId, RefValue refValue)
+        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndPublParam(Guid sampleId, PublParam publParam)
         {
-            var parameterIds = from rv in Context.RefValues
-                    .Where(rv => rv.RefValueId == refValue.RefValueId)
-                join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
-                select pp.ParameterId;
-
-            var unitIds = from rv in Context.RefValues
-                    .Where(rv => rv.RefValueId == refValue.RefValueId)
-                join pp in Context.PublParams on rv.PublParamId equals pp.PublParamId
-                select pp.UnitId;
-
             return 
             (
                 from s in Context.SampleValues
-                    .Where(s => s.SampleId == sampleId && s.ParameterId == parameterIds.First())
+                    .Where(s => s.SampleId == sampleId && s.ParameterId == publParam.ParameterId)
                 join su in Context.Units on s.UnitId equals su.UnitId
-                join ru in Context.Units on unitIds.First() equals ru.UnitId
+                join ppu in Context.Units on publParam.UnitId equals ppu.UnitId
                 where (su.UnitName.Length > 0 &&
-                    ru.UnitName.Length > 0 &&
-                    su.UnitName.Substring(1, su.UnitName.Length - 1).Equals(ru.UnitName.Substring(1, ru.UnitName.Length - 1))) ||
-                    (su.UnitName.Length == 0 && ru.UnitName.Length == 0)
+                    ppu.UnitName.Length > 0 &&
+                    su.UnitName.Substring(1, su.UnitName.Length - 1).Equals(ppu.UnitName.Substring(1, ppu.UnitName.Length - 1))) ||
+                    (su.UnitName.Length == 0 && ppu.UnitName.Length == 0)
                 select s
             )
             .ToList();

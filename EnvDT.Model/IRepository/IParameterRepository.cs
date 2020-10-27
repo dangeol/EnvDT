@@ -6,6 +6,5 @@ namespace EnvDT.Model.IRepository
     public interface IParameterRepository : IGenericRepository<Parameter>
     {
         public Guid GetParameterIdOfUnknown();
-        public Parameter GetParameterByRefValueId(Guid RefValueId);
     }
 }

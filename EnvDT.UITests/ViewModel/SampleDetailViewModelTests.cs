@@ -43,7 +43,7 @@ namespace EnvDT.UITests.ViewModel
             _labReport = new LabReport();
             _labReport.ReportLabIdent = _reportLabIdent;
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _unitOfWorkMock.Setup(uw => uw.Samples.GetAllByLabReportId(_labReportId))
+            _unitOfWorkMock.Setup(uw => uw.Samples.GetSamplesByLabReportId(_labReportId))
                 .Returns(_samples);
             _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(It.IsAny<Guid>()))
                 .Returns(_labReport);
