@@ -15,10 +15,10 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public IEnumerable<ParameterLaboratory> GetParamLabsByLabParamName(string labParamName)
+        public IEnumerable<ParamNameVariant> GetParamNameVariantsByLabParamName(string labParamName)
         {
-            return Context.Set<ParameterLaboratory>().AsNoTracking().ToList()
-                .Where(pl => pl.LabParamName == labParamName);
+            return Context.Set<ParamNameVariant>().AsNoTracking().ToList()
+                .Where(pl => pl.ParamNameAlias == labParamName);
         }
 
         public Unit GetUnitIdByName(string unitName)

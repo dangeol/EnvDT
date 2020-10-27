@@ -27,7 +27,7 @@
     <None Update="DbDataSeeds\Parameter.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="DbDataSeeds\ParameterLaboratory.json">
+    <None Update="DbDataSeeds\ParamNameVariant.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
     <None Update="DbDataSeeds\PublCountry.json">

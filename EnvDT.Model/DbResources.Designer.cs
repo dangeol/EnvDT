@@ -88,6 +88,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Language.json.
+        /// </summary>
+        internal static string languageJson {
+            get {
+                return ResourceManager.GetString("languageJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Medium.json.
         /// </summary>
         internal static string mediumJson {
@@ -115,11 +124,11 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ParameterLaboratory.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ParamNameVariant.json.
         /// </summary>
-        internal static string parameterLaboratoryJson {
+        internal static string paramNameVariantJson {
             get {
-                return ResourceManager.GetString("parameterLaboratoryJson", resourceCulture);
+                return ResourceManager.GetString("paramNameVariantJson", resourceCulture);
             }
         }
         

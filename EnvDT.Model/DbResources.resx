@@ -126,6 +126,9 @@
   <data name="laboratoryJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Laboratory.json</value>
   </data>
+  <data name="languageJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/Language.json</value>
+  </data>
   <data name="mediumJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Medium.json</value>
   </data>
@@ -135,8 +138,8 @@
   <data name="parameterJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Parameter.json</value>
   </data>
-  <data name="parameterLaboratoryJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ParameterLaboratory.json</value>
+  <data name="paramNameVariantJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/ParamNameVariant.json</value>
   </data>
   <data name="projectJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Project.json</value>

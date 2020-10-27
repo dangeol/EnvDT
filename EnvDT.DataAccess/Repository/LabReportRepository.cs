@@ -14,10 +14,10 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public Laboratory GetLabIdByLabName(string laboratoryName)
+        public Laboratory GetLabByLabName(string labName)
         {
             return Context.Laboratories.AsNoTracking()
-                .Single(l => l.LaboratoryName == laboratoryName);
+                .Single(l => l.LabName == labName);
         }
 
         public Laboratory GetLabByLabId(Guid laboratoryId)

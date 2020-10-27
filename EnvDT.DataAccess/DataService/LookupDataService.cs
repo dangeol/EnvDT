@@ -41,7 +41,7 @@ namespace EnvDT.DataAccess.DataService
                     {
                         LookupItemId = l.LabReportId,
                         DisplayMember = $"{l.ReportLabIdent} " +
-                        $"{_labReportRepository.GetLabByLabId(l.LaboratoryId).LaboratoryName}"
+                        $"{_labReportRepository.GetLabByLabId(l.LaboratoryId).LabCompany}"
                     });
             }
         }

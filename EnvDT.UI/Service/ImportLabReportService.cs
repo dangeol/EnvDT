@@ -60,8 +60,9 @@ namespace EnvDT.UI.Service
                     return;
                 }
 
-                var laboratoryName = "Agrolab Bruckberg";
-                Guid labReportId = CreateLabReport(reportLabIdent, laboratoryName, projectId).LabReportId;
+                var labName = "Agrolab Bruckberg";
+                var labCompany = _unitOfWork.LabReports.GetLabByLabName(labName).LabCompany;
+                Guid labReportId = CreateLabReport(reportLabIdent, labName, projectId).LabReportId;
 
                 int c = 4;
                 while (c < workSheet.Columns.Count)
@@ -80,7 +81,7 @@ namespace EnvDT.UI.Service
                 _unitOfWork.Save();
 
                 RaiseLabReportImportedEvent(labReportId,
-                    $"{reportLabIdent} {laboratoryName}");
+                    $"{reportLabIdent} {labCompany}");
             }
             else
             {
@@ -103,9 +104,9 @@ namespace EnvDT.UI.Service
             return false;
         }
 
-        private LabReport CreateLabReport(string reportLabIdent, string laboratoryName, Guid? projectId)
+        private LabReport CreateLabReport(string reportLabIdent, string labName, Guid? projectId)
         {
-            Guid laboratoryId = _unitOfWork.LabReports.GetLabIdByLabName(laboratoryName).LaboratoryId;
+            Guid laboratoryId = _unitOfWork.LabReports.GetLabByLabName(labName).LaboratoryId;
 
             var labReport = new LabReport();
             labReport.ReportLabIdent = reportLabIdent;
@@ -155,7 +156,7 @@ namespace EnvDT.UI.Service
                         sampleValTempObj.Method = (string)workSheet.Rows[r][3];
                     }
                     var labParamName = workSheet.Rows[r][0].ToString();
-                    var paramLabs = _unitOfWork.SampleValues.GetParamLabsByLabParamName(labParamName);
+                    var paramLabs = _unitOfWork.SampleValues.GetParamNameVariantsByLabParamName(labParamName);
                     var unitName = workSheet.Rows[r][1].ToString();
                     sampleValTempObj.UnitId = _unitOfWork.SampleValues.GetUnitIdByName(unitName)?.UnitId 
                         ?? _unitOfWork.Units.GetUnitIdOfUnknown();

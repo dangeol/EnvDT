@@ -12,5 +12,6 @@ namespace EnvDT.Model.Entity
 
         public List<PublParam> PublParams { get; } = new List<PublParam>();
         public List<SampleValue> SampleValues { get; } = new List<SampleValue>();
+        public List<UnitNameVariant> UnitNameVariants { get; set; }
     }
 }

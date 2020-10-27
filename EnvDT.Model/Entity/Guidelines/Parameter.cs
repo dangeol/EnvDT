@@ -12,7 +12,7 @@ namespace EnvDT.Model.Entity
 
         public List<PublParam> PublParams { get; } = new List<PublParam>();
         public List<CAS> CASs { get; } = new List<CAS>();
-        public List<ParameterLaboratory> ParameterLaboratories { get; set; }
+        public List<ParamNameVariant> ParamNameVariants { get; set; }
         public List<SampleValue> SampleValues { get; set; }
     }
 }
