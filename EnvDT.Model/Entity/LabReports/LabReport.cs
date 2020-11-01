@@ -12,6 +12,7 @@ namespace EnvDT.Model.Entity
         public Laboratory Laboratory { get; set; }
         public Guid ProjectId { get; set; }
         public Project Project { get; set; }
+        public List<LabReportParam> LabReportParams { get; set; }
         public List<Sample> Samples { get; set; }
     }
 }

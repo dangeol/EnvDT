@@ -5,9 +5,11 @@ using EnvDT.UI.Event;
 using ExcelDataReader;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
+using System.Windows.Documents;
 
 namespace EnvDT.UI.Service
 {
@@ -16,6 +18,7 @@ namespace EnvDT.UI.Service
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
+        private List<Guid> _sampleIdList = new List<Guid>();
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             IUnitOfWork unitOfWork)
@@ -72,9 +75,10 @@ namespace EnvDT.UI.Service
                         workSheet.Rows[4][c].ToString(), 
                         labReportId
                     ).SampleId;
-                    CreateSampleValues(workSheet, sampleId, c);
+                    _sampleIdList.Add(sampleId);
                     c++;
                 }
+                CreateLabReportParams(workSheet, labReportId);
 
                 reader.Close();
 
@@ -130,75 +134,86 @@ namespace EnvDT.UI.Service
             return sample;
         }
 
-        private void CreateSampleValues(DataTable workSheet, Guid sampleId, int c)
+        private void CreateLabReportParams(DataTable workSheet, Guid labReportId)
         {
             int r = 7;
             while (r < workSheet.Rows.Count)
             {
-                if (workSheet.Rows[r][c] != System.DBNull.Value)
+                var labParamName = workSheet.Rows[r][0].ToString();
+                var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
+
+                if (paramNameVariants.Count() > 0)
                 {
-                    var sampleValTempObj = new SampleValue();
-                    sampleValTempObj.SampleId = sampleId;
-                    sampleValTempObj.SValue = 0.0;
-                    double testVar;
-                    if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                    foreach (var paramNameVariant in paramNameVariants)
                     {
-                        sampleValTempObj.SValue = (double)workSheet.Rows[r][c];
+                        var parameterId = paramNameVariant.ParameterId;
+                        CreateNewLabParam(workSheet, parameterId, labReportId, r);   
                     }
-                    sampleValTempObj.DetectionLimit = 0.0;
-                    if (workSheet.Rows[r][2] != System.DBNull.Value)
-                    {
-                        sampleValTempObj.DetectionLimit = (double)workSheet.Rows[r][2];
-                    }
-                    sampleValTempObj.Method = "";
-                    if (workSheet.Rows[r][3] != System.DBNull.Value)
-                    {
-                        sampleValTempObj.Method = (string)workSheet.Rows[r][3];
-                    }
-                    var labParamName = workSheet.Rows[r][0].ToString();
-                    var paramLabs = _unitOfWork.SampleValues.GetParamNameVariantsByLabParamName(labParamName);
-                    var unitName = workSheet.Rows[r][1].ToString();
-                    sampleValTempObj.UnitId = _unitOfWork.SampleValues.GetUnitIdByName(unitName)?.UnitId 
-                        ?? _unitOfWork.Units.GetUnitIdOfUnknown();
-
-                    //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
-                    if (unitName == "µg/l")
-                    {
-                        sampleValTempObj.UnitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
-                    } 
-                    else if (unitName == "µS/cm")
-                    {
-                        sampleValTempObj.UnitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
-                    }
-
-                    if (paramLabs.Count() > 0)
-                    { 
-                        foreach (var paramLab in paramLabs)
-                        {
-                            CreateNewSampleValue(sampleValTempObj, paramLab.ParameterId);
-                        }
-                    } 
-                    else
-                    {
-                        var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                        CreateNewSampleValue(sampleValTempObj, unknownParameterId);
-                    }
+                }
+                else
+                {
+                    var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
+                    CreateNewLabParam(workSheet, unknownParameterId, labReportId, r);
                 }
                 r++;
             }
         }
 
-        private void CreateNewSampleValue(SampleValue sampleValTempObj, Guid parameterId)
+        private void CreateNewLabParam(DataTable workSheet, Guid parameterId, Guid labReportId, int r)
         {
-            var sampleValue = new SampleValue();
-            sampleValue.SValue = sampleValTempObj.SValue;
-            sampleValue.DetectionLimit = sampleValTempObj.DetectionLimit;
-            sampleValue.Method = sampleValTempObj.Method;
-            sampleValue.SampleId = sampleValTempObj.SampleId;
-            sampleValue.ParameterId = parameterId;
-            sampleValue.UnitId = sampleValTempObj.UnitId;
+            var labReportParam = new LabReportParam();
+            labReportParam.ParameterId = parameterId;
+            labReportParam.LabReportId = labReportId;
+            labReportParam.DetectionLimit = 0.0;
+            if (workSheet.Rows[r][2] != System.DBNull.Value)
+            {
+                labReportParam.DetectionLimit = (double)workSheet.Rows[r][2];
+            }
+            labReportParam.Method = "";
+            if (workSheet.Rows[r][3] != System.DBNull.Value)
+            {
+                labReportParam.Method = (string)workSheet.Rows[r][3];
+            }
+            var unitName = workSheet.Rows[r][1].ToString();
+            labReportParam.UnitId = _unitOfWork.Units.GetUnitIdByName(unitName)?.UnitId
+                ?? _unitOfWork.Units.GetUnitIdOfUnknown();
 
-            _unitOfWork.SampleValues.Create(sampleValue);
+            //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
+            if (unitName == "µg/l")
+            {
+                labReportParam.UnitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
+            }
+            else if (unitName == "µS/cm")
+            {
+                labReportParam.UnitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
+            }
+
+            _unitOfWork.LabReportParams.Create(labReportParam);
+            CreateNewSampleValue(r, workSheet, labReportParam);
+        }
+
+        private void CreateNewSampleValue(int r, DataTable workSheet, LabReportParam labReportParam)
+        {
+            var c_init = 4;
+            for (int i = 0; i < _sampleIdList.Count; i++)
+            {
+                var c = c_init + i;
+                if (workSheet.Rows[r][c] != System.DBNull.Value)
+                {
+                    var sValue = 0.0;
+                    double testVar;
+                    if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                    {
+                        sValue = (double)workSheet.Rows[r][c];
+                    }
+                    var sampleValue = new SampleValue();
+                    sampleValue.SValue = sValue;
+                    sampleValue.LabReportParamId = labReportParam.LabReportParamId;
+                    sampleValue.SampleId = _sampleIdList[i];
+
+                    _unitOfWork.SampleValues.Create(sampleValue);
+                }
+            }
         }
 
         private void RaiseLabReportImportedEvent(Guid modelId, string displayMember)

@@ -30,10 +30,12 @@ namespace EnvDT.Model.Core
 
             foreach (PublParam publParam in publParams)
             {
+                var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam);
+                var labReportParam = labReportParams.First();
                 var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
                 foreach (RefValue refValue in refValues)
                 {
-                    var exceedingValue = GetExceedingValue(sampleId, publParam, refValue);
+                    var exceedingValue = GetExceedingValue(sampleId, publParam, refValue, labReportParam);
                     if (exceedingValue != null)
                     {
                         exceedingValues.Add(exceedingValue);
@@ -64,12 +66,12 @@ namespace EnvDT.Model.Core
             return _evalResult;
         }
 
-        private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue)
+        private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue, LabReportParam labReportParam)
         {
-            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndPublParam(sampleId, publParam);
+            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParam(sampleId, labReportParam.LabReportParamId);
             // Next line: treat null
             var sampleValue = sampleValues.First().SValue;
-            var sampleValueUnitName = _unitOfWork.Units.GetById(sampleValues.First().UnitId).UnitName;
+            var sampleValueUnitName = _unitOfWork.Units.GetById(labReportParam.UnitId).UnitName;
 
             var refVal = refValue.RValue;
             var refValUnitName = _unitOfWork.Units.GetById(publParam.UnitId).UnitName;

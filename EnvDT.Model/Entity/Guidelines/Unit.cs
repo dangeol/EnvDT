@@ -11,7 +11,7 @@ namespace EnvDT.Model.Entity
         public string UnitDescDe { get; set; }
 
         public List<PublParam> PublParams { get; } = new List<PublParam>();
-        public List<SampleValue> SampleValues { get; } = new List<SampleValue>();
+        public List<LabReportParam> LabReportParams { get; } = new List<LabReportParam>();
         public List<UnitNameVariant> UnitNameVariants { get; set; }
     }
 }

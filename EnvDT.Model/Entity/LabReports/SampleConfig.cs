@@ -8,9 +8,9 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Sample> builder)
         {
             builder.HasKey(s => s.SampleId);
-            builder.HasOne(sl => sl.LabReport)
-                .WithMany(l => l.Samples)
-                .HasForeignKey(sl => sl.LabReportId);
+            builder.HasOne(s => s.LabReport)
+                .WithMany(lr => lr.Samples)
+                .HasForeignKey(s => s.LabReportId);
         }
     }
 }

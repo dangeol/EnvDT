@@ -6,5 +6,6 @@ namespace EnvDT.Model.IRepository
     public interface IUnitRepository : IGenericRepository<Unit>
     {
         public Guid GetUnitIdOfUnknown();
+        public Unit GetUnitIdByName(string unitName);
     }
 }

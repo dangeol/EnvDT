@@ -26,6 +26,8 @@ namespace EnvDT.ModelTests.Core
         private Parameter _parameter;
         private ValuationClass _valuationClass;
         private string _nextLevelName = "NextLevelName";
+        private List<LabReportParam> _labReportParams;
+        private LabReportParam _labReportParam;
 
         public EvalLabReportServiceTests()
         {
@@ -38,18 +40,23 @@ namespace EnvDT.ModelTests.Core
             _refValue.RValue = 5.0;
             _refValues = new List<RefValue>();
             _refValues.Add(_refValue);
+            _publication = new Publication();
+            _publication.PublicationId = new Guid();
+            _publication.PublParams = _publParams;
 
             _sample = new Sample();
             _sample.SampleId = new Guid();
             _sample.SampleName = "Sample1";
-            _publication = new Publication();
-            _publication.PublicationId = new Guid();
-            _publication.PublParams = _publParams;
+            _labReportParams = new List<LabReportParam>();
+            _labReportParam = new LabReportParam();
+            _labReportParams.Add(_labReportParam);
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
                 .Returns(_sample);
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>()))
+                .Returns(_labReportParams);
             _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
@@ -68,8 +75,8 @@ namespace EnvDT.ModelTests.Core
             _valuationClass.ValClassLevel = 1;
             _valuationClass.ValuationClassName = "LevelName";
 
-            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndPublParam(
-                It.IsAny<Guid>(), It.IsAny<PublParam>()))
+            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndLabReportParam(
+                It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .Returns(_sampleValues);
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))
                 .Returns(_unit);

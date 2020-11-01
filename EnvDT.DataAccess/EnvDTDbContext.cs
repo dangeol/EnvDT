@@ -36,6 +36,7 @@ namespace EnvDT.DataAccess
 
         //LabReports
         public DbSet<LabReport> LabReports { get; set; }
+        public DbSet<LabReportParam> LabReportParams { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Sample> Samples { get; set; }
         public DbSet<SampleValue> SampleValues { get; set; }

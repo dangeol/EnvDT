@@ -19,5 +19,11 @@ namespace EnvDT.DataAccess.Repository
             return Context.Units.AsNoTracking()
                 .Single(u => u.UnitName == "[unknown]").UnitId;
         }
+
+        public Unit GetUnitIdByName(string unitName)
+        {
+            return Context.Units.AsNoTracking()
+                .FirstOrDefault(u => u.UnitName == unitName);
+        }
     }
 }
