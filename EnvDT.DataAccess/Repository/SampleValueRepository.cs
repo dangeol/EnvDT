@@ -15,7 +15,7 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndLabReportParam(Guid sampleId, Guid labReportParamId)
+        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndLabReportParamId(Guid sampleId, Guid labReportParamId)
         {
             return Context.Set<SampleValue>().AsNoTracking().ToList()
                 .Where(sv => (sv.SampleId == sampleId && sv.LabReportParamId == labReportParamId));

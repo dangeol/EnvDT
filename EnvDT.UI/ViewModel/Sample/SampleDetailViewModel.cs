@@ -2,11 +2,13 @@
 using EnvDT.Model.Core.HelperClasses;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
+using EnvDT.UI.HelperClasses;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -26,10 +28,19 @@ namespace EnvDT.UI.ViewModel
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
             Samples = new ObservableCollection<SampleWrapper>();
+            SamplePublColumns = new ObservableCollection<SamplePublColumn>();
             EvalResults = new ObservableCollection<EvalResult>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
+            //For testing only:
+            var samplePublColumn = new SamplePublColumn()
+            {
+                FieldName = "Diehlm.",
+                PublicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773"),
+                Settings = SettingsType.Default
+            };
+            SamplePublColumns.Add(samplePublColumn);
         }
 
         public ICommand EvalLabReportCommand { get; }
@@ -38,6 +49,7 @@ namespace EnvDT.UI.ViewModel
         public bool IsSampleTab { get; private set; }
         public Guid? LabReportId { get; set; }
         public ObservableCollection<SampleWrapper> Samples { get; }
+        public ObservableCollection<SamplePublColumn> SamplePublColumns { get; private set; }
         public ObservableCollection<EvalResult> EvalResults { get; }
 
         public string Title
@@ -92,12 +104,12 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
+            // put here: _evalLabReportParams
             EvalResults.Clear();
-            // For testing only:        
-            var publicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773");
             foreach (var sample in Samples)
             {
-                var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, publicationId);
+                // put here foreach loop through selected publications
+                var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, SamplePublColumns.First().PublicationId);
                 EvalResults.Add(evalResult);
             }
         }

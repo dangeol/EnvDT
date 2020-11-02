@@ -75,7 +75,7 @@ namespace EnvDT.ModelTests.Core
             _valuationClass.ValClassLevel = 1;
             _valuationClass.ValuationClassName = "LevelName";
 
-            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndLabReportParam(
+            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(
                 It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .Returns(_sampleValues);
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))

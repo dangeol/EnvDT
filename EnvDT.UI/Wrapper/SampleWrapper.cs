@@ -1,6 +1,8 @@
 ﻿using EnvDT.Model.Entity;
+using EnvDT.UI.HelperClasses;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EnvDT.UI.Wrapper
 {
@@ -41,7 +43,7 @@ namespace EnvDT.UI.Wrapper
             set { SetValue(value); }
         }
 
-        protected override IEnumerable<string> ValidateProperty(string propertyName)
+    protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
             ClearErrors(propertyName);
             switch (propertyName)

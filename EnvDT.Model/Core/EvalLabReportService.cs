@@ -68,7 +68,7 @@ namespace EnvDT.Model.Core
 
         private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue, LabReportParam labReportParam)
         {
-            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParam(sampleId, labReportParam.LabReportParamId);
+            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(sampleId, labReportParam.LabReportParamId);
             // Next line: treat null
             var sampleValue = sampleValues.First().SValue;
             var sampleValueUnitName = _unitOfWork.Units.GetById(labReportParam.UnitId).UnitName;

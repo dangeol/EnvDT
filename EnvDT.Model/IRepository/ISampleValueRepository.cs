@@ -6,6 +6,6 @@ namespace EnvDT.Model.IRepository
 {
     public interface ISampleValueRepository : IGenericRepository<SampleValue>
     {
-        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndLabReportParam(Guid sampleId, Guid labReportParamId);
+        public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndLabReportParamId(Guid sampleId, Guid labReportParamId);
     }
 }
