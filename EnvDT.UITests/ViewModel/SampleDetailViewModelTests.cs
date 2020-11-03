@@ -7,7 +7,8 @@ using Xunit;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Event;
 using EnvDT.Model.Entity;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -19,8 +20,9 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
         private SampleDetailViewModel _viewModel;
         private Mock<DetailClosedEvent> _detailClosedEventMock;
-        private ObservableCollection<Sample> _samples;
+        private List<Sample> _samples;
         private LabReport _labReport;
+        private Publication _publication;
         private string _reportLabIdent = "ident";
 
         public SampleDetailViewModelTests()
@@ -29,7 +31,7 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
                 .Returns(_detailClosedEventMock.Object);
-            _samples = new ObservableCollection<Sample>();
+            _samples = new List<Sample>();
             _samples.Add(new Model.Entity.Sample
             {
                 SampleId = new Guid("1f343ed6-e410-4f4b-9432-073acada899b"),
@@ -42,11 +44,14 @@ namespace EnvDT.UITests.ViewModel
             });
             _labReport = new LabReport();
             _labReport.ReportLabIdent = _reportLabIdent;
+            _publication = new Publication();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uw => uw.Samples.GetSamplesByLabReportId(_labReportId))
                 .Returns(_samples);
             _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(It.IsAny<Guid>()))
                 .Returns(_labReport);
+            _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
+                .Returns(_publication);
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object, 
@@ -58,7 +63,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _viewModel.Load(_labReportId);
 
-            Assert.Equal(2, _viewModel.Samples.Count);
+            Assert.Equal(2, _viewModel.Samples.Count());
 
             Assert.NotNull(_viewModel.Title);
             Assert.Equal(_viewModel.Title, _reportLabIdent);

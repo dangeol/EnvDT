@@ -1,13 +1,12 @@
 ﻿using EnvDT.Model.Core;
-using EnvDT.Model.Core.HelperClasses;
+using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
-using EnvDT.UI.HelperClasses;
-using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Windows.Input;
 
@@ -18,6 +17,11 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IUnitOfWork _unitOfWork;
         private IEvalLabReportService _evalLabReportService;
+        private DataTable _sampleTable;
+        private DataTable _evalResultTable;
+        private List<Guid> _publicationIds;
+        private DataView _sampleDataView;
+        private DataView _evalResultDataView;
         private string _title = "Project";
 
         public SampleDetailViewModel(IEventAggregator eventAggregator, IUnitOfWork unitOfWork,
@@ -27,20 +31,13 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator = eventAggregator;
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
-            Samples = new ObservableCollection<SampleWrapper>();
-            SamplePublColumns = new ObservableCollection<SamplePublColumn>();
-            EvalResults = new ObservableCollection<EvalResult>();
+            _sampleTable = new DataTable();
+            _publicationIds = new List<Guid>();
+            SampleDataView = new DataView(_sampleTable);
+            Samples = new List<Sample>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
-            //For testing only:
-            var samplePublColumn = new SamplePublColumn()
-            {
-                FieldName = "Diehlm.",
-                PublicationId = new Guid("D2F66A18-2801-4911-A542-BFE369FE4773"),
-                Settings = SettingsType.Default
-            };
-            SamplePublColumns.Add(samplePublColumn);
         }
 
         public ICommand EvalLabReportCommand { get; }
@@ -48,9 +45,27 @@ namespace EnvDT.UI.ViewModel
 
         public bool IsSampleTab { get; private set; }
         public Guid? LabReportId { get; set; }
-        public ObservableCollection<SampleWrapper> Samples { get; }
-        public ObservableCollection<SamplePublColumn> SamplePublColumns { get; private set; }
-        public ObservableCollection<EvalResult> EvalResults { get; }
+        public IEnumerable<Sample> Samples { get; private set; }
+
+        public DataView SampleDataView
+        {
+            get { return _sampleDataView; }
+            set
+            {
+                _sampleDataView = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public DataView EvalResultDataView
+        {
+            get { return _evalResultDataView; }
+            set
+            {
+                _evalResultDataView = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string Title
         {
@@ -65,22 +80,18 @@ namespace EnvDT.UI.ViewModel
         public override void Load(Guid? labReportId)
         {
             SetLabReportIdAndTitle(labReportId);
+            Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
 
-            foreach (var wrapper in Samples)
+            // for testing:
+            _publicationIds.Add(new Guid("D2F66A18-2801-4911-A542-BFE369FE4773"));
+            _sampleTable.Columns.Add("Sample");
+            _sampleTable.Columns.Add(_unitOfWork.Publications.GetById(_publicationIds.First()).Abbreviation, typeof(bool));
+
+            foreach (var sample in Samples)
             {
-                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+                _sampleTable.Rows.Add(new object[] { sample.SampleName, 1 });
             }
-
-            Samples.Clear();
-
-            var samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
-
-            foreach (var model in samples)
-            {
-                var wrapper = new SampleWrapper(model);
-                wrapper.PropertyChanged += Wrapper_PropertyChanged;
-                Samples.Add(wrapper);
-            }
+            SampleDataView.Sort = "Sample ASC";
         }
 
         private void SetLabReportIdAndTitle(Guid? id)
@@ -90,28 +101,39 @@ namespace EnvDT.UI.ViewModel
             Title = ReportLabIdent;
         }
 
-        private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (!HasChanges)
-            {
-                HasChanges = _unitOfWork.Samples.HasChanges();
-            }
-            if (e.PropertyName == nameof(SampleWrapper.HasErrors))
-            {
-                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            }
-        }
-
         private void OnEvalExecute()
         {
             // put here: _evalLabReportParams
-            EvalResults.Clear();
-            foreach (var sample in Samples)
+
+            _evalResultTable = new DataTable();
+            _evalResultTable.Columns.Add("Sample");
+
+            var r_init = 0;
+            var c_init = 1;
+            var r = r_init;
+            var c = c_init;
+
+            while (c < _sampleTable.Columns.Count)
             {
-                // put here foreach loop through selected publications
-                var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, SamplePublColumns.First().PublicationId);
-                EvalResults.Add(evalResult);
+                _evalResultTable.Columns.Add("ValClass");
+                _evalResultTable.Columns.Add("ExceedParam");
+                var publicationId = _publicationIds.ElementAt(c - 1);
+                while (r < _sampleTable.Rows.Count)
+                {
+                    if (_sampleTable.Rows[r][c].Equals(true))
+                    {
+                        var sample = Samples.ElementAt(r);
+                        var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, publicationId);
+                        // TO DO: use ExpandoObject
+                        _evalResultTable.Rows.Add(new object[]
+                        { sample.SampleName, evalResult.HighestValClassName, evalResult.ExceedingValueList });
+                    }
+                r++;
+                }
+            c++;
             }
+            EvalResultDataView = new DataView(_evalResultTable);
+            EvalResultDataView.Sort = "Sample ASC";
         }
 
         private bool OnEvalCanExecute()

@@ -16,38 +16,19 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <DataGrid ItemsSource="{Binding Samples}"
-              CellStyle="{StaticResource WhiteDataGridCellStyle}"
-              AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
-      <DataGrid.Columns>
-        <DataGridTemplateColumn Header="Selected" Width="20">
-          <DataGridTemplateColumn.CellTemplate>
-            <DataTemplate>
-              <CheckBox IsChecked="{Binding Path=IsSelected, UpdateSourceTrigger=PropertyChanged}" />
-            </DataTemplate>
-          </DataGridTemplateColumn.CellTemplate>
-        </DataGridTemplateColumn>
-        <DataGridTextColumn Header="Sample Name" Width="*" IsReadOnly="True"
-             Binding="{Binding SampleName}"/>
-      </DataGrid.Columns>
+    <DataGrid ItemsSource="{Binding SampleDataView, Mode=TwoWay}"
+              CanUserAddRows="False" AutoGenerateColumns="True"
+              RowHeaderWidth="0" Margin="10">
     </DataGrid>
 
     <StackPanel Grid.Row="1" Orientation="Vertical">
       <Button Content="Eval" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
 
-      <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResults}"
-                Name="EvalResultsDataGrid"
+      <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResultDataView}"
+                Name="EvalResultsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
-                AutoGenerateColumns="False" RowHeaderWidth="0" Margin="10">
-        <DataGrid.Columns>
-          <DataGridTextColumn Header="Sample Name" IsReadOnly="True"
-               Binding="{Binding SampleName}"/>
-          <DataGridTextColumn Header="Valualtion Class" IsReadOnly="True"
-               Binding="{Binding HighestValClassName}"/>
-          <DataGridTextColumn Header="Exceeding Parameters" Width="*" IsReadOnly="True"
-               Binding="{Binding ExceedingValueList}"/>
-        </DataGrid.Columns>
+                AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
       <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
