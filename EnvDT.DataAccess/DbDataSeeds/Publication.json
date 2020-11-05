@@ -2,7 +2,8 @@
   {
     "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577",
     "Title": "Anforderungen an die Verf\u00FCllung von Gruben und Br\u00FCchen sowie Tagebauen (Verf\u00FCll-Leitfaden), 23.12.2019.",
-    "Abbreviation": "Verf\u00FCll-Leitf.",
+    "Abbreviation": "Verf\u00FCll-Lf (BY)",
+    "OrderId": 2,
     "Author": "",
     "Publisher": "Bayerisches Staatsministerium f\u00FCr Umwelt und Verbraucherschutz (StMUV)",
     "Year": "2019",
@@ -13,7 +14,8 @@
   {
     "PublicationId": "feb723af-8511-41f5-8f8a-e180b8898539",
     "Title": "Anforderung an die Verwertung von Recycling-Baustoffen in technischen Bauwerken (sog. \"RC-Leitfaden\"), 15.06.2005.",
-    "Abbreviation": "RC-Leitf.",
+    "Abbreviation": "RC-Lf (BY)",
+    "OrderId": 3,
     "Author": "",
     "Publisher": "Bayerisches Staatsministerium f\u00FCr Umwelt und Verbraucherschutz (StMUV)",
     "Year": "2005",
@@ -24,7 +26,8 @@
   {
     "PublicationId": "5edfa3c2-85dc-4a5a-934c-45b8cc65e0c3",
     "Title": "Verwaltungsvorschrift des Umweltministeriums Baden-W\u00FCrttemberg f\u00FCr die Verwertung von als Abfall eingestuftem Bodenmaterial (VwV), vom 14. M\u00E4rz 2007.",
-    "Abbreviation": "VwV",
+    "Abbreviation": "VwV (BW)",
+    "OrderId": 1,
     "Author": "",
     "Publisher": "Ministerium f\u00FCr Umwelt, Klima und Energiewirtschaft Baden-W\u00FCrttemberg",
     "Year": "2007",
@@ -35,7 +38,8 @@
   {
     "PublicationId": "d2f66a18-2801-4911-a542-bfe369fe4773",
     "Title": "Vorl\u00E4ufige Hinweise zum Einsatz von Baustoffrecyclingmaterial (\"Dihlmann-Erlass\"), Stuttgart, 13.04.2004.",
-    "Abbreviation": "Dihlmann-Erlass",
+    "Abbreviation": "Dihlmann-Erl (BW)",
+    "OrderId": 0,
     "Author": "",
     "Publisher": "Ministerium f\u00FCr Umwelt und Verkehr Baden-W\u00FCrttemberg",
     "Year": "2004",
@@ -47,6 +51,7 @@
     "PublicationId": "779638fd-fd06-4284-94fd-12ea9a908d8f",
     "Title": "Verordnung \u00FCber Deponien und Langzeitlager (Deponieverordnung - DepV), 27.04.2009, zuletzt ge\u00E4ndert am 27.09.2017.",
     "Abbreviation": "DepV",
+    "OrderId": 4,
     "Author": "",
     "Publisher": "Bundesministeriums der Justiz und f\u00FCr Verbraucherschutz",
     "Year": "2017",
@@ -57,7 +62,8 @@
   {
     "PublicationId": "c47c3627-2238-4859-aad6-2d13365f6b16",
     "Title": "Verordnung \u00FCber Deponien und Langzeitlager (Deponieverordnung - DepV), 27.04.2009, mit Erg\u00E4nzungen des Bayerischen Landesamtes f\u00FCr Umwelt vom Januar 2013.",
-    "Abbreviation": "DepV (Bayern)",
+    "Abbreviation": "DepV (BY)",
+    "OrderId": 5,
     "Author": "",
     "Publisher": "Bundesministeriums der Justiz und f\u00FCr Verbraucherschutz",
     "Year": "2013",

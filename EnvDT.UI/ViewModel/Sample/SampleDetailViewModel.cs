@@ -7,6 +7,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Dynamic;
 using System.Linq;
 using System.Windows.Input;
 
@@ -19,10 +20,11 @@ namespace EnvDT.UI.ViewModel
         private IEvalLabReportService _evalLabReportService;
         private DataTable _sampleTable;
         private DataTable _evalResultTable;
-        private List<Guid> _publicationIds;
+        private IEnumerable<Publication> _publications;
         private DataView _sampleDataView;
         private DataView _evalResultDataView;
         private string _title = "Project";
+        private bool isColumnEmpty = true;
 
         public SampleDetailViewModel(IEventAggregator eventAggregator, IUnitOfWork unitOfWork,
             IEvalLabReportService evalLabReportService)
@@ -32,8 +34,7 @@ namespace EnvDT.UI.ViewModel
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
             _sampleTable = new DataTable();
-            _publicationIds = new List<Guid>();
-            SampleDataView = new DataView(_sampleTable);
+            _publications = new List<Publication>();
             Samples = new List<Sample>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
@@ -60,7 +61,7 @@ namespace EnvDT.UI.ViewModel
         public DataView EvalResultDataView
         {
             get { return _evalResultDataView; }
-            set
+            private set
             {
                 _evalResultDataView = value;
                 OnPropertyChanged();
@@ -70,7 +71,7 @@ namespace EnvDT.UI.ViewModel
         public string Title
         {
             get { return _title; }
-            protected set
+            private set
             {
                 _title = value;
                 OnPropertyChanged();
@@ -81,16 +82,29 @@ namespace EnvDT.UI.ViewModel
         {
             SetLabReportIdAndTitle(labReportId);
             Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
+            BuildSampleDataView();
+        }
 
-            // for testing:
-            _publicationIds.Add(new Guid("D2F66A18-2801-4911-A542-BFE369FE4773"));
+        private void BuildSampleDataView()
+        {
+            _publications = _unitOfWork.Publications.GetAll().OrderBy(p => p.OrderId);
             _sampleTable.Columns.Add("Sample");
-            _sampleTable.Columns.Add(_unitOfWork.Publications.GetById(_publicationIds.First()).Abbreviation, typeof(bool));
+            IDictionary<string, object> sampleTableRow = new ExpandoObject();
+            var sampleNameKey = "SampleName";
+            sampleTableRow[sampleNameKey] = "";
+            foreach (var publication in _publications)
+            {
+                _sampleTable.Columns.Add(publication.Abbreviation, typeof(bool));
+                var publColName = $"publ_{publication.OrderId}";
+                sampleTableRow[publColName] = 0;
+            }
 
             foreach (var sample in Samples)
             {
-                _sampleTable.Rows.Add(new object[] { sample.SampleName, 1 });
+                sampleTableRow[sampleNameKey] = sample.SampleName;
+                _sampleTable.Rows.Add(sampleTableRow.Values.ToArray());
             }
+            SampleDataView = new DataView(_sampleTable);
             SampleDataView.Sort = "Sample ASC";
         }
 
@@ -105,6 +119,11 @@ namespace EnvDT.UI.ViewModel
         {
             // put here: _evalLabReportParams
 
+            BuildEvalResultDataView();
+        }
+
+        private void BuildEvalResultDataView()
+        {
             _evalResultTable = new DataTable();
             _evalResultTable.Columns.Add("Sample");
 
@@ -115,22 +134,44 @@ namespace EnvDT.UI.ViewModel
 
             while (c < _sampleTable.Columns.Count)
             {
-                _evalResultTable.Columns.Add("ValClass");
-                _evalResultTable.Columns.Add("ExceedParam");
-                var publicationId = _publicationIds.ElementAt(c - 1);
+                r = r_init;
+                var publication = _publications.ElementAt(c - 1);
+                var publicationId = publication.PublicationId;
+                _evalResultTable.Columns.Add($"ValClass{c}");
+                _evalResultTable.Columns.Add($"ExceedParam{c}");
+                isColumnEmpty = true;
                 while (r < _sampleTable.Rows.Count)
                 {
+                    if (c == c_init)
+                    {
+                        DataRow dr = _evalResultTable.NewRow();
+                        _evalResultTable.Rows.Add(dr);
+                    }
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
+                        isColumnEmpty = false;
                         var sample = Samples.ElementAt(r);
                         var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, publicationId);
-                        // TO DO: use ExpandoObject
-                        _evalResultTable.Rows.Add(new object[]
-                        { sample.SampleName, evalResult.HighestValClassName, evalResult.ExceedingValueList });
+                        _evalResultTable.Rows[r][0] = sample.SampleName;
+                        _evalResultTable.Rows[r][c] = evalResult.HighestValClassName;
+                        _evalResultTable.Rows[r][c+1] = evalResult.ExceedingValueList;
                     }
-                r++;
+                    r++;
                 }
-            c++;
+                if (isColumnEmpty)
+                {
+                    _evalResultTable.Columns.Remove($"ValClass{c}");
+                    _evalResultTable.Columns.Remove($"ExceedParam{c}");
+                }
+                c++;
+            }
+            //Remove empty rows:
+            for (int row = _evalResultTable.Rows.Count - 1; row >= 0; row--)
+            {
+                if (_evalResultTable.Rows[row][0] == System.DBNull.Value)
+                {
+                    _evalResultTable.Rows.RemoveAt(row);
+                }
             }
             EvalResultDataView = new DataView(_evalResultTable);
             EvalResultDataView.Sort = "Sample ASC";

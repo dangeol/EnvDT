@@ -8,6 +8,7 @@ namespace EnvDT.Model.Entity
         public Guid PublicationId { get; set; }
         public string Title { get; set; }
         public string Abbreviation { get; set; }
+        public int OrderId { get; set; }
         public string Author { get; set; }
         public string Publisher { get; set; }
         public string Year { get; set; }
