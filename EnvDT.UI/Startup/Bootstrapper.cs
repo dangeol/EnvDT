@@ -31,7 +31,6 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<NavItemViewModel>().AsSelf();
             builder.RegisterType<Tab>().As<ITab>().SingleInstance();
             builder.RegisterType<MainTabViewModel>().As<IMainTabViewModel>();
-            builder.RegisterType<SampleViewModel>().As<ISampleViewModel>();
             builder.RegisterType<SampleDetailViewModel>().As<ISampleDetailViewModel>();
             builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();
             builder.RegisterType<SettingsDetailViewModel>().As<ISettingsDetailViewModel>();
