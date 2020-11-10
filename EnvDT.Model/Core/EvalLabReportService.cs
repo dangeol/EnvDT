@@ -10,16 +10,24 @@ namespace EnvDT.Model.Core
     public class EvalLabReportService : IEvalLabReportService
     {   
         private IUnitOfWork _unitOfWork;
-        private IEvalCalcService _evalCalcService;
+        private ILabReportPreCheck _labReportPreCheck;
+        private IEvalCalc _evalCalc;
         private EvalResult _evalResult;
 
-        public EvalLabReportService(IUnitOfWork unitOfWork, IEvalCalcService evalCalcService)
+        public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, IEvalCalc evalCalc)
         {
             _unitOfWork = unitOfWork;
-            _evalCalcService = evalCalcService;
+            _labReportPreCheck = labReportPreCheck;
+            _evalCalc = evalCalc;
         }
 
-        public EvalResult getEvalResult(Guid sampleId, Guid publicationId)
+        public void LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
+        {
+            // TO DO: refactor - find synergies with GetEvalResult method to increase efficiency
+            _labReportPreCheck.FindMissingParametersUnits(labReportId, publicationIds);
+        }
+
+        public EvalResult GetEvalResult(Guid sampleId, Guid publicationId)
         {
             _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
@@ -31,6 +39,7 @@ namespace EnvDT.Model.Core
             foreach (PublParam publParam in publParams)
             {
                 var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam);
+                // null pointer exception will be prevented by upcoming implementation of LabReportPreCheck
                 var labReportParam = labReportParams.First();
                 var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
                 foreach (RefValue refValue in refValues)
@@ -81,9 +90,9 @@ namespace EnvDT.Model.Core
             var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
             var refValueValClassLevel = refValueValClass.ValClassLevel;
 
-            sampleValue = _evalCalcService.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
+            sampleValue = _evalCalc.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
 
-            if (_evalCalcService.IsSampleValueExceedingRefValue(sampleValue, refVal, refValParamAnnot))
+            if (_evalCalc.IsSampleValueExceedingRefValue(sampleValue, refVal, refValParamAnnot))
             {
                 return new ExceedingValue()
                 {

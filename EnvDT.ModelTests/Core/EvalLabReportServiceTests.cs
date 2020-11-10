@@ -12,7 +12,8 @@ namespace EnvDT.ModelTests.Core
     {
         private EvalLabReportService _evalLabReportService;
         private Mock<IUnitOfWork> _unitOfWorkMock;
-        private Mock<IEvalCalcService> _evalCalcServiceMock;
+        private Mock<ILabReportPreCheck> _labReportPreCheck;
+        private Mock<IEvalCalc> _evalCalcMock;
         private Sample _sample;
         private Publication _publication;
         private PublParam _publParam;
@@ -32,7 +33,8 @@ namespace EnvDT.ModelTests.Core
         public EvalLabReportServiceTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _evalCalcServiceMock = new Mock<IEvalCalcService>();
+            _labReportPreCheck = new Mock<ILabReportPreCheck>();
+            _evalCalcMock = new Mock<IEvalCalc>();
             _publParam = new PublParam();
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
@@ -85,12 +87,13 @@ namespace EnvDT.ModelTests.Core
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))
                 .Returns(_valuationClass);
 
-            _evalCalcServiceMock.Setup(ec => ec.SampleValueConversion(
+            _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 It.IsAny<double>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(_sampleValue.SValue);
 
             // Instantiate class 
-            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object, _evalCalcServiceMock.Object);
+            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object, 
+                _labReportPreCheck.Object, _evalCalcMock.Object);
         }
 
         [Theory]
@@ -99,11 +102,11 @@ namespace EnvDT.ModelTests.Core
         public void GetEvalResultShouldReturnCorrectEvalResult(
             bool isSampleValueExceedingRefValue, bool expectedResult)
         {
-            _evalCalcServiceMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
+            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
                 It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
                 .Returns(isSampleValueExceedingRefValue);
 
-            var evalResult = _evalLabReportService.getEvalResult(
+            var evalResult = _evalLabReportService.GetEvalResult(
                 _sample.SampleId, _publication.PublicationId);
 
             Assert.Equal(evalResult.SampleName, _sample.SampleName);

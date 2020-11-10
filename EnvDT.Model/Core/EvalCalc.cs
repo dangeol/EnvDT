@@ -1,6 +1,6 @@
 ﻿namespace EnvDT.Model.Core
 {
-    public class EvalCalcService : IEvalCalcService
+    public class EvalCalc : IEvalCalc
     {
        public double SampleValueConversion(double sampleValue, string sampleValueUnitName, string refValUnitName)
         {

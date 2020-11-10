@@ -1,11 +1,12 @@
 ﻿using EnvDT.Model.Core.HelperClasses;
-using EnvDT.Model.Entity;
 using System;
+using System.Collections.Generic;
 
 namespace EnvDT.Model.Core
 {
     public interface IEvalLabReportService
     {
-        public EvalResult getEvalResult(Guid sampleId, Guid publicationId);
+        public EvalResult GetEvalResult(Guid sampleId, Guid publicationId);
+        public void LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds);
     }
 }

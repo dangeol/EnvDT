@@ -38,7 +38,8 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<OpenLabReportService>().As<IOpenLabReportService>();
             builder.RegisterType<ImportLabReportService>().As<IImportLabReportService>();
             builder.RegisterType<EvalLabReportService>().As<IEvalLabReportService>();
-            builder.RegisterType<EvalCalcService>().As<IEvalCalcService>();
+            builder.RegisterType<LabReportPreCheck>().As<ILabReportPreCheck>();
+            builder.RegisterType<EvalCalc>().As<IEvalCalc>();
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();

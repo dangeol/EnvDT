@@ -21,6 +21,7 @@ namespace EnvDT.UI.ViewModel
         private DataTable _sampleTable;
         private DataTable _evalResultTable;
         private IEnumerable<Publication> _publications;
+        private List<Guid> _selectedPublIds;
         private DataView _sampleDataView;
         private DataView _evalResultDataView;
         private string _title = "Project";
@@ -35,6 +36,7 @@ namespace EnvDT.UI.ViewModel
             _evalLabReportService = evalLabReportService;
             _sampleTable = new DataTable();
             _publications = new List<Publication>();
+            _selectedPublIds = new List<Guid>();
             Samples = new List<Sample>();
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
@@ -117,9 +119,36 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
-            // put here: _evalLabReportParams
-
+            LabReportPreCheck();
             BuildEvalResultDataView();
+        }
+
+        // TO DO: refactor - find synergies with BuildEvalResultDataView() to increase efficiency
+        private void LabReportPreCheck()
+        {
+            _selectedPublIds.Clear();
+            var r_init = 0;
+            var c_init = 1;
+            var c = c_init;
+
+            while (c < _sampleTable.Columns.Count)
+            {
+                var r = r_init;
+                var publication = _publications.ElementAt(c - 1);
+                var publicationId = publication.PublicationId;
+                var IsCheckBoxInColTrue = false;
+                while (r < _sampleTable.Rows.Count && !IsCheckBoxInColTrue)
+                {
+                    if (_sampleTable.Rows[r][c].Equals(true))
+                    {
+                        IsCheckBoxInColTrue = true;
+                        _selectedPublIds.Add(publicationId);
+                    }
+                    r++;
+                }
+                c++;
+            }
+            _evalLabReportService.LabReportPreCheck((Guid)LabReportId, _selectedPublIds);
         }
 
         private void BuildEvalResultDataView()
@@ -129,12 +158,11 @@ namespace EnvDT.UI.ViewModel
 
             var r_init = 0;
             var c_init = 1;
-            var r = r_init;
             var c = c_init;
 
             while (c < _sampleTable.Columns.Count)
             {
-                r = r_init;
+                var r = r_init;
                 var publication = _publications.ElementAt(c - 1);
                 var publicationId = publication.PublicationId;
                 _evalResultTable.Columns.Add($"ValClass{c}");
@@ -151,7 +179,7 @@ namespace EnvDT.UI.ViewModel
                     {
                         isColumnEmpty = false;
                         var sample = Samples.ElementAt(r);
-                        var evalResult = _evalLabReportService.getEvalResult(sample.SampleId, publicationId);
+                        var evalResult = _evalLabReportService.GetEvalResult(sample.SampleId, publicationId);
                         _evalResultTable.Rows[r][0] = sample.SampleName;
                         _evalResultTable.Rows[r][c] = evalResult.HighestValClassName;
                         _evalResultTable.Rows[r][c+1] = evalResult.ExceedingValueList;

@@ -3,13 +3,13 @@ using Xunit;
 
 namespace EnvDT.ModelTests.Core
 {
-    public class EvalCalcServiceTests
+    public class EvalCalcTests
     {
-        private EvalCalcService _evalCalcService;
+        private EvalCalc _evalCalc;
 
-        public EvalCalcServiceTests()
+        public EvalCalcTests()
         {
-            _evalCalcService = new EvalCalcService();
+            _evalCalc = new EvalCalc();
         }
 
         [Theory]
@@ -19,7 +19,7 @@ namespace EnvDT.ModelTests.Core
         public void SampleValueConversionShouldReturnCorrectValue(
             double sampleValue, string sampleValueUnitName, string refValUnitName, double expectedValue)
         {
-            var calculatedValue = _evalCalcService.SampleValueConversion(
+            var calculatedValue = _evalCalc.SampleValueConversion(
                 sampleValue, sampleValueUnitName, refValUnitName);
 
             Assert.Equal(calculatedValue, expectedValue);
@@ -33,7 +33,7 @@ namespace EnvDT.ModelTests.Core
         public void IsSampleValueExceedingRefValueShouldReturnCorrectValue(
             double sampleValue, double refVal, string refValParamAnnot, bool expectedValue)
         {
-            var calculatedValue = _evalCalcService.IsSampleValueExceedingRefValue(
+            var calculatedValue = _evalCalc.IsSampleValueExceedingRefValue(
                 sampleValue, refVal, refValParamAnnot);
 
             Assert.Equal(calculatedValue, expectedValue);
