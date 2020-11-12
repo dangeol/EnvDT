@@ -179,7 +179,7 @@ namespace EnvDT.UI.ViewModel
                     {
                         isColumnEmpty = false;
                         var sample = Samples.ElementAt(r);
-                        var evalResult = _evalLabReportService.GetEvalResult(sample.SampleId, publicationId);
+                        var evalResult = _evalLabReportService.GetEvalResult((Guid)LabReportId, sample.SampleId, publicationId);
                         _evalResultTable.Rows[r][0] = sample.SampleName;
                         _evalResultTable.Rows[r][c] = evalResult.HighestValClassName;
                         _evalResultTable.Rows[r][c+1] = evalResult.ExceedingValueList;

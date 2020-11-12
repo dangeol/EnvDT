@@ -14,12 +14,12 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-		public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam)
+		public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
 		{
 			return
 			(
 				from lp in Context.LabReportParams
-					.Where(lp => lp.ParameterId == publParam.ParameterId)
+					.Where(lp => lp.ParameterId == publParam.ParameterId && lp.LabReportId == labReportId)
 				join u in Context.Units on lp.UnitId equals u.UnitId
 				join ppu in Context.Units on publParam.UnitId equals ppu.UnitId
 				where (u.UnitName.Length > 0 &&

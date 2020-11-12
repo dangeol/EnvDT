@@ -1,5 +1,8 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
@@ -9,6 +12,12 @@ namespace EnvDT.DataAccess.Repository
         public UnitNameVariantRepository(EnvDTDbContext context)
             :base(context)
         {
+        }
+
+        public UnitNameVariant GetUnitNameVariantByLabParamUnitName(string labParamUnitName)
+        {
+            return Context.UnitNameVariants.AsNoTracking()
+                .FirstOrDefault(uv => uv.UnitNameAlias == labParamUnitName);
         }
     }
 }

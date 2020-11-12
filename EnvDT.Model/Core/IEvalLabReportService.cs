@@ -6,7 +6,7 @@ namespace EnvDT.Model.Core
 {
     public interface IEvalLabReportService
     {
-        public EvalResult GetEvalResult(Guid sampleId, Guid publicationId);
+        public EvalResult GetEvalResult(Guid labReportId, Guid sampleId, Guid publicationId);
         public void LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds);
     }
 }

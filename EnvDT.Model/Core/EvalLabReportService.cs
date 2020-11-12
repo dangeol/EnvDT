@@ -27,7 +27,7 @@ namespace EnvDT.Model.Core
             _labReportPreCheck.FindMissingParametersUnits(labReportId, publicationIds);
         }
 
-        public EvalResult GetEvalResult(Guid sampleId, Guid publicationId)
+        public EvalResult GetEvalResult(Guid labReportId, Guid sampleId, Guid publicationId)
         {
             _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
@@ -38,7 +38,7 @@ namespace EnvDT.Model.Core
 
             foreach (PublParam publParam in publParams)
             {
-                var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam);
+                var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
                 // null pointer exception will be prevented by upcoming implementation of LabReportPreCheck
                 var labReportParam = labReportParams.First();
                 var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);

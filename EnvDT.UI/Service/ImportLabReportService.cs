@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Windows.Documents;
 
 namespace EnvDT.UI.Service
 {
@@ -57,6 +56,7 @@ namespace EnvDT.UI.Service
                     }
                 }).Tables["Datenblatt"];
 
+                // TO DO: treat all null reference exceptions
                 var reportLabIdent = workSheet.Rows[2][4].ToString();
                 if (IsLabReportAlreadyPresent(reportLabIdent))
                 {
@@ -140,29 +140,51 @@ namespace EnvDT.UI.Service
             while (r < workSheet.Rows.Count)
             {
                 var labParamName = workSheet.Rows[r][0].ToString();
+                var labParamUnitName = workSheet.Rows[r][1].ToString();
                 var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
+                var unitId = GetUnitNameVariantByLabParamUnitName(labParamUnitName);
 
                 if (paramNameVariants.Count() > 0)
                 {
                     foreach (var paramNameVariant in paramNameVariants)
                     {
                         var parameterId = paramNameVariant.ParameterId;
-                        CreateNewLabParam(workSheet, parameterId, labReportId, r);   
+                        CreateNewLabParam(workSheet, parameterId, unitId, labReportId, r);   
                     }
                 }
                 else
                 {
                     var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                    CreateNewLabParam(workSheet, unknownParameterId, labReportId, r);
+                    CreateNewLabParam(workSheet, unknownParameterId, unitId, labReportId, r);
                 }
                 r++;
             }
         }
 
-        private void CreateNewLabParam(DataTable workSheet, Guid parameterId, Guid labReportId, int r)
+        private Guid GetUnitNameVariantByLabParamUnitName(string labParamUnitName)
+        {
+            var unitName = labParamUnitName;
+            var unitId = _unitOfWork.UnitNameVariants.GetUnitNameVariantByLabParamUnitName(unitName)?.UnitId
+                ?? _unitOfWork.Units.GetUnitIdOfUnknown();
+
+            //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
+            if (unitName == "µg/l")
+            {
+                unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
+            }
+            else if (unitName == "µS/cm")
+            {
+                unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
+            }
+            return unitId;
+        }
+
+        // TO DO: refactoring
+        private void CreateNewLabParam(DataTable workSheet, Guid parameterId, Guid unitId, Guid labReportId, int r)
         {
             var labReportParam = new LabReportParam();
             labReportParam.ParameterId = parameterId;
+            labReportParam.UnitId = unitId;
             labReportParam.LabReportId = labReportId;
             labReportParam.DetectionLimit = 0.0;
             if (workSheet.Rows[r][2] != System.DBNull.Value)
@@ -173,19 +195,6 @@ namespace EnvDT.UI.Service
             if (workSheet.Rows[r][3] != System.DBNull.Value)
             {
                 labReportParam.Method = (string)workSheet.Rows[r][3];
-            }
-            var unitName = workSheet.Rows[r][1].ToString();
-            labReportParam.UnitId = _unitOfWork.Units.GetUnitIdByName(unitName)?.UnitId
-                ?? _unitOfWork.Units.GetUnitIdOfUnknown();
-
-            //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
-            if (unitName == "µg/l")
-            {
-                labReportParam.UnitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
-            }
-            else if (unitName == "µS/cm")
-            {
-                labReportParam.UnitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
             }
 
             _unitOfWork.LabReportParams.Create(labReportParam);

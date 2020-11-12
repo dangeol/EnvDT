@@ -14,7 +14,7 @@ namespace EnvDT.UI.Service
             Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
             dlg.FileName = "Document";
             dlg.DefaultExt = ".xls";
-            dlg.Filter = "Excel documents (.xls)|*.xls";
+            dlg.Filter = "Excel documents (*.xls,*.xlsx)|*.xls;*.xlsx";
 
             Nullable<bool> result = dlg.ShowDialog();
 

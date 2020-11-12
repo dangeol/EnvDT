@@ -63,7 +63,7 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock.Setup(uw => uw.Publications.GetAll())
                 .Returns(_publications);
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
-            _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<Guid>(), It.IsAny<Guid>()))
+            _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .Returns(new Model.Core.HelperClasses.EvalResult());
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object, 

@@ -205,6 +205,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/unitNameVariant.json.
+        /// </summary>
+        internal static string unitNameVariantJson {
+            get {
+                return ResourceManager.GetString("unitNameVariantJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClassCondition.json.
         /// </summary>
         internal static string valuationClassConditionJson {

@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
 
 namespace EnvDT.Model.Entity
 {
@@ -11,6 +14,9 @@ namespace EnvDT.Model.Entity
             builder.HasOne(uv => uv.Unit)
                 .WithMany(u => u.UnitNameVariants)
                 .HasForeignKey(uv => uv.UnitId);
+            var unitNameVariantJson = File.ReadAllText(DbResources.unitNameVariantJson);
+            var unitNameVariants = JsonSerializer.Deserialize<List<UnitNameVariant>>(unitNameVariantJson);
+            builder.HasData(unitNameVariants);
         }
     }
 }

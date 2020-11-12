@@ -165,6 +165,9 @@
   <data name="unitJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Unit.json</value>
   </data>
+  <data name="unitNameVariantJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/unitNameVariant.json</value>
+  </data>
   <data name="valuationClassConditionJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/ValuationClassCondition.json</value>
   </data>
