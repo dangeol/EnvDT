@@ -14,7 +14,18 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-		public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
+		public IEnumerable<LabReportParam> GetLabReportParamNamesByPublParam(PublParam publParam, Guid labReportId)
+		{
+			return
+			(
+				from lp in Context.LabReportParams
+					.Where(lp => lp.ParameterId == publParam.ParameterId && lp.LabReportId == labReportId)
+				select lp
+			)
+			.ToList();
+		}
+
+			public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
 		{
 			return
 			(

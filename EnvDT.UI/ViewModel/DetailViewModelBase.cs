@@ -2,6 +2,7 @@
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Input;
 

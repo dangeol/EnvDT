@@ -40,6 +40,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<EvalLabReportService>().As<IEvalLabReportService>();
             builder.RegisterType<LabReportPreCheck>().As<ILabReportPreCheck>();
             builder.RegisterType<EvalCalc>().As<IEvalCalc>();
+            builder.RegisterType<MissingParamDetailViewModel>().As<IMissingParamDetailViewModel>();
 
             builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();

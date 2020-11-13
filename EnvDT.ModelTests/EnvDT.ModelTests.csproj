@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EnvDT.Model\EnvDT.Model.csproj" />
+    <ProjectReference Include="..\EnvDT.UI\EnvDT.UI.csproj" />
   </ItemGroup>
 
   <ItemGroup>

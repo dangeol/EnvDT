@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EnvDT.UI.ViewModel
+﻿namespace EnvDT.UI.ViewModel
 {
     public interface ISampleDetailViewModel : IDetailViewModel, IMainTabViewModel
     {
