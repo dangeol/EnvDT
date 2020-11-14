@@ -15,7 +15,7 @@ namespace EnvDT.ModelTests.Core
     {
         private LabReportPreCheck _labReportPreCheck;
         private Mock<IUnitOfWork> _unitOfWorkMock;
-        private Mock<IMissingParamDetailViewModel> _missingParamDetailViewModelMock;
+        private Mock<IMissingParamDialogViewModel> _missingParamDetailViewModelMock;
         private Publication _publication;
         private PublParam _publParam;
         private List<PublParam> _publParams;
@@ -38,7 +38,6 @@ namespace EnvDT.ModelTests.Core
             _publication.PublParams = _publParams;
             _labReportParams = new List<LabReportParam>();
             _labReportParam = new LabReportParam();
-            _labReportParams.Add(_labReportParam);
             _paramNameVariant = new ParamNameVariant();
             _missingParamNameWrapper = new MissingParamNameWrapper(_paramNameVariant);
             _missingParamNames = new ObservableCollection<MissingParamNameWrapper>();
@@ -53,9 +52,9 @@ namespace EnvDT.ModelTests.Core
             _labReportPreCheck = new LabReportPreCheck(_unitOfWorkMock.Object, CreateMissingParamDetailViewModel);
         }
 
-        private IMissingParamDetailViewModel CreateMissingParamDetailViewModel()
+        private IMissingParamDialogViewModel CreateMissingParamDetailViewModel()
         {
-            var missingParamDetailViewModelMock = new Mock<IMissingParamDetailViewModel>();
+            var missingParamDetailViewModelMock = new Mock<IMissingParamDialogViewModel>();
             missingParamDetailViewModelMock.Setup(mp => mp.Load(It.IsAny<HashSet<Guid>>()))
                 .Callback<HashSet<Guid>>(missingParamIds =>
                 {
@@ -75,7 +74,6 @@ namespace EnvDT.ModelTests.Core
         [Fact]
         public void ShouldLoadMissingParamDetailViewModelWhenMissingParamsFound()
         {
-            _labReportParams = null;
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
                 .Returns(_labReportParams);
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamNamesByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))

@@ -36,5 +36,16 @@ namespace EnvDT.UI.Dialogs
                 ? MessageDialogResult.OK
                 : MessageDialogResult.Cancel;
         }
+
+        public MessageDialogResult ShowMissingParamDialog(string title)
+        {
+            return new MissingParamDialog(title)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = App.Current.MainWindow
+            }.ShowDialog().GetValueOrDefault()
+                ? MessageDialogResult.OK
+                : MessageDialogResult.Cancel;
+        }
     }
 }

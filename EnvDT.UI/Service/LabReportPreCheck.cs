@@ -3,6 +3,7 @@ using EnvDT.Model.IRepository;
 using EnvDT.UI.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EnvDT.Model.Core
 {
@@ -10,9 +11,9 @@ namespace EnvDT.Model.Core
     {
         private IUnitOfWork _unitOfWork;
         private HashSet<Guid> _missingParamIds;
-        private Func<IMissingParamDetailViewModel> _missingParamDetailVmCreator;
+        private Func<IMissingParamDialogViewModel> _missingParamDetailVmCreator;
 
-        public LabReportPreCheck(IUnitOfWork unitOfWork, Func<IMissingParamDetailViewModel> missingParamDetailVmCreator)
+        public LabReportPreCheck(IUnitOfWork unitOfWork, Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
         {
             _unitOfWork = unitOfWork;
             _missingParamIds = new HashSet<Guid>();
@@ -29,10 +30,10 @@ namespace EnvDT.Model.Core
                 foreach (PublParam publParam in publParams)
                 {
                     var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
-                    if (labReportParams == null)
+                    if (labReportParams.Count() == 0)
                     {
                         var missingParameter = _unitOfWork.LabReportParams.GetLabReportParamNamesByPublParam(publParam, labReportId);
-                        if (missingParameter == null)
+                        if (missingParameter.Count() == 0)
                         {
                             _missingParamIds.Add(publParam.ParameterId);
                         }

@@ -5,6 +5,7 @@
         MessageDialogResult ShowYesNoDialog(string title, string message);
         MessageDialogResult ShowOkDialog(string title, string message);
         MessageDialogResult ShowOkCancelDialog(string title, string message);
+        MessageDialogResult ShowMissingParamDialog(string title);
     }
     public enum MessageDialogResult
     {

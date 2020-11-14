@@ -1,0 +1,19 @@
+﻿<Window x:Class="EnvDT.UI.Dialogs.MissingParamDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:view="clr-namespace:EnvDT.UI.View"
+    xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
+    mc:Ignorable="d"
+    Background="#DDDDDD"
+    FontSize="10.0"
+    WindowStartupLocation="CenterOwner"
+    WindowStyle="ToolWindow"
+    ShowInTaskbar="False"
+    ResizeMode="NoResize" MinWidth="300" SizeToContent="WidthAndHeight">
+
+  <Border BorderBrush="White" BorderThickness="2">
+    <view:MissingParamDialogView />
+  </Border>
+</Window>

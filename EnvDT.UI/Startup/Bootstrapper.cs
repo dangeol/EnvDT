@@ -1,55 +1,43 @@
 ﻿using Autofac;
-using EnvDT.DataAccess;
-using EnvDT.DataAccess.DataService;
-using EnvDT.DataAccess.Repository;
-using EnvDT.Model.Core;
-using EnvDT.Model.IRepository;
-using EnvDT.UI.Dialogs;
-using EnvDT.UI.Service;
+using EnvDT.UI.Factory;
+using EnvDT.UI.View;
 using EnvDT.UI.ViewModel;
-using Prism.Events;
 
 namespace EnvDT.UI.Startup
 {
     public class Bootstrapper
-    {
-        public IContainer Bootstrap()
-        {
-            var builder = new ContainerBuilder();
+	{
+		public Bootstrapper()
+		{
+		}
 
-            builder.RegisterType<EventAggregator>().As<IEventAggregator>().SingleInstance();
+		public void Run()
+		{
+			var builder = new ContainerBuilder();
+			ConfigureContainer(builder);
 
-            builder.RegisterType<EnvDTDbContext>().AsSelf();
+			var container = builder.Build();
+			var viewFactory = container.Resolve<IViewFactory>();
 
-            builder.RegisterType<MessageDialogService>().As<IMessageDialogService>();
+			RegisterViews(viewFactory);
+			ConfigureApplication(container);
+		}
 
-            builder.RegisterType<MainWindow>().AsSelf();
-            builder.RegisterType<MainViewModel>().AsSelf();
-            builder.RegisterType<MainViewModelDesignTime>().AsSelf();
-            builder.RegisterType<ProjectViewModel>().As<IProjectViewModel>();
-            builder.RegisterType<ProjectDetailViewModel>().As<IProjectDetailViewModel>();
-            builder.RegisterType<NavItemViewModel>().AsSelf();
-            builder.RegisterType<Tab>().As<ITab>().SingleInstance();
-            builder.RegisterType<MainTabViewModel>().As<IMainTabViewModel>();
-            builder.RegisterType<SampleDetailViewModel>().As<ISampleDetailViewModel>();
-            builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();
-            builder.RegisterType<SettingsDetailViewModel>().As<ISettingsDetailViewModel>();
+		private void ConfigureApplication(IContainer container)
+		{
+			var mainWindow = container.Resolve<MainWindow>();
+			mainWindow.DataContext = container.Resolve<MainViewModel>();
+			mainWindow.Show();
+		}
 
-            builder.RegisterType<OpenLabReportService>().As<IOpenLabReportService>();
-            builder.RegisterType<ImportLabReportService>().As<IImportLabReportService>();
-            builder.RegisterType<EvalLabReportService>().As<IEvalLabReportService>();
-            builder.RegisterType<LabReportPreCheck>().As<ILabReportPreCheck>();
-            builder.RegisterType<EvalCalc>().As<IEvalCalc>();
-            builder.RegisterType<MissingParamDetailViewModel>().As<IMissingParamDetailViewModel>();
+		private void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.RegisterModule<DependenciesModule>();
+		}
 
-            builder.RegisterType<LookupDataService>().AsImplementedInterfaces();
-            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>();
-            builder.RegisterType<ProjectRepository>().As<IProjectRepository>();
-            builder.RegisterType<LabReportRepository>().As<ILabReportRepository>();
-            builder.RegisterType<SampleRepository>().As<ISampleRepository>();
-            builder.RegisterType<SampleValueRepository>().As<ISampleValueRepository>();
-
-            return builder.Build();
-        }
-    }
+		private void RegisterViews(IViewFactory viewFactory)
+		{
+			viewFactory.Register<MissingParamDialogViewModel, MissingParamDialogView>();
+		}
+	}
 }

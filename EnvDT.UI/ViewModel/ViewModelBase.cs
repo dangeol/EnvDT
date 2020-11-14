@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewModelBase : IViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

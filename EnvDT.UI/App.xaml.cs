@@ -11,11 +11,7 @@ namespace EnvDT.UI
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var bootstrapper = new Bootstrapper();
-            var container = bootstrapper.Bootstrap();
-            ContainerProvider.Container = container;
-            var mainWindow = container.Resolve<MainWindow>();
-            mainWindow.DataContext = container.Resolve<MainViewModel>();
-            mainWindow.Show();
+            bootstrapper.Run();
         }
 
         private void Application_DispatcherUnhandledException(object sender, 

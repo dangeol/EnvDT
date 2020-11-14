@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 
 namespace EnvDT.UI.ViewModel
 {
-    public interface IMissingParamDetailViewModel
+    public interface IMissingParamDialogViewModel
     {
         public void Load(HashSet<Guid> ids);
         public ObservableCollection<MissingParamNameWrapper> MissingParamNames { get; }
