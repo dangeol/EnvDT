@@ -119,12 +119,14 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
-            LabReportPreCheck();
-            BuildEvalResultDataView();
+            if (LabReportPreCheckSuccess())
+            {
+                BuildEvalResultDataView();
+            } 
         }
 
         // TO DO: refactor - find synergies with BuildEvalResultDataView() to increase efficiency
-        private void LabReportPreCheck()
+        private bool LabReportPreCheckSuccess()
         {
             _selectedPublIds.Clear();
             var r_init = 0;
@@ -148,7 +150,7 @@ namespace EnvDT.UI.ViewModel
                 }
                 c++;
             }
-            _evalLabReportService.LabReportPreCheck((Guid)LabReportId, _selectedPublIds);
+            return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, _selectedPublIds);
         }
 
         private void BuildEvalResultDataView()

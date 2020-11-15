@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using EnvDT.UI.ViewModel;
+using System.Windows;
 
 namespace EnvDT.UI.Dialogs
 {
@@ -37,9 +38,10 @@ namespace EnvDT.UI.Dialogs
                 : MessageDialogResult.Cancel;
         }
 
-        public MessageDialogResult ShowMissingParamDialog(string title)
+        public MessageDialogResult ShowMissingParamDialog(string title, 
+            IMissingParamDialogViewModel missingParamDetailVM)
         {
-            return new MissingParamDialog(title)
+            return new MissingParamDialog(title, missingParamDetailVM)
             {
                 WindowStartupLocation = WindowStartupLocation.CenterOwner,
                 Owner = App.Current.MainWindow

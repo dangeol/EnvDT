@@ -6,14 +6,38 @@
     xmlns:view="clr-namespace:EnvDT.UI.View"
     xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
     mc:Ignorable="d"
-    Background="#DDDDDD"
     FontSize="10.0"
     WindowStartupLocation="CenterOwner"
     WindowStyle="ToolWindow"
     ShowInTaskbar="False"
-    ResizeMode="NoResize" MinWidth="300" SizeToContent="WidthAndHeight">
+    ResizeMode="NoResize" MinWidth="400" SizeToContent="WidthAndHeight">
 
   <Border BorderBrush="White" BorderThickness="2">
-    <view:MissingParamDialogView />
+    <Grid>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <Label Content="Missing parameters" Margin="10 0"/>
+      <StackPanel Grid.Row="1" Orientation="Horizontal">
+        <TextBox Width="100" Text="{Binding Path=MissingParamName, Mode=TwoWay, 
+          UpdateSourceTrigger=PropertyChanged}" />
+      </StackPanel>
+      <StackPanel Orientation="Horizontal"
+                  Grid.Row="2"
+                  HorizontalAlignment="Center">
+        <StackPanel.Resources>
+          <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="75"/>
+          </Style>
+        </StackPanel.Resources>
+        <Button Content="OK" Click="ButtonOk_Click"/>
+        <Button Content="Cancel" Click="ButtonCancel_Click"/>
+      </StackPanel>
+
+    </Grid>
   </Border>
 </Window>

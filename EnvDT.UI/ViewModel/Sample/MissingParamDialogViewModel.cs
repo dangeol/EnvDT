@@ -13,21 +13,16 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private IUnitOfWork _unitOfWork;
-        private IMessageDialogService _messageDialogService;
         private ObservableCollection<MissingParamNameWrapper> _missingParamNames;
         //Only for testing
         private string _missingParamName;
 
-        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
-            IMessageDialogService messageDialogService)
+        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork)
             :base(eventEggregator)
         {
             _eventAggregator = eventEggregator;
             _unitOfWork = unitOfWork;
-            _messageDialogService = messageDialogService;
-            //Title = "Notification";
             MissingParamNames = new ObservableCollection<MissingParamNameWrapper>();
-            MissingParamName = "Test";
         }
 
         public HashSet<Guid> MissingParamIds { get; set; }
@@ -62,7 +57,6 @@ namespace EnvDT.UI.ViewModel
         {
             var firstMissingParamId = missingParamIds.First();
             MissingParamName = _unitOfWork.Parameters.GetById(firstMissingParamId).ParamNameDe;
-            var result = _messageDialogService.ShowMissingParamDialog("Missing parameters");
         }
 
         protected override bool OnDeleteCanExecute()

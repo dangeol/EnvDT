@@ -63,6 +63,8 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock.Setup(uw => uw.Publications.GetAll())
                 .Returns(_publications);
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
+            _evalLabReportServiceMock.Setup(er => er.LabReportPreCheck(It.IsAny<Guid>(), It.IsAny<IReadOnlyCollection<Guid>>()))
+                .Returns(true);
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()))
                 .Returns(new Model.Core.HelperClasses.EvalResult());
 

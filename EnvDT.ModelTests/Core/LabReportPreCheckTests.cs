@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Core;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;
 using Moq;
@@ -15,6 +16,7 @@ namespace EnvDT.ModelTests.Core
     {
         private LabReportPreCheck _labReportPreCheck;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IMissingParamDialogViewModel> _missingParamDetailViewModelMock;
         private Publication _publication;
         private PublParam _publParam;
@@ -30,6 +32,7 @@ namespace EnvDT.ModelTests.Core
         public LabReportPreCheckTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _publParam = new PublParam();
             _publParam.ParameterId = new Guid("019df8e5-0042-4e0a-b5b3-93686a81de6b");
             _publParams = new List<PublParam>();
@@ -49,7 +52,8 @@ namespace EnvDT.ModelTests.Core
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
 
-            _labReportPreCheck = new LabReportPreCheck(_unitOfWorkMock.Object, CreateMissingParamDetailViewModel);
+            _labReportPreCheck = new LabReportPreCheck(_unitOfWorkMock.Object, 
+                _messageDialogServiceMock.Object, CreateMissingParamDetailViewModel);
         }
 
         private IMissingParamDialogViewModel CreateMissingParamDetailViewModel()
@@ -83,6 +87,8 @@ namespace EnvDT.ModelTests.Core
             _labReportPreCheck.FindMissingParametersUnits(It.IsAny<Guid>(), readOnlyPublicationIds);
 
             _missingParamDetailViewModelMock.Verify(mp => mp.Load(It.IsAny<HashSet<Guid>>()), Times.Once);
+            _messageDialogServiceMock.Verify(ds => ds.ShowMissingParamDialog(It.IsAny<string>(),
+                _missingParamDetailViewModelMock.Object), Times.Once);
         }
     }
 }

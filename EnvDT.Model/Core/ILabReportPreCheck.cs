@@ -5,6 +5,6 @@ namespace EnvDT.Model.Core
 {
     public interface ILabReportPreCheck
     {
-        public void FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds);
+        public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds);
     }
 }

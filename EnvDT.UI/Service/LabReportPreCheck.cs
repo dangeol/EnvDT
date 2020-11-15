@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -10,17 +11,20 @@ namespace EnvDT.Model.Core
     public class LabReportPreCheck : ILabReportPreCheck
     {
         private IUnitOfWork _unitOfWork;
+        private IMessageDialogService _messageDialogService;
         private HashSet<Guid> _missingParamIds;
         private Func<IMissingParamDialogViewModel> _missingParamDetailVmCreator;
 
-        public LabReportPreCheck(IUnitOfWork unitOfWork, Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
+        public LabReportPreCheck(IUnitOfWork unitOfWork, IMessageDialogService messageDialogService,
+            Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
         {
             _unitOfWork = unitOfWork;
+            _messageDialogService = messageDialogService;
             _missingParamIds = new HashSet<Guid>();
             _missingParamDetailVmCreator = missingParamDetailVmCreator;
         }
 
-        public void FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
+        public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
         {
             foreach (Guid publicationId in publicationIds)
             {
@@ -45,7 +49,11 @@ namespace EnvDT.Model.Core
             {
                 var missingParamDetailVM = _missingParamDetailVmCreator();
                 missingParamDetailVM.Load(_missingParamIds);
+                var titleName = "Missing parameters";
+                var result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDetailVM);
+                return result == MessageDialogResult.OK;
             }
+            return true;
         }
     }
 }

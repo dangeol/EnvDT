@@ -21,10 +21,10 @@ namespace EnvDT.Model.Core
             _evalCalc = evalCalc;
         }
 
-        public void LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
+        public bool LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
         {
             // TO DO: refactor - find synergies with GetEvalResult method to increase efficiency
-            _labReportPreCheck.FindMissingParametersUnits(labReportId, publicationIds);
+            return _labReportPreCheck.FindMissingParametersUnits(labReportId, publicationIds);
         }
 
         public EvalResult GetEvalResult(Guid labReportId, Guid sampleId, Guid publicationId)

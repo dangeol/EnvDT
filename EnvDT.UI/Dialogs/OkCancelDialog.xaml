@@ -18,7 +18,7 @@
             </Grid.RowDefinitions>
             <TextBlock x:Name="textBlock" Text="The Message Text" TextWrapping="Wrap" Margin="5"/>
             <StackPanel Orientation="Horizontal"
-                        Grid.Row="2"
+                        Grid.Row="1"
                         HorizontalAlignment="Center">
                 <StackPanel.Resources>
                     <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
