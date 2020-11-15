@@ -1,6 +1,4 @@
-﻿using Autofac;
-using EnvDT.UI.Startup;
-using EnvDT.UI.ViewModel;
+﻿using EnvDT.UI.Startup;
 using System;
 using System.Windows;
 

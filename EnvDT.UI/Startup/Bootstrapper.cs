@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using EnvDT.UI.Factory;
-using EnvDT.UI.View;
 using EnvDT.UI.ViewModel;
 
 namespace EnvDT.UI.Startup
@@ -15,11 +13,7 @@ namespace EnvDT.UI.Startup
 		{
 			var builder = new ContainerBuilder();
 			ConfigureContainer(builder);
-
 			var container = builder.Build();
-			var viewFactory = container.Resolve<IViewFactory>();
-
-			RegisterViews(viewFactory);
 			ConfigureApplication(container);
 		}
 
@@ -32,12 +26,8 @@ namespace EnvDT.UI.Startup
 
 		private void ConfigureContainer(ContainerBuilder builder)
 		{
-			builder.RegisterModule<DependenciesModule>();
-		}
-
-		private void RegisterViews(IViewFactory viewFactory)
-		{
-			viewFactory.Register<MissingParamDialogViewModel, MissingParamDialogView>();
+			builder.RegisterModule<GeneralModule>();
+			builder.RegisterModule<ViewModelModule>();
 		}
 	}
 }
