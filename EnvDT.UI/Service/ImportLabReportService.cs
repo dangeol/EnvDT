@@ -2,12 +2,10 @@
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
-using ExcelDataReader;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.IO;
 using System.Linq;
 
 namespace EnvDT.UI.Service
@@ -17,80 +15,95 @@ namespace EnvDT.UI.Service
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
+        private IReadFileHelper _readFileHelper;
         private List<Guid> _sampleIdList = new List<Guid>();
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IReadFileHelper readFileHelper)
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
+            _readFileHelper = readFileHelper;
         }
 
-        public void ImportLabReport(string file, Guid? projectId)
+        public void RunImport(string file, Guid? projectId)
         {
-            if (file != null && file.Length > 0)
-            {
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
-                FileStream stream = File.OpenRead(file);
-                IExcelDataReader reader = null;
+            DataTable workSheet = _readFileHelper.ReadFile(file);
+            if (workSheet != null)
+            { 
+                ImportLabReport(workSheet, projectId);
+            }
+        }
 
-                if (file.EndsWith(".xls"))
-                {
-                    reader = ExcelReaderFactory.CreateBinaryReader(stream);
-                }
-                else if (file.EndsWith(".xlsx"))
-                {
-                    reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
-                }
-                else
-                {
-                    throw new NotSupportedException("Wrong file extension");
-                }
-
-                DataTable workSheet = reader.AsDataSet(new ExcelDataSetConfiguration()
-                {
-                    ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
-                    {
-                        UseHeaderRow = false
-                    }
-                }).Tables["Datenblatt"];
-
-                // TO DO: treat all null reference exceptions
-                var reportLabIdent = workSheet.Rows[2][4].ToString();
-                if (IsLabReportAlreadyPresent(reportLabIdent))
-                {
-                    return;
-                }
-
-                var labName = "Agrolab Bruckberg";
-                var labCompany = _unitOfWork.LabReports.GetLabByLabName(labName).LabCompany;
-                Guid labReportId = CreateLabReport(reportLabIdent, labName, projectId).LabReportId;
-
-                int c = 4;
-                while (c < workSheet.Columns.Count)
-                {
-                    Guid sampleId = CreateSample(
-                        workSheet.Rows[3][c].ToString(), 
-                        workSheet.Rows[4][c].ToString(), 
-                        labReportId
-                    ).SampleId;
-                    _sampleIdList.Add(sampleId);
-                    c++;
-                }
-                CreateLabReportParams(workSheet, labReportId);
-
-                reader.Close();
-
-                _unitOfWork.Save();
-
-                RaiseLabReportImportedEvent(labReportId,
-                    $"{reportLabIdent} {labCompany}");
+        private void ImportLabReport(DataTable workSheet, Guid? projectId)
+        {
+            // TO DO: treat all null reference exceptions
+            var reportLabIdent = "";
+            if (workSheet.Rows[2][4] != System.DBNull.Value)
+            { 
+                reportLabIdent = workSheet.Rows[2][4].ToString();
             }
             else
             {
-                //TO DO: Exception
+                DisplayReadingCellErrorMessage(nameof(reportLabIdent));
+                return;
             }
+            if (IsLabReportAlreadyPresent(reportLabIdent))
+            {
+                return;
+            }
+
+            var labName = "";
+            if (workSheet.Rows[0][0] != System.DBNull.Value)
+            {
+                labName = workSheet.Rows[0][0].ToString();
+            }
+            else
+            {
+                DisplayReadingCellErrorMessage(nameof(labName));
+                return;
+            }
+            var labCompany = _unitOfWork.LabReports.GetLabByLabName(labName).LabCompany;
+            Guid labReportId = CreateLabReport(reportLabIdent, labName, projectId).LabReportId;
+
+            int c = 4;
+            while (c < workSheet.Columns.Count)
+            {
+                var sampleLabIdent = "";
+                if (workSheet.Rows[3][c] != System.DBNull.Value)
+                {
+                    sampleLabIdent = workSheet.Rows[3][c].ToString();
+                }
+                else
+                {
+                    DisplayReadingCellErrorMessage(nameof(sampleLabIdent));
+                    return;
+                }
+                var sampleName = "";
+                if (workSheet.Rows[4][c] != System.DBNull.Value)
+                {
+                    sampleName = workSheet.Rows[4][c].ToString();
+                }
+                else
+                {
+                    DisplayReadingCellErrorMessage(nameof(sampleName));
+                    return;
+                }
+
+                Guid sampleId = CreateSample(
+                    sampleLabIdent, sampleName, labReportId
+                ).SampleId;
+                _sampleIdList.Add(sampleId);
+
+                c++;
+            }
+            CreateLabReportParams(workSheet, labReportId);
+
+            _unitOfWork.Save();
+
+            RaiseLabReportImportedEvent(labReportId,
+                $"{reportLabIdent} {labCompany}");
         }
 
         public bool IsLabReportAlreadyPresent(string reportLabIdent)
@@ -139,7 +152,16 @@ namespace EnvDT.UI.Service
             int r = 7;
             while (r < workSheet.Rows.Count)
             {
-                var labParamName = workSheet.Rows[r][0].ToString();
+                var labParamName = "";
+                if (workSheet.Rows[r][0] != System.DBNull.Value)
+                {
+                    labParamName = workSheet.Rows[r][0].ToString();
+                }
+                else
+                {
+                    DisplayReadingCellErrorMessage(nameof(labParamName));
+                    return;
+                }
                 var labParamUnitName = workSheet.Rows[r][1].ToString();
                 var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
                 var unitId = GetUnitNameVariantByLabParamUnitName(labParamUnitName);
@@ -234,6 +256,12 @@ namespace EnvDT.UI.Service
                     Id = modelId,
                     DisplayMember = displayMember
                 });
+        }
+
+        private void DisplayReadingCellErrorMessage(string variableName)
+        {
+            _messageDialogService.ShowOkDialog("Cell value error", 
+                "The value of the following key could not be read: " + variableName);
         }
     }
 }

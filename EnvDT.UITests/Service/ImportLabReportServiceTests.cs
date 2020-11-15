@@ -13,6 +13,7 @@ namespace EnvDT.UITests.Service
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
+        private Mock<IReadFileHelper> _readFileHelperMock;
         private ImportLabReportService _importLabReportService;
         private LabReport _labReport;
         private string _reportLabIdent = "ident";
@@ -25,11 +26,11 @@ namespace EnvDT.UITests.Service
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uw => uw.LabReports.GetByReportLabIdent(_reportLabIdent))
                 .Returns(_labReport);
-
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _readFileHelperMock = new Mock<IReadFileHelper>();
 
             _importLabReportService = new ImportLabReportService(_eventAggregatorMock.Object,
-                _messageDialogServiceMock.Object, _unitOfWorkMock.Object);
+                _messageDialogServiceMock.Object, _unitOfWorkMock.Object, _readFileHelperMock.Object);
         }
 
         [Fact]

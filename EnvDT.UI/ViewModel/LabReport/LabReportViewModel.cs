@@ -119,7 +119,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnImportLabReportExecute()
         {
-            _importLabReportService.ImportLabReport(LabReportFilePath, _projectId);
+            _importLabReportService.RunImport(LabReportFilePath, _projectId);
         }
 
         private bool OnImportLabReportCanExecute()
