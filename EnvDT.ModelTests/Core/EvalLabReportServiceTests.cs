@@ -57,8 +57,6 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_sample);
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
-            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
-                .Returns(_labReportParams);
             _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
@@ -102,6 +100,8 @@ namespace EnvDT.ModelTests.Core
         public void GetEvalResultShouldReturnCorrectEvalResult(
             bool isSampleValueExceedingRefValue, bool expectedResult)
         {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
             _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
                 It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
                 .Returns(isSampleValueExceedingRefValue);
@@ -110,7 +110,23 @@ namespace EnvDT.ModelTests.Core
                 _sample.SampleId, _publication.PublicationId);
 
             Assert.Equal(evalResult.SampleName, _sample.SampleName);
-            Assert.Equal(expectedResult, evalResult.ExceedingValueList.Length > 0);
+            Assert.Equal(expectedResult, evalResult.ExceedingValues.Length > 0);
+        }
+
+        [Fact]
+        public void EvalResultShouldHaveMissingParamsWhenParamNotFound()
+        {
+            var labReportParams = new List<LabReportParam>();
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(labReportParams);
+            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
+                .Returns(false);
+
+            var evalResult = _evalLabReportService.GetEvalResult(It.IsAny<Guid>(),
+                _sample.SampleId, _publication.PublicationId);
+
+            Assert.True(evalResult.MissingParams.Length > 0);
         }
     }
 }

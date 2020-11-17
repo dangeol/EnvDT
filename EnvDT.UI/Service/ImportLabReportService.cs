@@ -38,7 +38,6 @@ namespace EnvDT.UI.Service
 
         private void ImportLabReport(DataTable workSheet, Guid? projectId)
         {
-            // TO DO: treat all null reference exceptions
             var reportLabIdent = "";
             if (workSheet.Rows[2][4] != System.DBNull.Value)
             { 

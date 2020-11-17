@@ -13,6 +13,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
@@ -33,6 +34,8 @@
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
+
+      <ListView Grid.Row="3" HorizontalAlignment="Left" ItemsSource="{Binding MissingParams}"/>
 
       <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
     </StackPanel>

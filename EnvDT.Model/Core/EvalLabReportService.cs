@@ -13,6 +13,7 @@ namespace EnvDT.Model.Core
         private ILabReportPreCheck _labReportPreCheck;
         private IEvalCalc _evalCalc;
         private EvalResult _evalResult;
+        List<PublParam> _missingParams = new List<PublParam>();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, IEvalCalc evalCalc)
         {
@@ -39,8 +40,18 @@ namespace EnvDT.Model.Core
             foreach (PublParam publParam in publParams)
             {
                 var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
-                // null pointer exception will be prevented by upcoming implementation of LabReportPreCheck
-                var labReportParam = labReportParams.First();
+                var labReportParam = new LabReportParam();
+
+                if (labReportParams.Count() == 0)
+                {
+                    _missingParams.Add(publParam);
+                    continue;
+                }
+                else
+                {
+                    labReportParam = labReportParams.First();
+                }
+                
                 var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
                 foreach (RefValue refValue in refValues)
                 {
@@ -69,17 +80,34 @@ namespace EnvDT.Model.Core
                         " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
                 }
             }
+
+            var missingParamsList = "";
+            foreach (PublParam missingParam in _missingParams)
+            {
+                var missingParamName = _unitOfWork.Parameters.GetById(missingParam.ParameterId).ParamNameDe;
+                var missingParamUnitName = _unitOfWork.Units.GetById(missingParam.UnitId).UnitName;
+                missingParamsList += missingParamName + " (" + missingParamUnitName + ")";
+            }
             _evalResult.SampleName = sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
-            _evalResult.ExceedingValueList = exceedingValueList;
+            _evalResult.ExceedingValues = exceedingValueList;
+            _evalResult.MissingParams = missingParamsList;
             return _evalResult;
         }
 
         private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue, LabReportParam labReportParam)
         {
             var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(sampleId, labReportParam.LabReportParamId);
-            // Next line: treat null
-            var sampleValue = sampleValues.First().SValue;
+            double sampleValue;
+            if (sampleValues.Count() == 0)
+            {
+                _missingParams.Add(publParam);
+                return null;
+            }
+            else
+            {
+                sampleValue = sampleValues.First().SValue;
+            }
             var sampleValueUnitName = _unitOfWork.Units.GetById(labReportParam.UnitId).UnitName;
 
             var refVal = refValue.RValue;

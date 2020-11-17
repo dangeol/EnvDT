@@ -82,7 +82,14 @@ namespace EnvDT.DataAccess
 
         private void CreateAppDirectory()
         {
-            Directory.CreateDirectory(Path.Combine(appPath));
+            try
+            {
+                Directory.CreateDirectory(Path.Combine(appPath));
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

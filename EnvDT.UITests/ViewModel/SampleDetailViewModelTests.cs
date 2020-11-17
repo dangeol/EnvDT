@@ -9,6 +9,7 @@ using EnvDT.UI.Event;
 using EnvDT.Model.Entity;
 using System.Collections.Generic;
 using System.Linq;
+using EnvDT.Model.Core.HelperClasses;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -65,8 +66,11 @@ namespace EnvDT.UITests.ViewModel
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _evalLabReportServiceMock.Setup(er => er.LabReportPreCheck(It.IsAny<Guid>(), It.IsAny<IReadOnlyCollection<Guid>>()))
                 .Returns(true);
+
+            var evalResult = new EvalResult();
+            evalResult.MissingParams = "";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .Returns(new Model.Core.HelperClasses.EvalResult());
+                .Returns(evalResult);
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object, 
                 _unitOfWorkMock.Object, _evalLabReportServiceMock.Object);

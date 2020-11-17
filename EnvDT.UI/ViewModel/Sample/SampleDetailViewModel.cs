@@ -6,6 +6,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
@@ -26,6 +27,8 @@ namespace EnvDT.UI.ViewModel
         private DataView _evalResultDataView;
         private string _title = "Project";
         private bool isColumnEmpty = true;
+        private int missingParamIndex = 1;
+        private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
 
         public SampleDetailViewModel(IEventAggregator eventAggregator, IUnitOfWork unitOfWork,
             IEvalLabReportService evalLabReportService)
@@ -66,6 +69,16 @@ namespace EnvDT.UI.ViewModel
             private set
             {
                 _evalResultDataView = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> MissingParams
+        {
+            get { return _missingParams; }
+            set
+            {
+                _missingParams = value;
                 OnPropertyChanged();
             }
         }
@@ -161,6 +174,8 @@ namespace EnvDT.UI.ViewModel
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
+            var c_sampleTable = c_init;
+            //var c_exceedParam = c_init + 1;
 
             while (c < _sampleTable.Columns.Count)
             {
@@ -183,8 +198,18 @@ namespace EnvDT.UI.ViewModel
                         var sample = Samples.ElementAt(r);
                         var evalResult = _evalLabReportService.GetEvalResult((Guid)LabReportId, sample.SampleId, publicationId);
                         _evalResultTable.Rows[r][0] = sample.SampleName;
-                        _evalResultTable.Rows[r][c] = evalResult.HighestValClassName;
-                        _evalResultTable.Rows[r][c+1] = evalResult.ExceedingValueList;
+                        var highestValClassName = evalResult.HighestValClassName;
+                        if (evalResult.MissingParams.Length == 0)
+                        {
+                            _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
+                        }
+                        else
+                        {
+                            _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName}[{missingParamIndex}]";
+                            _missingParams.Add($"Missing: [{missingParamIndex}]{evalResult.MissingParams}");
+                            missingParamIndex++;
+                        }
+                        _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
                     }
                     r++;
                 }
@@ -193,7 +218,11 @@ namespace EnvDT.UI.ViewModel
                     _evalResultTable.Columns.Remove($"ValClass{c}");
                     _evalResultTable.Columns.Remove($"ExceedParam{c}");
                 }
-                c++;
+                else
+                {
+                    c_sampleTable += 2;
+                }
+                c++;                
             }
             //Remove empty rows:
             for (int row = _evalResultTable.Rows.Count - 1; row >= 0; row--)
