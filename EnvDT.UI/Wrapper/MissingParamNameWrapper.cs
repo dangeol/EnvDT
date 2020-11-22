@@ -7,8 +7,8 @@ namespace EnvDT.UI.Wrapper
 {
     public class MissingParamNameWrapper : ModelWrapper<ParamNameVariant>
     {
-        private ObservableCollection<string> _paramNameAliases = new ObservableCollection<string>();
-        private ObservableCollection<string> _languageNames = new ObservableCollection<string>();
+        private ObservableCollection<LookupItem> _paramNameAliases = new ObservableCollection<LookupItem>();
+        private ObservableCollection<LookupItem> _languageNames = new ObservableCollection<LookupItem>();
         private string _paramName;
         private string _parameterName;
         private string _languageName;
@@ -32,7 +32,7 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public ObservableCollection<string> ParamNameAliases
+        public ObservableCollection<LookupItem> ParamNameAliases
         {
             get { return _paramNameAliases; }
             set
@@ -58,7 +58,7 @@ namespace EnvDT.UI.Wrapper
             set { SetValue(value); }
         }
 
-        public ObservableCollection<string> LanguageNames
+        public ObservableCollection<LookupItem> LanguageNames
         {
             get { return _languageNames; }
             set
@@ -86,25 +86,22 @@ namespace EnvDT.UI.Wrapper
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
-            ClearErrors(propertyName);/*
+            ClearErrors(propertyName);
             switch (propertyName)
             {
-                case nameof(ParamNameAlias):
-                    if (string.Equals(ParamNameAlias, "", StringComparison.OrdinalIgnoreCase))
-                    {
-                        yield return "Parameter Name Alias cannot be empty.";
-                    }
+                case nameof(ParameterId):
                     if (Guid.Equals(ParameterId, Guid.Empty))
                     {
-                        yield return "ParameterId cannot be empty.";
-                    }
-                    if (Guid.Equals(LanguageId, Guid.Empty))
-                    {
-                        yield return "LanguageId Name cannot be empty.";
+                        yield return "Parameter Name must be chosen.";
                     }
                     break;
-            }*/
-            return null;
+                case nameof(LanguageId):
+                    if (Guid.Equals(LanguageId, Guid.Empty))
+                    {
+                        yield return "Language must be chosen.";
+                    }
+                    break;
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
-        private ILabReportDataService _labReportDataService;
+        private ILookupDataService _lookupDataService;
         private IUnitOfWork _unitOfWork;
         private ITab _tab;
         private IOpenLabReportService _openLabReportService;
@@ -28,14 +28,14 @@ namespace EnvDT.UI.ViewModel
         private const string _sampleDetailViewModelName = "SampleDetailViewModel";
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            ILabReportDataService labReportDataService, IUnitOfWork unitOfWork, ITab tab,
+            ILookupDataService lookupDataService, IUnitOfWork unitOfWork, ITab tab,
             IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
             _eventAggregator.GetEvent<LabReportImportedEvent>().Subscribe(OnLabReportImported);
             _messageDialogService = messageDialogService;
-            _labReportDataService = labReportDataService;
+            _lookupDataService = lookupDataService;
             _unitOfWork = unitOfWork;
             _tab = tab;
             _openLabReportService = openLabReportService;
@@ -89,7 +89,7 @@ namespace EnvDT.UI.ViewModel
             ((DelegateCommand)OpenLabReportCommand).RaiseCanExecuteChanged();
             LabReports.Clear();
 
-            foreach (var labReport in _labReportDataService.GetAllLabReportsLookupByProjectId(projectId))
+            foreach (var labReport in _lookupDataService.GetAllLabReportsLookupByProjectId(projectId))
             {
                 LabReports.Add(new NavItemViewModel(
                     labReport.LookupItemId, labReport.DisplayMember, "",

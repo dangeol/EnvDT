@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Entity;
+using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
@@ -13,13 +14,16 @@ namespace EnvDT.UI.ViewModel
     {
         private IEventAggregator _eventAggregator;
         private IUnitOfWork _unitOfWork;
+        private ILookupDataService _lookupDataService;
         private ObservableCollection<MissingParamNameWrapper> _missingParamNames;
 
-        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork)
+        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
+            ILookupDataService lookupDataService)
             :base(eventEggregator)
         {
             _eventAggregator = eventEggregator;
             _unitOfWork = unitOfWork;
+            _lookupDataService = lookupDataService;
             MissingParamNames = new ObservableCollection<MissingParamNameWrapper>();
         }
 
@@ -56,15 +60,15 @@ namespace EnvDT.UI.ViewModel
                 paramNameVariant.ParameterId = missingParam.ParameterId;
                 var wrapper = new MissingParamNameWrapper(paramNameVariant);
                 wrapper.ParamName = missingParam.ParamNameDe;
-                var labReportParams = _unitOfWork.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(labReportId);
-                foreach (LabReportParam param in labReportParams)
+                var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
+                foreach (LookupItem param in labReportParams)
                 {
-                    wrapper.ParamNameAliases.Add(param.LabReportParamName);
+                    wrapper.ParamNameAliases.Add(param);
                 }
-                var languages = _unitOfWork.Languages.GetAll();
-                foreach (Language language in languages)
+                var languages = _lookupDataService.GetAllLanguagesLookup();
+                foreach (LookupItem language in languages)
                 {
-                    wrapper.LanguageNames.Add(language.LangAbbrev);
+                    wrapper.LanguageNames.Add(language);
                 }
 
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;

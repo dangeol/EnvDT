@@ -6,7 +6,10 @@ namespace EnvDT.Model.IDataService
 {
     public interface ILookupDataService
     {
-        IEnumerable<LookupItem> GetAllProjectsLookup();
-        IEnumerable<LookupItem> GetAllLabReportsLookupByProjectId(Guid? projectId);
+        public IEnumerable<LookupItem> GetAllProjectsLookup();
+        public IEnumerable<LookupItem> GetAllLabReportsLookupByProjectId(Guid? projectId);
+        public IEnumerable<LookupItem> GetLabReportUnknownParamNamesLookupByLabReportId(Guid labReportId);
+        public IEnumerable<LookupItem> GetLabReportUnknownUnitNamesLookupByLabReportId(Guid labReportId);
+        public IEnumerable<LookupItem> GetAllLanguagesLookup();
     }
 }

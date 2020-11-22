@@ -20,7 +20,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IOpenLabReportService> _openLabReportServiceMock;
-        private Mock<ILabReportDataService> _labReportDataServiceMock;
+        private Mock<ILookupDataService> _lookupDataServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ITab> _tabMock;
         private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
@@ -49,7 +49,7 @@ namespace EnvDT.UITests.ViewModel
             _openLabReportServiceMock = new Mock<IOpenLabReportService>();
             _openLabReportServiceMock.Setup(ol => ol.OpenLabReport())
                 .Returns(_labReportFilePath);
-            _labReportDataServiceMock = new Mock<ILabReportDataService>();
+            _lookupDataServiceMock = new Mock<ILookupDataService>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uw => uw.LabReports.GetById(_lookupItemId1))
                 .Returns(new Model.Entity.LabReport
@@ -64,7 +64,7 @@ namespace EnvDT.UITests.ViewModel
             _tabbedViewModels.Add(_sampleDetailViewModelMock.Object);
             _tabMock = new Mock<ITab>();
             _projectId = new Guid("e26b1ce2-d946-41c7-9edf-ca55b0a47fa0");
-            _labReportDataServiceMock.Setup(lr => lr.GetAllLabReportsLookupByProjectId(_projectId))
+            _lookupDataServiceMock.Setup(lr => lr.GetAllLabReportsLookupByProjectId(_projectId))
                 .Returns(new List<LookupItem>
                 {
                     new LookupItem
@@ -81,7 +81,7 @@ namespace EnvDT.UITests.ViewModel
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
 
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
-                _messageDialogServiceMock.Object, _labReportDataServiceMock.Object,
+                _messageDialogServiceMock.Object, _lookupDataServiceMock.Object,
                 _unitOfWorkMock.Object, _tabMock.Object, _openLabReportServiceMock.Object, 
                 _importLabReportServiceMock.Object);
         }

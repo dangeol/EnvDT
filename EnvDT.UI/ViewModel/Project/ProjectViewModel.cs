@@ -11,17 +11,17 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectViewModel : NavViewModelBase, IProjectViewModel
     {
-        private IProjectDataService _projectDataService;
+        private ILookupDataService _lookupDataService;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
         private Func<IProjectDetailViewModel> _projectDetailVmCreator;
 
-        public ProjectViewModel(IProjectDataService projectDataService, IEventAggregator eventAggregator, 
+        public ProjectViewModel(ILookupDataService lookupDataService, IEventAggregator eventAggregator, 
             Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
             : base(eventAggregator)
         {
-            _projectDataService = projectDataService;
+            _lookupDataService = lookupDataService;
             _eventAggregator = eventAggregator;
             _projectDetailVmCreator = projectDetailVmCreator;
             _messageDialogService = messageDialogService;
@@ -50,7 +50,7 @@ namespace EnvDT.UI.ViewModel
             var navItemViewModelNull = new NavItemViewModelNull();
             Projects.Add(navItemViewModelNull);
             SelectedItem = navItemViewModelNull;
-            foreach (var project in _projectDataService.GetAllProjectsLookup())
+            foreach (var project in _lookupDataService.GetAllProjectsLookup())
             {
                 Projects.Add(new NavItemViewModel(
                     project.LookupItemId, project.DisplayMember, 

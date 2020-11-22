@@ -32,7 +32,8 @@
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <ComboBox SelectedValue="{Binding Path=ParameterName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding Path=ParamNameAliases}">
+                            ItemsSource="{Binding Path=ParamNameAliases}"
+                            DisplayMemberPath="DisplayMember">
                   </ComboBox>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
@@ -41,7 +42,8 @@
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <ComboBox SelectedValue="{Binding Path=LanguageName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            ItemsSource="{Binding Path=LanguageNames}">
+                            ItemsSource="{Binding Path=LanguageNames}"
+                            DisplayMemberPath="DisplayMember">
                   </ComboBox>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>

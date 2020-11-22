@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EnvDT.DataAccess.DataService
 {
-    public class LookupDataService : ILookupDataService, IProjectDataService, ILabReportDataService
+    public class LookupDataService : ILookupDataService
     {
         private Func<EnvDTDbContext> _contextCreator;
         private ILabReportRepository _labReportRepository;
@@ -42,6 +42,53 @@ namespace EnvDT.DataAccess.DataService
                         LookupItemId = l.LabReportId,
                         DisplayMember = $"{l.ReportLabIdent} " +
                         $"{_labReportRepository.GetLabByLabId(l.LaboratoryId).LabCompany}"
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetLabReportUnknownParamNamesLookupByLabReportId(Guid labReportId)
+        {
+            using (var ctx = _contextCreator())
+            {
+                var unknownParamNameId = ctx.Parameters.AsNoTracking()
+                    .Single(p => p.ParamNameEn == "[unknown]").ParameterId;
+
+                return ctx.Set<LabReportParam>().AsNoTracking().ToList()
+                    .Where(lp => lp.ParameterId == unknownParamNameId && lp.LabReportId == labReportId)
+                    .Select(lp => new LookupItem
+                    {
+                        LookupItemId = lp.LabReportParamId,
+                        DisplayMember = lp.LabReportParamName
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetLabReportUnknownUnitNamesLookupByLabReportId(Guid labReportId)
+        {
+            using (var ctx = _contextCreator())
+            {
+                var unknownUnitNameId = ctx.Units.AsNoTracking()
+                    .Single(u => u.UnitName == "[unknown]").UnitId;
+
+                return ctx.Set<LabReportParam>().AsNoTracking().ToList()
+                    .Where(u => u.UnitId == unknownUnitNameId && u.LabReportId == labReportId)
+                    .Select(u => new LookupItem
+                    {
+                        LookupItemId = u.LabReportParamId,
+                        DisplayMember = u.LabReportUnitName
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetAllLanguagesLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<Language>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.LanguageId,
+                        DisplayMember = l.LangName
                     });
             }
         }

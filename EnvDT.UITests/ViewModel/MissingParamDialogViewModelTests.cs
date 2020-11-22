@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Entity;
+using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;
@@ -16,10 +17,11 @@ namespace EnvDT.UITests.ViewModel
         private MissingParamDialogViewModel _viewModel;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<ILookupDataService> _lookupDataServiceMock;
         private HashSet<Guid> _missingParamIds;
-        private LabReportParam _lapReportParam1;
-        private LabReportParam _lapReportParam2;
-        private List<LabReportParam> _lapReportParams = new List<LabReportParam>();
+        private LookupItem _lapReportParam1;
+        private LookupItem _lapReportParam2;
+        private List<LookupItem> _lapReportParams = new List<LookupItem>();
 
         public MissingParamDialogViewModelTests()
         {
@@ -29,8 +31,8 @@ namespace EnvDT.UITests.ViewModel
             var missingParamId2 = new Guid("e24a9441-3232-4b88-ae8a-55cdc4245a82");
             _missingParamIds.Add(missingParamId1);
             _missingParamIds.Add(missingParamId2);
-            _lapReportParam1 = new LabReportParam();
-            _lapReportParam2 = new LabReportParam();
+            _lapReportParam1 = new LookupItem();
+            _lapReportParam2 = new LookupItem();
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(pr => pr.Parameters.GetById(missingParamId1))
@@ -45,13 +47,15 @@ namespace EnvDT.UITests.ViewModel
                     ParameterId = missingParamId2,
                     ParamNameDe = "ParamName2",
                 });
+            _lookupDataServiceMock = new Mock<ILookupDataService>();
 
             _lapReportParams.Add(_lapReportParam1);
             _lapReportParams.Add(_lapReportParam2);
-            _unitOfWorkMock.Setup(pr => pr.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(It.IsAny<Guid>()))
+            _lookupDataServiceMock.Setup(ld => ld.GetLabReportUnknownParamNamesLookupByLabReportId(It.IsAny<Guid>()))
                 .Returns(_lapReportParams);
 
-            _viewModel = new MissingParamDialogViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object);
+            _viewModel = new MissingParamDialogViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object,
+                _lookupDataServiceMock.Object);
         }
 
         [Fact]
