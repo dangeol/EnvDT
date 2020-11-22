@@ -20,11 +20,36 @@
         <RowDefinition />
       </Grid.RowDefinitions>
 
-      <Label Content="Missing parameters" Margin="10 0"/>
+      <Label Content="Some parameters could not be automatically identified. Please select for each item a corresponding parameter name from the dropdown menu." 
+             HorizontalAlignment="Left" Margin="10 0"/>
       <StackPanel Grid.Row="1" Orientation="Horizontal">
-        <TextBox Width="100" Text="{Binding Path=MissingParamName, Mode=TwoWay, 
-          UpdateSourceTrigger=PropertyChanged}" />
+        <DataGrid ItemsSource="{Binding MissingParamNames}" 
+                  AutoGenerateColumns="False" Margin="10">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Parameter" MinWidth="100" IsReadOnly="True"
+              Binding="{Binding ParamName}"/>
+            <DataGridTemplateColumn Header="Selected Alias" MinWidth="100">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox SelectedValue="{Binding Path=ParameterName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding Path=ParamNameAliases}">
+                  </ComboBox>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="Selected Alias" MinWidth="100">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox SelectedValue="{Binding Path=LanguageName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding Path=LanguageNames}">
+                  </ComboBox>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </DataGrid>
       </StackPanel>
+      
       <StackPanel Orientation="Horizontal"
                   Grid.Row="2"
                   HorizontalAlignment="Center">

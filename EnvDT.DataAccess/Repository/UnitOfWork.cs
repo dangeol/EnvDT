@@ -11,6 +11,7 @@ namespace EnvDT.DataAccess.Repository
             _context = context;
             LabReports = new LabReportRepository(_context);
             LabReportParams = new LabReportParamRepository(_context);
+            Languages = new LanguageRepository(_context);
             Parameters = new ParameterRepository(_context);
             ParamNameVariants = new ParamNameVariantRepository(_context);
             Projects = new ProjectRepository(_context);
@@ -26,6 +27,7 @@ namespace EnvDT.DataAccess.Repository
 
         public ILabReportRepository LabReports { get; private set; }
         public ILabReportParamRepository LabReportParams { get; private set; }
+        public ILanguageRepository Languages { get; private set; }
         public IParameterRepository Parameters { get; private set; }
         public IParamNameVariantRepository ParamNameVariants { get; private set; }
         public IProjectRepository Projects { get; private set; }

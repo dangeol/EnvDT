@@ -8,5 +8,7 @@ namespace EnvDT.Model.IRepository
     {
         public IEnumerable<LabReportParam> GetLabReportParamNamesByPublParam(PublParam publParam, Guid labReportId);
         public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId);
+        public IEnumerable<LabReportParam> GetLabReportUnknownParamNamesByLabReportId(Guid labReportId);
+        public IEnumerable<LabReportParam> GetLabReportUnknownUnitNamesByLabReportId(Guid labReportId);
     }
 }

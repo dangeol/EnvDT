@@ -170,13 +170,15 @@ namespace EnvDT.UI.Service
                     foreach (var paramNameVariant in paramNameVariants)
                     {
                         var parameterId = paramNameVariant.ParameterId;
-                        CreateNewLabParam(workSheet, parameterId, unitId, labReportId, r);   
+                        CreateNewLabParam(workSheet, labParamName, labParamUnitName, 
+                            parameterId, unitId, labReportId, r);   
                     }
                 }
                 else
                 {
                     var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                    CreateNewLabParam(workSheet, unknownParameterId, unitId, labReportId, r);
+                    CreateNewLabParam(workSheet, labParamName, labParamUnitName, 
+                        unknownParameterId, unitId, labReportId, r);
                 }
                 r++;
             }
@@ -201,10 +203,13 @@ namespace EnvDT.UI.Service
         }
 
         // TO DO: refactoring
-        private void CreateNewLabParam(DataTable workSheet, Guid parameterId, Guid unitId, Guid labReportId, int r)
+        private void CreateNewLabParam(DataTable workSheet, string labReportParamName, string labReportUnitName,
+            Guid parameterId, Guid unitId, Guid labReportId, int r)
         {
             var labReportParam = new LabReportParam();
             labReportParam.ParameterId = parameterId;
+            labReportParam.LabReportParamName = labReportParamName;
+            labReportParam.LabReportUnitName = labReportUnitName;
             labReportParam.UnitId = unitId;
             labReportParam.LabReportId = labReportId;
             labReportParam.DetectionLimit = 0.0;

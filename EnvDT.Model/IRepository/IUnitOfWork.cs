@@ -6,6 +6,7 @@ namespace EnvDT.Model.IRepository
     {
         public ILabReportRepository LabReports { get; }
         public ILabReportParamRepository LabReportParams { get; }
+        public ILanguageRepository Languages { get; }
         public IParameterRepository Parameters { get; }
         public IParamNameVariantRepository ParamNameVariants { get; }
         public IProjectRepository Projects { get; }

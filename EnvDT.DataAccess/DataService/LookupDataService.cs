@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EnvDT.DataAccess.DataService
 {
-    public class LookupDataService : IProjectDataService, ILabReportDataService
+    public class LookupDataService : ILookupDataService, IProjectDataService, ILabReportDataService
     {
         private Func<EnvDTDbContext> _contextCreator;
         private ILabReportRepository _labReportRepository;

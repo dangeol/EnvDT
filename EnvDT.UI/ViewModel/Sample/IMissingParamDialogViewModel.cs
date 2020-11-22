@@ -7,7 +7,7 @@ namespace EnvDT.UI.ViewModel
 {
     public interface IMissingParamDialogViewModel
     {
-        public void Load(HashSet<Guid> ids);
+        public void Load(Guid labReportId, HashSet<Guid> ids);
         public ObservableCollection<MissingParamNameWrapper> MissingParamNames { get; }
     }
 }

@@ -48,7 +48,7 @@ namespace EnvDT.Model.Core
             if (_missingParamIds.Count > 0)
             {
                 var missingParamDetailVM = _missingParamDetailVmCreator();
-                missingParamDetailVM.Load(_missingParamIds);
+                missingParamDetailVM.Load(labReportId, _missingParamIds);
                 var titleName = "Missing parameters";
                 var result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDetailVM);
                 return result == MessageDialogResult.OK;

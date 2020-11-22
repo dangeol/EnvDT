@@ -1,11 +1,11 @@
-﻿using EnvDT.Model.IRepository;
-using EnvDT.UI.Dialogs;
+﻿using EnvDT.Model.Entity;
+using EnvDT.Model.IRepository;
 using EnvDT.UI.Wrapper;
+using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -14,8 +14,6 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IUnitOfWork _unitOfWork;
         private ObservableCollection<MissingParamNameWrapper> _missingParamNames;
-        //Only for testing
-        private string _missingParamName;
 
         public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork)
             :base(eventEggregator)
@@ -30,20 +28,9 @@ namespace EnvDT.UI.ViewModel
         public ObservableCollection<MissingParamNameWrapper> MissingParamNames
         {
             get { return _missingParamNames; }
-            private set
-            {
-                _missingParamNames = value;
-                OnPropertyChanged();
-            }
-        }
-
-        //Only for testing purpose
-        public string MissingParamName
-        {
-            get { return _missingParamName; }
             set
             {
-                _missingParamName = value;
+                _missingParamNames = value;
                 OnPropertyChanged();
             }
         }
@@ -53,10 +40,49 @@ namespace EnvDT.UI.ViewModel
             throw new NotImplementedException();
         }
 
-        public void Load(HashSet<Guid> missingParamIds)
+        public void Load(Guid labReportId, HashSet<Guid> missingParamIds)
         {
-            var firstMissingParamId = missingParamIds.First();
-            MissingParamName = _unitOfWork.Parameters.GetById(firstMissingParamId).ParamNameDe;
+            foreach (var wrapper in MissingParamNames)
+            {
+                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+            }
+
+            MissingParamNames.Clear();
+
+            foreach (Guid missingParamId in missingParamIds)
+            {
+                var missingParam = _unitOfWork.Parameters.GetById(missingParamId);
+                var paramNameVariant = new ParamNameVariant();
+                paramNameVariant.ParameterId = missingParam.ParameterId;
+                var wrapper = new MissingParamNameWrapper(paramNameVariant);
+                wrapper.ParamName = missingParam.ParamNameDe;
+                var labReportParams = _unitOfWork.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(labReportId);
+                foreach (LabReportParam param in labReportParams)
+                {
+                    wrapper.ParamNameAliases.Add(param.LabReportParamName);
+                }
+                var languages = _unitOfWork.Languages.GetAll();
+                foreach (Language language in languages)
+                {
+                    wrapper.LanguageNames.Add(language.LangAbbrev);
+                }
+
+                wrapper.PropertyChanged += Wrapper_PropertyChanged;
+
+                MissingParamNames.Add(wrapper);
+            }
+        }
+
+        private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+            {
+                HasChanges = _unitOfWork.ParamNameVariants.HasChanges();
+            }
+            if (e.PropertyName == nameof(MissingParamNameWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         protected override bool OnDeleteCanExecute()

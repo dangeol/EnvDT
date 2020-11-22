@@ -6,6 +6,8 @@ namespace EnvDT.Model.Entity
     public class LabReportParam
     {
         public Guid LabReportParamId { get; set; }
+        public string LabReportParamName { get; set; }
+        public string LabReportUnitName { get; set; }
         public double DetectionLimit { get; set; }
         public string Method { get; set; }
 

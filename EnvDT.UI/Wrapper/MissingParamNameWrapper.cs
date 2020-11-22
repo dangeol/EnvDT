@@ -1,11 +1,18 @@
 ﻿using EnvDT.Model.Entity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EnvDT.UI.Wrapper
 {
     public class MissingParamNameWrapper : ModelWrapper<ParamNameVariant>
     {
+        private ObservableCollection<string> _paramNameAliases = new ObservableCollection<string>();
+        private ObservableCollection<string> _languageNames = new ObservableCollection<string>();
+        private string _paramName;
+        private string _parameterName;
+        private string _languageName;
+
         public MissingParamNameWrapper(ParamNameVariant model) : base(model)
         {
         }
@@ -15,16 +22,60 @@ namespace EnvDT.UI.Wrapper
             get { return Model.ParamNameVariantId; } 
         }
 
-        public string ParamNameAlias
+        public string ParamName
         {
-            get { return GetValue<string>(); }
-            set { SetValue(value); }
+            get { return _paramName; }
+            set
+            {
+                _paramName = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> ParamNameAliases
+        {
+            get { return _paramNameAliases; }
+            set
+            {
+                _paramNameAliases = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string ParameterName
+        {
+            get { return _parameterName; }
+            set
+            {
+                _parameterName = value;
+                OnPropertyChanged();
+            }
         }
 
         public Guid ParameterId
         {
             get { return GetValue<Guid>(); }
             set { SetValue(value); }
+        }
+
+        public ObservableCollection<string> LanguageNames
+        {
+            get { return _languageNames; }
+            set
+            {
+                _languageNames = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string LanguageName
+        {
+            get { return _languageName; }
+            set
+            {
+                _languageName = value;
+                OnPropertyChanged();
+            }
         }
 
         public Guid LanguageId
@@ -35,7 +86,7 @@ namespace EnvDT.UI.Wrapper
 
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
-            ClearErrors(propertyName);
+            ClearErrors(propertyName);/*
             switch (propertyName)
             {
                 case nameof(ParamNameAlias):
@@ -52,7 +103,8 @@ namespace EnvDT.UI.Wrapper
                         yield return "LanguageId Name cannot be empty.";
                     }
                     break;
-            }
+            }*/
+            return null;
         }
     }
 }

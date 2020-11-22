@@ -1,18 +1,19 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnvDT.DataAccess.Repository
 {
-    public class LabReportParamRepository : GenericRepository<LabReportParam, EnvDTDbContext>,
-        ILabReportParamRepository
-    {
-        public LabReportParamRepository(EnvDTDbContext context)
-            :base(context)
-        {
-        }
+	public class LabReportParamRepository : GenericRepository<LabReportParam, EnvDTDbContext>,
+		ILabReportParamRepository
+	{
+		public LabReportParamRepository(EnvDTDbContext context)
+			: base(context)
+		{
+		}
 
 		public IEnumerable<LabReportParam> GetLabReportParamNamesByPublParam(PublParam publParam, Guid labReportId)
 		{
@@ -25,7 +26,7 @@ namespace EnvDT.DataAccess.Repository
 			.ToList();
 		}
 
-			public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
+		public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
 		{
 			return
 			(
@@ -40,6 +41,24 @@ namespace EnvDT.DataAccess.Repository
 				select lp
 			)
 			.ToList();
+		}
+
+		public IEnumerable<LabReportParam> GetLabReportUnknownParamNamesByLabReportId(Guid labReportId)
+		{
+			var unknownParamNameId = Context.Parameters.AsNoTracking()
+				.Single(p => p.ParamNameEn == "[unknown]").ParameterId;
+
+			return Context.Set<LabReportParam>().AsNoTracking().ToList()
+				.Where(lp => lp.ParameterId == unknownParamNameId && lp.LabReportId == labReportId);
+		}
+
+		public IEnumerable<LabReportParam> GetLabReportUnknownUnitNamesByLabReportId(Guid labReportId)
+		{
+			var unknownUnitNameId = Context.Units.AsNoTracking()
+				.Single(p => p.UnitName == "[unknown]").UnitId;
+
+			return Context.Set<LabReportParam>().AsNoTracking().ToList()
+				.Where(lp => lp.UnitId == unknownUnitNameId && lp.LabReportId == labReportId);
 		}
 	}
 }

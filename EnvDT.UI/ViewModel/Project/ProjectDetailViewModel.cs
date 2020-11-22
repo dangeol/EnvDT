@@ -5,7 +5,6 @@ using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 
 namespace EnvDT.UI.ViewModel
 {

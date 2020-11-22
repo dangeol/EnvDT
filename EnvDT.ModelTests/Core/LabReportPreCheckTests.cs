@@ -59,15 +59,9 @@ namespace EnvDT.ModelTests.Core
         private IMissingParamDialogViewModel CreateMissingParamDetailViewModel()
         {
             var missingParamDetailViewModelMock = new Mock<IMissingParamDialogViewModel>();
-            missingParamDetailViewModelMock.Setup(mp => mp.Load(It.IsAny<HashSet<Guid>>()))
-                .Callback<HashSet<Guid>>(missingParamIds =>
+            missingParamDetailViewModelMock.Setup(mp => mp.Load(It.IsAny<Guid>(), It.IsAny<HashSet<Guid>>()))
+                .Callback<Guid, HashSet<Guid>>((labReportId, missingParamIds) =>
                 {
-                    //missingParamIds = new HashSet<Guid>();
-                    //missingParamIds = _missingParamIds;
-                    foreach (Guid missingParamId in _missingParamIds)
-                    {
-                        missingParamIds.Add(_missingParamNameWrapper.ParameterId);
-                    }
                     missingParamDetailViewModelMock.Setup(mp => mp.MissingParamNames)
                         .Returns(new ObservableCollection<MissingParamNameWrapper>(_missingParamNames));
                 });
@@ -86,7 +80,7 @@ namespace EnvDT.ModelTests.Core
             var readOnlyPublicationIds = new ReadOnlyCollection<Guid>(_publicationIds);
             _labReportPreCheck.FindMissingParametersUnits(It.IsAny<Guid>(), readOnlyPublicationIds);
 
-            _missingParamDetailViewModelMock.Verify(mp => mp.Load(It.IsAny<HashSet<Guid>>()), Times.Once);
+            _missingParamDetailViewModelMock.Verify(mp => mp.Load(It.IsAny<Guid>(), It.IsAny<HashSet<Guid>>()), Times.Once);
             _messageDialogServiceMock.Verify(ds => ds.ShowMissingParamDialog(It.IsAny<string>(),
                 _missingParamDetailViewModelMock.Object), Times.Once);
         }
