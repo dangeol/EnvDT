@@ -53,8 +53,16 @@ namespace EnvDT.DataAccess.DataService
                 var unknownParamNameId = ctx.Parameters.AsNoTracking()
                     .Single(p => p.ParamNameEn == "[unknown]").ParameterId;
 
-                return ctx.Set<LabReportParam>().AsNoTracking().ToList()
+                var labReportParams = ctx.Set<LabReportParam>().AsNoTracking().ToList();
+                var nullLabReportParam = new LabReportParam();
+                nullLabReportParam.ParameterId = unknownParamNameId;
+                nullLabReportParam.LabReportId = labReportId;
+                nullLabReportParam.LabReportParamName = "[N/A]";
+                labReportParams.Add(nullLabReportParam);
+
+                return labReportParams
                     .Where(lp => lp.ParameterId == unknownParamNameId && lp.LabReportId == labReportId)
+                    .OrderBy(lp => lp.LabReportParamName)
                     .Select(lp => new LookupItem
                     {
                         LookupItemId = lp.LabReportParamId,
@@ -71,11 +79,12 @@ namespace EnvDT.DataAccess.DataService
                     .Single(u => u.UnitName == "[unknown]").UnitId;
 
                 return ctx.Set<LabReportParam>().AsNoTracking().ToList()
-                    .Where(u => u.UnitId == unknownUnitNameId && u.LabReportId == labReportId)
-                    .Select(u => new LookupItem
+                    .Where(lp => lp.UnitId == unknownUnitNameId && lp.LabReportId == labReportId)
+                    .OrderBy(lp => lp.LabReportUnitName)
+                    .Select(lp => new LookupItem
                     {
-                        LookupItemId = u.LabReportParamId,
-                        DisplayMember = u.LabReportUnitName
+                        LookupItemId = lp.LabReportParamId,
+                        DisplayMember = lp.LabReportUnitName
                     });
             }
         }

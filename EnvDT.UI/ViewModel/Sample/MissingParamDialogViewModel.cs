@@ -7,6 +7,7 @@ using Prism.Events;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -56,10 +57,12 @@ namespace EnvDT.UI.ViewModel
             foreach (Guid missingParamId in missingParamIds)
             {
                 var missingParam = _unitOfWork.Parameters.GetById(missingParamId);
-                var paramNameVariant = new ParamNameVariant();
-                paramNameVariant.ParameterId = missingParam.ParameterId;
+                var paramNameVariant = new ParamNameVariant();               
                 var wrapper = new MissingParamNameWrapper(paramNameVariant);
+                
+
                 wrapper.ParamName = missingParam.ParamNameDe;
+                wrapper.ParameterId = missingParam.ParameterId;
                 var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
                 foreach (LookupItem param in labReportParams)
                 {
@@ -72,6 +75,10 @@ namespace EnvDT.UI.ViewModel
                 }
 
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
+
+                // Trigger validation
+                //wrapper.ParamNameAlias = "";
+                //wrapper.LanguageId = Guid.Empty;
 
                 MissingParamNames.Add(wrapper);
             }
@@ -101,12 +108,23 @@ namespace EnvDT.UI.ViewModel
 
         protected override bool OnSaveCanExecute()
         {
-            throw new NotImplementedException();
+            return MissingParamNames.All(mpn => !mpn.HasErrors);
         }
 
         protected override void OnSaveExecute()
         {
-            throw new NotImplementedException();
+            foreach (var wrapper in MissingParamNames)
+            {
+                var labReportParamId = wrapper.SelectedParameter.LookupItemId;
+                if (labReportParamId != Guid.Empty)
+                {
+                    _unitOfWork.ParamNameVariants.Create(wrapper.Model);
+                    var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
+                    labReportParam.ParameterId = wrapper.ParameterId;
+                }
+            }
+            _unitOfWork.Save();
+            HasChanges = _unitOfWork.ParamNameVariants.HasChanges();
         }
     }
 }

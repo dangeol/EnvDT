@@ -26,6 +26,8 @@ namespace EnvDT.Model.Core
 
         public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
         {
+            _missingParamIds.Clear();
+
             foreach (Guid publicationId in publicationIds)
             {
                 var publication = _unitOfWork.Publications.GetById(publicationId);

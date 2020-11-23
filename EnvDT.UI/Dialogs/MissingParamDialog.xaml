@@ -31,17 +31,17 @@
             <DataGridTemplateColumn Header="Selected Alias" MinWidth="100">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=ParameterName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=SelectedParameter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             ItemsSource="{Binding Path=ParamNameAliases}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Selected Alias" MinWidth="100">
+            <DataGridTemplateColumn Header="Language" MinWidth="100">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=LanguageName,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=SelectedLanguage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                             ItemsSource="{Binding Path=LanguageNames}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>
@@ -61,7 +61,9 @@
             <Setter Property="Width" Value="75"/>
           </Style>
         </StackPanel.Resources>
-        <Button Content="OK" Click="ButtonOk_Click"/>
+        <Button Content="OK" 
+                Click="ButtonOk_Click"
+                Command="{Binding SaveCommand}"/>
         <Button Content="Cancel" Click="ButtonCancel_Click"/>
       </StackPanel>
 

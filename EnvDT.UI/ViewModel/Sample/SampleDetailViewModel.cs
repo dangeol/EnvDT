@@ -29,6 +29,7 @@ namespace EnvDT.UI.ViewModel
         private bool isColumnEmpty = true;
         private int missingParamIndex = 1;
         private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
+        private HashSet<string> _missingParamsHashSet = new HashSet<string>();
 
         public SampleDetailViewModel(IEventAggregator eventAggregator, IUnitOfWork unitOfWork,
             IEvalLabReportService evalLabReportService)
@@ -206,7 +207,14 @@ namespace EnvDT.UI.ViewModel
                         else
                         {
                             _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName}[{missingParamIndex}]";
-                            _missingParams.Add($"Missing: [{missingParamIndex}]{evalResult.MissingParams}");
+                            var missingParamFootNote = $"Missing: [{missingParamIndex}]{evalResult.MissingParams}";
+                            
+                            if (!_missingParamsHashSet.Contains(missingParamFootNote))
+                            {
+                                _missingParams.Add(missingParamFootNote);
+                            }
+                            _missingParamsHashSet.Add(missingParamFootNote);
+
                             missingParamIndex++;
                         }
                         _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;

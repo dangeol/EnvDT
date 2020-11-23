@@ -9,9 +9,9 @@ namespace EnvDT.UI.Wrapper
     {
         private ObservableCollection<LookupItem> _paramNameAliases = new ObservableCollection<LookupItem>();
         private ObservableCollection<LookupItem> _languageNames = new ObservableCollection<LookupItem>();
+        private LookupItem _selectedParameter;
+        private LookupItem _selectedLanguage;
         private string _paramName;
-        private string _parameterName;
-        private string _languageName;
 
         public MissingParamNameWrapper(ParamNameVariant model) : base(model)
         {
@@ -32,6 +32,12 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
+        public string ParamNameAlias
+        {
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
         public ObservableCollection<LookupItem> ParamNameAliases
         {
             get { return _paramNameAliases; }
@@ -42,12 +48,14 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public string ParameterName
+        // Here parameter is the LabReportParameter LookupItem
+        public LookupItem SelectedParameter
         {
-            get { return _parameterName; }
+            get { return _selectedParameter; }
             set
             {
-                _parameterName = value;
+                _selectedParameter = value;
+                ParamNameAlias = _selectedParameter.DisplayMember;
                 OnPropertyChanged();
             }
         }
@@ -68,12 +76,13 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public string LanguageName
+        public LookupItem SelectedLanguage
         {
-            get { return _languageName; }
+            get { return _selectedLanguage; }
             set
             {
-                _languageName = value;
+                _selectedLanguage = value;
+                LanguageId = _selectedLanguage.LookupItemId;
                 OnPropertyChanged();
             }
         }
@@ -89,10 +98,10 @@ namespace EnvDT.UI.Wrapper
             ClearErrors(propertyName);
             switch (propertyName)
             {
-                case nameof(ParameterId):
-                    if (Guid.Equals(ParameterId, Guid.Empty))
+                case nameof(ParamNameAlias):
+                    if (string.Equals(ParamNameAlias, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return "Parameter Name must be chosen.";
+                        yield return "Parameter Name Alias must be chosen.";
                     }
                     break;
                 case nameof(LanguageId):
