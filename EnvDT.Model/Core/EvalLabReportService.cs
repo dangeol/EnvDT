@@ -13,7 +13,7 @@ namespace EnvDT.Model.Core
         private ILabReportPreCheck _labReportPreCheck;
         private IEvalCalc _evalCalc;
         private EvalResult _evalResult;
-        List<PublParam> _missingParams = new List<PublParam>();
+        HashSet<PublParam> _missingParams = new HashSet<PublParam>();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, IEvalCalc evalCalc)
         {
@@ -30,6 +30,7 @@ namespace EnvDT.Model.Core
 
         public EvalResult GetEvalResult(Guid labReportId, Guid sampleId, Guid publicationId)
         {
+            _missingParams.Clear();
             _evalResult = new EvalResult();
             var sample = _unitOfWork.Samples.GetById(sampleId);
             var publication = _unitOfWork.Publications.GetById(publicationId);
@@ -86,7 +87,7 @@ namespace EnvDT.Model.Core
             {
                 var missingParamName = _unitOfWork.Parameters.GetById(missingParam.ParameterId).ParamNameDe;
                 var missingParamUnitName = _unitOfWork.Units.GetById(missingParam.UnitId).UnitName;
-                missingParamsList += missingParamName + " (" + missingParamUnitName + ")";
+                missingParamsList += missingParamName + " (" + missingParamUnitName + "); ";
             }
             _evalResult.SampleName = sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;

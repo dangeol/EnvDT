@@ -76,7 +76,7 @@ namespace EnvDT.UI.ViewModel
 
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
 
-                // Trigger validation
+                //Trigger validation
                 //wrapper.ParamNameAlias = "";
                 //wrapper.LanguageId = Guid.Empty;
 

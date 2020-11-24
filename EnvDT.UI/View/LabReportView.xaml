@@ -11,28 +11,33 @@
       <RowDefinition Height="200"/>
     </Grid.RowDefinitions>
 
-    <DockPanel Margin="20">
+    <DockPanel Margin="20 20 20 20">
       <StackPanel DockPanel.Dock="Right">
         
-        <Button Content="Load Report" Margin="10 0 10 0"
-                Command="{Binding OpenLabReportCommand}"/>
+        <Button Content="Load Report" Margin="20 0 10 0"
+                Command="{Binding OpenLabReportCommand}" HorizontalAlignment="Left"/>
         <TextBlock Name="LabReportFileNameBlock" Text="{Binding LabReportFileName}" 
-                   FontSize="11" Margin="10 1 10 0" Foreground="Green"/>
+                   FontSize="11" Margin="20 0 10 0" Foreground="Green" Width="150"
+                   HorizontalAlignment="Left"/>
 
-        <Button Content="Import Report" Margin="10 5 10 5"
+        <Button Content="Import Report" Margin="20 5 10 10"
+                HorizontalAlignment="Left"
                 Command="{Binding ImportLabReportCommand}"/>
 
-        <Button Content="Evaluate" Margin="10 10 10 5"
+        <Button Content="Evaluate" Margin="20 10 10 10"
+                HorizontalAlignment="Left"
                 Command="{Binding OpenDetailViewCommand}"/>
 
-        <Button Content="Remove" Margin="10 10 10 5"
+        <Button Content="Remove" Margin="20 10 10 10"
+                HorizontalAlignment="Left"
                 Command="{Binding DeleteLabReportCommand}"/>
         
       </StackPanel>
       
       <DataGrid ItemsSource="{Binding LabReports}" 
                 SelectedItem="{Binding SelectedLabReport}"
-                IsReadOnly="True" AutoGenerateColumns="False" RowHeaderWidth="0">
+                IsReadOnly="True" AutoGenerateColumns="False" RowHeaderWidth="0"
+                HorizontalAlignment="Left">
         
         <DataGrid.Columns>
           <DataGridTextColumn Header="LabReports" Width="*"

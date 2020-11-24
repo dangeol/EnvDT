@@ -26,8 +26,8 @@ namespace EnvDT.UI.ViewModel
         private DataView _sampleDataView;
         private DataView _evalResultDataView;
         private string _title = "Project";
-        private bool isColumnEmpty = true;
-        private int missingParamIndex = 1;
+        private bool _isColumnEmpty = true;
+        private int _footnoteIndex;
         private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
         private HashSet<string> _missingParamsHashSet = new HashSet<string>();
 
@@ -121,7 +121,6 @@ namespace EnvDT.UI.ViewModel
                 _sampleTable.Rows.Add(sampleTableRow.Values.ToArray());
             }
             SampleDataView = new DataView(_sampleTable);
-            SampleDataView.Sort = "Sample ASC";
         }
 
         private void SetLabReportIdAndTitle(Guid? id)
@@ -171,12 +170,13 @@ namespace EnvDT.UI.ViewModel
         {
             _evalResultTable = new DataTable();
             _evalResultTable.Columns.Add("Sample");
+            _footnoteIndex = 1;
+            MissingParams.Clear();
 
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
             var c_sampleTable = c_init;
-            //var c_exceedParam = c_init + 1;
 
             while (c < _sampleTable.Columns.Count)
             {
@@ -185,7 +185,7 @@ namespace EnvDT.UI.ViewModel
                 var publicationId = publication.PublicationId;
                 _evalResultTable.Columns.Add($"ValClass{c}");
                 _evalResultTable.Columns.Add($"ExceedParam{c}");
-                isColumnEmpty = true;
+                _isColumnEmpty = true;
                 while (r < _sampleTable.Rows.Count)
                 {
                     if (c == c_init)
@@ -195,7 +195,7 @@ namespace EnvDT.UI.ViewModel
                     }
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
-                        isColumnEmpty = false;
+                        _isColumnEmpty = false;
                         var sample = Samples.ElementAt(r);
                         var evalResult = _evalLabReportService.GetEvalResult((Guid)LabReportId, sample.SampleId, publicationId);
                         _evalResultTable.Rows[r][0] = sample.SampleName;
@@ -206,22 +206,17 @@ namespace EnvDT.UI.ViewModel
                         }
                         else
                         {
-                            _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName}[{missingParamIndex}]";
-                            var missingParamFootNote = $"Missing: [{missingParamIndex}]{evalResult.MissingParams}";
-                            
-                            if (!_missingParamsHashSet.Contains(missingParamFootNote))
-                            {
-                                _missingParams.Add(missingParamFootNote);
-                            }
-                            _missingParamsHashSet.Add(missingParamFootNote);
+                            _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName}[{_footnoteIndex}]";
+                            var missingParamFootNote = $"[{_footnoteIndex}] Missing: {evalResult.MissingParams}";
+                            _missingParams.Add(missingParamFootNote);
 
-                            missingParamIndex++;
+                            _footnoteIndex++;
                         }
                         _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
                     }
                     r++;
                 }
-                if (isColumnEmpty)
+                if (_isColumnEmpty)
                 {
                     _evalResultTable.Columns.Remove($"ValClass{c}");
                     _evalResultTable.Columns.Remove($"ExceedParam{c}");
@@ -241,7 +236,6 @@ namespace EnvDT.UI.ViewModel
                 }
             }
             EvalResultDataView = new DataView(_evalResultTable);
-            EvalResultDataView.Sort = "Sample ASC";
         }
 
         private bool OnEvalCanExecute()

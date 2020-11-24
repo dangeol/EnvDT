@@ -18,7 +18,8 @@ namespace EnvDT.DataAccess.Repository
         public IEnumerable<Sample> GetSamplesByLabReportId(Guid labReportId)
         {
             return Context.Set<Sample>().AsNoTracking().ToList()
-                .Where(s => s.LabReportId == labReportId);
+                .Where(s => s.LabReportId == labReportId)
+                .OrderBy(s => s.SampleName);
         }
     }
 }
