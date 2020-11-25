@@ -78,7 +78,14 @@ namespace EnvDT.DataAccess.DataService
                 var unknownUnitNameId = ctx.Units.AsNoTracking()
                     .Single(u => u.UnitName == "[unknown]").UnitId;
 
-                return ctx.Set<LabReportParam>().AsNoTracking().ToList()
+                var labReportUnits = ctx.Set<LabReportParam>().AsNoTracking().ToList();
+                var nullLabReportUnit = new LabReportParam();
+                nullLabReportUnit.UnitId = unknownUnitNameId;
+                nullLabReportUnit.LabReportId = labReportId;
+                nullLabReportUnit.LabReportUnitName = "[N/A]";
+                labReportUnits.Add(nullLabReportUnit);
+
+                return labReportUnits
                     .Where(lp => lp.UnitId == unknownUnitNameId && lp.LabReportId == labReportId)
                     .OrderBy(lp => lp.LabReportUnitName)
                     .Select(lp => new LookupItem

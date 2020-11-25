@@ -17,18 +17,25 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto"/>
         <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
         <RowDefinition />
       </Grid.RowDefinitions>
 
-      <Label Content="Some parameters could not be automatically identified. Please select for each item a corresponding parameter name from the dropdown menu." 
-             HorizontalAlignment="Left" Margin="10 0"/>
-      <StackPanel Grid.Row="1" Orientation="Horizontal">
+      <TextBlock HorizontalAlignment="Left" Margin="10 0 10 10">Some parameters could not be automatically identified. Please select<LineBreak/>for each item a corresponding parameter name from the dropdown menu.</TextBlock>
+
+      <StackPanel Visibility="{Binding MissingParamNamesVisible,
+                    Converter={StaticResource booleanToVisibilityConverter}}"
+                  Grid.Row="1" Orientation="Vertical">
+        <Label Content="Missing parameter names:" 
+             HorizontalAlignment="Left" Margin="10 0 10 0"/>
         <DataGrid ItemsSource="{Binding MissingParamNames}" 
                   AutoGenerateColumns="False" Margin="10">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Parameter" MinWidth="100" IsReadOnly="True"
+            <DataGridTextColumn Header="Parameter" MinWidth="180" IsReadOnly="True"
               Binding="{Binding ParamName}"/>
-            <DataGridTemplateColumn Header="Selected Alias" MinWidth="100">
+            <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <ComboBox SelectedValue="{Binding Path=SelectedParameter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -38,7 +45,7 @@
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Language" MinWidth="100">
+            <DataGridTemplateColumn Header="Language" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <ComboBox SelectedValue="{Binding Path=SelectedLanguage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
@@ -51,9 +58,32 @@
           </DataGrid.Columns>
         </DataGrid>
       </StackPanel>
-      
-      <StackPanel Orientation="Horizontal"
-                  Grid.Row="2"
+
+      <StackPanel Visibility="{Binding MissingUnitNamesVisible,
+                    Converter={StaticResource booleanToVisibilityConverter}}"
+                  Grid.Row="2" Orientation="Vertical">
+        <Label Content="Missing units:"
+               HorizontalAlignment="Left" Margin="10 0 10 0"/>
+        <DataGrid ItemsSource="{Binding MissingUnitNames}" 
+                  AutoGenerateColumns="False" Margin="10">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Unit" MinWidth="180" IsReadOnly="True"
+              Binding="{Binding UnitName}"/>
+            <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox SelectedValue="{Binding Path=SelectedUnit,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding Path=UnitNameAliases}"
+                            DisplayMemberPath="DisplayMember">
+                  </ComboBox>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+          </DataGrid.Columns>
+        </DataGrid>
+      </StackPanel>
+
+      <StackPanel Grid.Row="3" Orientation="Horizontal"                 
                   HorizontalAlignment="Center">
         <StackPanel.Resources>
           <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">

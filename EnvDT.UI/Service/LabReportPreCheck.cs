@@ -13,7 +13,8 @@ namespace EnvDT.Model.Core
         private IUnitOfWork _unitOfWork;
         private IMessageDialogService _messageDialogService;
         private HashSet<Guid> _missingParamIds;
-        private Func<IMissingParamDialogViewModel> _missingParamDetailVmCreator;
+        private HashSet<Guid> _missingUnitIds;
+        private Func<IMissingParamDialogViewModel> _missingParamDialogVmCreator;
 
         public LabReportPreCheck(IUnitOfWork unitOfWork, IMessageDialogService messageDialogService,
             Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
@@ -21,12 +22,14 @@ namespace EnvDT.Model.Core
             _unitOfWork = unitOfWork;
             _messageDialogService = messageDialogService;
             _missingParamIds = new HashSet<Guid>();
-            _missingParamDetailVmCreator = missingParamDetailVmCreator;
+            _missingUnitIds = new HashSet<Guid>();
+            _missingParamDialogVmCreator = missingParamDetailVmCreator;
         }
 
         public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
         {
             _missingParamIds.Clear();
+            _missingUnitIds.Clear();
 
             foreach (Guid publicationId in publicationIds)
             {
@@ -43,16 +46,19 @@ namespace EnvDT.Model.Core
                         {
                             _missingParamIds.Add(publParam.ParameterId);
                         }
+                        else
+                        {
+                            _missingUnitIds.Add(publParam.UnitId);
+                        }
                     }
-                    //TO DO: also pre check the units
                 }
             }
-            if (_missingParamIds.Count > 0)
+            if (_missingParamIds.Count > 0 || _missingUnitIds.Count > 0)
             {
-                var missingParamDetailVM = _missingParamDetailVmCreator();
-                missingParamDetailVM.Load(labReportId, _missingParamIds);
+                var missingParamDialogVM = _missingParamDialogVmCreator();
+                missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);
                 var titleName = "Missing parameters";
-                var result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDetailVM);
+                var result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDialogVM);
                 return result == MessageDialogResult.OK;
             }
             return true;
