@@ -19,6 +19,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ILookupDataService> _lookupDataServiceMock;
         private HashSet<Guid> _missingParamIds;
+        private HashSet<Guid> _missingUnitIds;
         private LookupItem _lapReportParam1;
         private LookupItem _lapReportParam2;
         private List<LookupItem> _lapReportParams = new List<LookupItem>();
@@ -31,21 +32,30 @@ namespace EnvDT.UITests.ViewModel
             var missingParamId2 = new Guid("e24a9441-3232-4b88-ae8a-55cdc4245a82");
             _missingParamIds.Add(missingParamId1);
             _missingParamIds.Add(missingParamId2);
+            _missingUnitIds = new HashSet<Guid>();
+            var missingUnitId1 = new Guid("d94a0c81-0681-4979-ae3c-c43bfe48314f");
+            _missingUnitIds.Add(missingUnitId1);
             _lapReportParam1 = new LookupItem();
             _lapReportParam2 = new LookupItem();
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _unitOfWorkMock.Setup(pr => pr.Parameters.GetById(missingParamId1))
+            _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(missingParamId1))
                 .Returns(new Model.Entity.Parameter
                 {
                     ParameterId = missingParamId1,
                     ParamNameDe = "ParamName1",
                 });
-            _unitOfWorkMock.Setup(pr => pr.Parameters.GetById(missingParamId2))
+            _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(missingParamId2))
                 .Returns(new Model.Entity.Parameter
                 {
                     ParameterId = missingParamId2,
                     ParamNameDe = "ParamName2",
+                });
+            _unitOfWorkMock.Setup(uw => uw.Units.GetById(missingUnitId1))
+                .Returns(new Model.Entity.Unit
+                {
+                    UnitId = missingUnitId1,
+                    UnitName = "Unitame1",
                 });
             _lookupDataServiceMock = new Mock<ILookupDataService>();
 
@@ -61,12 +71,15 @@ namespace EnvDT.UITests.ViewModel
         [Fact]
         public void ShouldLoadMissingParamNames()
         {
-            _viewModel.Load(It.IsAny<Guid>(), _missingParamIds);
+            _viewModel.Load(It.IsAny<Guid>(), _missingParamIds, _missingUnitIds);
 
             Assert.NotNull(_viewModel.MissingParamNames);
+            Assert.NotNull(_viewModel.MissingUnitNames);
             Assert.Equal(_missingParamIds.Count, _viewModel.MissingParamNames.Count);
+            Assert.Equal(_missingUnitIds.Count, _viewModel.MissingUnitNames.Count);
 
             _unitOfWorkMock.Verify(uw => uw.Parameters.GetById(It.IsAny<Guid>()), Times.Exactly(2));
+            _unitOfWorkMock.Verify(uw => uw.Units.GetById(It.IsAny<Guid>()), Times.Exactly(1));
         }
     }
 }

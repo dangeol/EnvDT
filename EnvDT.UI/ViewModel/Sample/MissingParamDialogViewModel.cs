@@ -84,63 +84,36 @@ namespace EnvDT.UI.ViewModel
         {
             foreach (var wrapper in MissingParamNames)
             {
-                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
+                wrapper.PropertyChanged -= ParamNameVariantsWrapper_PropertyChanged;
             }
-            foreach (var wrapper in MissingUnitNames)
-            {
-                wrapper.PropertyChanged -= Wrapper_PropertyChanged;
-            }
-
             MissingParamNames.Clear();
-            MissingUnitNames.Clear();
 
             foreach (Guid missingParamId in missingParamIds)
             {
-                var missingParam = _unitOfWork.Parameters.GetById(missingParamId);
-                var paramNameVariant = new ParamNameVariant();               
-                var wrapper = new MissingParamNameWrapper(paramNameVariant);
-                
+                MissingParamNameWrapper wrapper = CreateMissingParamNameWrapper(labReportId, missingParamId);
 
-                wrapper.ParamName = missingParam.ParamNameDe;
-                wrapper.ParameterId = missingParam.ParameterId;
-                var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
-                foreach (LookupItem param in labReportParams)
-                {
-                    wrapper.ParamNameAliases.Add(param);
-                }
-                var languages = _lookupDataService.GetAllLanguagesLookup();
-                foreach (LookupItem language in languages)
-                {
-                    wrapper.LanguageNames.Add(language);
-                }
+                wrapper.PropertyChanged += ParamNameVariantsWrapper_PropertyChanged;
 
-                wrapper.PropertyChanged += Wrapper_PropertyChanged;
-
-                //Trigger validation
+                //Trigger validation -- does not work TO DO
                 //wrapper.ParamNameAlias = "";
                 //wrapper.LanguageId = Guid.Empty;
 
                 MissingParamNames.Add(wrapper);
             }
 
+            foreach (var wrapper in MissingUnitNames)
+            {
+                wrapper.PropertyChanged -= UnitNameVariantsWrapper_PropertyChanged;
+            }
+            MissingUnitNames.Clear();
+            
             foreach (Guid missingUnitId in missingUnitIds)
             {
-                var missingUnit = _unitOfWork.Units.GetById(missingUnitId);
-                var unitNameVariant = new UnitNameVariant();
-                var wrapper = new MissingUnitNameWrapper(unitNameVariant);
+                MissingUnitNameWrapper wrapper = CreateMissingUnitNameWrapper(labReportId, missingUnitId);
 
+                wrapper.PropertyChanged += UnitNameVariantsWrapper_PropertyChanged;
 
-                wrapper.UnitName = missingUnit.UnitName;
-                wrapper.UnitId = missingUnit.UnitId;
-                var labReportUnits = _lookupDataService.GetLabReportUnknownUnitNamesLookupByLabReportId(labReportId);
-                foreach (LookupItem unit in labReportUnits)
-                {
-                    wrapper.UnitNameAliases.Add(unit);
-                }
-
-                wrapper.PropertyChanged += Wrapper_PropertyChanged;
-
-                //Trigger validation
+                //Trigger validation -- does not work TO DO
                 //wrapper.UnitNameAlias = "";
 
                 MissingUnitNames.Add(wrapper);
@@ -156,15 +129,67 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        private void Wrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private MissingParamNameWrapper CreateMissingParamNameWrapper(Guid labReportId, Guid missingParamId)
+        {
+            var missingParam = _unitOfWork.Parameters.GetById(missingParamId);
+            var paramNameVariant = new ParamNameVariant();
+            var wrapper = new MissingParamNameWrapper(paramNameVariant)
+            {
+                ParamNameAlias = "null",
+                ParamName = missingParam.ParamNameDe,
+                ParameterId = missingParam.ParameterId
+            };
+            var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
+            foreach (LookupItem param in labReportParams)
+            {
+                wrapper.ParamNameAliases.Add(param);
+            }
+            var languages = _lookupDataService.GetAllLanguagesLookup();
+            foreach (LookupItem language in languages)
+            {
+                wrapper.LanguageNames.Add(language);
+            }
+
+            return wrapper;
+        }
+
+        private MissingUnitNameWrapper CreateMissingUnitNameWrapper(Guid labReportId, Guid missingUnitId)
+        {
+            var missingUnit = _unitOfWork.Units.GetById(missingUnitId);
+            var unitNameVariant = new UnitNameVariant();
+            var wrapper = new MissingUnitNameWrapper(unitNameVariant)
+            {
+                UnitName = missingUnit.UnitName,
+                UnitId = missingUnit.UnitId
+            };
+            var labReportUnits = _lookupDataService.GetLabReportUnknownUnitNamesLookupByLabReportId(labReportId);
+            foreach (LookupItem unit in labReportUnits)
+            {
+                wrapper.UnitNameAliases.Add(unit);
+            }
+
+            return wrapper;
+        }
+
+        private void ParamNameVariantsWrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (!HasChanges)
             {
                 HasChanges = _unitOfWork.ParamNameVariants.HasChanges();
+            }
+            if (e.PropertyName == nameof(MissingParamNameWrapper.HasErrors))
+            {
+                ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        private void UnitNameVariantsWrapper_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (!HasChanges)
+            {
                 HasChanges = _unitOfWork.UnitNameVariants.HasChanges();
             }
-            if (e.PropertyName == nameof(MissingParamNameWrapper.HasErrors)
-                || e.PropertyName == nameof(MissingUnitNameWrapper.HasErrors))
+            if (e.PropertyName == nameof(MissingUnitNameWrapper.HasErrors))
             {
                 ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
             }
