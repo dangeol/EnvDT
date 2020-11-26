@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Core;
+using EnvDT.Model.Core.HelperClasses;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Event;
@@ -176,12 +177,12 @@ namespace EnvDT.UI.ViewModel
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
-            var c_sampleTable = c_init;
+            var c_sampleTable = 1;
 
             while (c < _sampleTable.Columns.Count)
             {
                 var r = r_init;
-                var publication = _publications.ElementAt(c - 1);
+                var publication = _publications.ElementAt(c - c_init);
                 var publicationId = publication.PublicationId;
                 _evalResultTable.Columns.Add($"ValClass{c}");
                 _evalResultTable.Columns.Add($"ExceedParam{c}");
@@ -197,7 +198,13 @@ namespace EnvDT.UI.ViewModel
                     {
                         _isColumnEmpty = false;
                         var sample = Samples.ElementAt(r);
-                        var evalResult = _evalLabReportService.GetEvalResult((Guid)LabReportId, sample.SampleId, publicationId);
+                        var evalArgs = new EvalArgs
+                        {
+                            LabReportId = (Guid)LabReportId,
+                            SampleId = sample.SampleId,
+                            PublicationId = publicationId
+                        };
+                        var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
                         _evalResultTable.Rows[r][0] = sample.SampleName;
                         var highestValClassName = evalResult.HighestValClassName;
                         if (evalResult.MissingParams.Length == 0)

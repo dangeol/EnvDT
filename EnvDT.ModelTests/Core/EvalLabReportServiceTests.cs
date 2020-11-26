@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Core;
+using EnvDT.Model.Core.HelperClasses;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using Moq;
@@ -20,6 +21,7 @@ namespace EnvDT.ModelTests.Core
         private List<PublParam> _publParams;
         private RefValue _refValue;
         private List<RefValue> _refValues;
+        private EvalArgs _evalArgs;
 
         private List<SampleValue> _sampleValues;
         private SampleValue _sampleValue;
@@ -52,6 +54,11 @@ namespace EnvDT.ModelTests.Core
             _labReportParams = new List<LabReportParam>();
             _labReportParam = new LabReportParam();
             _labReportParams.Add(_labReportParam);
+
+            _evalArgs = new EvalArgs();
+            _evalArgs.LabReportId = It.IsAny<Guid>();
+            _evalArgs.SampleId = _sample.SampleId;
+            _evalArgs.PublicationId = _publication.PublicationId;
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
                 .Returns(_sample);
@@ -106,8 +113,7 @@ namespace EnvDT.ModelTests.Core
                 It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
                 .Returns(isSampleValueExceedingRefValue);
 
-            var evalResult = _evalLabReportService.GetEvalResult(It.IsAny<Guid>(),
-                _sample.SampleId, _publication.PublicationId);
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
 
             Assert.Equal(evalResult.SampleName, _sample.SampleName);
             Assert.Equal(expectedResult, evalResult.ExceedingValues.Length > 0);
@@ -123,8 +129,7 @@ namespace EnvDT.ModelTests.Core
                 It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
                 .Returns(false);
 
-            var evalResult = _evalLabReportService.GetEvalResult(It.IsAny<Guid>(),
-                _sample.SampleId, _publication.PublicationId);
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
 
             Assert.True(evalResult.MissingParams.Length > 0);
         }

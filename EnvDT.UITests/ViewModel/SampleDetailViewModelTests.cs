@@ -69,7 +69,7 @@ namespace EnvDT.UITests.ViewModel
 
             var evalResult = new EvalResult();
             evalResult.MissingParams = "";
-            _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<Guid>()))
+            _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
                 .Returns(evalResult);
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object, 

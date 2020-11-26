@@ -28,19 +28,19 @@ namespace EnvDT.Model.Core
             return _labReportPreCheck.FindMissingParametersUnits(labReportId, publicationIds);
         }
 
-        public EvalResult GetEvalResult(Guid labReportId, Guid sampleId, Guid publicationId)
+        public EvalResult GetEvalResult(EvalArgs evalArgs)
         {
             _missingParams.Clear();
             _evalResult = new EvalResult();
-            var sample = _unitOfWork.Samples.GetById(sampleId);
-            var publication = _unitOfWork.Publications.GetById(publicationId);
+            var sample = _unitOfWork.Samples.GetById(evalArgs.SampleId);
+            var publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = publication.PublParams;
             var highestLevel = 0;
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
             foreach (PublParam publParam in publParams)
             {
-                var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
+                var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, evalArgs.LabReportId);
                 var labReportParam = new LabReportParam();
 
                 if (labReportParams.Count() == 0)
@@ -56,7 +56,7 @@ namespace EnvDT.Model.Core
                 var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
                 foreach (RefValue refValue in refValues)
                 {
-                    var exceedingValue = GetExceedingValue(sampleId, publParam, refValue, labReportParam);
+                    var exceedingValue = GetExceedingValue(evalArgs.SampleId, publParam, refValue, labReportParam);
                     if (exceedingValue != null)
                     {
                         exceedingValues.Add(exceedingValue);
