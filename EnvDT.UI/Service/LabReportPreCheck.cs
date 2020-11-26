@@ -46,9 +46,9 @@ namespace EnvDT.Model.Core
                         {
                             _missingParamIds.Add(publParam.ParameterId);
                         }
-                        else
+                        else if (missingParameter.First().UnitId == _unitOfWork.Units.GetUnitIdOfUnknown())
                         {
-                            _missingUnitIds.Add(publParam.UnitId);
+                            _missingUnitIds.Add(publParam.UnitId);                         
                         }
                     }
                 }
