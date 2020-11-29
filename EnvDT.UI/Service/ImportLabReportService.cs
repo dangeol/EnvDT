@@ -16,7 +16,7 @@ namespace EnvDT.UI.Service
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
         private IReadFileHelper _readFileHelper;
-        private List<Guid> _sampleIdList = new List<Guid>();
+        private List<Sample> _samples = new List<Sample>();
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             IUnitOfWork unitOfWork, IReadFileHelper readFileHelper)
@@ -90,11 +90,18 @@ namespace EnvDT.UI.Service
                     return;
                 }
 
-                Guid sampleId = CreateSample(
-                    sampleLabIdent, sampleName, labReportId
-                ).SampleId;
-                _sampleIdList.Add(sampleId);
-
+                var existingSample = _samples.FirstOrDefault(s => s.SampleName == sampleName);
+                if (existingSample != null)
+                {
+                    existingSample.SampleLabIdent += "_" + sampleLabIdent;
+                }
+                else 
+                { 
+                    Sample sample = CreateSample(
+                        sampleLabIdent, sampleName, labReportId
+                    );
+                    _samples.Add(sample);
+                }
                 c++;
             }
             CreateLabReportParams(workSheet, labReportId);
@@ -229,13 +236,19 @@ namespace EnvDT.UI.Service
 
         private void CreateNewSampleValue(int r, DataTable workSheet, LabReportParam labReportParam)
         {
-            var c_init = 4;
-            for (int i = 0; i < _sampleIdList.Count; i++)
+            var c = 4;
+            while (c < workSheet.Columns.Count)
             {
-                var c = c_init + i;
                 if (workSheet.Rows[r][c] != System.DBNull.Value)
                 {
                     var sValue = 0.0;
+                    string sampleName;
+                    Guid sampleId = Guid.Empty;
+                    if (workSheet.Rows[4][c] != System.DBNull.Value)
+                    {
+                        sampleName = workSheet.Rows[4][c].ToString();
+                        sampleId = _samples.FirstOrDefault(s => s.SampleName == sampleName).SampleId;
+                    }
                     double testVar;
                     if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
                     {
@@ -244,10 +257,14 @@ namespace EnvDT.UI.Service
                     var sampleValue = new SampleValue();
                     sampleValue.SValue = sValue;
                     sampleValue.LabReportParamId = labReportParam.LabReportParamId;
-                    sampleValue.SampleId = _sampleIdList[i];
-
-                    _unitOfWork.SampleValues.Create(sampleValue);
+                    
+                    if (sampleId != Guid.Empty)
+                    {
+                        sampleValue.SampleId = sampleId;
+                        _unitOfWork.SampleValues.Create(sampleValue);
+                    }                                     
                 }
+                c++;
             }
         }
 
