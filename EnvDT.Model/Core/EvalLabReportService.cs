@@ -32,7 +32,6 @@ namespace EnvDT.Model.Core
         {
             _missingParams.Clear();
             _evalResult = new EvalResult();
-            var sample = _unitOfWork.Samples.GetById(evalArgs.SampleId);
             var publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = publication.PublParams;
             var highestLevel = 0;
@@ -52,11 +51,32 @@ namespace EnvDT.Model.Core
                 {
                     labReportParam = labReportParams.First();
                 }
-                
-                var refValues = _unitOfWork.RefValues.GetRefValuesByPublParamId(publParam.PublParamId);
+
+                var refValues = Enumerable.Empty<RefValue>();
+
+                if (publication.UsesMediumSubTypes && !publication.UsesConditions)
+                {
+                    refValues = _unitOfWork.RefValues.GetRefValuesWithMedSubTypesByPublParamIdAndSample(
+                        publParam.PublParamId, evalArgs.Sample);
+                }
+                else if (!publication.UsesMediumSubTypes && publication.UsesConditions)
+                {
+                    refValues = _unitOfWork.RefValues.GetRefValuesWithConditionsByPublParamIdAndSample(
+                        publParam.PublParamId, evalArgs.Sample);
+                }
+                else if (publication.UsesMediumSubTypes && publication.UsesConditions)
+                {
+                    refValues = _unitOfWork.RefValues.GetRefValuesWithMedSubTypesAndConditionsByPublParamIdAndSample(
+                        publParam.PublParamId, evalArgs.Sample);
+                }
+                else
+                { 
+                    refValues = _unitOfWork.RefValues.GetRefValuesByPublParamIdAndSample(publParam.PublParamId, evalArgs.Sample);
+                }
+
                 foreach (RefValue refValue in refValues)
                 {
-                    var exceedingValue = GetExceedingValue(evalArgs.SampleId, publParam, refValue, labReportParam);
+                    var exceedingValue = GetExceedingValue(evalArgs.Sample.SampleId, publParam, refValue, labReportParam);
                     if (exceedingValue != null)
                     {
                         exceedingValues.Add(exceedingValue);
@@ -77,8 +97,17 @@ namespace EnvDT.Model.Core
             {
                 if (exceedingValue.Level == highestLevel)
                 {
-                    exceedingValueList += exceedingValue.ParamName + 
+                    var exceedingValuesStr = exceedingValue.ParamName +
                         " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
+
+                    if (exceedingValueList.Length == 0)
+                    {
+                        exceedingValueList += exceedingValuesStr;
+                    }
+                    else
+                    {
+                        exceedingValueList += Environment.NewLine + exceedingValuesStr;
+                    }                  
                 }
             }
 
@@ -89,7 +118,7 @@ namespace EnvDT.Model.Core
                 var missingParamUnitName = _unitOfWork.Units.GetById(missingParam.UnitId).UnitName;
                 missingParamsList += missingParamName + " (" + missingParamUnitName + "); ";
             }
-            _evalResult.SampleName = sample.SampleName;
+            _evalResult.SampleName = evalArgs.Sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValues = exceedingValueList;
             _evalResult.MissingParams = missingParamsList;
@@ -107,7 +136,8 @@ namespace EnvDT.Model.Core
             }
             else
             {
-                sampleValue = sampleValues.First().SValue;
+                // TO DO: add setting to select if min or max shall be taken
+                sampleValue = sampleValues.Max(row => row.SValue);
             }
             var sampleValueUnitName = _unitOfWork.Units.GetById(labReportParam.UnitId).UnitName;
 

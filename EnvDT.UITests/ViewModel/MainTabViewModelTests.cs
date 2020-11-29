@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Core;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.ViewModel;
 using EnvDT.UITests.Extensions;
@@ -17,9 +18,11 @@ namespace EnvDT.UITests.ViewModel
     {
         private MainTabViewModel _viewModel;
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IProjectViewModel> _projectViewModelMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
+        private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModel;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private SampleDetailViewModel _sampleDetailViewModel;
         private OpenDetailViewEvent _openDetailViewEvent;
@@ -39,6 +42,7 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_openDetailViewEvent);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
                 .Returns(_detailClosedEvent);
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _projectViewModelMock = new Mock<IProjectViewModel>();
             _tabbedViewModels = new ObservableCollection<IMainTabViewModel>();
             _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
@@ -47,10 +51,12 @@ namespace EnvDT.UITests.ViewModel
             _labReport = new LabReport();
             _unitOfWorkMock = new Mock<IUnitOfWork>();            
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
+            _sampleEditDialogViewModel = new Mock<ISampleEditDialogViewModel>();
             _detailViewModelName = "SampleDetailViewModel";
             _labReportId1 = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
             _sampleDetailViewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
-                _unitOfWorkMock.Object, _evalLabReportServiceMock.Object);
+                _messageDialogServiceMock.Object, _unitOfWorkMock.Object, 
+                _evalLabReportServiceMock.Object, _sampleEditDialogViewModel.Object);
 
             _viewModel = new MainTabViewModel(_eventAggregatorMock.Object, _tabMock.Object,
                 _projectViewModelMock.Object, CreateSampleDetailViewModel);

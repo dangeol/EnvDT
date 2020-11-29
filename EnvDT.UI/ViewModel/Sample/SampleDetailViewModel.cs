@@ -2,6 +2,7 @@
 using EnvDT.Model.Core.HelperClasses;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
@@ -18,8 +19,11 @@ namespace EnvDT.UI.ViewModel
     public class SampleDetailViewModel : DetailViewModelBase, ISampleDetailViewModel
     {
         private IEventAggregator _eventAggregator;
+        private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
         private IEvalLabReportService _evalLabReportService;
+        private ISampleEditDialogViewModel _sampleEditDialogViewModel;
+        private Guid _labReportId;
         private DataTable _sampleTable;
         private DataTable _evalResultTable;
         private IEnumerable<Publication> _publications;
@@ -30,24 +34,29 @@ namespace EnvDT.UI.ViewModel
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
         private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
-        private HashSet<string> _missingParamsHashSet = new HashSet<string>();
 
-        public SampleDetailViewModel(IEventAggregator eventAggregator, IUnitOfWork unitOfWork,
-            IEvalLabReportService evalLabReportService)
+        public SampleDetailViewModel(
+            IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
+            IUnitOfWork unitOfWork, IEvalLabReportService evalLabReportService, 
+            ISampleEditDialogViewModel sampleEditDialogViewModel)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
+            _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
+            _sampleEditDialogViewModel = sampleEditDialogViewModel;
             _sampleTable = new DataTable();
             _publications = new List<Publication>();
             _selectedPublIds = new List<Guid>();
             Samples = new List<Sample>();
+            EditSamplesCommand = new DelegateCommand(OnEditSamplesExecute, OnEditSamplesCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
         }
 
+        public ICommand EditSamplesCommand { get; }
         public ICommand EvalLabReportCommand { get; }
         public ICommand CloseDetailViewCommand { get; }
 
@@ -97,6 +106,7 @@ namespace EnvDT.UI.ViewModel
 
         public override void Load(Guid? labReportId)
         {
+            _labReportId = (Guid)labReportId;
             SetLabReportIdAndTitle(labReportId);
             Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
             BuildSampleDataView();
@@ -131,6 +141,24 @@ namespace EnvDT.UI.ViewModel
             Title = ReportLabIdent;
         }
 
+        private bool OnEditSamplesCanExecute()
+        {
+            return true;
+        }
+
+        private void OnEditSamplesExecute()
+        {
+            _sampleEditDialogViewModel.Load(_labReportId);
+            var titleName = "Edit samples";
+            _messageDialogService.ShowSampleEditDialog(titleName, _sampleEditDialogViewModel);
+        }
+
+        private bool OnEvalCanExecute()
+        {
+            // TODO: Check if publication is valid
+            return true;
+        }
+
         private void OnEvalExecute()
         {
             if (LabReportPreCheckSuccess())
@@ -150,7 +178,7 @@ namespace EnvDT.UI.ViewModel
             while (c < _sampleTable.Columns.Count)
             {
                 var r = r_init;
-                var publication = _publications.ElementAt(c - 1);
+                var publication = _publications.ElementAt(c - c_init);
                 var publicationId = publication.PublicationId;
                 var IsCheckBoxInColTrue = false;
                 while (r < _sampleTable.Rows.Count && !IsCheckBoxInColTrue)
@@ -201,7 +229,7 @@ namespace EnvDT.UI.ViewModel
                         var evalArgs = new EvalArgs
                         {
                             LabReportId = (Guid)LabReportId,
-                            SampleId = sample.SampleId,
+                            Sample = sample,
                             PublicationId = publicationId
                         };
                         var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
@@ -243,12 +271,6 @@ namespace EnvDT.UI.ViewModel
                 }
             }
             EvalResultDataView = new DataView(_evalResultTable);
-        }
-
-        private bool OnEvalCanExecute()
-        {
-            // TODO: Check if publication is valid
-            return true;
         }
 
         private void OnCloseDetailViewExecute()

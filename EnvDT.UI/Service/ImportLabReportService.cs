@@ -38,7 +38,7 @@ namespace EnvDT.UI.Service
 
         private void ImportLabReport(DataTable workSheet, Guid? projectId)
         {
-            var reportLabIdent = "";
+            string reportLabIdent;
             if (workSheet.Rows[2][4] != System.DBNull.Value)
             { 
                 reportLabIdent = workSheet.Rows[2][4].ToString();
@@ -53,7 +53,7 @@ namespace EnvDT.UI.Service
                 return;
             }
 
-            var labName = "";
+            string labName;
             if (workSheet.Rows[0][0] != System.DBNull.Value)
             {
                 labName = workSheet.Rows[0][0].ToString();
@@ -69,7 +69,7 @@ namespace EnvDT.UI.Service
             int c = 4;
             while (c < workSheet.Columns.Count)
             {
-                var sampleLabIdent = "";
+                string sampleLabIdent;
                 if (workSheet.Rows[3][c] != System.DBNull.Value)
                 {
                     sampleLabIdent = workSheet.Rows[3][c].ToString();
@@ -79,7 +79,7 @@ namespace EnvDT.UI.Service
                     DisplayReadingCellErrorMessage(nameof(sampleLabIdent));
                     return;
                 }
-                var sampleName = "";
+                string sampleName;
                 if (workSheet.Rows[4][c] != System.DBNull.Value)
                 {
                     sampleName = workSheet.Rows[4][c].ToString();

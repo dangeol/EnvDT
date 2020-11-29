@@ -11,6 +11,15 @@ namespace EnvDT.Model.Entity
             builder.HasOne(s => s.LabReport)
                 .WithMany(lr => lr.Samples)
                 .HasForeignKey(s => s.LabReportId);
+            builder.HasOne(s => s.Medium)
+                .WithMany(m => m.Samples)
+                .HasForeignKey(s => s.MediumId);
+            builder.HasOne(s => s.MediumSubType)
+                .WithMany(ms => ms.Samples)
+                .HasForeignKey(s => s.MediumSubTypeId);
+            builder.HasOne(s => s.Condition)
+                .WithMany(c => c.Samples)
+                .HasForeignKey(s => s.ConditionId);
         }
     }
 }

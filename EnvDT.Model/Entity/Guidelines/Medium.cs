@@ -10,5 +10,6 @@ namespace EnvDT.Model.Entity
         public string MediumNameDe { get; set; }
 
         public List<PublParam> PublParams { get; } = new List<PublParam>();
+        public List<Sample> Samples { get; set; }
     }
 }

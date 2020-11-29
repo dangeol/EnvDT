@@ -4,11 +4,13 @@ namespace EnvDT.UI.Dialogs
 {
     public interface IMessageDialogService
     {
-        MessageDialogResult ShowYesNoDialog(string title, string message);
-        MessageDialogResult ShowOkDialog(string title, string message);
-        MessageDialogResult ShowOkCancelDialog(string title, string message);
-        MessageDialogResult ShowMissingParamDialog(string title, 
+        public MessageDialogResult ShowYesNoDialog(string title, string message);
+        public MessageDialogResult ShowOkDialog(string title, string message);
+        public MessageDialogResult ShowOkCancelDialog(string title, string message);
+        public MessageDialogResult ShowMissingParamDialog(string title, 
             IMissingParamDialogViewModel missingParamDetailVM);
+        public MessageDialogResult ShowSampleEditDialog(string title,
+            ISampleEditDialogViewModel sampleEditDialogViewModel);
     }
     public enum MessageDialogResult
     {

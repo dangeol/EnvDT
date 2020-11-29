@@ -37,6 +37,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="Dialogs\SampleEditDialog.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Dialogs\MissingParamDialog.xaml">
       <SubType>Designer</SubType>
     </Page>

@@ -10,5 +10,6 @@ namespace EnvDT.Model.Entity
         public string MedSubTypeNameDe { get; set; }
 
         public List<ValuationClassMedSubType> ValuationClassMedSubTypes { get; set; }
+        public List<Sample> Samples { get; set; }
     }
 }

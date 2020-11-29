@@ -15,6 +15,8 @@ namespace EnvDT.Model.Entity
         public string URL { get; set; }
         public string Addendum { get; set; }
         public string Note { get; set; }
+        public bool UsesMediumSubTypes { get; set; }
+        public bool UsesConditions { get; set; }
 
         public List<PublCountry> PublCountries { get; set; }
         public List<PublRegion> PublRegions { get; set; }

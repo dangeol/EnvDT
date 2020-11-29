@@ -6,6 +6,9 @@ namespace EnvDT.Model.IRepository
 {
     public interface IRefValueRepository : IGenericRepository<RefValue>
     {
-        public IEnumerable<RefValue> GetRefValuesByPublParamId(Guid publParamId);
+        public IEnumerable<RefValue> GetRefValuesByPublParamIdAndSample(Guid publParamId, Sample sample);
+        public IEnumerable<RefValue> GetRefValuesWithMedSubTypesByPublParamIdAndSample(Guid publParamId, Sample sample);
+        public IEnumerable<RefValue> GetRefValuesWithConditionsByPublParamIdAndSample(Guid publParamId, Sample sample);
+        public IEnumerable<RefValue> GetRefValuesWithMedSubTypesAndConditionsByPublParamIdAndSample(Guid publParamId, Sample sample);
     }
 }

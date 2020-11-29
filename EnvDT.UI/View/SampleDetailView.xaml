@@ -17,16 +17,21 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <DataGrid ItemsSource="{Binding SampleDataView, Mode=TwoWay}"
+    <StackPanel Orientation="Vertical">
+      <DataGrid ItemsSource="{Binding SampleDataView, Mode=TwoWay}"
               SelectionUnit="CellOrRowHeader" SelectionMode="Single"
               CellStyle="{StaticResource DataGridDirectEditingStyle}"
               DataGridCell.Selected="DataGrid_Selected"
               CanUserAddRows="False" AutoGenerateColumns="True"             
               RowHeaderWidth="0" Margin="10">
-    </DataGrid>
+      </DataGrid>
+
+      <Button Content="Edit Samples" Margin="10"
+              Command="{Binding EditSamplesCommand}"/>
+    </StackPanel>
 
     <StackPanel Grid.Row="1" Orientation="Vertical">
-      <Button Content="Eval" Margin="10"
+      <Button Content="Evaluate" Margin="10"
               Command="{Binding EvalLabReportCommand}"/>
 
       <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResultDataView}"

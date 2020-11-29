@@ -108,5 +108,31 @@ namespace EnvDT.DataAccess.DataService
                     });
             }
         }
+
+        public IEnumerable<LookupItem> GetAllMediumSubTypesLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<MediumSubType>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.MedSubTypeId,
+                        DisplayMember = l.MedSubTypeNameEn
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetAllConditionsLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<Condition>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.ConditionId,
+                        DisplayMember = l.ConditionName
+                    });
+            }
+        }
     }
 }

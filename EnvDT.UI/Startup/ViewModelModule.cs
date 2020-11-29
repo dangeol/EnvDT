@@ -18,6 +18,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<LabReportViewModel>().As<ILabReportViewModel>();
             builder.RegisterType<SettingsDetailViewModel>().As<ISettingsDetailViewModel>();
             builder.RegisterType<MissingParamDialogViewModel>().As<IMissingParamDialogViewModel>();
+            builder.RegisterType<SampleEditDialogViewModel>().As<ISampleEditDialogViewModel>();           
         }
 	}
 }

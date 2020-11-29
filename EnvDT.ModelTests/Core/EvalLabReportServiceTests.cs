@@ -57,14 +57,14 @@ namespace EnvDT.ModelTests.Core
 
             _evalArgs = new EvalArgs();
             _evalArgs.LabReportId = It.IsAny<Guid>();
-            _evalArgs.SampleId = _sample.SampleId;
+            _evalArgs.Sample = _sample;
             _evalArgs.PublicationId = _publication.PublicationId;
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
                 .Returns(_sample);
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
-            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamId(It.IsAny<Guid>()))
+            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamIdAndSample(It.IsAny<Guid>(), It.IsAny<Sample>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
                 It.IsAny<int>(), It.IsAny<Guid>()))

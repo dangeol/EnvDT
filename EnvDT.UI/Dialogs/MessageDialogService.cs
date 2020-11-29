@@ -49,5 +49,17 @@ namespace EnvDT.UI.Dialogs
                 ? MessageDialogResult.OK
                 : MessageDialogResult.Cancel;
         }
+
+        public MessageDialogResult ShowSampleEditDialog(string title,
+            ISampleEditDialogViewModel sampleEditDialogViewModel)
+        {
+            return new SampleEditDialog(title, sampleEditDialogViewModel)
+            {
+                WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                Owner = App.Current.MainWindow
+            }.ShowDialog().GetValueOrDefault()
+                ? MessageDialogResult.OK
+                : MessageDialogResult.Cancel;
+        }
     }
 }

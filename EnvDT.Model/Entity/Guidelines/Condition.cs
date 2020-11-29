@@ -9,5 +9,6 @@ namespace EnvDT.Model.Entity
         public string ConditionName { get; set; }
 
         public List<ValuationClassCondition> ValuationClassConditions { get; set; }
+        public List<Sample> Samples { get; set; }
     }
 }

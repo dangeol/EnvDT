@@ -12,6 +12,13 @@ namespace EnvDT.Model.Entity
 
         public Guid LabReportId { get; set; }
         public LabReport LabReport { get; set; }
+        public Guid? MediumId { get; set; }
+        public Medium Medium { get; set; }
+        public Guid? MediumSubTypeId { get; set; }
+        public MediumSubType MediumSubType { get; set; }
+        public Guid? ConditionId { get; set; }
+        public Condition Condition { get; set; }
+
         public List<SampleValue> SampleValues { get; set; }
     }
 }

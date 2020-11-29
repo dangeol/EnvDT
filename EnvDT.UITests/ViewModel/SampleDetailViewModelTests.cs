@@ -10,6 +10,7 @@ using EnvDT.Model.Entity;
 using System.Collections.Generic;
 using System.Linq;
 using EnvDT.Model.Core.HelperClasses;
+using EnvDT.UI.Dialogs;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -17,8 +18,11 @@ namespace EnvDT.UITests.ViewModel
     {
         private Guid _labReportId = new Guid("35b396f3-d755-49a6-a748-54b55e46a6c6");
         private Mock<IEventAggregator> _eventAggregatorMock;
+        private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
+        private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModel;
+        private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModelMock;
         private SampleDetailViewModel _viewModel;
         private Mock<DetailClosedEvent> _detailClosedEventMock;
         private List<Sample> _samples;
@@ -32,6 +36,7 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock = new Mock<IEventAggregator>();
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailClosedEvent>())
                 .Returns(_detailClosedEventMock.Object);
+            _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _samples = new List<Sample>();
             _samples.Add(new Model.Entity.Sample
             {
@@ -66,14 +71,18 @@ namespace EnvDT.UITests.ViewModel
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _evalLabReportServiceMock.Setup(er => er.LabReportPreCheck(It.IsAny<Guid>(), It.IsAny<IReadOnlyCollection<Guid>>()))
                 .Returns(true);
+            _sampleEditDialogViewModel = new Mock<ISampleEditDialogViewModel>();
+
+            _sampleEditDialogViewModelMock = new Mock<ISampleEditDialogViewModel>();
 
             var evalResult = new EvalResult();
             evalResult.MissingParams = "";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
                 .Returns(evalResult);
 
-            _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object, 
-                _unitOfWorkMock.Object, _evalLabReportServiceMock.Object);
+            _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
+                _messageDialogServiceMock.Object, _unitOfWorkMock.Object,
+                _evalLabReportServiceMock.Object, _sampleEditDialogViewModel.Object);
         }
 
         [Fact]
