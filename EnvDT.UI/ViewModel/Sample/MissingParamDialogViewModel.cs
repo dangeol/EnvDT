@@ -18,7 +18,7 @@ namespace EnvDT.UI.ViewModel
         private ILookupDataService _lookupDataService;
         private ObservableCollection<MissingParamNameWrapper> _missingParamNames;
         private ObservableCollection<MissingUnitNameWrapper> _missingUnitNames;
-        private bool _missingParamNamesVisible = false;
+        private bool _isMissingParamNamesVisible = false;
         private bool _missingUnitNamesVisible = false;
 
         public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
@@ -35,35 +35,19 @@ namespace EnvDT.UI.ViewModel
         public HashSet<Guid> MissingParamIds { get; set; }
         public HashSet<Guid> MissingUnitIds { get; set; }
 
-        public ObservableCollection<MissingParamNameWrapper> MissingParamNames
+        public ObservableCollection<MissingParamNameWrapper> MissingParamNames { get; }
+
+        public bool IsMissingParamNamesVisible
         {
-            get { return _missingParamNames; }
+            get { return _isMissingParamNamesVisible; }
             set
             {
-                _missingParamNames = value;
+                _isMissingParamNamesVisible = value;
                 OnPropertyChanged();
             }
         }
 
-        public bool MissingParamNamesVisible
-        {
-            get { return _missingParamNamesVisible; }
-            set
-            {
-                _missingParamNamesVisible = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public ObservableCollection<MissingUnitNameWrapper> MissingUnitNames
-        {
-            get { return _missingUnitNames; }
-            set
-            {
-                _missingUnitNames = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<MissingUnitNameWrapper> MissingUnitNames { get; }
 
         public bool MissingUnitNamesVisible
         {
@@ -91,13 +75,7 @@ namespace EnvDT.UI.ViewModel
             foreach (Guid missingParamId in missingParamIds)
             {
                 MissingParamNameWrapper wrapper = CreateMissingParamNameWrapper(labReportId, missingParamId);
-
                 wrapper.PropertyChanged += ParamNameVariantsWrapper_PropertyChanged;
-
-                //Trigger validation -- does not work TO DO
-                //wrapper.ParamNameAlias = "";
-                //wrapper.LanguageId = Guid.Empty;
-
                 MissingParamNames.Add(wrapper);
             }
 
@@ -113,15 +91,12 @@ namespace EnvDT.UI.ViewModel
 
                 wrapper.PropertyChanged += UnitNameVariantsWrapper_PropertyChanged;
 
-                //Trigger validation -- does not work TO DO
-                //wrapper.UnitNameAlias = "";
-
                 MissingUnitNames.Add(wrapper);
             }
 
             if (MissingParamNames.Count > 0)
             {
-                MissingParamNamesVisible = true;
+                IsMissingParamNamesVisible = true;
             }
             if (MissingUnitNames.Count > 0)
             {
@@ -135,7 +110,9 @@ namespace EnvDT.UI.ViewModel
             var paramNameVariant = new ParamNameVariant();
             var wrapper = new MissingParamNameWrapper(paramNameVariant)
             {
-                ParamNameAlias = "null",
+                //Trigger validation
+                ParamNameAlias = "",
+                LanguageId = Guid.Empty,
                 ParamName = missingParam.ParamNameDe,
                 ParameterId = missingParam.ParameterId
             };
@@ -159,6 +136,8 @@ namespace EnvDT.UI.ViewModel
             var unitNameVariant = new UnitNameVariant();
             var wrapper = new MissingUnitNameWrapper(unitNameVariant)
             {
+                //Trigger validation
+                UnitNameAlias = "",
                 UnitName = missingUnit.UnitName,
                 UnitId = missingUnit.UnitId
             };
@@ -207,29 +186,37 @@ namespace EnvDT.UI.ViewModel
 
         protected override bool OnSaveCanExecute()
         {
-            return MissingParamNames.All(mpn => !mpn.HasErrors);
+            return HasChanges 
+                && MissingParamNames.All(mpn => !mpn.HasErrors)
+                && MissingUnitNames.All(mpn => !mpn.HasErrors);
         }
 
         protected override void OnSaveExecute()
         {
             foreach (var wrapper in MissingParamNames)
             {
-                var labReportParamId = wrapper.SelectedParameter.LookupItemId;
-                if (labReportParamId != Guid.Empty)
+                if (wrapper.SelectedParameter != null)
                 {
-                    _unitOfWork.ParamNameVariants.Create(wrapper.Model);
-                    var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
-                    labReportParam.ParameterId = wrapper.ParameterId;
+                    var labReportParamId = wrapper.SelectedParameter.LookupItemId;
+                    if (labReportParamId != Guid.Empty)
+                    {
+                        _unitOfWork.ParamNameVariants.Create(wrapper.Model);
+                        var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
+                        labReportParam.ParameterId = wrapper.ParameterId;
+                    }
                 }
             }
             foreach (var wrapper in MissingUnitNames)
             {
-                var labReportParamId = wrapper.SelectedUnit.LookupItemId;
-                if (labReportParamId != Guid.Empty)
+                if (wrapper.SelectedUnit != null)
                 {
-                    _unitOfWork.UnitNameVariants.Create(wrapper.Model);
-                    var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
-                    labReportParam.UnitId = wrapper.UnitId;
+                    var labReportParamId = wrapper.SelectedUnit.LookupItemId;
+                    if (labReportParamId != Guid.Empty)
+                    {
+                        _unitOfWork.UnitNameVariants.Create(wrapper.Model);
+                        var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
+                        labReportParam.UnitId = wrapper.UnitId;
+                    }
                 }
             }
             _unitOfWork.Save();

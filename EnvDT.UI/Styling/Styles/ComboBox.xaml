@@ -11,9 +11,9 @@
           <StackPanel>
             <AdornedElementPlaceholder x:Name="placeholder" />
             <TextBlock FontSize="12"
-                           Foreground="Red"
-                           Text="{Binding ElementName=placeholder,
-                    Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
+                       Foreground="Red"
+                       Text="{Binding ElementName=placeholder,
+                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
           </StackPanel>
         </ControlTemplate>
       </Setter.Value>
@@ -22,7 +22,7 @@
       <Trigger Property="Validation.HasError" Value="True">
         <Setter Property="Background" Value="#ffd4d4" />
         <Setter Property="ToolTip"
-                        Value="{Binding RelativeSource={RelativeSource Self},
+                Value="{Binding RelativeSource={RelativeSource Self},
                         Path=(Validation.Errors)[0].ErrorContent}" />
       </Trigger>
     </Style.Triggers>

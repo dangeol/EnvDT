@@ -121,6 +121,18 @@ namespace EnvDT.UI.Wrapper
                         yield return "Sample Name cannot be empty.";
                     }
                     break;
+                case nameof(MediumSubTypeId):
+                    if (Guid.Equals(MediumSubTypeId, Guid.Empty))
+                    {
+                        yield return "Sub type must be chosen.";
+                    }
+                    break;
+                case nameof(ConditionId):
+                    if (Guid.Equals(ConditionId, Guid.Empty))
+                    {
+                        yield return "Condition must be chosen.";
+                    }
+                    break;
             }
         }
     }

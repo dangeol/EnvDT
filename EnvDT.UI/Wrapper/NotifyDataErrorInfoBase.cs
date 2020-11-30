@@ -18,7 +18,7 @@ namespace EnvDT.UI.Wrapper
 
         public IEnumerable GetErrors(string propertyName)
         {
-            return _errorsByPropertyName.ContainsKey(propertyName)
+            return propertyName != null && _errorsByPropertyName.ContainsKey(propertyName)
                 ? _errorsByPropertyName[propertyName]
                 : null;
         }

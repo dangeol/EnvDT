@@ -25,7 +25,7 @@
 
       <TextBlock HorizontalAlignment="Left" Margin="10 0 10 10">Some parameters could not be automatically identified. Please select<LineBreak/>for each item a corresponding parameter name from the dropdown menu.</TextBlock>
 
-      <StackPanel Visibility="{Binding MissingParamNamesVisible,
+      <StackPanel Visibility="{Binding IsMissingParamNamesVisible,
                     Converter={StaticResource booleanToVisibilityConverter}}"
                   Grid.Row="1" Orientation="Vertical">
         <Label Content="Missing parameter names:" 

@@ -158,7 +158,7 @@ namespace EnvDT.UI.Service
             int r = 7;
             while (r < workSheet.Rows.Count)
             {
-                var labParamName = "";
+                string labParamName;
                 if (workSheet.Rows[r][0] != System.DBNull.Value)
                 {
                     labParamName = workSheet.Rows[r][0].ToString();

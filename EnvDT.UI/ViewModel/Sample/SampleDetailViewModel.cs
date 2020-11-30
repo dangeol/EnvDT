@@ -34,6 +34,7 @@ namespace EnvDT.UI.ViewModel
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
         private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
+        private bool _isEvalResultVisible;
 
         public SampleDetailViewModel(
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
@@ -54,6 +55,7 @@ namespace EnvDT.UI.ViewModel
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
+            IsEvalResultVisible = false;
         }
 
         public ICommand EditSamplesCommand { get; }
@@ -90,6 +92,16 @@ namespace EnvDT.UI.ViewModel
             set
             {
                 _missingParams = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsEvalResultVisible
+        {
+            get { return _isEvalResultVisible; }
+            set
+            {
+                _isEvalResultVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -164,7 +176,11 @@ namespace EnvDT.UI.ViewModel
             if (LabReportPreCheckSuccess())
             {
                 BuildEvalResultDataView();
-            } 
+            }
+            if (EvalResultDataView != null)
+            {
+                IsEvalResultVisible = true;
+            }
         }
 
         // TO DO: refactor - find synergies with BuildEvalResultDataView() to increase efficiency

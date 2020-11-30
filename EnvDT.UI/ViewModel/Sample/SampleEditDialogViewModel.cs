@@ -27,15 +27,7 @@ namespace EnvDT.UI.ViewModel
             Samples = new ObservableCollection<SampleWrapper>();
         }
 
-        public ObservableCollection<SampleWrapper> Samples
-        {
-            get { return _samples; }
-            set
-            {
-                _samples = value;
-                OnPropertyChanged();
-            }
-        }
+        public ObservableCollection<SampleWrapper> Samples { get; }
 
         public override void Load(Guid? labReportId)
         {
@@ -50,14 +42,11 @@ namespace EnvDT.UI.ViewModel
             foreach (Sample sample in samples)
             {
                 SampleWrapper wrapper = InitializeSample(sample);
-
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
-
-                //Trigger validation
-                //wrapper.SampleName = "";
-
                 Samples.Add(wrapper);
-            }           
+            }
+
+            RetrieveValues();
         }
 
         private SampleWrapper InitializeSample(Sample sample)
@@ -65,6 +54,9 @@ namespace EnvDT.UI.ViewModel
             var wrapper = new SampleWrapper(sample)
             {
                 SampleName = sample.SampleName,
+                //Trigger validation
+                MediumSubTypeId = Guid.Empty,
+                ConditionId = Guid.Empty
             };
             var mediumSubTypes = _lookupDataService.GetAllMediumSubTypesLookup();
             foreach (LookupItem mediumSubType in mediumSubTypes)
@@ -110,6 +102,13 @@ namespace EnvDT.UI.ViewModel
         protected override void OnSaveExecute()
         {
             // This is temporary until the wrapper mechanism is fixed
+            SetValues();
+            _unitOfWork.Save();
+            HasChanges = _unitOfWork.Samples.HasChanges();
+        }
+
+        private void SetValues()
+        {
             foreach (var wrapper in Samples)
             {
                 var sample = _unitOfWork.Samples.GetById(wrapper.SampleId);
@@ -127,8 +126,27 @@ namespace EnvDT.UI.ViewModel
                     sample.ConditionId = wrapper.SelectedCondition.LookupItemId;
                 }
             }
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.Samples.HasChanges();
+        }
+
+        private void RetrieveValues()
+        {
+            foreach (var wrapper in Samples)
+            {
+                var sample = _unitOfWork.Samples.GetById(wrapper.SampleId);
+
+                if (sample.MediumId != null)
+                {
+                    wrapper.SelectedMedium = wrapper.Media.FirstOrDefault(m => m.LookupItemId == sample.MediumId);
+                }
+                if (sample.MediumSubTypeId != null)
+                {
+                    wrapper.SelectedMediumSubType = wrapper.MediumSubTypes.FirstOrDefault(m => m.LookupItemId == sample.MediumSubTypeId);
+                }
+                if (sample.ConditionId != null)
+                {
+                    wrapper.SelectedCondition = wrapper.Conditions.FirstOrDefault(m => m.LookupItemId == sample.ConditionId);
+                }
+            }
         }
     }
 }
