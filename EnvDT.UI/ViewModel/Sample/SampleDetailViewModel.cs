@@ -27,13 +27,15 @@ namespace EnvDT.UI.ViewModel
         private DataTable _sampleTable;
         private DataTable _evalResultTable;
         private IEnumerable<Publication> _publications;
-        private List<Guid> _selectedPublIds;
+        private List<Publication> _selectedPubls;
         private DataView _sampleDataView;
         private DataView _evalResultDataView;
         private string _title = "Project";
+        private string _sampleEditDialogTitle = "Edit samples";
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
         private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
+        private ObservableCollection<string> _selectedPublRefs = new ObservableCollection<string>();
         private bool _isEvalResultVisible;
 
         public SampleDetailViewModel(
@@ -49,7 +51,7 @@ namespace EnvDT.UI.ViewModel
             _sampleEditDialogViewModel = sampleEditDialogViewModel;
             _sampleTable = new DataTable();
             _publications = new List<Publication>();
-            _selectedPublIds = new List<Guid>();
+            _selectedPubls = new List<Publication>();
             Samples = new List<Sample>();
             EditSamplesCommand = new DelegateCommand(OnEditSamplesExecute, OnEditSamplesCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
@@ -96,6 +98,16 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public ObservableCollection<string> SelectedPublRefs
+        {
+            get { return _selectedPublRefs; }
+            set
+            {
+                _selectedPublRefs = value;
+                OnPropertyChanged();
+            }
+        }
+
         public bool IsEvalResultVisible
         {
             get { return _isEvalResultVisible; }
@@ -106,6 +118,7 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        // Title of current tab
         public string Title
         {
             get { return _title; }
@@ -121,6 +134,7 @@ namespace EnvDT.UI.ViewModel
             _labReportId = (Guid)labReportId;
             SetLabReportIdAndTitle(labReportId);
             Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
+            _sampleEditDialogViewModel.Load(_labReportId);
             BuildSampleDataView();
         }
 
@@ -160,9 +174,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEditSamplesExecute()
         {
-            _sampleEditDialogViewModel.Load(_labReportId);
-            var titleName = "Edit samples";
-            _messageDialogService.ShowSampleEditDialog(titleName, _sampleEditDialogViewModel);
+            _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
         }
 
         private bool OnEvalCanExecute()
@@ -186,10 +198,15 @@ namespace EnvDT.UI.ViewModel
         // TO DO: refactor - find synergies with BuildEvalResultDataView() to increase efficiency
         private bool LabReportPreCheckSuccess()
         {
-            _selectedPublIds.Clear();
+            _selectedPubls.Clear();
+            _selectedPublRefs.Clear();
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
+            var refIndex = 1;
+
+            var isUsingMedSubTypes = false;
+            var isUsingConditions = false;
 
             while (c < _sampleTable.Columns.Count)
             {
@@ -202,13 +219,31 @@ namespace EnvDT.UI.ViewModel
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
                         IsCheckBoxInColTrue = true;
-                        _selectedPublIds.Add(publicationId);
+                        _selectedPubls.Add(publication);
+                        var publRef = $"{publication.Publisher}: {publication.Title}, {publication.Year}";
+                        _selectedPublRefs.Add($"[{refIndex}] {publRef}");
+                        refIndex++;
+
+                        if (publication.UsesMediumSubTypes)
+                        {
+                            isUsingMedSubTypes = true;
+                        }
+                        if (publication.UsesConditions)
+                        {
+                            isUsingConditions = true;
+                        }
                     }
                     r++;
                 }
                 c++;
             }
-            return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, _selectedPublIds);
+            if (isUsingMedSubTypes || isUsingConditions)
+            {
+                var result = _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
+                return result == MessageDialogResult.OK;
+            }
+            var selectedPublIds = _selectedPubls.Select(p => p.PublicationId).ToList();
+            return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, selectedPublIds);
         }
 
         private void BuildEvalResultDataView()
@@ -222,6 +257,7 @@ namespace EnvDT.UI.ViewModel
             var c_init = 1;
             var c = c_init;
             var c_sampleTable = 1;
+            var publListNumber = 1;
 
             while (c < _sampleTable.Columns.Count)
             {
@@ -240,30 +276,7 @@ namespace EnvDT.UI.ViewModel
                     }
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
-                        _isColumnEmpty = false;
-                        var sample = Samples.ElementAt(r);
-                        var evalArgs = new EvalArgs
-                        {
-                            LabReportId = (Guid)LabReportId,
-                            Sample = sample,
-                            PublicationId = publicationId
-                        };
-                        var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
-                        _evalResultTable.Rows[r][0] = sample.SampleName;
-                        var highestValClassName = evalResult.HighestValClassName;
-                        if (evalResult.MissingParams.Length == 0)
-                        {
-                            _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
-                        }
-                        else
-                        {
-                            _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName}[{_footnoteIndex}]";
-                            var missingParamFootNote = $"[{_footnoteIndex}] Missing: {evalResult.MissingParams}";
-                            _missingParams.Add(missingParamFootNote);
-
-                            _footnoteIndex++;
-                        }
-                        _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
+                        FillTwoResultTableCells(c_sampleTable, r, publicationId);
                     }
                     r++;
                 }
@@ -275,6 +288,10 @@ namespace EnvDT.UI.ViewModel
                 else
                 {
                     c_sampleTable += 2;
+                    var _colCount = _evalResultTable.Columns.Count;
+                    _evalResultTable.Columns[_colCount - 2].ColumnName = $"V{publListNumber}";
+                    _evalResultTable.Columns[_colCount - 1].ColumnName = $"E{publListNumber}";
+                    publListNumber++;
                 }
                 c++;                
             }
@@ -287,6 +304,34 @@ namespace EnvDT.UI.ViewModel
                 }
             }
             EvalResultDataView = new DataView(_evalResultTable);
+        }
+
+        private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId)
+        {
+            _isColumnEmpty = false;
+            var sample = Samples.ElementAt(r);
+            var evalArgs = new EvalArgs
+            {
+                LabReportId = (Guid)LabReportId,
+                Sample = sample,
+                PublicationId = publicationId
+            };
+            var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
+            _evalResultTable.Rows[r][0] = sample.SampleName;
+            var highestValClassName = evalResult.HighestValClassName;
+            if (evalResult.MissingParams.Length == 0)
+            {
+                _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
+            }
+            else
+            {
+                _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName} {_footnoteIndex})";
+                var missingParamFootNote = $"{_footnoteIndex}) Missing: {evalResult.MissingParams}";
+                _missingParams.Add(missingParamFootNote);
+
+                _footnoteIndex++;
+            }
+            _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
         }
 
         private void OnCloseDetailViewExecute()

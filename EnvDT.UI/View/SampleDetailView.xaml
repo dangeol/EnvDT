@@ -11,9 +11,6 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
@@ -26,24 +23,28 @@
               RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <Button Content="Edit Samples" Margin="10"
+      <StackPanel Orientation="Horizontal">
+        <Button Content="Edit Samples" Margin="10"
               Command="{Binding EditSamplesCommand}"/>
-      <Button Content="Evaluate" Margin="10"
-              Command="{Binding EvalLabReportCommand}"/>
-      
+        <Button Content="Evaluate" Margin="10"
+                Command="{Binding EvalLabReportCommand}"/>
+      </StackPanel>
+
     </StackPanel>
 
     <StackPanel Grid.Row="1" Orientation="Vertical" 
                 Visibility="{Binding IsEvalResultVisible,
                 Converter={StaticResource booleanToVisibilityConverter}}">
 
-      <DataGrid Grid.Row="2" ItemsSource="{Binding EvalResultDataView}"
+      <ListView HorizontalAlignment="Left" ItemsSource="{Binding SelectedPublRefs}"/>
+
+      <DataGrid ItemsSource="{Binding EvalResultDataView}"
                 Name="EvalResultsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <ListView Grid.Row="3" HorizontalAlignment="Left" ItemsSource="{Binding MissingParams}"/>
+      <ListView HorizontalAlignment="Left" ItemsSource="{Binding MissingParams}"/>
 
       <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
     </StackPanel>
