@@ -24,18 +24,20 @@ namespace EnvDT.UI.ViewModel
         private IEvalLabReportService _evalLabReportService;
         private ISampleEditDialogViewModel _sampleEditDialogViewModel;
         private Guid _labReportId;
-        private DataTable _sampleTable;
-        private DataTable _evalResultTable;
         private IEnumerable<Publication> _publications;
         private List<Publication> _selectedPubls;
+        private DataTable _sampleTable;
+        private DataTable _evalResultTable;
+        private DataTable _footnotesTable;
+        private DataTable _selectedPublsTable;
         private DataView _sampleDataView;
         private DataView _evalResultDataView;
+        private DataView _footnotesDataView;
+        private DataView _selectedPublsDataView;
         private string _title = "Project";
         private string _sampleEditDialogTitle = "Edit samples";
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
-        private ObservableCollection<string> _missingParams = new ObservableCollection<string>();
-        private ObservableCollection<string> _selectedPublRefs = new ObservableCollection<string>();
         private bool _isEvalResultVisible;
 
         public SampleDetailViewModel(
@@ -50,6 +52,12 @@ namespace EnvDT.UI.ViewModel
             _evalLabReportService = evalLabReportService;
             _sampleEditDialogViewModel = sampleEditDialogViewModel;
             _sampleTable = new DataTable();
+            _selectedPublsTable = new DataTable();
+            _selectedPublsTable.Columns.Add("Key");
+            _selectedPublsTable.Columns.Add("Value");
+            _footnotesTable = new DataTable();
+            _footnotesTable.Columns.Add("Key");
+            _footnotesTable.Columns.Add("Value");
             _publications = new List<Publication>();
             _selectedPubls = new List<Publication>();
             Samples = new List<Sample>();
@@ -67,6 +75,9 @@ namespace EnvDT.UI.ViewModel
         public bool IsSampleTab { get; private set; }
         public Guid? LabReportId { get; set; }
         public IEnumerable<Sample> Samples { get; private set; }
+
+        // Title of current tab
+        public string Title { get; private set; }
 
         public DataView SampleDataView
         {
@@ -88,22 +99,22 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public ObservableCollection<string> MissingParams
+        public DataView FootnotesDataView
         {
-            get { return _missingParams; }
-            set
+            get { return _footnotesDataView; }
+            private set
             {
-                _missingParams = value;
+                _footnotesDataView = value;
                 OnPropertyChanged();
             }
         }
 
-        public ObservableCollection<string> SelectedPublRefs
+        public DataView SelectedPublsDataView
         {
-            get { return _selectedPublRefs; }
-            set
+            get { return _selectedPublsDataView; }
+            private set
             {
-                _selectedPublRefs = value;
+                _selectedPublsDataView = value;
                 OnPropertyChanged();
             }
         }
@@ -118,17 +129,6 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        // Title of current tab
-        public string Title
-        {
-            get { return _title; }
-            private set
-            {
-                _title = value;
-                OnPropertyChanged();
-            }
-        }
-
         public override void Load(Guid? labReportId)
         {
             _labReportId = (Guid)labReportId;
@@ -136,6 +136,13 @@ namespace EnvDT.UI.ViewModel
             Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
             _sampleEditDialogViewModel.Load(_labReportId);
             BuildSampleDataView();
+        }
+
+        private void SetLabReportIdAndTitle(Guid? id)
+        {
+            var ReportLabIdent = _unitOfWork.LabReports.GetById((Guid)id).ReportLabIdent;
+            LabReportId = id;
+            Title = ReportLabIdent;
         }
 
         private void BuildSampleDataView()
@@ -158,13 +165,6 @@ namespace EnvDT.UI.ViewModel
                 _sampleTable.Rows.Add(sampleTableRow.Values.ToArray());
             }
             SampleDataView = new DataView(_sampleTable);
-        }
-
-        private void SetLabReportIdAndTitle(Guid? id)
-        {
-            var ReportLabIdent = _unitOfWork.LabReports.GetById((Guid)id).ReportLabIdent;
-            LabReportId = id;
-            Title = ReportLabIdent;
         }
 
         private bool OnEditSamplesCanExecute()
@@ -199,7 +199,7 @@ namespace EnvDT.UI.ViewModel
         private bool LabReportPreCheckSuccess()
         {
             _selectedPubls.Clear();
-            _selectedPublRefs.Clear();
+            _selectedPublsTable.Clear();
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
@@ -220,8 +220,12 @@ namespace EnvDT.UI.ViewModel
                     {
                         IsCheckBoxInColTrue = true;
                         _selectedPubls.Add(publication);
-                        var publRef = $"{publication.Publisher}: {publication.Title}, {publication.Year}";
-                        _selectedPublRefs.Add($"[{refIndex}] {publRef}");
+                        var publRef = $"{publication.Publisher} ({publication.Year}): {publication.Title}";
+                        DataRow dr = _selectedPublsTable.NewRow();
+                        dr["Key"] = $"[{refIndex}]";
+                        dr["Value"] = publRef;
+                        _selectedPublsTable.Rows.Add(dr);
+
                         refIndex++;
 
                         if (publication.UsesMediumSubTypes)
@@ -250,8 +254,8 @@ namespace EnvDT.UI.ViewModel
         {
             _evalResultTable = new DataTable();
             _evalResultTable.Columns.Add("Sample");
+            _footnotesTable.Clear();
             _footnoteIndex = 1;
-            MissingParams.Clear();
 
             var r_init = 0;
             var c_init = 1;
@@ -304,6 +308,8 @@ namespace EnvDT.UI.ViewModel
                 }
             }
             EvalResultDataView = new DataView(_evalResultTable);
+            FootnotesDataView = new DataView(_footnotesTable);
+            SelectedPublsDataView = new DataView(_selectedPublsTable);
         }
 
         private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId)
@@ -326,8 +332,11 @@ namespace EnvDT.UI.ViewModel
             else
             {
                 _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName} {_footnoteIndex})";
-                var missingParamFootNote = $"{_footnoteIndex}) Missing: {evalResult.MissingParams}";
-                _missingParams.Add(missingParamFootNote);
+                var missingParamFootNote = $"Missing: {evalResult.MissingParams}";
+                DataRow dr = _footnotesTable.NewRow();
+                dr["Key"] = $"{_footnoteIndex})";
+                dr["Value"] = missingParamFootNote;
+                _footnotesTable.Rows.Add(dr);
 
                 _footnoteIndex++;
             }

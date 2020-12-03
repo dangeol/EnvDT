@@ -16,16 +16,16 @@
 
     <StackPanel Orientation="Vertical">
       <DataGrid ItemsSource="{Binding SampleDataView, Mode=TwoWay}"
-              SelectionUnit="CellOrRowHeader" SelectionMode="Single"
-              CellStyle="{StaticResource DataGridDirectEditingStyle}"
-              DataGridCell.Selected="DataGrid_Selected"
-              CanUserAddRows="False" AutoGenerateColumns="True"             
-              RowHeaderWidth="0" Margin="10">
+                SelectionUnit="CellOrRowHeader" SelectionMode="Single"
+                CellStyle="{StaticResource DataGridDirectEditingStyle}"
+                DataGridCell.Selected="DataGrid_Selected"
+                CanUserAddRows="False" AutoGenerateColumns="True"             
+                RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
       <StackPanel Orientation="Horizontal">
         <Button Content="Edit Samples" Margin="10"
-              Command="{Binding EditSamplesCommand}"/>
+                Command="{Binding EditSamplesCommand}"/>
         <Button Content="Evaluate" Margin="10"
                 Command="{Binding EvalLabReportCommand}"/>
       </StackPanel>
@@ -36,15 +36,25 @@
                 Visibility="{Binding IsEvalResultVisible,
                 Converter={StaticResource booleanToVisibilityConverter}}">
 
-      <ListView HorizontalAlignment="Left" ItemsSource="{Binding SelectedPublRefs}"/>
+      <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
+                Name="SelectedPublsDataGrid" CanUserAddRows="False"
+                CellStyle="{StaticResource WhiteDataGridCellStyle}"
+                HeadersVisibility="None" AutoGenerateColumns="True" BorderThickness="0"
+                FontSize="9" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
+      </DataGrid>
 
       <DataGrid ItemsSource="{Binding EvalResultDataView}"
                 Name="EvalResultsDataGrid" CanUserAddRows="False"
-                CellStyle="{StaticResource WhiteDataGridCellStyle}"
+                CellStyle="{StaticResource WhiteDataGridCellStyle}" 
                 AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <ListView HorizontalAlignment="Left" ItemsSource="{Binding MissingParams}"/>
+      <DataGrid ItemsSource="{Binding FootnotesDataView}"
+                Name="FootnotesDataGrid" CanUserAddRows="False"
+                CellStyle="{StaticResource WhiteDataGridCellStyle}"
+                HeadersVisibility="None" AutoGenerateColumns="True"  BorderThickness="0"
+                FontSize="9" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
+      </DataGrid>
 
       <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
     </StackPanel>
