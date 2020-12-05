@@ -37,10 +37,12 @@
                 Converter={StaticResource booleanToVisibilityConverter}}">
 
       <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
+                AutoGeneratingColumn="dataGrid_AutoGeneratingColumn"
                 Name="SelectedPublsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True" BorderThickness="0"
-                FontSize="9" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
+                FontSize="9" IsReadOnly="True" RowHeaderWidth="0"  Margin="10"
+                HorizontalScrollBarVisibility="Hidden">
       </DataGrid>
 
       <DataGrid ItemsSource="{Binding EvalResultDataView}"
@@ -50,6 +52,7 @@
       </DataGrid>
 
       <DataGrid ItemsSource="{Binding FootnotesDataView}"
+                AutoGeneratingColumn="dataGrid_AutoGeneratingColumn"
                 Name="FootnotesDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True"  BorderThickness="0"

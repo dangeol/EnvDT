@@ -1,8 +1,8 @@
 [
   {
     "RegionId": "31170968-2d3f-47eb-acb4-39bcb1fd4cd1",
-    "RegionNameEn": "Baden-W\u00FCrttemberg",
-    "RegionNameDe": "Baden-W\u00FCrttemberg",
+    "RegionNameEn": "Baden-Württemberg",
+    "RegionNameDe": "Baden-Württemberg",
     "CountryId": "9215b758-0177-4568-9fc1-fe072872a46e"
   },
   {
@@ -92,7 +92,7 @@
   {
     "RegionId": "f90728bf-2b36-4063-8c4e-5b3c5932b03b",
     "RegionNameEn": "Thuringia",
-    "RegionNameDe": "Th\u00FCringen",
+    "RegionNameDe": "Thüringen",
     "CountryId": "9215b758-0177-4568-9fc1-fe072872a46e"
   }
 ]

@@ -13,6 +13,14 @@ namespace EnvDT.UI.View
             InitializeComponent();
         }
 
+        private void dataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString() == "Key")
+            {
+                e.Column.MaxWidth = 15;
+            }
+        }
+
         public void CopyToClipboard(object obj, RoutedEventArgs e)
         {
             EvalResultsDataGrid.SelectAllCells();

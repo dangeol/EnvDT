@@ -197,15 +197,6 @@ namespace EnvDT.UI.Service
             var unitId = _unitOfWork.UnitNameVariants.GetUnitNameVariantByLabParamUnitName(unitName)?.UnitId
                 ?? _unitOfWork.Units.GetUnitIdOfUnknown();
 
-            //TO DO: this code below is due to trouble with reading the 'µ' char. Need to change this.
-            if (unitName == "µg/l")
-            {
-                unitId = Guid.Parse("E78E1C38-7177-45BA-B093-637143F4C568");
-            }
-            else if (unitName == "µS/cm")
-            {
-                unitId = Guid.Parse("9D821E03-02E7-482D-A409-57221F92CC28");
-            }
             return unitId;
         }
 

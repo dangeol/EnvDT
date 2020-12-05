@@ -134,7 +134,6 @@ namespace EnvDT.UI.ViewModel
             _labReportId = (Guid)labReportId;
             SetLabReportIdAndTitle(labReportId);
             Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
-            _sampleEditDialogViewModel.Load(_labReportId);
             BuildSampleDataView();
         }
 
@@ -174,6 +173,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEditSamplesExecute()
         {
+            _sampleEditDialogViewModel.Load(_labReportId);
             _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
         }
 
@@ -185,13 +185,11 @@ namespace EnvDT.UI.ViewModel
 
         private void OnEvalExecute()
         {
+            IsEvalResultVisible = false;
+
             if (LabReportPreCheckSuccess())
             {
                 BuildEvalResultDataView();
-            }
-            if (EvalResultDataView != null)
-            {
-                IsEvalResultVisible = true;
             }
         }
 
@@ -205,8 +203,8 @@ namespace EnvDT.UI.ViewModel
             var c = c_init;
             var refIndex = 1;
 
-            var isUsingMedSubTypes = false;
-            var isUsingConditions = false;
+            var needsSampleEditDialog = false;
+            _sampleEditDialogViewModel.Load(_labReportId);
 
             while (c < _sampleTable.Columns.Count)
             {
@@ -214,34 +212,46 @@ namespace EnvDT.UI.ViewModel
                 var publication = _publications.ElementAt(c - c_init);
                 var publicationId = publication.PublicationId;
                 var IsCheckBoxInColTrue = false;
-                while (r < _sampleTable.Rows.Count && !IsCheckBoxInColTrue)
+                while (r < _sampleTable.Rows.Count)
                 {
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
+                        if (!IsCheckBoxInColTrue)
+                        { 
+                            _selectedPubls.Add(publication);
+                            var publRef = $"{publication.Publisher} ({publication.Year}): {publication.Title}";
+                            DataRow dr = _selectedPublsTable.NewRow();
+                            dr["Key"] = $"[{refIndex}]";
+                            dr["Value"] = publRef;
+                            _selectedPublsTable.Rows.Add(dr);
+                        }
+
                         IsCheckBoxInColTrue = true;
-                        _selectedPubls.Add(publication);
-                        var publRef = $"{publication.Publisher} ({publication.Year}): {publication.Title}";
-                        DataRow dr = _selectedPublsTable.NewRow();
-                        dr["Key"] = $"[{refIndex}]";
-                        dr["Value"] = publRef;
-                        _selectedPublsTable.Rows.Add(dr);
+
+                        var sampleId = Samples.ElementAt(r).SampleId;
+                        var sample = _unitOfWork.Samples.GetById(sampleId);
+                        var sampleWrapper = _sampleEditDialogViewModel.Samples.Single(s => s.SampleId == sampleId);
+
+                        if (publication.UsesMediumSubTypes && sampleWrapper.SelectedMediumSubType == null)
+                        {
+                            needsSampleEditDialog = true;
+                            //Trigger validation
+                            sampleWrapper.MediumSubTypeId = Guid.Empty;
+                        }
+                        if (publication.UsesConditions && sampleWrapper.SelectedCondition == null)                           
+                        {
+                            needsSampleEditDialog = true;
+                            //Trigger validation
+                            sampleWrapper.ConditionId = Guid.Empty;
+                        }
 
                         refIndex++;
-
-                        if (publication.UsesMediumSubTypes)
-                        {
-                            isUsingMedSubTypes = true;
-                        }
-                        if (publication.UsesConditions)
-                        {
-                            isUsingConditions = true;
-                        }
                     }
                     r++;
                 }
                 c++;
             }
-            if (isUsingMedSubTypes || isUsingConditions)
+            if (needsSampleEditDialog)
             {
                 var result = _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
                 return result == MessageDialogResult.OK;
@@ -310,6 +320,11 @@ namespace EnvDT.UI.ViewModel
             EvalResultDataView = new DataView(_evalResultTable);
             FootnotesDataView = new DataView(_footnotesTable);
             SelectedPublsDataView = new DataView(_selectedPublsTable);
+
+            if (_evalResultTable.Rows.Count > 0)
+            { 
+                IsEvalResultVisible = true;
+            }
         }
 
         private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId)

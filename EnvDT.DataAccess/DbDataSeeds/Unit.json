@@ -13,7 +13,7 @@
   },
   {
     "UnitId": "e78e1c38-7177-45ba-b093-637143f4c568",
-    "UnitName": "\u03BCg/l",
+    "UnitName": "µg/l",
     "UnitDescEn": "",
     "UnitDescDe": ""
   },
@@ -31,7 +31,7 @@
   },
   {
     "UnitId": "9d821e03-02e7-482d-a409-57221f92cc28",
-    "UnitName": "\u03BCS/cm",
+    "UnitName": "µS/cm",
     "UnitDescEn": "",
     "UnitDescDe": ""
   },

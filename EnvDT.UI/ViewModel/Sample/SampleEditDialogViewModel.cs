@@ -54,9 +54,6 @@ namespace EnvDT.UI.ViewModel
             var wrapper = new SampleWrapper(sample)
             {
                 SampleName = sample.SampleName,
-                //Trigger validation
-                MediumSubTypeId = Guid.Empty,
-                ConditionId = Guid.Empty
             };
             var mediumSubTypes = _lookupDataService.GetAllMediumSubTypesLookup();
             foreach (LookupItem mediumSubType in mediumSubTypes)

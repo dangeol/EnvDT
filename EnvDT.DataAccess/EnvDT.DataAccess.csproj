@@ -5,16 +5,24 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="DbDataSeeds\Condition.json" />
+    <None Remove="DbDataSeeds\Country.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EnvDT.Model\EnvDT.Model.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="DbDataSeeds\Condition.json">
+    <Resource Include="DbDataSeeds\Condition.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
-    <None Update="DbDataSeeds\Country.json">
+    </Resource>
+    <Resource Include="DbDataSeeds\Country.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </None>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="DbDataSeeds\Laboratory.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

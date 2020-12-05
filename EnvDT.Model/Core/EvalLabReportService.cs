@@ -90,7 +90,9 @@ namespace EnvDT.Model.Core
             }
             var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
                 highestLevel, publication.PublicationId);
-            var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStr;
+            var valClassStrOneDown = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
+                highestLevel - 1, publication.PublicationId);
+            var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStrOneDown;
             var exceedingValueList = "";
 
             foreach (ExceedingValue exceedingValue in exceedingValues)
