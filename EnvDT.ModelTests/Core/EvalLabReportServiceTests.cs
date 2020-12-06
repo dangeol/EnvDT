@@ -24,7 +24,8 @@ namespace EnvDT.ModelTests.Core
         private EvalArgs _evalArgs;
 
         private List<SampleValue> _sampleValues;
-        private SampleValue _sampleValue;
+        private SampleValue _sampleValue1;
+        private SampleValue _sampleValue2;
         private Unit _unit;
         private Parameter _parameter;
         private ValuationClass _valuationClass;
@@ -61,7 +62,7 @@ namespace EnvDT.ModelTests.Core
             _evalArgs.PublicationId = _publication.PublicationId;
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
-                .Returns(_sample);
+                .Returns(It.IsAny<Sample>());
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
             _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamIdAndSample(It.IsAny<Guid>(), It.IsAny<Sample>()))
@@ -71,10 +72,10 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_nextLevelName);
 
             // GetExceedingValue method
-            _sampleValue = new SampleValue();
-            _sampleValue.SValue = 10.0;
+            _sampleValue1 = new SampleValue();
+            _sampleValue1.SValue = 10.0;
             _sampleValues = new List<SampleValue>();
-            _sampleValues.Add(_sampleValue);
+            _sampleValues.Add(_sampleValue1);
             _unit = new Unit();
             _unit.UnitName = "mg/kg";
             _parameter = new Parameter();
@@ -93,11 +94,11 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_valuationClass);
 
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
-                It.IsAny<double>(), It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_sampleValue.SValue);
+                _sampleValue1.SValue, It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_sampleValue1.SValue);
 
             // Instantiate class 
-            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object, 
+            _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object,
                 _labReportPreCheck.Object, _evalCalcMock.Object);
         }
 
@@ -132,6 +133,43 @@ namespace EnvDT.ModelTests.Core
             var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
 
             Assert.True(evalResult.MissingParams.Length > 0);
+        }
+
+        [Fact]
+        public void ShouldAddMissingParamsWhenNoSampleValueFound()
+        {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var missingParamsLengthBefore = evalResult.MissingParams.Length;
+
+            _sampleValues.Clear();
+            evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var missingParamsLengthAfter = evalResult.MissingParams.Length;
+
+            Assert.True(missingParamsLengthAfter > missingParamsLengthBefore);
+        }
+
+        [Fact]
+        public void ShouldOutputMaxExceedingSampleValueWhenSampleParamHasTwoSampleValues()
+        {
+            _sampleValue2 = new SampleValue();
+            _sampleValue2.SValue = 20.1;
+            _sampleValues.Add(_sampleValue2);
+
+            _evalCalcMock.Setup(ec => ec.SampleValueConversion(
+                _sampleValue2.SValue, It.IsAny<string>(), It.IsAny<string>()))
+                .Returns(_sampleValue2.SValue);
+            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
+                .Returns(true);
+
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+
+            Assert.Contains(_sampleValue2.SValue.ToString(), evalResult.ExceedingValues);
+            Assert.DoesNotContain(_sampleValue1.SValue.ToString(), evalResult.ExceedingValues);
         }
     }
 }

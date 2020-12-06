@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using EnvDT.Model.Core.HelperClasses;
 using EnvDT.UI.Dialogs;
+using EnvDT.UI.Wrapper;
+using System.Collections.ObjectModel;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -21,14 +23,16 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
-        private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModel;
         private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModelMock;
         private SampleDetailViewModel _viewModel;
         private Mock<DetailClosedEvent> _detailClosedEventMock;
+        private Mock<IMissingParamDialogViewModel> _missingParamDialogVM;
+        private Mock<ISampleEditDialogViewModel> _sampleEditDialogVM;
         private List<Sample> _samples;
         private LabReport _labReport;
         private List<Publication> _publications;
         private string _reportLabIdent = "ident";
+        private EvalResult _evalResult;
 
         public SampleDetailViewModelTests()
         {
@@ -54,12 +58,15 @@ namespace EnvDT.UITests.ViewModel
             _publications.Add(new Model.Entity.Publication
             {
                 PublicationId = new Guid("b2dbef1c-680d-400e-a8a4-7f540b360fa5"),
-                Abbreviation = "Publ1"
+                Abbreviation = "Publ1",
+                OrderId = 1
+
             });
             _publications.Add(new Model.Entity.Publication
             {
                 PublicationId = new Guid("09d6aa16-006f-4e7d-b595-00f747eefad6"),
-                Abbreviation = "Publ2"
+                Abbreviation = "Publ2",
+                OrderId = 2
             });
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uw => uw.Samples.GetSamplesByLabReportId(_labReportId))
@@ -71,18 +78,27 @@ namespace EnvDT.UITests.ViewModel
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _evalLabReportServiceMock.Setup(er => er.LabReportPreCheck(It.IsAny<Guid>(), It.IsAny<IReadOnlyCollection<Guid>>()))
                 .Returns(true);
-            _sampleEditDialogViewModel = new Mock<ISampleEditDialogViewModel>();
 
+            var sampleWrapper1 = new SampleWrapper(_samples[0]);
+            var sampleWrapper2 = new SampleWrapper(_samples[1]);
+            var sampleWrappers = new ObservableCollection<SampleWrapper>();
+            sampleWrappers.Add(sampleWrapper1);
+            sampleWrappers.Add(sampleWrapper2);
             _sampleEditDialogViewModelMock = new Mock<ISampleEditDialogViewModel>();
+            _sampleEditDialogViewModelMock.Setup(vm => vm.Samples)
+                .Returns(sampleWrappers);
 
-            var evalResult = new EvalResult();
-            evalResult.MissingParams = "";
+            _evalResult = new EvalResult();
+            _evalResult.MissingParams = "";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
-                .Returns(evalResult);
+                .Returns(_evalResult);
+
+            _missingParamDialogVM = new Mock<IMissingParamDialogViewModel>();
+            _sampleEditDialogVM = new Mock<ISampleEditDialogViewModel>();
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _unitOfWorkMock.Object,
-                _evalLabReportServiceMock.Object, _sampleEditDialogViewModel.Object);
+                _evalLabReportServiceMock.Object, _sampleEditDialogViewModelMock.Object);
         }
 
         [Fact]
@@ -115,14 +131,19 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.SampleDataView.Table.Rows[1][1] = true;
             _viewModel.SampleDataView.Table.Rows[1][2] = false;
 
+            Assert.False(_viewModel.IsEvalResultVisible);
+
             _viewModel.EvalLabReportCommand.Execute(null);
 
+            //1 Publication selected
+            Assert.Equal(1, _viewModel.SelectedPublsDataView.Table.Rows.Count);
+            //2 samples in labreport
             Assert.Equal(2, _viewModel.EvalResultDataView.Table.Rows.Count);
             //For each selected publication, two new columns are added; 
             //1 sample name column + 2 new colums = 3.
             Assert.Equal(3, _viewModel.EvalResultDataView.Table.Columns.Count);
             Assert.Equal(_samples[0].SampleName, _viewModel.EvalResultDataView.Table.Rows[0][0]);
-            Assert.Equal(_samples[1].SampleName, _viewModel.EvalResultDataView.Table.Rows[1][0]);
+            Assert.Equal(_samples[1].SampleName, _viewModel.EvalResultDataView.Table.Rows[1][0]);            
 
             _viewModel.SampleDataView.Table.Rows[0][1] = false;
             _viewModel.SampleDataView.Table.Rows[0][2] = false;
@@ -131,8 +152,52 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.EvalLabReportCommand.Execute(null);
 
+            Assert.True(_viewModel.IsEvalResultVisible);
+
+            //2 Publications selected
+            Assert.Equal(2, _viewModel.SelectedPublsDataView.Table.Rows.Count);
             Assert.Equal(1, _viewModel.EvalResultDataView.Table.Rows.Count);
             Assert.Equal(5, _viewModel.EvalResultDataView.Table.Columns.Count);
+            //No missing params
+            Assert.Equal(0, _viewModel.FootnotesDataView.Table.Rows.Count);
+            _messageDialogServiceMock.Verify(ds => ds.ShowSampleEditDialog(It.IsAny<string>(),
+                (ISampleEditDialogViewModel)It.IsAny<object>()), Times.Never);
+        }
+
+        [Fact]
+        public void ShouldShowSampleEditDialogWhenSelectedPublicationUsesMEdSubTypesOrConditions()
+        {
+            _publications.Add(new Model.Entity.Publication
+            {
+                PublicationId = new Guid("12bd0b3f-c703-4e54-aee2-9f39e297dcb1"),
+                Abbreviation = "Publ3",
+                OrderId = 3,
+                UsesMediumSubTypes = true,
+                UsesConditions = true
+            });
+
+            _viewModel.Load(_labReportId);
+            _viewModel.SampleDataView.Table.Rows[1][3] = true;
+
+            _viewModel.EvalLabReportCommand.Execute(null);
+
+            _messageDialogServiceMock.Verify(ds => ds.ShowSampleEditDialog(It.IsAny<string>(),
+                (ISampleEditDialogViewModel)It.IsAny<object>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldShowMissingParamsInFootnotesWhenParametersAreMissing()
+        {
+            _evalResult.MissingParams = "missing params string";
+
+            _viewModel.Load(_labReportId);
+            _viewModel.SampleDataView.Table.Rows[1][1] = true;
+            _viewModel.SampleDataView.Table.Rows[1][2] = true;
+
+            _viewModel.EvalLabReportCommand.Execute(null);
+
+            //Currently 2 samples checked
+            Assert.Equal(2, _viewModel.FootnotesDataView.Table.Rows.Count);
         }
     }
 }
