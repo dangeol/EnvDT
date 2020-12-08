@@ -45,7 +45,6 @@ namespace EnvDT.DataAccessTests.Repository
 
         public void Dispose() => _connection.Dispose();
 
-        /* DOES NOT WORK, the json data seeds are not found
         [Fact]
         public void GetRefValuesByPublParamIdTest()
         {
@@ -59,7 +58,6 @@ namespace EnvDT.DataAccessTests.Repository
                 Assert.Equal(10.0, refValues.ElementAt(0).RValue);
                 Assert.Equal(30.0, refValues.ElementAt(1).RValue);
             }
-        }
-        */
+        }      
     }
 }

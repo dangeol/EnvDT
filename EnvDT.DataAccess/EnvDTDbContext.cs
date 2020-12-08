@@ -7,14 +7,22 @@ namespace EnvDT.DataAccess
 {
     public class EnvDTDbContext : DbContext
     {
+        private DbContextOptions<EnvDTDbContext> _options;
+        private const string _envDtDir = "EnvDT";
+        private static string _appPath;
+        private string _sqlitePath;
+
         public EnvDTDbContext()
         {
             CreateAppDirectory();
+            _appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), _envDtDir);
+            _sqlitePath = Path.Combine(_appPath, @"envdt.db");
         }
 
         public EnvDTDbContext(DbContextOptions<EnvDTDbContext> options)
             : base(options)
         {
+            _options = options;
         }
 
         // Guidelines
@@ -46,13 +54,13 @@ namespace EnvDT.DataAccess
         public DbSet<Sample> Samples { get; set; }
         public DbSet<SampleValue> SampleValues { get; set; }
 
-        private const string envDtDir = "EnvDT";
-        private static string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), envDtDir);
-        
-        private string sqlitePath = Path.Combine(appPath,@"envdt.db");
-
         protected override void OnConfiguring(DbContextOptionsBuilder options)
-            => options.UseSqlite($"Data Source={sqlitePath}");
+        {
+            if (_options == null)
+            {
+                options.UseSqlite($"Data Source={_sqlitePath}");
+            }
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -90,7 +98,7 @@ namespace EnvDT.DataAccess
         {
             try
             {
-                Directory.CreateDirectory(Path.Combine(appPath));
+                Directory.CreateDirectory(Path.Combine(_appPath));
             }
             catch (Exception ex)
             {
