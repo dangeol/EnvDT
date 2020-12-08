@@ -65,7 +65,7 @@ namespace EnvDT.ModelTests.Core
                 .Returns(It.IsAny<Sample>());
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
-            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesByPublParamIdAndSample(It.IsAny<Guid>(), It.IsAny<Sample>()))
+            _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesWithoutAttributesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
                 It.IsAny<int>(), It.IsAny<Guid>()))

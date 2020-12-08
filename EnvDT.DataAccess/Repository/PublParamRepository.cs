@@ -17,7 +17,7 @@ namespace EnvDT.DataAccess.Repository
 
         public override PublParam GetById(Guid projectParamId)
         {
-            return Context.PublParams
+            return Context.PublParams.AsNoTracking()
                 .Include(pp => pp.RefValues)
                 .FirstOrDefault(pp => pp.PublParamId == projectParamId);
         }

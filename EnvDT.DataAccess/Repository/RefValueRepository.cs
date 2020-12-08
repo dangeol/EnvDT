@@ -15,7 +15,7 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public IEnumerable<RefValue> GetRefValuesByPublParamIdAndSample(Guid publParamId, Sample sample)
+        public IEnumerable<RefValue> GetRefValuesWithoutAttributesByPublParamId(Guid publParamId)
         {
 			return
 			(

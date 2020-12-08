@@ -14,7 +14,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.UITests", "EnvDT.UITe
 		{B83CAD76-E154-4517-928E-F3B4EA313996} = {B83CAD76-E154-4517-928E-F3B4EA313996}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.ModelTests", "EnvDT.ModelTests\EnvDT.ModelTests.csproj", "{2D20FF6B-5D01-46AC-B433-064A144968E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.ModelTests", "EnvDT.ModelTests\EnvDT.ModelTests.csproj", "{2D20FF6B-5D01-46AC-B433-064A144968E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.DataAccessTests", "EnvDT.DataAccessTests\EnvDT.DataAccessTests.csproj", "{7DFA694E-B762-446F-A7CC-1D20F5302F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -42,6 +44,10 @@ Global
 		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2D20FF6B-5D01-46AC-B433-064A144968E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DFA694E-B762-446F-A7CC-1D20F5302F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DFA694E-B762-446F-A7CC-1D20F5302F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DFA694E-B762-446F-A7CC-1D20F5302F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DFA694E-B762-446F-A7CC-1D20F5302F12}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,14 +16,15 @@ namespace EnvDT.DataAccess.Repository
 
         public override Project GetById(Guid projectId)
         {
-            return Context.Projects
+            return Context.Projects.AsNoTracking()
                 .Include(p => p.LabReports)
                 .FirstOrDefault(p => p.ProjectId == projectId);
         }
 
         public override Project GetFirst()
         {
-            return Context.Projects.First();
+            return Context.Projects.AsNoTracking()
+                .First();
         }
     }
 }

@@ -71,7 +71,7 @@ namespace EnvDT.Model.Core
                 }
                 else
                 { 
-                    refValues = _unitOfWork.RefValues.GetRefValuesByPublParamIdAndSample(publParam.PublParamId, evalArgs.Sample);
+                    refValues = _unitOfWork.RefValues.GetRefValuesWithoutAttributesByPublParamId(publParam.PublParamId);
                 }
 
                 foreach (RefValue refValue in refValues)

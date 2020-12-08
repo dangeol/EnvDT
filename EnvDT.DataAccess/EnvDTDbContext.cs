@@ -12,6 +12,11 @@ namespace EnvDT.DataAccess
             CreateAppDirectory();
         }
 
+        public EnvDTDbContext(DbContextOptions<EnvDTDbContext> options)
+            : base(options)
+        {
+        }
+
         // Guidelines
         public DbSet<CAS> CASs { get; set; }
         public DbSet<Condition> Conditions { get; set; }
@@ -45,6 +50,7 @@ namespace EnvDT.DataAccess
         private static string appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), envDtDir);
         
         private string sqlitePath = Path.Combine(appPath,@"envdt.db");
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={sqlitePath}");
 

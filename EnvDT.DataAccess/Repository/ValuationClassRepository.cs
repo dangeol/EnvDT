@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -15,7 +16,7 @@ namespace EnvDT.DataAccess.Repository
 
         public string getValClassNameNextLevelFromLevel(int level, Guid publicationId)
         {
-            return Context.ValuationClasses
+            return Context.ValuationClasses.AsNoTracking()
                 .FirstOrDefault(v => v.ValClassLevel == level + 1 && v.PublicationId == publicationId)?
                 .ValuationClassName ?? string.Empty;
         }

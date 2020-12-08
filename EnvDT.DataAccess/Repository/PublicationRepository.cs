@@ -17,7 +17,7 @@ namespace EnvDT.DataAccess.Repository
 
         public override Publication GetById(Guid publicationId)
         {
-            return Context.Publications
+            return Context.Publications.AsNoTracking()
                 .Include(p => p.PublParams)
                 .FirstOrDefault(p => p.PublicationId == publicationId);
         }

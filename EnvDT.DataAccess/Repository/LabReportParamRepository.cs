@@ -1,5 +1,6 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,7 +23,7 @@ namespace EnvDT.DataAccess.Repository
 					.Where(lp => lp.ParameterId == publParam.ParameterId && lp.LabReportId == labReportId)
 				select lp
 			)
-			.ToList();
+			.AsNoTracking().ToList();
 		}
 
 		public IEnumerable<LabReportParam> GetLabReportParamsByPublParam(PublParam publParam, Guid labReportId)
@@ -39,7 +40,7 @@ namespace EnvDT.DataAccess.Repository
 					(u.UnitName.Length == 0 && ppu.UnitName.Length == 0)
 				select lp
 			)
-			.ToList();
+			.AsNoTracking().ToList();
 		}
 	}
 }
