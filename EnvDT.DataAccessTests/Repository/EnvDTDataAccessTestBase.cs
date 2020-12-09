@@ -59,9 +59,15 @@ namespace EnvDT.DataAccessTests.Repository
 
                 var refValue5 = new RefValue();
                 refValue5.RefValueId = new Guid();
-                refValue5.RValue = 35.0;
-                refValue5.PublParamId = new Guid("506bc1d8-653b-492b-8598-e431e2a08155"); // publication2
-                refValue5.ValuationClassId = new Guid("bcb05633-d0a7-47c4-9334-bddb77b00e85"); // Publ2_VC1
+                refValue5.RValue = 42.5;
+                refValue5.PublParamId = new Guid("d50336ad-0c60-4f5e-8823-b7dd1ad3f9ff"); // publication1
+                refValue5.ValuationClassId = new Guid("ae5a6d7f-0fac-40c0-990b-b912c822fb5a"); // Publ1_VC3_No_Yes
+
+                var refValue6 = new RefValue();
+                refValue6.RefValueId = new Guid();
+                refValue6.RValue = 35.0;
+                refValue6.PublParamId = new Guid("506bc1d8-653b-492b-8598-e431e2a08155"); // publication2
+                refValue6.ValuationClassId = new Guid("bcb05633-d0a7-47c4-9334-bddb77b00e85"); // Publ2_VC1
 
                 // *** ValuationClasses ***
                 var valuationClass1 = new ValuationClass();
@@ -126,6 +132,28 @@ namespace EnvDT.DataAccessTests.Repository
                 valuationClassCondition2.ValuationClassId = new Guid("42e2ac81-57df-4376-b115-9e00ac56df22"); // valuationClass4
                 valuationClassCondition2.ConditionId = new Guid("6a808e55-b41e-4296-bb4f-ebd275032242");
 
+                // *** Samples ***
+                var sample1 = new Sample();
+                sample1.SampleId = new Guid("4d8e0575-00cb-4ca3-bcbc-5883557ff0da"); // relevant
+                sample1.MediumSubTypeId = new Guid("52a64f24-8958-4837-bf28-bf9730a44dba"); // mediumSubType1
+
+                var sample2 = new Sample();
+                sample2.SampleId = new Guid("c1d6f33a-c3e7-4954-b676-8948ea2694c0"); // relevant
+                sample2.ConditionId = new Guid("6a808e55-b41e-4296-bb4f-ebd275032242"); // condition1
+
+                var sample3 = new Sample();
+                sample3.SampleId = new Guid("6582467e-774e-45d6-95eb-a1821748d1ed"); // relevant
+                sample3.MediumSubTypeId = new Guid("52a64f24-8958-4837-bf28-bf9730a44dba"); // mediumSubType1
+                sample3.ConditionId = new Guid("6a808e55-b41e-4296-bb4f-ebd275032242"); // condition1
+
+                var sample4 = new Sample();
+                sample4.SampleId = new Guid("91395cf3-9a13-4b4e-bf0b-8680d337451c"); 
+                sample4.MediumSubTypeId = new Guid("3682a1e4-aabe-4a1d-aa4d-47493dfae583"); // mediumSubType2
+                sample4.ConditionId = new Guid("0fd3ccb6-7ac8-4b77-8ced-b293c300f7c9"); // condition2
+
+                var sample5 = new Sample();
+                sample5.SampleId = new Guid("83a88086-ab7d-4950-88e0-bcc4859b028c");
+
                 context.AddRange
                     (
                         publication1,
@@ -135,6 +163,7 @@ namespace EnvDT.DataAccessTests.Repository
                         refValue3,
                         refValue4,
                         refValue5,
+                        refValue6,
                         valuationClass1,
                         valuationClass2,
                         valuationClass3,
@@ -148,7 +177,12 @@ namespace EnvDT.DataAccessTests.Repository
                         valuationClassMedSubType1,
                         valuationClassMedSubType2,
                         valuationClassCondition1,
-                        valuationClassCondition2
+                        valuationClassCondition2,
+                        sample1,
+                        sample2,
+                        sample3,
+                        sample4,
+                        sample5
                     );
 
                 context.SaveChanges();
