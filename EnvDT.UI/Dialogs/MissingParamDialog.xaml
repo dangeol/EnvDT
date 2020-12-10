@@ -37,8 +37,9 @@
               Binding="{Binding ParamName}"/>
             <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
-                <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=SelectedParameter,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                <DataTemplate >
+                  <ComboBox SelectedValue="{Binding Path=ParamNameAlias,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="DisplayMember"
                             ItemsSource="{Binding Path=ParamNameAliases}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>
@@ -48,7 +49,8 @@
             <DataGridTemplateColumn Header="Language" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=SelectedLanguage,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=LanguageId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupItemId"
                             ItemsSource="{Binding Path=LanguageNames}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>
@@ -72,7 +74,8 @@
             <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=SelectedUnit,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=UnitNameAlias,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="DisplayMember"
                             ItemsSource="{Binding Path=UnitNameAliases}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>

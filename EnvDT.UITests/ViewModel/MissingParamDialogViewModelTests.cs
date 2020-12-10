@@ -57,6 +57,16 @@ namespace EnvDT.UITests.ViewModel
                     UnitId = missingUnitId1,
                     UnitName = "Unitame1",
                 });
+            _unitOfWorkMock.Setup(uw => uw.Units.GetById(missingUnitId1))
+                .Returns(new Model.Entity.Unit
+                {
+                    UnitId = missingUnitId1,
+                    UnitName = "Unitame1",
+                });
+            _unitOfWorkMock.Setup(uw => uw.ParamNameVariants.GetAll())
+                .Returns(It.IsAny<List<ParamNameVariant>>());
+            _unitOfWorkMock.Setup(uw => uw.UnitNameVariants.GetAll())
+                .Returns(It.IsAny<List<UnitNameVariant>>());
             _lookupDataServiceMock = new Mock<ILookupDataService>();
 
             _lapReportParams.Add(_lapReportParam1);

@@ -67,7 +67,7 @@ namespace EnvDT.DataAccess.DataService
                     {
                         LookupItemId = lp.LabReportParamId,
                         DisplayMember = lp.LabReportParamName
-                    });
+                    });                    
             }
         }
 

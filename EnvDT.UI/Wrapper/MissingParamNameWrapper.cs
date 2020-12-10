@@ -9,8 +9,6 @@ namespace EnvDT.UI.Wrapper
     {
         private ObservableCollection<LookupItem> _paramNameAliases = new ObservableCollection<LookupItem>();
         private ObservableCollection<LookupItem> _languageNames = new ObservableCollection<LookupItem>();
-        private LookupItem _selectedParameter;
-        private LookupItem _selectedLanguage;
         private string _paramName;
 
         public MissingParamNameWrapper(ParamNameVariant model) : base(model)
@@ -48,18 +46,6 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        // Here parameter is the LabReportParameter LookupItem
-        public LookupItem SelectedParameter
-        {
-            get { return _selectedParameter; }
-            set
-            {
-                _selectedParameter = value;
-                ParamNameAlias = _selectedParameter.DisplayMember;
-                OnPropertyChanged();
-            }
-        }
-
         public Guid ParameterId
         {
             get { return GetValue<Guid>(); }
@@ -72,17 +58,6 @@ namespace EnvDT.UI.Wrapper
             set
             {
                 _languageNames = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public LookupItem SelectedLanguage
-        {
-            get { return _selectedLanguage; }
-            set
-            {
-                _selectedLanguage = value;
-                LanguageId = _selectedLanguage.LookupItemId;
                 OnPropertyChanged();
             }
         }

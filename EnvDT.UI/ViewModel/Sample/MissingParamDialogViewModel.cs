@@ -14,12 +14,13 @@ namespace EnvDT.UI.ViewModel
     public class MissingParamDialogViewModel : DetailViewModelBase, IMissingParamDialogViewModel
     {
         private IEventAggregator _eventAggregator;
+        private Guid _labReportId;
         private IUnitOfWork _unitOfWork;
         private ILookupDataService _lookupDataService;
-        private ObservableCollection<MissingParamNameWrapper> _missingParamNames;
-        private ObservableCollection<MissingUnitNameWrapper> _missingUnitNames;
         private bool _isMissingParamNamesVisible = false;
         private bool _missingUnitNamesVisible = false;
+        private IEnumerable<ParamNameVariant> _paramNameVariants;
+        private IEnumerable<UnitNameVariant> _unitNameVariants;
 
         public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
             ILookupDataService lookupDataService)
@@ -30,6 +31,8 @@ namespace EnvDT.UI.ViewModel
             _lookupDataService = lookupDataService;
             MissingParamNames = new ObservableCollection<MissingParamNameWrapper>();
             MissingUnitNames = new ObservableCollection<MissingUnitNameWrapper>();
+            _paramNameVariants = unitOfWork.ParamNameVariants.GetAll();
+            _unitNameVariants = unitOfWork.UnitNameVariants.GetAll();
         }
 
         public HashSet<Guid> MissingParamIds { get; set; }
@@ -66,6 +69,8 @@ namespace EnvDT.UI.ViewModel
 
         public void Load(Guid labReportId, HashSet<Guid> missingParamIds, HashSet<Guid> missingUnitIds)
         {
+            _labReportId = labReportId;
+
             foreach (var wrapper in MissingParamNames)
             {
                 wrapper.PropertyChanged -= ParamNameVariantsWrapper_PropertyChanged;
@@ -116,7 +121,9 @@ namespace EnvDT.UI.ViewModel
                 ParamName = missingParam.ParamNameDe,
                 ParameterId = missingParam.ParameterId
             };
+
             var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
+
             foreach (LookupItem param in labReportParams)
             {
                 wrapper.ParamNameAliases.Add(param);
@@ -141,6 +148,7 @@ namespace EnvDT.UI.ViewModel
                 UnitName = missingUnit.UnitName,
                 UnitId = missingUnit.UnitId
             };
+
             var labReportUnits = _lookupDataService.GetLabReportUnknownUnitNamesLookupByLabReportId(labReportId);
             foreach (LookupItem unit in labReportUnits)
             {
@@ -186,35 +194,42 @@ namespace EnvDT.UI.ViewModel
 
         protected override bool OnSaveCanExecute()
         {
-            return HasChanges 
-                && MissingParamNames.All(mpn => !mpn.HasErrors)
-                && MissingUnitNames.All(mpn => !mpn.HasErrors);
+            return MissingParamNames.All(mpn => !mpn.HasErrors)
+                && MissingUnitNames.All(mun => !mun.HasErrors);
         }
 
         protected override void OnSaveExecute()
         {
             foreach (var wrapper in MissingParamNames)
             {
-                if (wrapper.SelectedParameter != null)
+                if (wrapper.ParamNameAlias != null && !string.Equals(wrapper.ParamNameAlias, "[N/A]"))
                 {
-                    var labReportParamId = wrapper.SelectedParameter.LookupItemId;
-                    if (labReportParamId != Guid.Empty)
+                    if (!_paramNameVariants.Any(pv => string.Equals(pv.ParamNameAlias,wrapper.ParamNameAlias) 
+                        && Guid.Equals(pv.ParameterId, wrapper.ParameterId)))
                     {
                         _unitOfWork.ParamNameVariants.Create(wrapper.Model);
-                        var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
+                    }
+                    var labReportParamName = wrapper.ParamNameAlias;
+                    var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByLabReportIdAndParamName(_labReportId, labReportParamName);
+                    foreach (var labReportParam in labReportParams)
+                    { 
                         labReportParam.ParameterId = wrapper.ParameterId;
                     }
                 }
             }
             foreach (var wrapper in MissingUnitNames)
             {
-                if (wrapper.SelectedUnit != null)
+                if (wrapper.UnitNameAlias != null && !string.Equals(wrapper.UnitNameAlias, "[N/A]"))
                 {
-                    var labReportParamId = wrapper.SelectedUnit.LookupItemId;
-                    if (labReportParamId != Guid.Empty)
+                    if (!_unitNameVariants.Any(uv => string.Equals(uv.UnitNameAlias, wrapper.UnitNameAlias)
+                        && Guid.Equals(uv.UnitId, wrapper.UnitId)))
                     {
                         _unitOfWork.UnitNameVariants.Create(wrapper.Model);
-                        var labReportParam = _unitOfWork.LabReportParams.GetById(labReportParamId);
+                    }
+                    var labReportUnitName = wrapper.UnitNameAlias;
+                    var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByByLabReportIdAndUnitName(_labReportId, labReportUnitName);
+                    foreach (var labReportParam in labReportParams)
+                    {
                         labReportParam.UnitId = wrapper.UnitId;
                     }
                 }

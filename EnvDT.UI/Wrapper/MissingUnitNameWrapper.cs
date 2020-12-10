@@ -46,17 +46,6 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public LookupItem SelectedUnit
-        {
-            get { return _selectedUnit; }
-            set
-            {
-                _selectedUnit = value;
-                UnitNameAlias = _selectedUnit.DisplayMember;
-                OnPropertyChanged();
-            }
-        }
-
         public Guid UnitId
         {
             get { return GetValue<Guid>(); }
