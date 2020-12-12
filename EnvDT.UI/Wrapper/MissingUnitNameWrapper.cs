@@ -7,8 +7,7 @@ namespace EnvDT.UI.Wrapper
 {
     public class MissingUnitNameWrapper : ModelWrapper<UnitNameVariant>
     {
-        private ObservableCollection<LookupItem> _unitNameAliases = new ObservableCollection<LookupItem>();
-        private LookupItem _selectedUnit;
+        private ObservableCollection<string> _unitNameAliases = new ObservableCollection<string>();
         private string _unitName;
 
         public MissingUnitNameWrapper(UnitNameVariant model) : base(model)
@@ -36,7 +35,7 @@ namespace EnvDT.UI.Wrapper
             set { SetValue(value); }
         }
 
-        public ObservableCollection<LookupItem> UnitNameAliases
+        public ObservableCollection<string> UnitNameAliases
         {
             get { return _unitNameAliases; }
             set

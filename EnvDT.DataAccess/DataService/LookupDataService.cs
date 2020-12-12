@@ -46,56 +46,6 @@ namespace EnvDT.DataAccess.DataService
             }
         }
 
-        public IEnumerable<LookupItem> GetLabReportUnknownParamNamesLookupByLabReportId(Guid labReportId)
-        {
-            using (var ctx = _contextCreator())
-            {
-                var unknownParamNameId = ctx.Parameters.AsNoTracking()
-                    .Single(p => p.ParamNameEn == "[unknown]").ParameterId;
-
-                var labReportParams = ctx.Set<LabReportParam>().AsNoTracking().ToList();
-                var nullLabReportParam = new LabReportParam();
-                nullLabReportParam.ParameterId = unknownParamNameId;
-                nullLabReportParam.LabReportId = labReportId;
-                nullLabReportParam.LabReportParamName = "[N/A]";
-                labReportParams.Add(nullLabReportParam);
-
-                return labReportParams
-                    .Where(lp => lp.ParameterId == unknownParamNameId && lp.LabReportId == labReportId)
-                    .OrderBy(lp => lp.LabReportParamName)
-                    .Select(lp => new LookupItem
-                    {
-                        LookupItemId = lp.LabReportParamId,
-                        DisplayMember = lp.LabReportParamName
-                    });                    
-            }
-        }
-
-        public IEnumerable<LookupItem> GetLabReportUnknownUnitNamesLookupByLabReportId(Guid labReportId)
-        {
-            using (var ctx = _contextCreator())
-            {
-                var unknownUnitNameId = ctx.Units.AsNoTracking()
-                    .Single(u => u.UnitName == "[unknown]").UnitId;
-
-                var labReportUnits = ctx.Set<LabReportParam>().AsNoTracking().ToList();
-                var nullLabReportUnit = new LabReportParam();
-                nullLabReportUnit.UnitId = unknownUnitNameId;
-                nullLabReportUnit.LabReportId = labReportId;
-                nullLabReportUnit.LabReportUnitName = "[N/A]";
-                labReportUnits.Add(nullLabReportUnit);
-
-                return labReportUnits
-                    .Where(lp => lp.UnitId == unknownUnitNameId && lp.LabReportId == labReportId)
-                    .OrderBy(lp => lp.LabReportUnitName)
-                    .Select(lp => new LookupItem
-                    {
-                        LookupItemId = lp.LabReportParamId,
-                        DisplayMember = lp.LabReportUnitName
-                    });
-            }
-        }
-
         public IEnumerable<LookupItem> GetAllLanguagesLookup()
         {
             using (var ctx = _contextCreator())

@@ -20,9 +20,10 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILookupDataService> _lookupDataServiceMock;
         private HashSet<Guid> _missingParamIds;
         private HashSet<Guid> _missingUnitIds;
-        private LookupItem _lapReportParam1;
-        private LookupItem _lapReportParam2;
-        private List<LookupItem> _lapReportParams = new List<LookupItem>();
+        private string _lapReportParamName1;
+        private string _lapReportParamName2;
+        private string _lapReportUnitName1;
+        private List<string> _lapReportParamNames = new List<string>();
 
         public MissingParamDialogViewModelTests()
         {
@@ -35,27 +36,28 @@ namespace EnvDT.UITests.ViewModel
             _missingUnitIds = new HashSet<Guid>();
             var missingUnitId1 = new Guid("d94a0c81-0681-4979-ae3c-c43bfe48314f");
             _missingUnitIds.Add(missingUnitId1);
-            _lapReportParam1 = new LookupItem();
-            _lapReportParam2 = new LookupItem();
+            _lapReportParamName1 = "ParamName1";
+            _lapReportParamName2 = "ParamName2";
+            _lapReportUnitName1 = "UnitName1";
 
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(missingParamId1))
                 .Returns(new Model.Entity.Parameter
                 {
                     ParameterId = missingParamId1,
-                    ParamNameDe = "ParamName1",
+                    ParamNameDe = _lapReportParamName1,
                 });
             _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(missingParamId2))
                 .Returns(new Model.Entity.Parameter
                 {
                     ParameterId = missingParamId2,
-                    ParamNameDe = "ParamName2",
+                    ParamNameDe = _lapReportParamName2,
                 });
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(missingUnitId1))
                 .Returns(new Model.Entity.Unit
                 {
                     UnitId = missingUnitId1,
-                    UnitName = "Unitame1",
+                    UnitName = _lapReportUnitName1,
                 });
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(missingUnitId1))
                 .Returns(new Model.Entity.Unit
@@ -69,10 +71,10 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(It.IsAny<List<UnitNameVariant>>());
             _lookupDataServiceMock = new Mock<ILookupDataService>();
 
-            _lapReportParams.Add(_lapReportParam1);
-            _lapReportParams.Add(_lapReportParam2);
-            _lookupDataServiceMock.Setup(ld => ld.GetLabReportUnknownParamNamesLookupByLabReportId(It.IsAny<Guid>()))
-                .Returns(_lapReportParams);
+            _lapReportParamNames.Add(_lapReportParamName1);
+            _lapReportParamNames.Add(_lapReportParamName2);
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(It.IsAny<Guid>()))
+                .Returns(_lapReportParamNames);
 
             _viewModel = new MissingParamDialogViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object,
                 _lookupDataServiceMock.Object);
@@ -90,6 +92,38 @@ namespace EnvDT.UITests.ViewModel
 
             _unitOfWorkMock.Verify(uw => uw.Parameters.GetById(It.IsAny<Guid>()), Times.Exactly(2));
             _unitOfWorkMock.Verify(uw => uw.Units.GetById(It.IsAny<Guid>()), Times.Exactly(1));
+        }
+
+        [Fact]
+        public void ShoudlRaisePropertyChangedEventForIsMissingParamNamesVisible()
+        {
+            var fired = _viewModel.IsPropertyChangedFired(
+                () => _viewModel.Load(It.IsAny<Guid>(), _missingParamIds, _missingUnitIds),
+                nameof(_viewModel.IsMissingParamNamesVisible));
+
+            Assert.True(fired);
+        }
+
+        [Fact]
+        public void ShouldDisableSaveCommandWhenViewModelIsLoaded()
+        {
+            _viewModel.Load(It.IsAny<Guid>(), _missingParamIds, _missingUnitIds);
+
+            Assert.False(_viewModel.SaveCommand.CanExecute(null));
+        }
+
+        [Fact]
+        public void ShouldEnableSaveCommandWhenWrappersHaveNoValidationErrors()
+        {
+            _viewModel.Load(It.IsAny<Guid>(), _missingParamIds, _missingUnitIds);
+
+            _viewModel.MissingParamNames[0].ParamNameAlias = _lapReportParamName1;
+            _viewModel.MissingParamNames[0].LanguageId = new Guid("6289ff3f-4f1c-40db-9ba8-d788dacb8371");
+            _viewModel.MissingParamNames[1].ParamNameAlias = _lapReportParamName2;
+            _viewModel.MissingParamNames[1].LanguageId = new Guid("e2100847-1bd8-4a7e-88d4-68b48e8a1d31");
+            _viewModel.MissingUnitNames[0].UnitNameAlias = _lapReportUnitName1;
+
+            Assert.True(_viewModel.SaveCommand.CanExecute(null));
         }
     }
 }

@@ -117,16 +117,15 @@ namespace EnvDT.UI.ViewModel
             {
                 //Trigger validation
                 ParamNameAlias = "",
-                LanguageId = Guid.Empty,
                 ParamName = missingParam.ParamNameDe,
                 ParameterId = missingParam.ParameterId
             };
 
-            var labReportParams = _lookupDataService.GetLabReportUnknownParamNamesLookupByLabReportId(labReportId);
+            var labReportParamNames = _unitOfWork.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(labReportId);
 
-            foreach (LookupItem param in labReportParams)
+            foreach (string paramNames in labReportParamNames)
             {
-                wrapper.ParamNameAliases.Add(param);
+                wrapper.ParamNameAliases.Add(paramNames);
             }
             var languages = _lookupDataService.GetAllLanguagesLookup();
             foreach (LookupItem language in languages)
@@ -149,10 +148,10 @@ namespace EnvDT.UI.ViewModel
                 UnitId = missingUnit.UnitId
             };
 
-            var labReportUnits = _lookupDataService.GetLabReportUnknownUnitNamesLookupByLabReportId(labReportId);
-            foreach (LookupItem unit in labReportUnits)
+            var labReportUnitNames = _unitOfWork.LabReportParams.GetLabReportUnknownUnitNamesByLabReportId(labReportId);
+            foreach (string unitName in labReportUnitNames)
             {
-                wrapper.UnitNameAliases.Add(unit);
+                wrapper.UnitNameAliases.Add(unitName);
             }
 
             return wrapper;

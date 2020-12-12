@@ -7,7 +7,7 @@ namespace EnvDT.UI.Wrapper
 {
     public class MissingParamNameWrapper : ModelWrapper<ParamNameVariant>
     {
-        private ObservableCollection<LookupItem> _paramNameAliases = new ObservableCollection<LookupItem>();
+        private ObservableCollection<string> _paramNameAliases = new ObservableCollection<string>();
         private ObservableCollection<LookupItem> _languageNames = new ObservableCollection<LookupItem>();
         private string _paramName;
 
@@ -33,10 +33,21 @@ namespace EnvDT.UI.Wrapper
         public string ParamNameAlias
         {
             get { return GetValue<string>(); }
-            set { SetValue(value); }
+            set 
+            { 
+                SetValue(value); 
+                if (!string.Equals(value, "[N/A]"))
+                {
+                    LanguageId = Guid.Empty;
+                }
+                else
+                {
+                    LanguageId = LanguageNames[0].LookupItemId;
+                }
+            }
         }
 
-        public ObservableCollection<LookupItem> ParamNameAliases
+        public ObservableCollection<string> ParamNameAliases
         {
             get { return _paramNameAliases; }
             set

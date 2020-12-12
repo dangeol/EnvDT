@@ -38,10 +38,8 @@
             <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate >
-                  <ComboBox SelectedValue="{Binding Path=ParamNameAlias,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            SelectedValuePath="DisplayMember"
-                            ItemsSource="{Binding Path=ParamNameAliases}"
-                            DisplayMemberPath="DisplayMember">
+                  <ComboBox SelectedValue="{Binding Path=ParamNameAlias,UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding Path=ParamNameAliases}">
                   </ComboBox>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
@@ -49,7 +47,7 @@
             <DataGridTemplateColumn Header="Language" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=LanguageId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=LanguageId,UpdateSourceTrigger=PropertyChanged}"
                             SelectedValuePath="LookupItemId"
                             ItemsSource="{Binding Path=LanguageNames}"
                             DisplayMemberPath="DisplayMember">
@@ -74,10 +72,8 @@
             <DataGridTemplateColumn Header="Selected Alias" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=UnitNameAlias,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                            SelectedValuePath="DisplayMember"
-                            ItemsSource="{Binding Path=UnitNameAliases}"
-                            DisplayMemberPath="DisplayMember">
+                  <ComboBox SelectedValue="{Binding Path=UnitNameAlias,UpdateSourceTrigger=PropertyChanged}"
+                            ItemsSource="{Binding Path=UnitNameAliases}">
                   </ComboBox>
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>

@@ -64,5 +64,41 @@ namespace EnvDT.DataAccess.Repository
 			)
 			.AsNoTracking().ToList();
 		}
+
+		public IEnumerable<string> GetLabReportUnknownParamNamesByLabReportId(Guid labReportId)
+		{
+			var unknownParamNameId = Context.Parameters.AsNoTracking()
+				.Single(p => p.ParamNameEn == "[unknown]").ParameterId;
+
+			var labReportParams = Context.Set<LabReportParam>().AsNoTracking().ToList();
+			var nullLabReportParam = new LabReportParam();
+			nullLabReportParam.ParameterId = unknownParamNameId;
+			nullLabReportParam.LabReportId = labReportId;
+			nullLabReportParam.LabReportParamName = "[N/A]";
+			labReportParams.Add(nullLabReportParam);
+
+			return labReportParams
+				.Where(lp => lp.ParameterId == unknownParamNameId && lp.LabReportId == labReportId)
+				.OrderBy(lp => lp.LabReportParamName)
+				.Select(lp => lp.LabReportParamName).Distinct();
+		}
+
+		public IEnumerable<string> GetLabReportUnknownUnitNamesByLabReportId(Guid labReportId)
+		{
+			var unknownUnitNameId = Context.Units.AsNoTracking()
+				.Single(u => u.UnitName == "[unknown]").UnitId;
+
+			var labReportUnits = Context.Set<LabReportParam>().AsNoTracking().ToList();
+			var nullLabReportUnit = new LabReportParam();
+			nullLabReportUnit.UnitId = unknownUnitNameId;
+			nullLabReportUnit.LabReportId = labReportId;
+			nullLabReportUnit.LabReportUnitName = "[N/A]";
+			labReportUnits.Add(nullLabReportUnit);
+
+			return labReportUnits
+				.Where(lp => lp.UnitId == unknownUnitNameId && lp.LabReportId == labReportId)
+				.OrderBy(lp => lp.LabReportUnitName)
+				.Select(lp => lp.LabReportUnitName).Distinct();
+		}
 	}
 }

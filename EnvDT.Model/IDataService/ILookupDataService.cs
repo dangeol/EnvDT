@@ -8,8 +8,6 @@ namespace EnvDT.Model.IDataService
     {
         public IEnumerable<LookupItem> GetAllProjectsLookup();
         public IEnumerable<LookupItem> GetAllLabReportsLookupByProjectId(Guid? projectId);
-        public IEnumerable<LookupItem> GetLabReportUnknownParamNamesLookupByLabReportId(Guid labReportId);
-        public IEnumerable<LookupItem> GetLabReportUnknownUnitNamesLookupByLabReportId(Guid labReportId);
         public IEnumerable<LookupItem> GetAllLanguagesLookup();
         public IEnumerable<LookupItem> GetAllMediumSubTypesLookup();
         public IEnumerable<LookupItem> GetAllConditionsLookup();
