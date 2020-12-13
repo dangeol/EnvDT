@@ -10,9 +10,6 @@ namespace EnvDT.UI.Wrapper
         private ObservableCollection<LookupItem> _media = new ObservableCollection<LookupItem>();
         private ObservableCollection<LookupItem> _mediumSubTypes = new ObservableCollection<LookupItem>();
         private ObservableCollection<LookupItem> _conditions = new ObservableCollection<LookupItem>();
-        private LookupItem _selectedMedium;
-        private LookupItem _selectedMediumSubType;
-        private LookupItem _selectedCondition;
 
         public SampleWrapper(Sample model) : base(model)
         {
@@ -45,17 +42,6 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public LookupItem SelectedMedium
-        {
-            get { return _selectedMedium; }
-            set
-            {
-                _selectedMedium = value;
-                MediumId = _selectedMedium.LookupItemId;
-                OnPropertyChanged();
-            }
-        }
-
         public Guid MediumSubTypeId
         {
             get { return GetValue<Guid>(); }
@@ -72,17 +58,6 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
-        public LookupItem SelectedMediumSubType
-        {
-            get { return _selectedMediumSubType; }
-            set
-            {
-                _selectedMediumSubType = value;
-                MediumSubTypeId = _selectedMediumSubType.LookupItemId;
-                OnPropertyChanged();
-            }
-        }
-
         public Guid ConditionId
         {
             get { return GetValue<Guid>(); }
@@ -95,17 +70,6 @@ namespace EnvDT.UI.Wrapper
             set
             {
                 _conditions = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public LookupItem SelectedCondition
-        {
-            get { return _selectedCondition; }
-            set
-            {
-                _selectedCondition = value;
-                ConditionId = _selectedCondition.LookupItemId;
                 OnPropertyChanged();
             }
         }

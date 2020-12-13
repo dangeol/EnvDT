@@ -15,7 +15,7 @@ namespace EnvDT.UI.ViewModel
         private IEventAggregator _eventAggregator;
         private IUnitOfWork _unitOfWork;
         private ILookupDataService _lookupDataService;
-        private ObservableCollection<SampleWrapper> _samples;
+        private Guid _standardGuid = new Guid("875dbf0f-5e3c-4012-9828-692e0ffa39ab");
 
         public SampleEditDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
             ILookupDataService lookupDataService)
@@ -24,9 +24,11 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator = eventEggregator;
             _unitOfWork = unitOfWork;
             _lookupDataService = lookupDataService;
+            StandardGuid = _standardGuid;
             Samples = new ObservableCollection<SampleWrapper>();
         }
 
+        public Guid StandardGuid { get; private set; }
         public ObservableCollection<SampleWrapper> Samples { get; }
 
         public override void Load(Guid? labReportId)
@@ -41,20 +43,34 @@ namespace EnvDT.UI.ViewModel
 
             foreach (Sample sample in samples)
             {
+                if (sample.MediumId == null)
+                { 
+                    // this is to have a value there to prevent validation error 
+                    // when the user clicks on "edit sample"
+                    sample.MediumId = _standardGuid;
+                }
+                if (sample.MediumSubTypeId == null)
+                {
+                    sample.MediumSubTypeId = _standardGuid;
+                }
+                if (sample.ConditionId == null)
+                {
+                    sample.ConditionId = _standardGuid;
+                }
                 SampleWrapper wrapper = InitializeSample(sample);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
                 Samples.Add(wrapper);
             }
-
-            RetrieveValues();
         }
 
         private SampleWrapper InitializeSample(Sample sample)
         {
-            var wrapper = new SampleWrapper(sample)
-            {
-                SampleName = sample.SampleName,
-            };
+            var wrapper = new SampleWrapper(sample);
+            wrapper.SampleName = sample.SampleName;
+            wrapper.MediumId = (Guid)sample.MediumId;
+            wrapper.MediumSubTypeId = (Guid)sample.MediumSubTypeId;
+            wrapper.ConditionId = (Guid)sample.ConditionId;
+
             var mediumSubTypes = _lookupDataService.GetAllMediumSubTypesLookup();
             foreach (LookupItem mediumSubType in mediumSubTypes)
             {
@@ -98,52 +114,36 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnSaveExecute()
         {
-            // This is temporary until the wrapper mechanism is fixed
             SetValues();
             _unitOfWork.Save();
             HasChanges = _unitOfWork.Samples.HasChanges();
         }
-
+       
         private void SetValues()
         {
             foreach (var wrapper in Samples)
             {
                 var sample = _unitOfWork.Samples.GetById(wrapper.SampleId);
 
-                if (wrapper.SelectedMedium != null)
+                if (wrapper.MediumId != null 
+                    && !Guid.Equals(wrapper.MediumId, Guid.Empty) 
+                    && !Guid.Equals(wrapper.MediumId, _standardGuid))
                 {
-                    sample.MediumId = wrapper.SelectedMedium.LookupItemId;
+                    sample.MediumId = wrapper.MediumId;
                 }
-                if (wrapper.SelectedMediumSubType != null)
+                if (wrapper.MediumSubTypeId != null 
+                    && !Guid.Equals(wrapper.MediumSubTypeId, Guid.Empty) 
+                    && !Guid.Equals(wrapper.MediumSubTypeId, _standardGuid))
                 {
-                    sample.MediumSubTypeId = wrapper.SelectedMediumSubType.LookupItemId;
+                    sample.MediumSubTypeId = wrapper.MediumSubTypeId;
                 }
-                if (wrapper.SelectedCondition != null)
+                if (wrapper.ConditionId != null 
+                    && !Guid.Equals(wrapper.ConditionId, Guid.Empty) 
+                    && !Guid.Equals(wrapper.ConditionId, _standardGuid))
                 {
-                    sample.ConditionId = wrapper.SelectedCondition.LookupItemId;
-                }
-            }
-        }
-
-        private void RetrieveValues()
-        {
-            foreach (var wrapper in Samples)
-            {
-                var sample = _unitOfWork.Samples.GetById(wrapper.SampleId);
-
-                if (sample.MediumId != null)
-                {
-                    wrapper.SelectedMedium = wrapper.Media.FirstOrDefault(m => m.LookupItemId == sample.MediumId);
-                }
-                if (sample.MediumSubTypeId != null)
-                {
-                    wrapper.SelectedMediumSubType = wrapper.MediumSubTypes.FirstOrDefault(m => m.LookupItemId == sample.MediumSubTypeId);
-                }
-                if (sample.ConditionId != null)
-                {
-                    wrapper.SelectedCondition = wrapper.Conditions.FirstOrDefault(m => m.LookupItemId == sample.ConditionId);
+                    sample.ConditionId = wrapper.ConditionId;
                 }
             }
-        }
+        }   
     }
 }

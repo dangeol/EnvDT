@@ -33,7 +33,6 @@ namespace EnvDT.UI.ViewModel
         private DataView _evalResultDataView;
         private DataView _footnotesDataView;
         private DataView _selectedPublsDataView;
-        private string _title = "Project";
         private string _sampleEditDialogTitle = "Edit samples";
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
@@ -231,13 +230,17 @@ namespace EnvDT.UI.ViewModel
                         var sample = _unitOfWork.Samples.GetById(sampleId);
                         var sampleWrapper = _sampleEditDialogViewModel.Samples.Single(s => s.SampleId == sampleId);
 
-                        if (publication.UsesMediumSubTypes && sampleWrapper.SelectedMediumSubType == null)
+                        if (publication.UsesMediumSubTypes 
+                            && sampleWrapper.MediumSubTypeId != null
+                            && Guid.Equals(sampleWrapper.MediumSubTypeId, _sampleEditDialogViewModel.StandardGuid))
                         {
                             needsSampleEditDialog = true;
                             //Trigger validation
                             sampleWrapper.MediumSubTypeId = Guid.Empty;
                         }
-                        if (publication.UsesConditions && sampleWrapper.SelectedCondition == null)                           
+                        if (publication.UsesConditions 
+                            && sampleWrapper.ConditionId != null
+                            && Guid.Equals(sampleWrapper.ConditionId, _sampleEditDialogViewModel.StandardGuid))                           
                         {
                             needsSampleEditDialog = true;
                             //Trigger validation
@@ -250,13 +253,18 @@ namespace EnvDT.UI.ViewModel
                 }
                 c++;
             }
+            bool isMessageDialogResultAbsentOrOK = true;
             if (needsSampleEditDialog)
             {
                 var result = _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
-                return result == MessageDialogResult.OK;
+                isMessageDialogResultAbsentOrOK = result == MessageDialogResult.OK;
             }
-            var selectedPublIds = _selectedPubls.Select(p => p.PublicationId).ToList();
-            return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, selectedPublIds);
+            if (isMessageDialogResultAbsentOrOK)
+            { 
+                var selectedPublIds = _selectedPubls.Select(p => p.PublicationId).ToList();
+                return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, selectedPublIds);
+            }
+            return isMessageDialogResultAbsentOrOK;
         }
 
         private void BuildEvalResultDataView()

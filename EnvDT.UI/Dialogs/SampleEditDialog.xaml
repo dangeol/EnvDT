@@ -31,7 +31,8 @@
             <DataGridTemplateColumn Header="Medium sub-type" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=SelectedMediumSubType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=MediumSubTypeId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupItemId"
                             ItemsSource="{Binding Path=MediumSubTypes}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>
@@ -41,7 +42,8 @@
             <DataGridTemplateColumn Header="Condition" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
-                  <ComboBox SelectedValue="{Binding Path=SelectedCondition,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  <ComboBox SelectedValue="{Binding Path=ConditionId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupItemId"
                             ItemsSource="{Binding Path=Conditions}"
                             DisplayMemberPath="DisplayMember">
                   </ComboBox>

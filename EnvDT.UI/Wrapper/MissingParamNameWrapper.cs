@@ -42,7 +42,7 @@ namespace EnvDT.UI.Wrapper
                 }
                 else
                 {
-                    LanguageId = LanguageNames[0].LookupItemId;
+                    LanguageId = Guid.NewGuid();
                 }
             }
         }
