@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:view="clr-namespace:EnvDT.UI.View"
              xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
              mc:Ignorable="d" 
@@ -15,7 +16,7 @@
     </Grid.RowDefinitions>
 
     <StackPanel Orientation="Vertical">
-      <DataGrid ItemsSource="{Binding SampleDataView, Mode=TwoWay}"
+      <DataGrid ItemsSource="{Binding SampleDataView,Mode=TwoWay}"
                 SelectionUnit="CellOrRowHeader" SelectionMode="Single"
                 CellStyle="{StaticResource DataGridDirectEditingStyle}"
                 DataGridCell.Selected="DataGrid_Selected"
@@ -29,8 +30,13 @@
         <Button Content="Evaluate" Margin="10"
                 Command="{Binding EvalLabReportCommand}"/>
       </StackPanel>
-
     </StackPanel>
+
+    <Image Name="WheelGif" Grid.Row="1"
+           Visibility="{Binding IsAnimationVisible,
+           Converter={StaticResource booleanToVisibilityConverter}}" 
+           VerticalAlignment="Center" HorizontalAlignment="Center"
+           Width="100" Height="100" gif:ImageBehavior.AnimatedSource="/Styling/Images/wheel.gif" />
 
     <StackPanel Grid.Row="1" Orientation="Vertical" 
                 Visibility="{Binding IsEvalResultVisible,

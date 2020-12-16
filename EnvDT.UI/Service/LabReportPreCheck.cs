@@ -5,6 +5,7 @@ using EnvDT.UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace EnvDT.Model.Core
 {
@@ -55,10 +56,14 @@ namespace EnvDT.Model.Core
             }
             if (_missingParamIds.Count > 0 || _missingUnitIds.Count > 0)
             {
-                var missingParamDialogVM = _missingParamDialogVmCreator();
-                missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);
-                var titleName = "Missing parameters";
-                var result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDialogVM);
+                var result = MessageDialogResult.Cancel;
+                Application.Current.Dispatcher.Invoke(() =>
+                { 
+                    var missingParamDialogVM = _missingParamDialogVmCreator();
+                    missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);
+                    var titleName = "Missing parameters";
+                    result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDialogVM);
+                });
                 return result == MessageDialogResult.OK;
             }
             return true;

@@ -11,7 +11,10 @@ using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -37,6 +40,7 @@ namespace EnvDT.UI.ViewModel
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
         private bool _isEvalResultVisible;
+        private bool _isAnimationVisible;
 
         public SampleDetailViewModel(
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
@@ -64,6 +68,7 @@ namespace EnvDT.UI.ViewModel
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
             IsEvalResultVisible = false;
+            IsAnimationVisible = false;
         }
 
         public ICommand EditSamplesCommand { get; }
@@ -127,6 +132,16 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public bool IsAnimationVisible
+        {
+            get { return _isAnimationVisible; }
+            set
+            {
+                _isAnimationVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public override void Load(Guid? labReportId)
         {
             _labReportId = (Guid)labReportId;
@@ -181,18 +196,53 @@ namespace EnvDT.UI.ViewModel
             return true;
         }
 
-        private void OnEvalExecute()
+        private async void OnEvalExecute()
         {
             IsEvalResultVisible = false;
+            IsAnimationVisible = true;
 
-            if (LabReportPreCheckSuccess())
+            try
             {
-                BuildEvalResultDataView();
+                await Task.Run(() =>
+                {
+                    if (LabReportPreCheckSuccess())
+                    {
+                        BuildEvalResultDataView();
+                    }
+                }).ConfigureAwait(true);
             }
+            catch (Exception ex)
+            {
+                _messageDialogService.ShowOkDialog("Error", 
+                    "Please report the following error to your Administrator: " + ex.Message);
+            }
+            finally
+            {
+                if (_evalResultTable != null && _evalResultTable.Rows.Count > 0)
+                {
+                    IsEvalResultVisible = true;
+                }
+            }
+
+            IsAnimationVisible = false;
         }
 
         // TO DO: refactor - find synergies with BuildEvalResultDataView() to increase efficiency
         private bool LabReportPreCheckSuccess()
+        {
+            bool areSamplesReadyForEval = false;
+
+            Application.Current.Dispatcher.Invoke(() => areSamplesReadyForEval = AreSamplesReadyForEval());
+
+            if (areSamplesReadyForEval)
+            {
+                var selectedPublIds = _selectedPubls.Select(p => p.PublicationId).ToList();
+                return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, selectedPublIds);
+            }
+            return areSamplesReadyForEval;
+        }
+
+        private bool AreSamplesReadyForEval()
         {
             _selectedPubls.Clear();
             _selectedPublsTable.Clear();
@@ -215,7 +265,7 @@ namespace EnvDT.UI.ViewModel
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
                         if (!IsCheckBoxInColTrue)
-                        { 
+                        {
                             _selectedPubls.Add(publication);
                             var publRef = $"{publication.Publisher} ({publication.Year}): {publication.Title}";
                             DataRow dr = _selectedPublsTable.NewRow();
@@ -230,7 +280,7 @@ namespace EnvDT.UI.ViewModel
                         var sample = _unitOfWork.Samples.GetById(sampleId);
                         var sampleWrapper = _sampleEditDialogViewModel.Samples.Single(s => s.SampleId == sampleId);
 
-                        if (publication.UsesMediumSubTypes 
+                        if (publication.UsesMediumSubTypes
                             && sampleWrapper.MediumSubTypeId != null
                             && Guid.Equals(sampleWrapper.MediumSubTypeId, _sampleEditDialogViewModel.StandardGuid))
                         {
@@ -238,9 +288,9 @@ namespace EnvDT.UI.ViewModel
                             //Trigger validation
                             sampleWrapper.MediumSubTypeId = Guid.Empty;
                         }
-                        if (publication.UsesConditions 
+                        if (publication.UsesConditions
                             && sampleWrapper.ConditionId != null
-                            && Guid.Equals(sampleWrapper.ConditionId, _sampleEditDialogViewModel.StandardGuid))                           
+                            && Guid.Equals(sampleWrapper.ConditionId, _sampleEditDialogViewModel.StandardGuid))
                         {
                             needsSampleEditDialog = true;
                             //Trigger validation
@@ -259,11 +309,7 @@ namespace EnvDT.UI.ViewModel
                 var result = _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
                 isMessageDialogResultAbsentOrOK = result == MessageDialogResult.OK;
             }
-            if (isMessageDialogResultAbsentOrOK)
-            { 
-                var selectedPublIds = _selectedPubls.Select(p => p.PublicationId).ToList();
-                return _evalLabReportService.LabReportPreCheck((Guid)LabReportId, selectedPublIds);
-            }
+
             return isMessageDialogResultAbsentOrOK;
         }
 
@@ -327,11 +373,6 @@ namespace EnvDT.UI.ViewModel
             EvalResultDataView = new DataView(_evalResultTable);
             FootnotesDataView = new DataView(_footnotesTable);
             SelectedPublsDataView = new DataView(_selectedPublsTable);
-
-            if (_evalResultTable.Rows.Count > 0)
-            { 
-                IsEvalResultVisible = true;
-            }
         }
 
         private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId)
