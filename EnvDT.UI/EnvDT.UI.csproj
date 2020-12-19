@@ -8,7 +8,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Properties\Settings.settings" />
     <None Remove="Styling\Images\wheel.gif" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -33,19 +42,40 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Styling\Images\wheel.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Strings.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Update="View\SampleDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Strings.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Strings.en-US.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Strings.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

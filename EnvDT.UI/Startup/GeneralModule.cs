@@ -7,6 +7,7 @@ using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Service;
+using EnvDT.UI.Settings.Localization;
 using EnvDT.UI.ViewModel;
 using Prism.Events;
 

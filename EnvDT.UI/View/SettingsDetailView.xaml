@@ -3,17 +3,25 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+             xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+             loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
              xmlns:view="clr-namespace:EnvDT.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-  <Grid>
+
+  <Grid HorizontalAlignment="Left" Margin="10">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <TextBox>
-      This is a SettingsDetailView.
-    </TextBox>
+    <StackPanel Orientation="Vertical">
+      <Label Name="LanguageSelection" Content="{loc:Loc SettingsDetailVM_Language_Label}" Margin="10 0"/>
+      <ComboBox Width="100" IsEditable="True" Margin="10 0 10 10"
+                ItemsSource="{Binding Languages}"
+                SelectedItem="{Binding SelectedLanguage}"/>
+      
+    </StackPanel>
   </Grid>
 </UserControl>
