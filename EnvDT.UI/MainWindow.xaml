@@ -3,11 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:view="clr-namespace:EnvDT.UI.View" 
-        xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
         mc:Ignorable="d"
+        xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+        xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+        loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
+        xmlns:view="clr-namespace:EnvDT.UI.View" 
+        xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"       
         d:DataContext="{d:DesignInstance viewModel:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
         Title="EnvDT" Height="700" Width="1000" WindowStartupLocation="CenterScreen" FontSize="20">
+  
   <Window.Resources>
     <DataTemplate DataType="{x:Type viewModel:MainTabViewModel}">
       <view:MainTabView />
@@ -24,12 +28,12 @@
     </Grid.RowDefinitions>
 
     <Menu VerticalAlignment="Center">
-      <MenuItem Header="Main" Height="30"
+      <MenuItem Header="{loc:Loc MainWindow_Header_Main}" 
                 Command="{Binding NavCommand}"
-                CommandParameter="main" />
-      <MenuItem Header="Settings" Height="30"
+                CommandParameter="main" Height="30"/>
+      <MenuItem Header="{loc:Loc MainWindow_Header_Settings}" 
                 Command="{Binding NavCommand}"
-                CommandParameter="settings" />
+                CommandParameter="settings" Height="30"/>
     </Menu>
 
     <Grid x:Name="MainContent" Grid.Row="1">

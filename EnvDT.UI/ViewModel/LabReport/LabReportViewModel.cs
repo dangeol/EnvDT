@@ -143,14 +143,17 @@ namespace EnvDT.UI.ViewModel
             var openTab = _tab.GetTabbedViewModelByEventArgs(detailEventArgs);
             if (openTab != null)
             {
-                _messageDialogService.ShowOkDialog("Delete LabReport",
-                    $"Please close first related open Tab '{SelectedLabReport.DisplayMember}'.");
+                _messageDialogService.ShowOkDialog(
+                    Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogTitle_CloseTab"],
+                    string.Format(Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogMsg_CloseTab"],
+                    SelectedLabReport.DisplayMember));
                 return;
             }
 
-            var result = _messageDialogService.ShowOkCancelDialog("Delete LabReport",
-                $"Do you really want to delete the LabReport '{SelectedLabReport.DisplayMember}' " +
-                $"and all related samples and values?");
+            var result = _messageDialogService.ShowOkCancelDialog(
+                Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogTitle_ConfirmDeletion"],
+                string.Format(Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogMsg_ConfirmDeletion"], 
+                SelectedLabReport.DisplayMember));
             if (result == MessageDialogResult.OK)
             {
                 var labReport = _unitOfWork.LabReports.GetById(SelectedLabReport.LookupItemId);

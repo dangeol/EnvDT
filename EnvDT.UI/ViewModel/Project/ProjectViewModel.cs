@@ -29,14 +29,11 @@ namespace EnvDT.UI.ViewModel
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<NavItemViewModel>();
-            Title = "Project";
             IsSampleTab = false;
             LoadModels();
         }
 
         public ObservableCollection<NavItemViewModel> Projects { get; private set; }
-
-        public string Title { get; private set; }
 
         public ICommand CloseDetailViewCommand { get; }
 
@@ -71,8 +68,10 @@ namespace EnvDT.UI.ViewModel
         {
             if (DetailViewModel != null && DetailViewModel.HasChanges)
             { 
-                var result = _messageDialogService.ShowYesNoDialog("Question",
-                    $"You've made changes. Navigate away?");
+                var result = _messageDialogService.ShowYesNoDialog(
+                    Translator["EnvDT.UI.Properties.Strings.ProjectVM_DialogTitle_ConfirmNavigate"],
+                    Translator["EnvDT.UI.Properties.Strings.ProjectVM_DialogMsg_ConfirmNavigate"]);
+
                 if (result == MessageDialogResult.No)
                 {
                     return;

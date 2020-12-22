@@ -4,6 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+        xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+        loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"       
         Background="#DDDDDD"
         FontSize="10.0"
         WindowStartupLocation="CenterOwner"
@@ -26,7 +29,8 @@
                         <Setter Property="Width" Value="75"/>
                     </Style>
                 </StackPanel.Resources>
-        <Button Content="Ok" Click="ButtonOk_Click"/>
+        <Button Content="{loc:Loc UI_Button_OK}" 
+                Click="ButtonOk_Click"/>
       </StackPanel>
         </Grid>
     </Border>

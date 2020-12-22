@@ -1,10 +1,13 @@
 ﻿<UserControl x:Class="EnvDT.UI.View.LabReportView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"            
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:EnvDT.UI.View"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+             xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+             loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
+             xmlns:local="clr-namespace:EnvDT.UI.View"            
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid>
     <Grid.RowDefinitions>
@@ -13,23 +16,25 @@
 
     <DockPanel Margin="20 20 20 20">
       <StackPanel DockPanel.Dock="Right">
+
+        <Button Content="{loc:Loc LabReportView_Button_Open}" 
+                Command="{Binding OpenLabReportCommand}"
+                Margin="20 0 10 0" HorizontalAlignment="Left"/>
         
-        <Button Content="Load Report" Margin="20 0 10 0"
-                Command="{Binding OpenLabReportCommand}" HorizontalAlignment="Left"/>
         <TextBlock Name="LabReportFileNameBlock" Text="{Binding LabReportFileName}" 
                    FontSize="11" Margin="20 0 10 0" Foreground="Green" Width="150"
                    HorizontalAlignment="Left"/>
 
-        <Button Content="Import Report" Margin="20 5 10 10"
-                HorizontalAlignment="Left"
+        <Button Content="{loc:Loc LabReportView_Button_Import}" 
+                HorizontalAlignment="Left" Margin="20 5 10 10"
                 Command="{Binding ImportLabReportCommand}"/>
 
-        <Button Content="Evaluate" Margin="20 10 10 10"
-                HorizontalAlignment="Left"
+        <Button Content="{loc:Loc LabReportView_Button_Eval}" 
+                HorizontalAlignment="Left" Margin="20 10 10 10"
                 Command="{Binding OpenDetailViewCommand}"/>
 
-        <Button Content="Remove" Margin="20 10 10 10"
-                HorizontalAlignment="Left"
+        <Button Content="{loc:Loc UI_Button_Delete}" 
+                HorizontalAlignment="Left" Margin="20 10 10 10"
                 Command="{Binding DeleteLabReportCommand}"/>
         
       </StackPanel>
@@ -40,8 +45,8 @@
                 HorizontalAlignment="Left">
         
         <DataGrid.Columns>
-          <DataGridTextColumn Header="LabReports" Width="*"
-             Binding="{Binding DisplayMember,UpdateSourceTrigger=PropertyChanged}"/>
+          <DataGridTextColumn Header="{loc:Loc LabReportView_GridHeader_LabReports}" 
+             Binding="{Binding DisplayMember,UpdateSourceTrigger=PropertyChanged}" Width="*"/>
         </DataGrid.Columns>
       </DataGrid>
     </DockPanel>

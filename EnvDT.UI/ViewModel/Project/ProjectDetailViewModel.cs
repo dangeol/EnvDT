@@ -113,12 +113,16 @@ namespace EnvDT.UI.ViewModel
             // to close these.
             if (_tab.TabbedViewModels.Count > 1)
             {
-                _messageDialogService.ShowOkDialog("Delete Project",
-                    $"Please close first all open Tabs.");
+                _messageDialogService.ShowOkDialog(
+                    Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogTitle_DeleteCloseTabs"],
+                    Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogMsg_DeleteCloseTabs"]);
                 return;
             }
-            var result = _messageDialogService.ShowOkCancelDialog("Delete Project",
-                $"Do you really want to delete the friend '{Project.ProjectClient} {Project.ProjectName}'?");
+            var result = _messageDialogService.ShowOkCancelDialog(
+                Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogTitle_ConfirmDeletion"],
+                string.Format(Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogMsg_ConfirmDeletion"],
+                Project.ProjectClient, Project.ProjectName));
+
             if (result == MessageDialogResult.Yes)
             {
                 RaiseDetailDeletedEvent(Project.Model.ProjectId);

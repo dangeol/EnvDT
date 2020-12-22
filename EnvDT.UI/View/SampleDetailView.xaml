@@ -3,10 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+             xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+             loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:view="clr-namespace:EnvDT.UI.View"
-             xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"
-             mc:Ignorable="d" 
+             xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"             
              d:DesignHeight="450" d:DesignWidth="800">
 
   <Grid>
@@ -25,10 +28,10 @@
       </DataGrid>
 
       <StackPanel Orientation="Horizontal">
-        <Button Content="Edit Samples" Margin="10"
-                Command="{Binding EditSamplesCommand}"/>
-        <Button Content="Evaluate" Margin="10"
-                Command="{Binding EvalLabReportCommand}"/>
+        <Button Content="{loc:Loc SampleDetailView_Button_Edit}" 
+                Command="{Binding EditSamplesCommand}" Margin="10"/>
+        <Button Content="{loc:Loc SampleDetailView_Button_Eval}"  
+                Command="{Binding EvalLabReportCommand}" Margin="10"/>
       </StackPanel>
     </StackPanel>
 
@@ -65,7 +68,8 @@
                 FontSize="9" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <Button Content="Copy" Margin="10" Click="CopyToClipboard"/>
+      <Button Content="{loc:Loc SampleDetailView_Button_Copy}" 
+              Click="CopyToClipboard" Margin="10"/>
     </StackPanel>
   </Grid>
 </UserControl>

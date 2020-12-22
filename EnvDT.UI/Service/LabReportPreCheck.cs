@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
+using EnvDT.UI.Settings.Localization;
 using EnvDT.UI.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace EnvDT.Model.Core
         private HashSet<Guid> _missingParamIds;
         private HashSet<Guid> _missingUnitIds;
         private Func<IMissingParamDialogViewModel> _missingParamDialogVmCreator;
+        private TranslationSource _translator = TranslationSource.Instance;
 
         public LabReportPreCheck(IUnitOfWork unitOfWork, IMessageDialogService messageDialogService,
             Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
@@ -61,7 +63,7 @@ namespace EnvDT.Model.Core
                 { 
                     var missingParamDialogVM = _missingParamDialogVmCreator();
                     missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);
-                    var titleName = "Missing parameters";
+                    var titleName = _translator["EnvDT.UI.Properties.Strings.LabReportPreCheck_DialogTitle_MissingParam"];
                     result = _messageDialogService.ShowMissingParamDialog(titleName, missingParamDialogVM);
                 });
                 return result == MessageDialogResult.OK;

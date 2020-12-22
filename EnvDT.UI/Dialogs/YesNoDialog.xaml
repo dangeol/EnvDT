@@ -2,8 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
+        xmlns:resx="clr-namespace:EnvDT.UI.Properties"
+        xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
+        loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         Background="#DDDDDD"
         FontSize="10.0"
         WindowStartupLocation="CenterOwner"
@@ -26,8 +29,10 @@
                         <Setter Property="Width" Value="75"/>
                     </Style>
                 </StackPanel.Resources>
-                <Button Content="Yes" Click="ButtonYes_Click"/>
-                <Button Content="No" Click="ButtonNo_Click"/>
+                <Button Content="{loc:Loc UI_Button_Yes}"  
+                        Click="ButtonYes_Click"/>
+                <Button Content="{loc:Loc UI_Button_No}" 
+                        Click="ButtonNo_Click"/>
             </StackPanel>
         </Grid>
     </Border>

@@ -35,11 +35,12 @@ namespace EnvDT.UI.ViewModel
         private DataView _evalResultDataView;
         private DataView _footnotesDataView;
         private DataView _selectedPublsDataView;
-        private string _sampleEditDialogTitle = "Edit samples";
+        private string _sampleEditDialogTitle;
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
         private bool _isEvalResultVisible;
         private bool _isAnimationVisible;
+        private string _sampleColHeader;
 
         public SampleDetailViewModel(
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
@@ -61,6 +62,8 @@ namespace EnvDT.UI.ViewModel
             _footnotesTable.Columns.Add("Value");
             _publications = new List<Publication>();
             _selectedPubls = new List<Publication>();
+            _sampleEditDialogTitle = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_EditSamples"];
+            _sampleColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_Sample"];
             Samples = new List<Sample>();
             EditSamplesCommand = new DelegateCommand(OnEditSamplesExecute, OnEditSamplesCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
@@ -159,7 +162,7 @@ namespace EnvDT.UI.ViewModel
         private void BuildSampleDataView()
         {
             _publications = _unitOfWork.Publications.GetAll().OrderBy(p => p.OrderId);
-            _sampleTable.Columns.Add("Sample");
+            _sampleTable.Columns.Add(_sampleColHeader);
             IDictionary<string, object> sampleTableRow = new ExpandoObject();
             var sampleNameKey = "SampleName";
             sampleTableRow[sampleNameKey] = "";
@@ -212,8 +215,10 @@ namespace EnvDT.UI.ViewModel
             }
             catch (Exception ex)
             {
-                _messageDialogService.ShowOkDialog("Error", 
-                    "Please report the following error to your Administrator: " + ex.Message);
+                _messageDialogService.ShowOkDialog(
+                    Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_TaskError"],
+                    string.Format(Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogMsg_TaskError"],
+                    ex.Message));
             }
             finally
             {
@@ -315,7 +320,7 @@ namespace EnvDT.UI.ViewModel
         private void BuildEvalResultDataView()
         {
             _evalResultTable = new DataTable();
-            _evalResultTable.Columns.Add("Sample");
+            _evalResultTable.Columns.Add(_sampleColHeader);
             _footnotesTable.Clear();
             _footnoteIndex = 1;
 
@@ -394,7 +399,8 @@ namespace EnvDT.UI.ViewModel
             else
             {
                 _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName} {_footnoteIndex})";
-                var missingParamFootNote = $"Missing: {evalResult.MissingParams}";
+                var missingText = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_Missing"];
+                var missingParamFootNote = $"{missingText} {evalResult.MissingParams}";
                 DataRow dr = _footnotesTable.NewRow();
                 dr["Key"] = $"{_footnoteIndex})";
                 dr["Value"] = missingParamFootNote;

@@ -61,20 +61,579 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Project Number.
+        ///   Looks up a localized string similar to The value of the following key could not be read: {0}..
         /// </summary>
-        public static string ProjectDetailVM_ProjectNumber_Label {
+        public static string ImportLabReportService_DialogMsg_CellError {
             get {
-                return ResourceManager.GetString("ProjectDetailVM_ProjectNumber_Label", resourceCulture);
+                return ResourceManager.GetString("ImportLabReportService_DialogMsg_CellError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This LabReport has already been imported. Please chose another file or delete the LabReport first..
+        /// </summary>
+        public static string ImportLabReportService_DialogMsg_ImportLabReport {
+            get {
+                return ResourceManager.GetString("ImportLabReportService_DialogMsg_ImportLabReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Table cell value error.
+        /// </summary>
+        public static string ImportLabReportService_DialogTitle_CellError {
+            get {
+                return ResourceManager.GetString("ImportLabReportService_DialogTitle_CellError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import LabReport.
+        /// </summary>
+        public static string ImportLabReportService_DialogTitle_ImportLabReport {
+            get {
+                return ResourceManager.GetString("ImportLabReportService_DialogTitle_ImportLabReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing parameters.
+        /// </summary>
+        public static string LabReportPreCheck_DialogTitle_MissingParam {
+            get {
+                return ResourceManager.GetString("LabReportPreCheck_DialogTitle_MissingParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluate.
+        /// </summary>
+        public static string LabReportView_Button_Eval {
+            get {
+                return ResourceManager.GetString("LabReportView_Button_Eval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Report.
+        /// </summary>
+        public static string LabReportView_Button_Import {
+            get {
+                return ResourceManager.GetString("LabReportView_Button_Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open file.
+        /// </summary>
+        public static string LabReportView_Button_Open {
+            get {
+                return ResourceManager.GetString("LabReportView_Button_Open", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to LabReports.
+        /// </summary>
+        public static string LabReportView_GridHeader_LabReports {
+            get {
+                return ResourceManager.GetString("LabReportView_GridHeader_LabReports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please close first related open Tab {0}..
+        /// </summary>
+        public static string LabReportVM_DialogMsg_CloseTab {
+            get {
+                return ResourceManager.GetString("LabReportVM_DialogMsg_CloseTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete the LabReport {0} and all related samples and values?.
+        /// </summary>
+        public static string LabReportVM_DialogMsg_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("LabReportVM_DialogMsg_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete LabReport.
+        /// </summary>
+        public static string LabReportVM_DialogTitle_CloseTab {
+            get {
+                return ResourceManager.GetString("LabReportVM_DialogTitle_CloseTab", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete LabReport.
+        /// </summary>
+        public static string LabReportVM_DialogTitle_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("LabReportVM_DialogTitle_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project.
+        /// </summary>
+        public static string MainTabView_Header_Title {
+            get {
+                return ResourceManager.GetString("MainTabView_Header_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string MainWindow_Header_Main {
+            get {
+                return ResourceManager.GetString("MainWindow_Header_Main", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Settings.
+        /// </summary>
+        public static string MainWindow_Header_Settings {
+            get {
+                return ResourceManager.GetString("MainWindow_Header_Settings", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
-        public static string SettingsDetailVM_Language_Label {
+        public static string MissingParamDialog_GridHeader_Language {
             get {
-                return ResourceManager.GetString("SettingsDetailVM_Language_Label", resourceCulture);
+                return ResourceManager.GetString("MissingParamDialog_GridHeader_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter.
+        /// </summary>
+        public static string MissingParamDialog_GridHeader_Parameter {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_GridHeader_Parameter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Alias.
+        /// </summary>
+        public static string MissingParamDialog_GridHeader_SelectedParamAlias {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_GridHeader_SelectedParamAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Selected Alias.
+        /// </summary>
+        public static string MissingParamDialog_GridHeader_SelectedUnitAlias {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_GridHeader_SelectedUnitAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit.
+        /// </summary>
+        public static string MissingParamDialog_GridHeader_Unit {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_GridHeader_Unit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing parameters:.
+        /// </summary>
+        public static string MissingParamDialog_Label_MissingParams {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_Label_MissingParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing units:.
+        /// </summary>
+        public static string MissingParamDialog_Label_MissingUnits {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_Label_MissingUnits", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Some parameters could not be automatically identified. Please select 
+        ///for each item a corresponding parameter name from the dropdown menu..
+        /// </summary>
+        public static string MissingParamDialog_TextBlock_SelectParams {
+            get {
+                return ResourceManager.GetString("MissingParamDialog_TextBlock_SelectParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language must be chosen..
+        /// </summary>
+        public static string MissingParamNameWrapper_TextBlock_Language {
+            get {
+                return ResourceManager.GetString("MissingParamNameWrapper_TextBlock_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter Name Alias must be chosen..
+        /// </summary>
+        public static string MissingParamNameWrapper_TextBlock_ParamNameAlias {
+            get {
+                return ResourceManager.GetString("MissingParamNameWrapper_TextBlock_ParamNameAlias", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit Name Alias must be chosen..
+        /// </summary>
+        public static string MissingUnitNameWrapper_TextBlock_UnitName {
+            get {
+                return ResourceManager.GetString("MissingUnitNameWrapper_TextBlock_UnitName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project address.
+        /// </summary>
+        public static string ProjectDetailView_Label_ProjectAddress {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_ProjectAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project client.
+        /// </summary>
+        public static string ProjectDetailView_Label_ProjectClient {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_ProjectClient", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project name.
+        /// </summary>
+        public static string ProjectDetailView_Label_ProjectName {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_ProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project number.
+        /// </summary>
+        public static string ProjectDetailView_Label_ProjectNumber {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_ProjectNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete the project {0} {1}?.
+        /// </summary>
+        public static string ProjectDetailVM_DialogMsg_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ProjectDetailVM_DialogMsg_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please close first all open Tabs..
+        /// </summary>
+        public static string ProjectDetailVM_DialogMsg_DeleteCloseTabs {
+            get {
+                return ResourceManager.GetString("ProjectDetailVM_DialogMsg_DeleteCloseTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Project.
+        /// </summary>
+        public static string ProjectDetailVM_DialogTitle_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ProjectDetailVM_DialogTitle_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Project.
+        /// </summary>
+        public static string ProjectDetailVM_DialogTitle_DeleteCloseTabs {
+            get {
+                return ResourceManager.GetString("ProjectDetailVM_DialogTitle_DeleteCloseTabs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New project....
+        /// </summary>
+        public static string ProjectView_Button_AddProject {
+            get {
+                return ResourceManager.GetString("ProjectView_Button_AddProject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project selection.
+        /// </summary>
+        public static string ProjectView_Label_ProjectSelection {
+            get {
+                return ResourceManager.GetString("ProjectView_Label_ProjectSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve made changes. Navigate away?.
+        /// </summary>
+        public static string ProjectVM_DialogMsg_ConfirmNavigate {
+            get {
+                return ResourceManager.GetString("ProjectVM_DialogMsg_ConfirmNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        public static string ProjectVM_DialogTitle_ConfirmNavigate {
+            get {
+                return ResourceManager.GetString("ProjectVM_DialogTitle_ConfirmNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Name cannot be empty..
+        /// </summary>
+        public static string ProjectWrapper_TextBlock_ProjectName {
+            get {
+                return ResourceManager.GetString("ProjectWrapper_TextBlock_ProjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Excel file is probably corrupt. Please save the file again in Excel by overwriting the same file. Details: {0}.
+        /// </summary>
+        public static string ReadFileHelper_DialogMsg_CorruptExcel {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogMsg_CorruptExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to An error has occured. Details: {0}.
+        /// </summary>
+        public static string ReadFileHelper_DialogMsg_FileError {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogMsg_FileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The laboratory could not be identified. Please check the LabReport configurator settings or add a new configuration..
+        /// </summary>
+        public static string ReadFileHelper_DialogMsg_UnknLabRFormat {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogMsg_UnknLabRFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Corrupt Excel file.
+        /// </summary>
+        public static string ReadFileHelper_DialogTitle_CorruptExcel {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogTitle_CorruptExcel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to File error.
+        /// </summary>
+        public static string ReadFileHelper_DialogTitle_FileError {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogTitle_FileError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown LabReport format.
+        /// </summary>
+        public static string ReadFileHelper_DialogTitle_UnknLabRFormat {
+            get {
+                return ResourceManager.GetString("ReadFileHelper_DialogTitle_UnknLabRFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        public static string SampleDetailView_Button_Copy {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Button_Copy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit samples.
+        /// </summary>
+        public static string SampleDetailView_Button_Edit {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Button_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Evaluate.
+        /// </summary>
+        public static string SampleDetailView_Button_Eval {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Button_Eval", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please report the following error to your Administrator: {0}..
+        /// </summary>
+        public static string SampleDetailVM_DialogMsg_TaskError {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_DialogMsg_TaskError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit samples.
+        /// </summary>
+        public static string SampleDetailVM_DialogTitle_EditSamples {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_DialogTitle_EditSamples", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error.
+        /// </summary>
+        public static string SampleDetailVM_DialogTitle_TaskError {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_DialogTitle_TaskError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing:.
+        /// </summary>
+        public static string SampleDetailVM_Footnote_Missing {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_Footnote_Missing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        public static string SampleDetailVM_GridHeader_Sample {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_GridHeader_Sample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition must be chosen..
+        /// </summary>
+        public static string SampleWrapper_TextBlock_ConditionId {
+            get {
+                return ResourceManager.GetString("SampleWrapper_TextBlock_ConditionId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sub type must be chosen..
+        /// </summary>
+        public static string SampleWrapper_TextBlock_MediumSubTypeId {
+            get {
+                return ResourceManager.GetString("SampleWrapper_TextBlock_MediumSubTypeId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample Name cannot be empty..
+        /// </summary>
+        public static string SampleWrapper_TextBlock_SampleName {
+            get {
+                return ResourceManager.GetString("SampleWrapper_TextBlock_SampleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language:.
+        /// </summary>
+        public static string SettingsDetailView_Label_Language {
+            get {
+                return ResourceManager.GetString("SettingsDetailView_Label_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel.
+        /// </summary>
+        public static string UI_Button_Cancel {
+            get {
+                return ResourceManager.GetString("UI_Button_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete.
+        /// </summary>
+        public static string UI_Button_Delete {
+            get {
+                return ResourceManager.GetString("UI_Button_Delete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string UI_Button_No {
+            get {
+                return ResourceManager.GetString("UI_Button_No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OK.
+        /// </summary>
+        public static string UI_Button_OK {
+            get {
+                return ResourceManager.GetString("UI_Button_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string UI_Button_Save {
+            get {
+                return ResourceManager.GetString("UI_Button_Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string UI_Button_Yes {
+            get {
+                return ResourceManager.GetString("UI_Button_Yes", resourceCulture);
             }
         }
     }

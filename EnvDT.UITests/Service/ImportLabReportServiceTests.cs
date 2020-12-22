@@ -38,9 +38,7 @@ namespace EnvDT.UITests.Service
         {
             _importLabReportService.IsLabReportAlreadyPresent(_reportLabIdent);
 
-            _messageDialogServiceMock.Verify(d => d.ShowOkDialog("Import LabReport",
-                    $"This LabReport has already been imported. Please chose another file or" +
-                    $" delete the LabReport first."),
+            _messageDialogServiceMock.Verify(d => d.ShowOkDialog(It.IsAny<string>(), It.IsAny<string>()),
                 Times.Once);
         }
     }

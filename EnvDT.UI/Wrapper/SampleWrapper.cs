@@ -82,19 +82,19 @@ namespace EnvDT.UI.Wrapper
                 case nameof(SampleName):
                     if (string.Equals(SampleName, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return "Sample Name cannot be empty.";
+                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_SampleName"];
                     }
                     break;
                 case nameof(MediumSubTypeId):
                     if (Guid.Equals(MediumSubTypeId, Guid.Empty))
                     {
-                        yield return "Sub type must be chosen.";
+                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_MediumSubTypeId"];
                     }
                     break;
                 case nameof(ConditionId):
                     if (Guid.Equals(ConditionId, Guid.Empty))
                     {
-                        yield return "Condition must be chosen.";
+                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_ConditionId"];
                     }
                     break;
             }

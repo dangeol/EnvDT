@@ -117,10 +117,197 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ProjectDetailVM_ProjectNumber_Label" xml:space="preserve">
-    <value>Project Number</value>
+  <data name="ProjectDetailView_Label_ProjectNumber" xml:space="preserve">
+    <value>Project number</value>
   </data>
-  <data name="SettingsDetailVM_Language_Label" xml:space="preserve">
+  <data name="SettingsDetailView_Label_Language" xml:space="preserve">
+    <value>Language:</value>
+  </data>
+  <data name="LabReportVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Delete LabReport</value>
+  </data>
+  <data name="LabReportVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Do you really want to delete the LabReport {0} and all related samples and values?</value>
+  </data>
+  <data name="LabReportVM_DialogTitle_CloseTab" xml:space="preserve">
+    <value>Delete LabReport</value>
+  </data>
+  <data name="LabReportVM_DialogMsg_CloseTab" xml:space="preserve">
+    <value>Please close first related open Tab {0}.</value>
+  </data>
+  <data name="ImportLabReportService_DialogTitle_ImportLabReport" xml:space="preserve">
+    <value>Import LabReport</value>
+  </data>
+  <data name="ImportLabReportService_DialogMsg_ImportLabReport" xml:space="preserve">
+    <value>This LabReport has already been imported. Please chose another file or delete the LabReport first.</value>
+  </data>
+  <data name="ImportLabReportService_DialogTitle_CellError" xml:space="preserve">
+    <value>Table cell value error</value>
+  </data>
+  <data name="ImportLabReportService_DialogMsg_CellError" xml:space="preserve">
+    <value>The value of the following key could not be read: {0}.</value>
+  </data>
+  <data name="LabReportPreCheck_DialogTitle_MissingParam" xml:space="preserve">
+    <value>Missing parameters</value>
+  </data>
+  <data name="ReadFileHelper_DialogTitle_FileError" xml:space="preserve">
+    <value>File error</value>
+  </data>
+  <data name="ReadFileHelper_DialogMsg_FileError" xml:space="preserve">
+    <value>An error has occured. Details: {0}</value>
+  </data>
+  <data name="ReadFileHelper_DialogTitle_CorruptExcel" xml:space="preserve">
+    <value>Corrupt Excel file</value>
+  </data>
+  <data name="ReadFileHelper_DialogMsg_CorruptExcel" xml:space="preserve">
+    <value>The Excel file is probably corrupt. Please save the file again in Excel by overwriting the same file. Details: {0}</value>
+  </data>
+  <data name="ReadFileHelper_DialogTitle_UnknLabRFormat" xml:space="preserve">
+    <value>Unknown LabReport format</value>
+  </data>
+  <data name="ReadFileHelper_DialogMsg_UnknLabRFormat" xml:space="preserve">
+    <value>The laboratory could not be identified. Please check the LabReport configurator settings or add a new configuration.</value>
+  </data>
+  <data name="ProjectDetailVM_DialogTitle_DeleteCloseTabs" xml:space="preserve">
+    <value>Delete Project</value>
+  </data>
+  <data name="ProjectDetailVM_DialogMsg_DeleteCloseTabs" xml:space="preserve">
+    <value>Please close first all open Tabs.</value>
+  </data>
+  <data name="ProjectDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Delete Project</value>
+  </data>
+  <data name="ProjectDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Do you really want to delete the project {0} {1}?</value>
+  </data>
+  <data name="ProjectVM_DialogTitle_ConfirmNavigate" xml:space="preserve">
+    <value>Question</value>
+  </data>
+  <data name="ProjectVM_DialogMsg_ConfirmNavigate" xml:space="preserve">
+    <value>You've made changes. Navigate away?</value>
+  </data>
+  <data name="SampleDetailVM_DialogTitle_EditSamples" xml:space="preserve">
+    <value>Edit samples</value>
+  </data>
+  <data name="SampleDetailVM_DialogTitle_TaskError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="SampleDetailVM_DialogMsg_TaskError" xml:space="preserve">
+    <value>Please report the following error to your Administrator: {0}.</value>
+  </data>
+  <data name="ProjectDetailView_Label_ProjectClient" xml:space="preserve">
+    <value>Project client</value>
+  </data>
+  <data name="ProjectDetailView_Label_ProjectName" xml:space="preserve">
+    <value>Project name</value>
+  </data>
+  <data name="ProjectDetailView_Label_ProjectAddress" xml:space="preserve">
+    <value>Project address</value>
+  </data>
+  <data name="UI_Button_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="UI_Button_Delete" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="LabReportView_Button_Open" xml:space="preserve">
+    <value>Open file</value>
+  </data>
+  <data name="LabReportView_Button_Import" xml:space="preserve">
+    <value>Import Report</value>
+  </data>
+  <data name="LabReportView_Button_Eval" xml:space="preserve">
+    <value>Evaluate</value>
+  </data>
+  <data name="ProjectView_Label_ProjectSelection" xml:space="preserve">
+    <value>Project selection</value>
+  </data>
+  <data name="ProjectView_Button_AddProject" xml:space="preserve">
+    <value>New project...</value>
+  </data>
+  <data name="SampleDetailView_Button_Edit" xml:space="preserve">
+    <value>Edit samples</value>
+  </data>
+  <data name="SampleDetailView_Button_Eval" xml:space="preserve">
+    <value>Evaluate</value>
+  </data>
+  <data name="SampleDetailView_Button_Copy" xml:space="preserve">
+    <value>Copy</value>
+  </data>
+  <data name="MissingParamDialog_TextBlock_SelectParams" xml:space="preserve">
+    <value>Some parameters could not be automatically identified. Please select 
+for each item a corresponding parameter name from the dropdown menu.</value>
+  </data>
+  <data name="MissingParamDialog_Label_MissingParams" xml:space="preserve">
+    <value>Missing parameters:</value>
+  </data>
+  <data name="MissingParamDialog_Label_MissingUnits" xml:space="preserve">
+    <value>Missing units:</value>
+  </data>
+  <data name="UI_Button_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="UI_Button_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="UI_Button_Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="UI_Button_No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="MainWindow_Header_Main" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="MainWindow_Header_Settings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="SampleDetailVM_Footnote_Missing" xml:space="preserve">
+    <value>Missing:</value>
+  </data>
+  <data name="LabReportView_GridHeader_LabReports" xml:space="preserve">
+    <value>LabReports</value>
+  </data>
+  <data name="MainTabView_Header_Title" xml:space="preserve">
+    <value>Project</value>
+  </data>
+  <data name="SampleDetailVM_GridHeader_Sample" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="MissingParamNameWrapper_TextBlock_ParamNameAlias" xml:space="preserve">
+    <value>Parameter Name Alias must be chosen.</value>
+  </data>
+  <data name="MissingParamNameWrapper_TextBlock_Language" xml:space="preserve">
+    <value>Language must be chosen.</value>
+  </data>
+  <data name="MissingUnitNameWrapper_TextBlock_UnitName" xml:space="preserve">
+    <value>Unit Name Alias must be chosen.</value>
+  </data>
+  <data name="ProjectWrapper_TextBlock_ProjectName" xml:space="preserve">
+    <value>Project Name cannot be empty.</value>
+  </data>
+  <data name="SampleWrapper_TextBlock_SampleName" xml:space="preserve">
+    <value>Sample Name cannot be empty.</value>
+  </data>
+  <data name="SampleWrapper_TextBlock_MediumSubTypeId" xml:space="preserve">
+    <value>Sub type must be chosen.</value>
+  </data>
+  <data name="SampleWrapper_TextBlock_ConditionId" xml:space="preserve">
+    <value>Condition must be chosen.</value>
+  </data>
+  <data name="MissingParamDialog_GridHeader_Parameter" xml:space="preserve">
+    <value>Parameter</value>
+  </data>
+  <data name="MissingParamDialog_GridHeader_Language" xml:space="preserve">
     <value>Language</value>
+  </data>
+  <data name="MissingParamDialog_GridHeader_SelectedParamAlias" xml:space="preserve">
+    <value>Selected Alias</value>
+  </data>
+  <data name="MissingParamDialog_GridHeader_Unit" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="MissingParamDialog_GridHeader_SelectedUnitAlias" xml:space="preserve">
+    <value>Selected Alias</value>
   </data>
 </root>

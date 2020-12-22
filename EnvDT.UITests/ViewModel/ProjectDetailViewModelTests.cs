@@ -292,9 +292,8 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.DeleteCommand.Execute(null);
 
-            _messageDialogServiceMock.Verify(d => d.ShowOkCancelDialog("Delete Project",
-                $"Do you really want to delete the friend '{p.ProjectClient} {p.ProjectName}'?"),
-                Times.Once);
+            _messageDialogServiceMock.Verify(d => d.ShowOkCancelDialog(It.IsAny<string>(),
+                It.IsAny<string>()), Times.Once);
         }
 
         [Fact]

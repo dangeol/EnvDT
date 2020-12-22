@@ -1,5 +1,8 @@
 ﻿using Autofac;
+using EnvDT.UI.Properties;
+using EnvDT.UI.Settings.Localization;
 using EnvDT.UI.ViewModel;
+using System.Globalization;
 
 namespace EnvDT.UI.Startup
 {
@@ -17,17 +20,17 @@ namespace EnvDT.UI.Startup
 			ConfigureApplication(container);
 		}
 
+		private void ConfigureContainer(ContainerBuilder builder)
+		{
+			builder.RegisterModule<GeneralModule>();
+			builder.RegisterModule<ViewModelModule>();
+		}
+
 		private void ConfigureApplication(IContainer container)
 		{
 			var mainWindow = container.Resolve<MainWindow>();
 			mainWindow.DataContext = container.Resolve<MainViewModel>();
 			mainWindow.Show();
-		}
-
-		private void ConfigureContainer(ContainerBuilder builder)
-		{
-			builder.RegisterModule<GeneralModule>();
-			builder.RegisterModule<ViewModelModule>();
 		}
 	}
 }

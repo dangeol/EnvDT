@@ -2,6 +2,7 @@
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
+using EnvDT.UI.Settings.Localization;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,7 @@ namespace EnvDT.UI.Service
         private IUnitOfWork _unitOfWork;
         private IReadFileHelper _readFileHelper;
         private List<Sample> _samples = new List<Sample>();
+        private TranslationSource _translator = TranslationSource.Instance;
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             IUnitOfWork unitOfWork, IReadFileHelper readFileHelper)
@@ -116,9 +118,10 @@ namespace EnvDT.UI.Service
         {
             var foundLabReport = _unitOfWork.LabReports.GetByReportLabIdent(reportLabIdent);
             if (foundLabReport != null) { 
-                var result = _messageDialogService.ShowOkDialog("Import LabReport",
-                    $"This LabReport has already been imported. Please chose another file or" +
-                    $" delete the LabReport first.");
+                var result = _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_ImportLabReport"],
+                    _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_ImportLabReport"]);
+
                 if (result == MessageDialogResult.OK)
                 {
                 }
@@ -272,8 +275,10 @@ namespace EnvDT.UI.Service
 
         private void DisplayReadingCellErrorMessage(string variableName)
         {
-            _messageDialogService.ShowOkDialog("Cell value error", 
-                "The value of the following key could not be read: " + variableName);
+            _messageDialogService.ShowOkDialog(
+                _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_CellError"],
+                string.Format(_translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_CellError"], 
+                variableName));
         }
     }
 }

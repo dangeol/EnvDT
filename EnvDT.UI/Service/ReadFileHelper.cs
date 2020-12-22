@@ -3,6 +3,7 @@ using ExcelDataReader;
 using System.IO;
 using System.Data;
 using EnvDT.UI.Dialogs;
+using EnvDT.UI.Settings.Localization;
 
 namespace EnvDT.UI.Service
 {
@@ -10,6 +11,7 @@ namespace EnvDT.UI.Service
     {
         private IMessageDialogService _messageDialogService;
         private Stream stream;
+        private TranslationSource _translator = TranslationSource.Instance;
 
         public ReadFileHelper(IMessageDialogService messageDialogService)
         {
@@ -27,8 +29,11 @@ namespace EnvDT.UI.Service
                 }
                 catch (Exception ex)
                 {
-                    _messageDialogService.ShowOkDialog("File error", 
-                    "An error has occured. Details: " + ex.Message);
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_FileError"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_FileError"],
+                        ex.Message));
+
                     return null;
                 }
                 IExcelDataReader reader = null;
@@ -41,8 +46,11 @@ namespace EnvDT.UI.Service
                     }
                     catch (Exception ex)
                     {
-                        _messageDialogService.ShowOkDialog("Corrupt Excel file", "The Excel file is probably corrupt. " +
-                            "Please save the file again in Excel by overwriting the same file. Details: " + ex.Message);
+                        _messageDialogService.ShowOkDialog(
+                            _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
+                            string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
+                            ex.Message));
+
                         return null;
                     }
                 }
@@ -54,8 +62,11 @@ namespace EnvDT.UI.Service
                     }
                     catch (Exception ex)
                     {
-                        _messageDialogService.ShowOkDialog("Corrupt Excel file", "The Excel file is probably corrupt. " +
-                            "Please save the file again in Excel by overwriting the same file. Details: " + ex.Message);
+                        _messageDialogService.ShowOkDialog(
+                            _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
+                            string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
+                            ex.Message));
+
                         return null;
                     }
                 }
@@ -75,8 +86,9 @@ namespace EnvDT.UI.Service
                 reader.Close();
                 if (workSheet == null)
                 {
-                    _messageDialogService.ShowOkDialog("Unknown LabReport format", "The laboratory could not be identified. " +
-                        "Please check the LabReport configurator settings.");
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
                 }
                 else
                 {

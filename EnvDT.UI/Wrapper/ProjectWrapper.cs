@@ -47,7 +47,7 @@ namespace EnvDT.UI.Wrapper
                 case nameof(ProjectName):
                     if (string.Equals(ProjectName, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return "Project Name cannot be empty.";
+                        yield return Translator["EnvDT.UI.Properties.Strings.ProjectWrapper_TextBlock_ProjectName"];
                     }
                     break;
             }
