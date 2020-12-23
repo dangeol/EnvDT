@@ -24,6 +24,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEvalLabReportService> _evalLabReportServiceMock;
         private Mock<ISampleEditDialogViewModel> _sampleEditDialogViewModel;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
+        private Mock<IDispatcher> _dispatcherMock;
         private SampleDetailViewModel _sampleDetailViewModel;
         private OpenDetailViewEvent _openDetailViewEvent;
         private DetailClosedEvent _detailClosedEvent;
@@ -52,11 +53,13 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock = new Mock<IUnitOfWork>();            
             _evalLabReportServiceMock = new Mock<IEvalLabReportService>();
             _sampleEditDialogViewModel = new Mock<ISampleEditDialogViewModel>();
+            _dispatcherMock = new Mock<IDispatcher>();
             _detailViewModelName = "SampleDetailViewModel";
             _labReportId1 = new Guid("ce3444d8-adf9-4a7d-a2f7-40ac21905af9");
             _sampleDetailViewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _unitOfWorkMock.Object, 
-                _evalLabReportServiceMock.Object, _sampleEditDialogViewModel.Object);
+                _evalLabReportServiceMock.Object, _sampleEditDialogViewModel.Object,
+                _dispatcherMock.Object);
 
             _viewModel = new MainTabViewModel(_eventAggregatorMock.Object, _tabMock.Object,
                 _projectViewModelMock.Object, CreateSampleDetailViewModel);

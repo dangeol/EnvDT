@@ -8,6 +8,8 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Threading;
 using Xunit;
 
 namespace EnvDT.ModelTests.Core
@@ -18,6 +20,7 @@ namespace EnvDT.ModelTests.Core
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IMissingParamDialogViewModel> _missingParamDetailViewModelMock;
+        private Mock<IDispatcher> _dispatcherMock;
         private Publication _publication;
         private PublParam _publParam;
         private List<PublParam> _publParams;
@@ -35,6 +38,9 @@ namespace EnvDT.ModelTests.Core
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _dispatcherMock = new Mock<IDispatcher>();
+            _dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>()))
+                .Callback((Action a) => a());
             _publParam = new PublParam();
             _publParam.ParameterId = new Guid("019df8e5-0042-4e0a-b5b3-93686a81de6b");
             _publParams = new List<PublParam>();
@@ -52,13 +58,14 @@ namespace EnvDT.ModelTests.Core
             _missingUnitIds = new HashSet<Guid>();
             _missingUnitIds.Add(new Guid("90936f80-0363-45b3-9e6c-63374098ca99"));
             _publicationIds = new List<Guid>();
-            _publicationIds.Add(new Guid("9be712a3-9c92-4d2f-b595-dcc0fcb092f1"));
+            _publicationIds.Add(new Guid("9be712a3-9c92-4d2f-b595-dcc0fcb092f1"));            
 
             _unitOfWorkMock.Setup(uw => uw.Publications.GetById(It.IsAny<Guid>()))
                 .Returns(_publication);
 
             _labReportPreCheck = new LabReportPreCheck(_unitOfWorkMock.Object, 
-                _messageDialogServiceMock.Object, CreateMissingParamDetailViewModel);
+                _messageDialogServiceMock.Object, CreateMissingParamDetailViewModel,
+                _dispatcherMock.Object);
         }
 
         private IMissingParamDialogViewModel CreateMissingParamDetailViewModel()

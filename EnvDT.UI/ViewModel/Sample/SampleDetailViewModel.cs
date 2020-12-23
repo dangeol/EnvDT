@@ -12,7 +12,6 @@ using System.Data;
 using System.Dynamic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -24,6 +23,7 @@ namespace EnvDT.UI.ViewModel
         private IUnitOfWork _unitOfWork;
         private IEvalLabReportService _evalLabReportService;
         private ISampleEditDialogViewModel _sampleEditDialogViewModel;
+        private IDispatcher _dispatcher;
         private Guid _labReportId;
         private IEnumerable<Publication> _publications;
         private List<Publication> _selectedPubls;
@@ -45,7 +45,7 @@ namespace EnvDT.UI.ViewModel
         public SampleDetailViewModel(
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
             IUnitOfWork unitOfWork, IEvalLabReportService evalLabReportService, 
-            ISampleEditDialogViewModel sampleEditDialogViewModel)
+            ISampleEditDialogViewModel sampleEditDialogViewModel, IDispatcher dispatcher)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -53,6 +53,11 @@ namespace EnvDT.UI.ViewModel
             _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
             _sampleEditDialogViewModel = sampleEditDialogViewModel;
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException("dispatcher");
+            }
+            _dispatcher = dispatcher;
             _sampleTable = new DataTable();
             _selectedPublsTable = new DataTable();
             _selectedPublsTable.Columns.Add("Key");
@@ -200,6 +205,11 @@ namespace EnvDT.UI.ViewModel
 
         private async void OnEvalExecute()
         {
+            await OnEvalExecuteImpl();
+        }
+
+        internal async Task OnEvalExecuteImpl()
+        {
             IsEvalResultVisible = false;
             IsAnimationVisible = true;
 
@@ -236,7 +246,7 @@ namespace EnvDT.UI.ViewModel
         {
             bool areSamplesReadyForEval = false;
 
-            Application.Current.Dispatcher.Invoke(() => areSamplesReadyForEval = AreSamplesReadyForEval());
+            _dispatcher.Invoke(() => areSamplesReadyForEval = AreSamplesReadyForEval());
 
             if (areSamplesReadyForEval)
             {

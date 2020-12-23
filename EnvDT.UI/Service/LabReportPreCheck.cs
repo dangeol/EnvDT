@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace EnvDT.Model.Core
 {
-    public class LabReportPreCheck : ILabReportPreCheck
+    public class LabReportPreCheck : ViewModelBase, ILabReportPreCheck
     {
         private IUnitOfWork _unitOfWork;
         private IMessageDialogService _messageDialogService;
@@ -18,15 +18,21 @@ namespace EnvDT.Model.Core
         private HashSet<Guid> _missingUnitIds;
         private Func<IMissingParamDialogViewModel> _missingParamDialogVmCreator;
         private TranslationSource _translator = TranslationSource.Instance;
+        private IDispatcher _dispatcher;
 
         public LabReportPreCheck(IUnitOfWork unitOfWork, IMessageDialogService messageDialogService,
-            Func<IMissingParamDialogViewModel> missingParamDetailVmCreator)
+            Func<IMissingParamDialogViewModel> missingParamDetailVmCreator, IDispatcher dispatcher)
         {
             _unitOfWork = unitOfWork;
             _messageDialogService = messageDialogService;
             _missingParamIds = new HashSet<Guid>();
             _missingUnitIds = new HashSet<Guid>();
             _missingParamDialogVmCreator = missingParamDetailVmCreator;
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException("dispatcher");
+            }
+            _dispatcher = dispatcher;
         }
 
         public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
@@ -59,7 +65,7 @@ namespace EnvDT.Model.Core
             if (_missingParamIds.Count > 0 || _missingUnitIds.Count > 0)
             {
                 var result = MessageDialogResult.Cancel;
-                Application.Current.Dispatcher.Invoke(() =>
+                _dispatcher.Invoke(() =>
                 { 
                     var missingParamDialogVM = _missingParamDialogVmCreator();
                     missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);

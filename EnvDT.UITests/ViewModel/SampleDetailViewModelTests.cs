@@ -13,6 +13,7 @@ using EnvDT.Model.Core.HelperClasses;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Wrapper;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -28,6 +29,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<DetailClosedEvent> _detailClosedEventMock;
         private Mock<IMissingParamDialogViewModel> _missingParamDialogVM;
         private Mock<ISampleEditDialogViewModel> _sampleEditDialogVM;
+        private Mock<IDispatcher> _dispatcherMock;
         private List<Sample> _samples;
         private LabReport _labReport;
         private List<Publication> _publications;
@@ -45,14 +47,18 @@ namespace EnvDT.UITests.ViewModel
             _samples.Add(new Model.Entity.Sample
             {
                 SampleId = new Guid("1f343ed6-e410-4f4b-9432-073acada899b"),
-                SampleName = "Sample1"
+                SampleName = "Sample1",
+                MediumSubTypeId = new Guid("9a523236-b656-4c0a-a873-c272b15b1e83"),
+                ConditionId = new Guid("2f94eb45-8da4-4817-85e2-530377869016")
             });
             _samples.Add(new Model.Entity.Sample
             {
                 SampleId = new Guid("f515fda2-e370-4a22-b20c-4ffdc5c12503"),
-                SampleName = "Sample2"
-            });
-            _labReport = new LabReport();
+                SampleName = "Sample2",
+                MediumSubTypeId = Guid.Empty,
+                ConditionId = Guid.Empty
+            }); 
+             _labReport = new LabReport();
             _labReport.ReportLabIdent = _reportLabIdent;
             _publications = new List<Publication>();
             _publications.Add(new Model.Entity.Publication
@@ -95,10 +101,14 @@ namespace EnvDT.UITests.ViewModel
 
             _missingParamDialogVM = new Mock<IMissingParamDialogViewModel>();
             _sampleEditDialogVM = new Mock<ISampleEditDialogViewModel>();
+            _dispatcherMock = new Mock<IDispatcher>();
+            _dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>()))
+                .Callback((Action a) => a());
 
             _viewModel = new SampleDetailViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _unitOfWorkMock.Object,
-                _evalLabReportServiceMock.Object, _sampleEditDialogViewModelMock.Object);
+                _evalLabReportServiceMock.Object, _sampleEditDialogViewModelMock.Object,
+                _dispatcherMock.Object);
         }
 
         [Fact]
@@ -123,7 +133,7 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldBuildCorrectEvalResultDataViewDependingOnSampleDataViewTable()
+        public async Task ShouldBuildCorrectEvalResultDataViewDependingOnSampleDataViewTable()
         {
             _viewModel.Load(_labReportId);
             _viewModel.SampleDataView.Table.Rows[0][1] = true;
@@ -133,7 +143,7 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.False(_viewModel.IsEvalResultVisible);
 
-            _viewModel.EvalLabReportCommand.Execute(null);
+            await _viewModel.OnEvalExecuteImpl();
 
             //1 Publication selected
             Assert.Equal(1, _viewModel.SelectedPublsDataView.Table.Rows.Count);
@@ -150,7 +160,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.SampleDataView.Table.Rows[1][1] = true;
             _viewModel.SampleDataView.Table.Rows[1][2] = true;
 
-            _viewModel.EvalLabReportCommand.Execute(null);
+            await _viewModel.OnEvalExecuteImpl();
 
             Assert.True(_viewModel.IsEvalResultVisible);
 
@@ -165,7 +175,7 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
-        public void ShouldShowSampleEditDialogWhenSelectedPublicationUsesMEdSubTypesOrConditions()
+        public async Task ShouldShowSampleEditDialogWhenSelectedPublicationUsesMEdSubTypesOrConditions()
         {
             _publications.Add(new Model.Entity.Publication
             {
@@ -179,14 +189,14 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.Load(_labReportId);
             _viewModel.SampleDataView.Table.Rows[1][3] = true;
 
-            _viewModel.EvalLabReportCommand.Execute(null);
+            await _viewModel.OnEvalExecuteImpl();
 
             _messageDialogServiceMock.Verify(ds => ds.ShowSampleEditDialog(It.IsAny<string>(),
                 (ISampleEditDialogViewModel)It.IsAny<object>()), Times.Once);
         }
 
         [Fact]
-        public void ShouldShowMissingParamsInFootnotesWhenParametersAreMissing()
+        public async Task ShouldShowMissingParamsInFootnotesWhenParametersAreMissing()
         {
             _evalResult.MissingParams = "missing params string";
 
@@ -194,7 +204,7 @@ namespace EnvDT.UITests.ViewModel
             _viewModel.SampleDataView.Table.Rows[1][1] = true;
             _viewModel.SampleDataView.Table.Rows[1][2] = true;
 
-            _viewModel.EvalLabReportCommand.Execute(null);
+            await _viewModel.OnEvalExecuteImpl();
 
             //Currently 2 samples checked
             Assert.Equal(2, _viewModel.FootnotesDataView.Table.Rows.Count);

@@ -2,12 +2,11 @@
 using Prism.Commands;
 using Prism.Events;
 using System;
-using System.Collections.Generic;
 using System.Reflection;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
-{   
+{
     public abstract class DetailViewModelBase : ViewModelBase, IDetailViewModel
     {
         private bool _hasChanges;
