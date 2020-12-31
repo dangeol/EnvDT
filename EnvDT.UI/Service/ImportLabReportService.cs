@@ -13,6 +13,20 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
+        private const string _worksheetName = "Datenblatt";
+        private const int _labNameCol = 0;
+        private const int _labNameRow = 0;
+        private const int _reportLabidentCol = 4;
+        private const int _reportLabidentRow = 2;
+        private const int _firstSampleValueCol = 4;
+        private const int _sampleLabIdentRow = 3;
+        private const int _sampleNameRow = 4;
+        private const int _firstDataRow = 7;
+        private const int _paramNameCol = 0;
+        private const int _unitNameCol = 1;
+        private const int _detectionLimitCol = 2;
+        private const int _methodCol = 3;
+
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
@@ -41,9 +55,9 @@ namespace EnvDT.UI.Service
         private void ImportLabReport(DataTable workSheet, Guid? projectId)
         {
             string reportLabIdent;
-            if (workSheet.Rows[2][4] != System.DBNull.Value)
+            if (workSheet.Rows[_reportLabidentRow][_reportLabidentCol] != System.DBNull.Value)
             { 
-                reportLabIdent = workSheet.Rows[2][4].ToString();
+                reportLabIdent = workSheet.Rows[_reportLabidentRow][_reportLabidentCol].ToString();
             }
             else
             {
@@ -56,9 +70,9 @@ namespace EnvDT.UI.Service
             }
 
             string labName;
-            if (workSheet.Rows[0][0] != System.DBNull.Value)
+            if (workSheet.Rows[_labNameRow][_labNameCol] != System.DBNull.Value)
             {
-                labName = workSheet.Rows[0][0].ToString();
+                labName = workSheet.Rows[_labNameRow][_labNameCol].ToString();
             }
             else
             {
@@ -68,13 +82,13 @@ namespace EnvDT.UI.Service
             var labCompany = _unitOfWork.LabReports.GetLabByLabName(labName).LabCompany;
             Guid labReportId = CreateLabReport(reportLabIdent, labName, projectId).LabReportId;
 
-            int c = 4;
+            int c = _firstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
                 string sampleLabIdent;
-                if (workSheet.Rows[3][c] != System.DBNull.Value)
+                if (workSheet.Rows[_sampleLabIdentRow][c] != System.DBNull.Value)
                 {
-                    sampleLabIdent = workSheet.Rows[3][c].ToString();
+                    sampleLabIdent = workSheet.Rows[_sampleLabIdentRow][c].ToString();
                 }
                 else
                 {
@@ -82,9 +96,9 @@ namespace EnvDT.UI.Service
                     return;
                 }
                 string sampleName;
-                if (workSheet.Rows[4][c] != System.DBNull.Value)
+                if (workSheet.Rows[_sampleNameRow][c] != System.DBNull.Value)
                 {
-                    sampleName = workSheet.Rows[4][c].ToString();
+                    sampleName = workSheet.Rows[_sampleNameRow][c].ToString();
                 }
                 else
                 {
@@ -158,20 +172,20 @@ namespace EnvDT.UI.Service
 
         private void CreateLabReportParams(DataTable workSheet, Guid labReportId)
         {
-            int r = 7;
+            int r = _firstDataRow;
             while (r < workSheet.Rows.Count)
             {
                 string labParamName;
-                if (workSheet.Rows[r][0] != System.DBNull.Value)
+                if (workSheet.Rows[r][_paramNameCol] != System.DBNull.Value)
                 {
-                    labParamName = workSheet.Rows[r][0].ToString();
+                    labParamName = workSheet.Rows[r][_paramNameCol].ToString();
                 }
                 else
                 {
                     DisplayReadingCellErrorMessage(nameof(labParamName));
                     return;
                 }
-                var labParamUnitName = workSheet.Rows[r][1].ToString();
+                var labParamUnitName = workSheet.Rows[r][_unitNameCol].ToString();
                 var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
                 var unitId = GetUnitNameVariantByLabParamUnitName(labParamUnitName);
 
@@ -214,14 +228,14 @@ namespace EnvDT.UI.Service
             labReportParam.UnitId = unitId;
             labReportParam.LabReportId = labReportId;
             labReportParam.DetectionLimit = 0.0;
-            if (workSheet.Rows[r][2] != System.DBNull.Value)
+            if (workSheet.Rows[r][_detectionLimitCol] != System.DBNull.Value)
             {
-                labReportParam.DetectionLimit = (double)workSheet.Rows[r][2];
+                labReportParam.DetectionLimit = (double)workSheet.Rows[r][_detectionLimitCol];
             }
             labReportParam.Method = "";
-            if (workSheet.Rows[r][3] != System.DBNull.Value)
+            if (workSheet.Rows[r][_methodCol] != System.DBNull.Value)
             {
-                labReportParam.Method = (string)workSheet.Rows[r][3];
+                labReportParam.Method = (string)workSheet.Rows[r][_methodCol];
             }
 
             _unitOfWork.LabReportParams.Create(labReportParam);
@@ -230,7 +244,7 @@ namespace EnvDT.UI.Service
 
         private void CreateNewSampleValue(int r, DataTable workSheet, LabReportParam labReportParam)
         {
-            var c = 4;
+            var c = _firstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
                 if (workSheet.Rows[r][c] != System.DBNull.Value)
@@ -238,9 +252,9 @@ namespace EnvDT.UI.Service
                     var sValue = 0.0;
                     string sampleName;
                     Guid sampleId = Guid.Empty;
-                    if (workSheet.Rows[4][c] != System.DBNull.Value)
+                    if (workSheet.Rows[_sampleNameRow][c] != System.DBNull.Value)
                     {
-                        sampleName = workSheet.Rows[4][c].ToString();
+                        sampleName = workSheet.Rows[_sampleNameRow][c].ToString();
                         sampleId = _samples.FirstOrDefault(s => s.SampleName == sampleName).SampleId;
                     }
                     double testVar;

@@ -9,62 +9,59 @@ using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
-    public class ProjectViewModel : NavViewModelBase, IProjectViewModel
+    public class LabViewModel : NavViewModelBase, ILabViewModel
     {
         private ILookupDataService _lookupDataService;
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
 
-        private Func<IProjectDetailViewModel> _projectDetailVmCreator;
+        private Func<ILabDetailViewModel> _labDetailVmCreator;
 
-        public ProjectViewModel(ILookupDataService lookupDataService, IEventAggregator eventAggregator, 
-            Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
+        public LabViewModel(ILookupDataService lookupDataService, IEventAggregator eventAggregator, 
+            Func<ILabDetailViewModel> labDetailVmCreator, IMessageDialogService messageDialogService)
             : base(eventAggregator)
         {
             _lookupDataService = lookupDataService;
             _eventAggregator = eventAggregator;
-            _projectDetailVmCreator = projectDetailVmCreator;
+            _labDetailVmCreator = labDetailVmCreator;
             _messageDialogService = messageDialogService;
             _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
             _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
-            Projects = new ObservableCollection<NavItemViewModel>();
-            IsSampleTab = false;
+            Laboratories = new ObservableCollection<NavItemViewModel>();
             LoadModels();
         }
 
-        public ObservableCollection<NavItemViewModel> Projects { get; private set; }
+        public ObservableCollection<NavItemViewModel> Laboratories { get; private set; }
 
         public ICommand CloseDetailViewCommand { get; }
 
-        public bool IsSampleTab { get; private set; }
-
-        public Guid? LabReportId { get; set; }
+        public Guid? LaboratoryId { get; set; }
 
         public override void LoadModels()
         {
-            Projects.Clear();
+            Laboratories.Clear();
             var navItemViewModelNull = new NavItemViewModelNull();
-            Projects.Add(navItemViewModelNull);
+            Laboratories.Add(navItemViewModelNull);
             SelectedItem = navItemViewModelNull;
-            foreach (var project in _lookupDataService.GetAllProjectsLookup())
+            foreach (var lab in _lookupDataService.GetAllLaboratoriesLookup())
             {
-                Projects.Add(new NavItemViewModel(
-                    project.LookupItemId, project.DisplayMember, 
-                    nameof(ProjectDetailViewModel),
+                Laboratories.Add(new NavItemViewModel(
+                    lab.LookupItemId, lab.DisplayMember, 
+                    nameof(LabDetailViewModel),
                     _eventAggregator));
             }
         }
 
         protected override void OnItemSelected(OpenDetailViewEventArgs args)
         {
-            if (args.Id != Guid.Empty && args.ViewModelName == nameof(ProjectDetailViewModel))
+            if (args.Id != Guid.Empty && args.ViewModelName == nameof(LabDetailViewModel))
             {
-                CreateAndLoadProjectDetailViewModel(args);
+                CreateAndLoadLabDetailViewModel(args);
             }
         }
 
-        private void CreateAndLoadProjectDetailViewModel(OpenDetailViewEventArgs args)
+        private void CreateAndLoadLabDetailViewModel(OpenDetailViewEventArgs args)
         {
             if (DetailViewModel != null && DetailViewModel.HasChanges)
             { 
@@ -78,7 +75,7 @@ namespace EnvDT.UI.ViewModel
                 }
             }
 
-            DetailViewModel = _projectDetailVmCreator();
+            DetailViewModel = _labDetailVmCreator();
             DetailViewModel.Load(args.Id);
             IsDetailViewEnabled = true;
         }
@@ -89,18 +86,18 @@ namespace EnvDT.UI.ViewModel
 
             switch(args.ViewModelName)
             {
-                case nameof(ProjectDetailViewModel):
-                    var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == args.Id);
-                    if (projectItem != null)
+                case nameof(LabDetailViewModel):
+                    var labItem = Laboratories.SingleOrDefault(p => p.LookupItemId == args.Id);
+                    if (labItem != null)
                     {
-                        projectItem.DisplayMember = displayMember;
+                        labItem.DisplayMember = displayMember;
                     }
                     else
                     {
-                        projectItem = new NavItemViewModel(args.Id, displayMember, 
-                            nameof(ProjectDetailViewModel),
+                        labItem = new NavItemViewModel(args.Id, displayMember, 
+                            nameof(LabDetailViewModel),
                             _eventAggregator);
-                        Projects.Add(projectItem);
+                        Laboratories.Add(labItem);
                     }
                     break;
             }
@@ -110,12 +107,12 @@ namespace EnvDT.UI.ViewModel
         {
             switch(args.ViewModelName)
             {
-                case nameof(ProjectDetailViewModel):
-                    var projectItem = Projects.SingleOrDefault(p => p.LookupItemId == args.Id);
+                case nameof(LabDetailViewModel):
+                    var labItem = Laboratories.SingleOrDefault(p => p.LookupItemId == args.Id);
                     IsDetailViewEnabled = false;
-                    if (projectItem != null)
+                    if (labItem != null)
                     {
-                        Projects.Remove(projectItem);
+                        Laboratories.Remove(labItem);
                     }
                     SetPropertyValueToNull(this, "DetailViewModel");
                     break;

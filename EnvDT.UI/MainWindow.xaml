@@ -16,6 +16,9 @@
     <DataTemplate DataType="{x:Type viewModel:MainTabViewModel}">
       <view:MainTabView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:LabViewModel}">
+      <view:LabView />
+    </DataTemplate>
     <DataTemplate DataType="{x:Type viewModel:SettingsDetailViewModel}">
       <view:SettingsDetailView />
     </DataTemplate>
@@ -31,6 +34,9 @@
       <MenuItem Header="{loc:Loc MainWindow_Header_Main}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="main" Height="30"/>
+      <MenuItem Header="{loc:Loc MainWindow_Header_LabConfig}" 
+                Command="{Binding NavCommand}"
+                CommandParameter="labconfig" Height="30"/>
       <MenuItem Header="{loc:Loc MainWindow_Header_Settings}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="settings" Height="30"/>

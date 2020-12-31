@@ -11,6 +11,8 @@ namespace EnvDT.Model.Entity
 
         public Guid CountryId { get; set; }
         public Country Country { get; set; }
+        public ConfigXlsx ConfigXlsx { get; set; }
         public List<LabReport> LabReports { get; set; }
+        
     }
 }

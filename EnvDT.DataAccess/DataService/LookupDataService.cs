@@ -18,6 +18,7 @@ namespace EnvDT.DataAccess.DataService
             _contextCreator = contextCreator;
             _labReportRepository = labReportRepository;
         }
+
         public IEnumerable<LookupItem> GetAllProjectsLookup()
         {
             using (var ctx = _contextCreator())
@@ -67,7 +68,7 @@ namespace EnvDT.DataAccess.DataService
                     .Select(l => new LookupItem
                     {
                         LookupItemId = l.MedSubTypeId,
-                        DisplayMember = l.MedSubTypeNameEn
+                        DisplayMember = l.MedSubTypeNameDe
                     });
             }
         }
@@ -81,6 +82,32 @@ namespace EnvDT.DataAccess.DataService
                     {
                         LookupItemId = l.ConditionId,
                         DisplayMember = l.ConditionName
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetAllLaboratoriesLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<Laboratory>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.LaboratoryId,
+                        DisplayMember = $"{l.LabCompany} ({l.LabName})"
+                    });
+            }
+        }
+
+        public IEnumerable<LookupItem> GetAllCountriesLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<Country>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.CountryId,
+                        DisplayMember = $"{l.CountryNameDe}"
                     });
             }
         }

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
@@ -34,5 +34,9 @@
     <ProjectReference Include="..\EnvDT.DataAccess\EnvDT.DataAccess.csproj" />
     <ProjectReference Include="..\EnvDT.Model\EnvDT.Model.csproj" />
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess&#xD;&#xA;if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(SolutionDir)EnvDT.DataAccess\DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds&quot;" />
+  </Target>
 
 </Project>

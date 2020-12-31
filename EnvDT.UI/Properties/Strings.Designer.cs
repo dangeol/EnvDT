@@ -61,6 +61,105 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detection limit column:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_DetectionLimitCol {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_DetectionLimitCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First data row:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_FirstDataRow {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_FirstDataRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to First column with sample value:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_FirstSampleValueCol {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_FirstSampleValueCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unique ident. cell:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_LabNameCell {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_LabNameCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter name column:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_ParamNameCol {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_ParamNameCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cell of Report-Identifier:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_ReportLabidentCell {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_ReportLabidentCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Row of sample lab-identifiers:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_SampleLabIdentRow {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_SampleLabIdentRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Row of sample names:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_SampleNameRow {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_SampleNameRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unit name column:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_UnitNameCol {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_UnitNameCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Worksheet name:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_WorksheetName {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_WorksheetName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method column:.
+        /// </summary>
+        public static string First_column_with_sample_value_ {
+            get {
+                return ResourceManager.GetString("First column with sample value:", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value of the following key could not be read: {0}..
         /// </summary>
         public static string ImportLabReportService_DialogMsg_CellError {
@@ -93,6 +192,33 @@ namespace EnvDT.UI.Properties {
         public static string ImportLabReportService_DialogTitle_ImportLabReport {
             get {
                 return ResourceManager.GetString("ImportLabReportService_DialogTitle_ImportLabReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string LabDetailView_Label_Country {
+            get {
+                return ResourceManager.GetString("LabDetailView_Label_Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Laboratory company.
+        /// </summary>
+        public static string LabDetailView_Label_LabCompany {
+            get {
+                return ResourceManager.GetString("LabDetailView_Label_LabCompany", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Laboratory name.
+        /// </summary>
+        public static string LabDetailView_Label_LabName {
+            get {
+                return ResourceManager.GetString("LabDetailView_Label_LabName", resourceCulture);
             }
         }
         
@@ -178,11 +304,29 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Laboratory selection.
+        /// </summary>
+        public static string LabView_Label_LabSelection {
+            get {
+                return ResourceManager.GetString("LabView_Label_LabSelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project.
         /// </summary>
         public static string MainTabView_Header_Title {
             get {
                 return ResourceManager.GetString("MainTabView_Header_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lab-Configurator.
+        /// </summary>
+        public static string MainWindow_Header_LabConfig {
+            get {
+                return ResourceManager.GetString("MainWindow_Header_LabConfig", resourceCulture);
             }
         }
         
@@ -395,24 +539,6 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You&apos;ve made changes. Navigate away?.
-        /// </summary>
-        public static string ProjectVM_DialogMsg_ConfirmNavigate {
-            get {
-                return ResourceManager.GetString("ProjectVM_DialogMsg_ConfirmNavigate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Question.
-        /// </summary>
-        public static string ProjectVM_DialogTitle_ConfirmNavigate {
-            get {
-                return ResourceManager.GetString("ProjectVM_DialogTitle_ConfirmNavigate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Project Name cannot be empty..
         /// </summary>
         public static string ProjectWrapper_TextBlock_ProjectName {
@@ -602,6 +728,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New ....
+        /// </summary>
+        public static string UI_Button_New {
+            get {
+                return ResourceManager.GetString("UI_Button_New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string UI_Button_No {
@@ -634,6 +769,33 @@ namespace EnvDT.UI.Properties {
         public static string UI_Button_Yes {
             get {
                 return ResourceManager.GetString("UI_Button_Yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You&apos;ve made changes. Navigate away?.
+        /// </summary>
+        public static string VM_DialogMsg_ConfirmNavigate {
+            get {
+                return ResourceManager.GetString("VM_DialogMsg_ConfirmNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Question.
+        /// </summary>
+        public static string VM_DialogTitle_ConfirmNavigate {
+            get {
+                return ResourceManager.GetString("VM_DialogTitle_ConfirmNavigate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot be empty..
+        /// </summary>
+        public static string Wrapper_TextBlock_ValidationText {
+            get {
+                return ResourceManager.GetString("Wrapper_TextBlock_ValidationText", resourceCulture);
             }
         }
     }

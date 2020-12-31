@@ -11,5 +11,7 @@ namespace EnvDT.Model.IDataService
         public IEnumerable<LookupItem> GetAllLanguagesLookup();
         public IEnumerable<LookupItem> GetAllMediumSubTypesLookup();
         public IEnumerable<LookupItem> GetAllConditionsLookup();
+        public IEnumerable<LookupItem> GetAllLaboratoriesLookup();
+        public IEnumerable<LookupItem> GetAllCountriesLookup();
     }
 }

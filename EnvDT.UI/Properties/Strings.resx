@@ -180,10 +180,10 @@
   <data name="ProjectDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
     <value>Do you really want to delete the project {0} {1}?</value>
   </data>
-  <data name="ProjectVM_DialogTitle_ConfirmNavigate" xml:space="preserve">
+  <data name="VM_DialogTitle_ConfirmNavigate" xml:space="preserve">
     <value>Question</value>
   </data>
-  <data name="ProjectVM_DialogMsg_ConfirmNavigate" xml:space="preserve">
+  <data name="VM_DialogMsg_ConfirmNavigate" xml:space="preserve">
     <value>You've made changes. Navigate away?</value>
   </data>
   <data name="SampleDetailVM_DialogTitle_EditSamples" xml:space="preserve">
@@ -309,5 +309,59 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   </data>
   <data name="MissingParamDialog_GridHeader_SelectedUnitAlias" xml:space="preserve">
     <value>Selected Alias</value>
+  </data>
+  <data name="Wrapper_TextBlock_ValidationText" xml:space="preserve">
+    <value>Cannot be empty.</value>
+  </data>
+  <data name="UI_Button_New" xml:space="preserve">
+    <value>New ...</value>
+  </data>
+  <data name="LabView_Label_LabSelection" xml:space="preserve">
+    <value>Laboratory selection</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_WorksheetName" xml:space="preserve">
+    <value>Worksheet name:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_LabNameCell" xml:space="preserve">
+    <value>Unique ident. cell:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
+    <value>Cell of Report-Identifier:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+    <value>First column with sample value:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
+    <value>Row of sample lab-identifiers:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_SampleNameRow" xml:space="preserve">
+    <value>Row of sample names:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_FirstDataRow" xml:space="preserve">
+    <value>First data row:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_ParamNameCol" xml:space="preserve">
+    <value>Parameter name column:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_UnitNameCol" xml:space="preserve">
+    <value>Unit name column:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
+    <value>Detection limit column:</value>
+  </data>
+  <data name="First column with sample value:" xml:space="preserve">
+    <value>Method column:</value>
+  </data>
+  <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
+    <value>Laboratory company</value>
+  </data>
+  <data name="LabDetailView_Label_LabName" xml:space="preserve">
+    <value>Laboratory name</value>
+  </data>
+  <data name="LabDetailView_Label_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="MainWindow_Header_LabConfig" xml:space="preserve">
+    <value>Lab-Configurator</value>
   </data>
 </root>

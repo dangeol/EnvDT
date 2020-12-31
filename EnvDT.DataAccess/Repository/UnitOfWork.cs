@@ -9,6 +9,8 @@ namespace EnvDT.DataAccess.Repository
         public UnitOfWork(EnvDTDbContext context)
         {
             _context = context;
+            ConfigXlsxs = new ConfigXlsxRepository(_context);
+            Laboratories = new LaboratoryRepository(_context);
             LabReports = new LabReportRepository(_context);
             LabReportParams = new LabReportParamRepository(_context);
             Languages = new LanguageRepository(_context);
@@ -25,6 +27,8 @@ namespace EnvDT.DataAccess.Repository
             ValuationClasses = new ValuationClassRepository(_context);
         }
 
+        public IConfigXlsxRepository ConfigXlsxs { get; private set; }
+        public ILaboratoryRepository Laboratories { get; private set; }
         public ILabReportRepository LabReports { get; private set; }
         public ILabReportParamRepository LabReportParams { get; private set; }
         public ILanguageRepository Languages { get; private set; }

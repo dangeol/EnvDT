@@ -160,10 +160,10 @@
   <data name="ProjectDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
     <value>Sind Sie sich sicher, dass Sie das Projekt {0} {1} löschen möchten?</value>
   </data>
-  <data name="ProjectVM_DialogTitle_ConfirmNavigate" xml:space="preserve">
+  <data name="VM_DialogTitle_ConfirmNavigate" xml:space="preserve">
     <value>Frage</value>
   </data>
-  <data name="ProjectVM_DialogMsg_ConfirmNavigate" xml:space="preserve">
+  <data name="VM_DialogMsg_ConfirmNavigate" xml:space="preserve">
     <value>Sie haben ungespeicherte Änderungen. Wollen Sie trotzdem weiter-navigieren?</value>
   </data>
   <data name="SampleDetailVM_DialogTitle_EditSamples" xml:space="preserve">
@@ -290,5 +290,59 @@ aus der Dropdown-Liste aus.</value>
   </data>
   <data name="MissingParamDialog_GridHeader_SelectedUnitAlias" xml:space="preserve">
     <value>Ausgewählter Alias</value>
+  </data>
+  <data name="Wrapper_TextBlock_ValidationText" xml:space="preserve">
+    <value>Muss angegeben werden.</value>
+  </data>
+  <data name="UI_Button_New" xml:space="preserve">
+    <value>Neu ...</value>
+  </data>
+  <data name="LabView_Label_LabSelection" xml:space="preserve">
+    <value>Labor-Auswahl</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_WorksheetName" xml:space="preserve">
+    <value>Tabellenblatt-Name:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_LabNameCell" xml:space="preserve">
+    <value>Zelle für Identifikationswort:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
+    <value>Zelle mit Prüfberichtsbezeichnung:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+    <value>Erste Spalte mit Proben-Analysewert:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
+    <value>Zeile mit Labor-Probenbezeichnungen:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_SampleNameRow" xml:space="preserve">
+    <value>Zeile mit Probenbezeichnungen:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_FirstDataRow" xml:space="preserve">
+    <value>Erste Datenzeile:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_ParamNameCol" xml:space="preserve">
+    <value>Spalte mit Parameter-Namen:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_UnitNameCol" xml:space="preserve">
+    <value>Spalte mit den Einheiten:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
+    <value>Spalte für Nachweisgrenzen:</value>
+  </data>
+  <data name="First column with sample value:" xml:space="preserve">
+    <value>Spalte für Methodik:</value>
+  </data>
+  <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
+    <value>Labor Firmengruppe</value>
+  </data>
+  <data name="LabDetailView_Label_LabName" xml:space="preserve">
+    <value>Laborname</value>
+  </data>
+  <data name="LabDetailView_Label_Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="MainWindow_Header_LabConfig" xml:space="preserve">
+    <value>Labor-Konfigurator</value>
   </data>
 </root>

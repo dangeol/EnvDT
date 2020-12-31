@@ -29,7 +29,6 @@ namespace EnvDT.DataAccess
         public DbSet<CAS> CASs { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Laboratory> Laboratories { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Medium> Media { get; set; }
         public DbSet<MediumSubType> MediumSubTypes { get; set; }
@@ -48,6 +47,8 @@ namespace EnvDT.DataAccess
         public DbSet<Unit> Units { get; set; }
 
         //LabReports
+        public DbSet<ConfigXlsx> ConfigXlsxs { get; set; }
+        public DbSet<Laboratory> Laboratories { get; set; }
         public DbSet<LabReport> LabReports { get; set; }
         public DbSet<LabReportParam> LabReportParams { get; set; }
         public DbSet<Project> Projects { get; set; }
@@ -69,7 +70,6 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new CASConfig());
             modelBuilder.ApplyConfiguration(new ConditionConfig());
             modelBuilder.ApplyConfiguration(new CountryConfig());
-            modelBuilder.ApplyConfiguration(new LaboratoryConfig());
             modelBuilder.ApplyConfiguration(new LanguageConfig());
             modelBuilder.ApplyConfiguration(new MediumConfig());
             modelBuilder.ApplyConfiguration(new MediumSubTypeConfig());
@@ -88,6 +88,8 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new UnitConfig());
 
             // LabReports
+            modelBuilder.ApplyConfiguration(new ConfigXlsxConfig());
+            modelBuilder.ApplyConfiguration(new LaboratoryConfig());
             modelBuilder.ApplyConfiguration(new LabReportConfig());
             modelBuilder.ApplyConfiguration(new ProjectConfig());
             modelBuilder.ApplyConfiguration(new SampleConfig());
