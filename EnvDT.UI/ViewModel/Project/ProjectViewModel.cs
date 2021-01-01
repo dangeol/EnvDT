@@ -11,23 +11,16 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectViewModel : NavViewModelBase, IProjectViewModel
     {
-        private ILookupDataService _lookupDataService;
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
-
         private Func<IProjectDetailViewModel> _projectDetailVmCreator;
 
         public ProjectViewModel(ILookupDataService lookupDataService, IEventAggregator eventAggregator, 
             Func<IProjectDetailViewModel> projectDetailVmCreator, IMessageDialogService messageDialogService)
-            : base(eventAggregator)
+            : base(eventAggregator, messageDialogService, lookupDataService)
         {
-            _lookupDataService = lookupDataService;
-            _eventAggregator = eventAggregator;
             _projectDetailVmCreator = projectDetailVmCreator;
-            _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
-            _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
+            EventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
+            EventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
+            EventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<NavItemViewModel>();
             IsSampleTab = false;
             LoadModels();
@@ -47,12 +40,12 @@ namespace EnvDT.UI.ViewModel
             var navItemViewModelNull = new NavItemViewModelNull();
             Projects.Add(navItemViewModelNull);
             SelectedItem = navItemViewModelNull;
-            foreach (var project in _lookupDataService.GetAllProjectsLookup())
+            foreach (var project in LookupDataService.GetAllProjectsLookup())
             {
                 Projects.Add(new NavItemViewModel(
                     project.LookupItemId, project.DisplayMember, 
                     nameof(ProjectDetailViewModel),
-                    _eventAggregator));
+                    EventAggregator));
             }
         }
 
@@ -68,7 +61,7 @@ namespace EnvDT.UI.ViewModel
         {
             if (DetailViewModel != null && DetailViewModel.HasChanges)
             { 
-                var result = _messageDialogService.ShowYesNoDialog(
+                var result = MessageDialogService.ShowYesNoDialog(
                     Translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_ConfirmNavigate"],
                     Translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_ConfirmNavigate"]);
 
@@ -99,7 +92,7 @@ namespace EnvDT.UI.ViewModel
                     {
                         projectItem = new NavItemViewModel(args.Id, displayMember, 
                             nameof(ProjectDetailViewModel),
-                            _eventAggregator);
+                            EventAggregator);
                         Projects.Add(projectItem);
                     }
                     break;

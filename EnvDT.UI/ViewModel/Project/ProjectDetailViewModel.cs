@@ -10,8 +10,6 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectDetailViewModel : DetailViewModelBase, IProjectDetailViewModel
     {
-        private IUnitOfWork _unitOfWork;
-        private IMessageDialogService _messageDialogService;
         private Func<ILabReportViewModel> _labReportDetailVmCreator;
         private ILabReportViewModel _labReportViewModel;
         private ITab _tab;
@@ -21,10 +19,8 @@ namespace EnvDT.UI.ViewModel
         public ProjectDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator,
             ITab tab)
-            :base(eventAggregator)
+            :base(eventAggregator, messageDialogService, unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _messageDialogService = messageDialogService;
             _labReportDetailVmCreator = labReportDetailVmCreator;
             _tab = tab;
         }
@@ -52,7 +48,7 @@ namespace EnvDT.UI.ViewModel
         public override void Load(Guid? projectId)
         {
             var project = projectId.HasValue
-                ? _unitOfWork.Projects.GetById(projectId.Value)
+                ? UnitOfWork.Projects.GetById(projectId.Value)
                 : CreateNewProject();
 
             InitializeProject(projectId, project);
@@ -67,7 +63,7 @@ namespace EnvDT.UI.ViewModel
             {
                 if (!HasChanges)
                 {
-                    HasChanges = _unitOfWork.Projects.HasChanges();
+                    HasChanges = UnitOfWork.Projects.HasChanges();
                 }
                 if (e.PropertyName == nameof(Project.HasErrors))
                 {
@@ -91,8 +87,8 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnSaveExecute()
         {
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.Projects.HasChanges();
+            UnitOfWork.Save();
+            HasChanges = UnitOfWork.Projects.HasChanges();
             RaiseDetailSavedEvent(Project.ProjectId,
                 $"{Project.ProjectNumber} {Project.ProjectName}");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
@@ -113,12 +109,12 @@ namespace EnvDT.UI.ViewModel
             // to close these.
             if (_tab.TabbedViewModels.Count > 1)
             {
-                _messageDialogService.ShowOkDialog(
+                MessageDialogService.ShowOkDialog(
                     Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogTitle_DeleteCloseTabs"],
                     Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogMsg_DeleteCloseTabs"]);
                 return;
             }
-            var result = _messageDialogService.ShowOkCancelDialog(
+            var result = MessageDialogService.ShowOkCancelDialog(
                 Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogTitle_ConfirmDeletion"],
                 string.Format(Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogMsg_ConfirmDeletion"],
                 Project.ProjectClient, Project.ProjectName));
@@ -127,21 +123,21 @@ namespace EnvDT.UI.ViewModel
             {
                 RaiseDetailDeletedEvent(Project.Model.ProjectId);
                 SetPropertyValueToNull(this, "LabReportViewModel");
-                _unitOfWork.Projects.Delete(Project.Model);
-                _unitOfWork.Save();
+                UnitOfWork.Projects.Delete(Project.Model);
+                UnitOfWork.Save();
             }
         }
 
         protected override bool OnDeleteCanExecute()
         {
             return Project != null && Project.ProjectId != Guid.Empty 
-                && _unitOfWork.Projects.GetById(Project.ProjectId) != null;
+                && UnitOfWork.Projects.GetById(Project.ProjectId) != null;
         }
 
         private Project CreateNewProject()
         {
             var project = new Project();
-            _unitOfWork.Projects.Create(project);
+            UnitOfWork.Projects.Create(project);
             return project;
         }
     }

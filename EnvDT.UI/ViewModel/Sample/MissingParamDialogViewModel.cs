@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
@@ -13,21 +14,17 @@ namespace EnvDT.UI.ViewModel
 {
     public class MissingParamDialogViewModel : DetailViewModelBase, IMissingParamDialogViewModel
     {
-        private IEventAggregator _eventAggregator;
         private Guid _labReportId;
-        private IUnitOfWork _unitOfWork;
         private ILookupDataService _lookupDataService;
         private bool _isMissingParamNamesVisible = false;
         private bool _missingUnitNamesVisible = false;
         private IEnumerable<ParamNameVariant> _paramNameVariants;
         private IEnumerable<UnitNameVariant> _unitNameVariants;
 
-        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
-            ILookupDataService lookupDataService)
-            :base(eventEggregator)
+        public MissingParamDialogViewModel(IEventAggregator eventEggregator, IMessageDialogService messageDialogService,
+            IUnitOfWork unitOfWork, ILookupDataService lookupDataService)
+            :base(eventEggregator, messageDialogService, unitOfWork)
         {
-            _eventAggregator = eventEggregator;
-            _unitOfWork = unitOfWork;
             _lookupDataService = lookupDataService;
             MissingParamNames = new ObservableCollection<MissingParamNameWrapper>();
             MissingUnitNames = new ObservableCollection<MissingUnitNameWrapper>();
@@ -111,7 +108,7 @@ namespace EnvDT.UI.ViewModel
 
         private MissingParamNameWrapper CreateMissingParamNameWrapper(Guid labReportId, Guid missingParamId)
         {
-            var missingParam = _unitOfWork.Parameters.GetById(missingParamId);
+            var missingParam = UnitOfWork.Parameters.GetById(missingParamId);
             var paramNameVariant = new ParamNameVariant();
             var wrapper = new MissingParamNameWrapper(paramNameVariant)
             {
@@ -121,7 +118,7 @@ namespace EnvDT.UI.ViewModel
                 ParameterId = missingParam.ParameterId
             };
 
-            var labReportParamNames = _unitOfWork.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(labReportId);
+            var labReportParamNames = UnitOfWork.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(labReportId);
 
             foreach (string paramNames in labReportParamNames)
             {
@@ -138,7 +135,7 @@ namespace EnvDT.UI.ViewModel
 
         private MissingUnitNameWrapper CreateMissingUnitNameWrapper(Guid labReportId, Guid missingUnitId)
         {
-            var missingUnit = _unitOfWork.Units.GetById(missingUnitId);
+            var missingUnit = UnitOfWork.Units.GetById(missingUnitId);
             var unitNameVariant = new UnitNameVariant();
             var wrapper = new MissingUnitNameWrapper(unitNameVariant)
             {
@@ -148,7 +145,7 @@ namespace EnvDT.UI.ViewModel
                 UnitId = missingUnit.UnitId
             };
 
-            var labReportUnitNames = _unitOfWork.LabReportParams.GetLabReportUnknownUnitNamesByLabReportId(labReportId);
+            var labReportUnitNames = UnitOfWork.LabReportParams.GetLabReportUnknownUnitNamesByLabReportId(labReportId);
             foreach (string unitName in labReportUnitNames)
             {
                 wrapper.UnitNameAliases.Add(unitName);
@@ -161,7 +158,7 @@ namespace EnvDT.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _unitOfWork.ParamNameVariants.HasChanges();
+                HasChanges = UnitOfWork.ParamNameVariants.HasChanges();
             }
             if (e.PropertyName == nameof(MissingParamNameWrapper.HasErrors))
             {
@@ -173,7 +170,7 @@ namespace EnvDT.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _unitOfWork.UnitNameVariants.HasChanges();
+                HasChanges = UnitOfWork.UnitNameVariants.HasChanges();
             }
             if (e.PropertyName == nameof(MissingUnitNameWrapper.HasErrors))
             {
@@ -206,10 +203,10 @@ namespace EnvDT.UI.ViewModel
                     if (!_paramNameVariants.Any(pv => string.Equals(pv.ParamNameAlias,wrapper.ParamNameAlias) 
                         && Guid.Equals(pv.ParameterId, wrapper.ParameterId)))
                     {
-                        _unitOfWork.ParamNameVariants.Create(wrapper.Model);
+                        UnitOfWork.ParamNameVariants.Create(wrapper.Model);
                     }
                     var labReportParamName = wrapper.ParamNameAlias;
-                    var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByLabReportIdAndParamName(_labReportId, labReportParamName);
+                    var labReportParams = UnitOfWork.LabReportParams.GetLabReportParamsByLabReportIdAndParamName(_labReportId, labReportParamName);
                     foreach (var labReportParam in labReportParams)
                     { 
                         labReportParam.ParameterId = wrapper.ParameterId;
@@ -223,19 +220,19 @@ namespace EnvDT.UI.ViewModel
                     if (!_unitNameVariants.Any(uv => string.Equals(uv.UnitNameAlias, wrapper.UnitNameAlias)
                         && Guid.Equals(uv.UnitId, wrapper.UnitId)))
                     {
-                        _unitOfWork.UnitNameVariants.Create(wrapper.Model);
+                        UnitOfWork.UnitNameVariants.Create(wrapper.Model);
                     }
                     var labReportUnitName = wrapper.UnitNameAlias;
-                    var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByByLabReportIdAndUnitName(_labReportId, labReportUnitName);
+                    var labReportParams = UnitOfWork.LabReportParams.GetLabReportParamsByByLabReportIdAndUnitName(_labReportId, labReportUnitName);
                     foreach (var labReportParam in labReportParams)
                     {
                         labReportParam.UnitId = wrapper.UnitId;
                     }
                 }
             }
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.ParamNameVariants.HasChanges();
-            HasChanges = _unitOfWork.UnitNameVariants.HasChanges();
+            UnitOfWork.Save();
+            HasChanges = UnitOfWork.ParamNameVariants.HasChanges();
+            HasChanges = UnitOfWork.UnitNameVariants.HasChanges();
         }
     }
 }

@@ -10,17 +10,13 @@ namespace EnvDT.UI.ViewModel
 {
     public class ConfigXlsxDetailViewModel : DetailViewModelBase, IConfigXlsxDetailViewModel
     {
-        private IUnitOfWork _unitOfWork;
-        private IMessageDialogService _messageDialogService;
 
         private ConfigXlsxWrapper _configXlsx;
 
         public ConfigXlsxDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
-            :base(eventAggregator)
+            :base(eventAggregator, messageDialogService, unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _messageDialogService = messageDialogService;
         }
 
         public ConfigXlsxWrapper ConfigXlsx
@@ -36,7 +32,7 @@ namespace EnvDT.UI.ViewModel
         public override void Load(Guid? configXlsxId)
         {
             var configXlsx = configXlsxId.HasValue
-                ? _unitOfWork.ConfigXlsxs.GetById(configXlsxId.Value)
+                ? UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value)
                 : CreateNewConfigXlsx();
 
             InitializeConfigXlsx(configXlsxId, configXlsx);
@@ -49,7 +45,7 @@ namespace EnvDT.UI.ViewModel
             {
                 if (!HasChanges)
                 {
-                    HasChanges = _unitOfWork.ConfigXlsxs.HasChanges();
+                    HasChanges = UnitOfWork.ConfigXlsxs.HasChanges();
                 }
                 if (e.PropertyName == nameof(ConfigXlsx.HasErrors))
                 {
@@ -67,8 +63,8 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnSaveExecute()
         {
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.ConfigXlsxs.HasChanges();
+            UnitOfWork.Save();
+            HasChanges = UnitOfWork.ConfigXlsxs.HasChanges();
             //RaiseDetailSavedEvent(ConfigXlsx.ConfigXlsxId,
                 //$"{ConfigXlsx.ConfigXlsxNumber} {ConfigXlsx.ConfigXlsxName}");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
@@ -101,13 +97,13 @@ namespace EnvDT.UI.ViewModel
         protected override bool OnDeleteCanExecute()
         {
             return ConfigXlsx != null && ConfigXlsx.ConfigXlsxId != Guid.Empty 
-                && _unitOfWork.ConfigXlsxs.GetById(ConfigXlsx.ConfigXlsxId) != null;
+                && UnitOfWork.ConfigXlsxs.GetById(ConfigXlsx.ConfigXlsxId) != null;
         }
 
         private ConfigXlsx CreateNewConfigXlsx()
         {
             var configXlsx = new ConfigXlsx();
-            _unitOfWork.ConfigXlsxs.Create(configXlsx);
+            UnitOfWork.ConfigXlsxs.Create(configXlsx);
             return configXlsx;
         }
     }

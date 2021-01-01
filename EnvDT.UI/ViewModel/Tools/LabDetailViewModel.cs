@@ -11,17 +11,13 @@ namespace EnvDT.UI.ViewModel
 {
     public class LabDetailViewModel : DetailViewModelBase, ILabDetailViewModel
     {
-        private IUnitOfWork _unitOfWork;
-        private IMessageDialogService _messageDialogService;
         private ILookupDataService _lookupDataService;
         private LabWrapper _laboratory;
 
         public LabDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, ILookupDataService lookupDataService)
-            :base(eventAggregator)
+            :base(eventAggregator, messageDialogService, unitOfWork)
         {
-            _unitOfWork = unitOfWork;
-            _messageDialogService = messageDialogService;
             _lookupDataService = lookupDataService;
         }
 
@@ -38,7 +34,7 @@ namespace EnvDT.UI.ViewModel
         public override void Load(Guid? laboratoryId)
         {
             var laboratory = laboratoryId.HasValue
-                ? _unitOfWork.Laboratories.GetById(laboratoryId.Value)
+                ? UnitOfWork.Laboratories.GetById(laboratoryId.Value)
                 : CreateNewLab();
 
             InitializeLab(laboratoryId, laboratory);
@@ -51,7 +47,7 @@ namespace EnvDT.UI.ViewModel
             {
                 if (!HasChanges)
                 {
-                    HasChanges = _unitOfWork.Laboratories.HasChanges();
+                    HasChanges = UnitOfWork.Laboratories.HasChanges();
                 }
                 if (e.PropertyName == nameof(Laboratory.HasErrors))
                 {
@@ -76,8 +72,8 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnSaveExecute()
         {
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.Laboratories.HasChanges();
+            UnitOfWork.Save();
+            HasChanges = UnitOfWork.Laboratories.HasChanges();
             //RaiseDetailSavedEvent(Laboratory.LabId,
                 //$"{Laboratory.LabNumber} {Laboratory.LabName}");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
@@ -93,7 +89,7 @@ namespace EnvDT.UI.ViewModel
         protected override void OnDeleteExecute()
         {
             /*
-            var result = _messageDialogService.ShowOkCancelDialog(
+            var result = MessageDialogService.ShowOkCancelDialog(
                 Translator["EnvDT.UI.Properties.Strings.LabDetailVM_DialogTitle_ConfirmDeletion"],
                 string.Format(Translator["EnvDT.UI.Properties.Strings.LabDetailVM_DialogMsg_ConfirmDeletion"],
                 Laboratory.LabClient, Laboratory.LabName));
@@ -102,21 +98,21 @@ namespace EnvDT.UI.ViewModel
             {
                 RaiseDetailDeletedEvent(Laboratory.Model.LabId);
                 SetPropertyValueToNull(this, "LabReportViewModel");
-                _unitOfWork.Laboratories.Delete(Laboratory.Model);
-                _unitOfWork.Save();
+                UnitOfWork.Laboratories.Delete(Laboratory.Model);
+                UnitOfWork.Save();
             }*/
         }
 
         protected override bool OnDeleteCanExecute()
         {
             return Laboratory != null && Laboratory.LaboratoryId != Guid.Empty 
-                && _unitOfWork.Laboratories.GetById(Laboratory.LaboratoryId) != null;
+                && UnitOfWork.Laboratories.GetById(Laboratory.LaboratoryId) != null;
         }
 
         private Laboratory CreateNewLab()
         {
             var laboratory = new Laboratory();
-            //_unitOfWork.Laboratories.Create(laboratory);
+            //UnitOfWork.Laboratories.Create(laboratory);
             return laboratory;
         }
     }

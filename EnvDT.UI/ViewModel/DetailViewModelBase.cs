@@ -1,4 +1,6 @@
-﻿using EnvDT.UI.Event;
+﻿using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
+using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -11,11 +13,16 @@ namespace EnvDT.UI.ViewModel
     {
         private bool _hasChanges;
         protected readonly IEventAggregator EventAggregator;
+        protected readonly IMessageDialogService MessageDialogService;
+        protected readonly IUnitOfWork UnitOfWork;
         private Guid _id;
 
-        public DetailViewModelBase(IEventAggregator eventAggregator)
+        public DetailViewModelBase(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
+            IUnitOfWork unitOfWork)
         {
             EventAggregator = eventAggregator;
+            MessageDialogService = messageDialogService;
+            UnitOfWork = unitOfWork;
             SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
             DeleteCommand = new DelegateCommand(OnDeleteExecute, OnDeleteCanExecute);
         }

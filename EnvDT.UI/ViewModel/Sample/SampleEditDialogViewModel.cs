@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
@@ -12,17 +13,13 @@ namespace EnvDT.UI.ViewModel
 {
     public class SampleEditDialogViewModel : DetailViewModelBase, ISampleEditDialogViewModel
     {
-        private IEventAggregator _eventAggregator;
-        private IUnitOfWork _unitOfWork;
         private ILookupDataService _lookupDataService;
         private Guid _standardGuid = new Guid("875dbf0f-5e3c-4012-9828-692e0ffa39ab");
 
-        public SampleEditDialogViewModel(IEventAggregator eventEggregator, IUnitOfWork unitOfWork,
-            ILookupDataService lookupDataService)
-            :base(eventEggregator)
+        public SampleEditDialogViewModel(IEventAggregator eventEggregator, IMessageDialogService messageDialogService,
+            IUnitOfWork unitOfWork, ILookupDataService lookupDataService)
+            :base(eventEggregator, messageDialogService, unitOfWork)
         {
-            _eventAggregator = eventEggregator;
-            _unitOfWork = unitOfWork;
             _lookupDataService = lookupDataService;
             StandardGuid = _standardGuid;
             Samples = new ObservableCollection<SampleWrapper>();
@@ -39,7 +36,7 @@ namespace EnvDT.UI.ViewModel
             }
             Samples.Clear();
 
-            var samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
+            var samples = UnitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
 
             foreach (Sample sample in samples)
             {
@@ -89,7 +86,7 @@ namespace EnvDT.UI.ViewModel
         {
             if (!HasChanges)
             {
-                HasChanges = _unitOfWork.Samples.HasChanges();
+                HasChanges = UnitOfWork.Samples.HasChanges();
             }
             if (e.PropertyName == nameof(SampleWrapper.HasErrors))
             {
@@ -115,15 +112,15 @@ namespace EnvDT.UI.ViewModel
         protected override void OnSaveExecute()
         {
             SetValues();
-            _unitOfWork.Save();
-            HasChanges = _unitOfWork.Samples.HasChanges();
+            UnitOfWork.Save();
+            HasChanges = UnitOfWork.Samples.HasChanges();
         }
        
         private void SetValues()
         {
             foreach (var wrapper in Samples)
             {
-                var sample = _unitOfWork.Samples.GetById(wrapper.SampleId);
+                var sample = UnitOfWork.Samples.GetById(wrapper.SampleId);
 
                 if (wrapper.MediumId != null 
                     && !Guid.Equals(wrapper.MediumId, Guid.Empty) 

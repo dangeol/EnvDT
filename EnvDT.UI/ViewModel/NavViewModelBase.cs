@@ -1,4 +1,6 @@
-﻿using EnvDT.UI.Event;
+﻿using EnvDT.Model.IDataService;
+using EnvDT.UI.Dialogs;
+using EnvDT.UI.Event;
 using Prism.Commands;
 using Prism.Events;
 using System;
@@ -11,13 +13,18 @@ namespace EnvDT.UI.ViewModel
     public abstract class NavViewModelBase : ViewModelBase, INavViewModel
     {
         protected readonly IEventAggregator EventAggregator;
+        protected readonly IMessageDialogService MessageDialogService;
+        protected readonly ILookupDataService LookupDataService;
         private bool _isDetailViewEnabled = false;
         private IDetailViewModel _detailViewModel;
         private NavItemViewModel _selectedItem;
 
-        public NavViewModelBase(IEventAggregator eventAggregator)
+        public NavViewModelBase(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
+            ILookupDataService lookupDataService)
         {
             EventAggregator = eventAggregator;
+            MessageDialogService = messageDialogService;
+            LookupDataService = lookupDataService;
             CreateNewDetailCommand = new DelegateCommand<Type>(OnCreateNewDetailExecute);
         }
 

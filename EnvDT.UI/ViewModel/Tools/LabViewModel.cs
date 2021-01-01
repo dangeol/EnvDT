@@ -11,23 +11,16 @@ namespace EnvDT.UI.ViewModel
 {
     public class LabViewModel : NavViewModelBase, ILabViewModel
     {
-        private ILookupDataService _lookupDataService;
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
-
         private Func<ILabDetailViewModel> _labDetailVmCreator;
 
         public LabViewModel(ILookupDataService lookupDataService, IEventAggregator eventAggregator, 
             Func<ILabDetailViewModel> labDetailVmCreator, IMessageDialogService messageDialogService)
-            : base(eventAggregator)
+            : base(eventAggregator, messageDialogService, lookupDataService)
         {
-            _lookupDataService = lookupDataService;
-            _eventAggregator = eventAggregator;
             _labDetailVmCreator = labDetailVmCreator;
-            _messageDialogService = messageDialogService;
-            _eventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
-            _eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
-            _eventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
+            EventAggregator.GetEvent<OpenDetailViewEvent>().Subscribe(OnItemSelected);
+            EventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
+            EventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Laboratories = new ObservableCollection<NavItemViewModel>();
             LoadModels();
         }
@@ -44,12 +37,12 @@ namespace EnvDT.UI.ViewModel
             var navItemViewModelNull = new NavItemViewModelNull();
             Laboratories.Add(navItemViewModelNull);
             SelectedItem = navItemViewModelNull;
-            foreach (var lab in _lookupDataService.GetAllLaboratoriesLookup())
+            foreach (var lab in LookupDataService.GetAllLaboratoriesLookup())
             {
                 Laboratories.Add(new NavItemViewModel(
                     lab.LookupItemId, lab.DisplayMember, 
                     nameof(LabDetailViewModel),
-                    _eventAggregator));
+                    EventAggregator));
             }
         }
 
@@ -65,7 +58,7 @@ namespace EnvDT.UI.ViewModel
         {
             if (DetailViewModel != null && DetailViewModel.HasChanges)
             { 
-                var result = _messageDialogService.ShowYesNoDialog(
+                var result = MessageDialogService.ShowYesNoDialog(
                     Translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_ConfirmNavigate"],
                     Translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_ConfirmNavigate"]);
 
@@ -96,7 +89,7 @@ namespace EnvDT.UI.ViewModel
                     {
                         labItem = new NavItemViewModel(args.Id, displayMember, 
                             nameof(LabDetailViewModel),
-                            _eventAggregator);
+                            EventAggregator);
                         Laboratories.Add(labItem);
                     }
                     break;

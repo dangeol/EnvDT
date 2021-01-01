@@ -18,9 +18,6 @@ namespace EnvDT.UI.ViewModel
 {
     public class SampleDetailViewModel : DetailViewModelBase, ISampleDetailViewModel
     {
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
-        private IUnitOfWork _unitOfWork;
         private IEvalLabReportService _evalLabReportService;
         private ISampleEditDialogViewModel _sampleEditDialogViewModel;
         private IDispatcher _dispatcher;
@@ -46,11 +43,8 @@ namespace EnvDT.UI.ViewModel
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
             IUnitOfWork unitOfWork, IEvalLabReportService evalLabReportService, 
             ISampleEditDialogViewModel sampleEditDialogViewModel, IDispatcher dispatcher)
-            : base(eventAggregator)
+            : base(eventAggregator, messageDialogService, unitOfWork)
         {
-            _eventAggregator = eventAggregator;
-            _messageDialogService = messageDialogService;
-            _unitOfWork = unitOfWork;
             _evalLabReportService = evalLabReportService;
             _sampleEditDialogViewModel = sampleEditDialogViewModel;
             if (dispatcher == null)
@@ -153,20 +147,20 @@ namespace EnvDT.UI.ViewModel
         {
             _labReportId = (Guid)labReportId;
             SetLabReportIdAndTitle(labReportId);
-            Samples = _unitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
+            Samples = UnitOfWork.Samples.GetSamplesByLabReportId((Guid)labReportId);
             BuildSampleDataView();
         }
 
         private void SetLabReportIdAndTitle(Guid? id)
         {
-            var ReportLabIdent = _unitOfWork.LabReports.GetById((Guid)id).ReportLabIdent;
+            var ReportLabIdent = UnitOfWork.LabReports.GetById((Guid)id).ReportLabIdent;
             LabReportId = id;
             Title = ReportLabIdent;
         }
 
         private void BuildSampleDataView()
         {
-            _publications = _unitOfWork.Publications.GetAll().OrderBy(p => p.OrderId);
+            _publications = UnitOfWork.Publications.GetAll().OrderBy(p => p.OrderId);
             _sampleTable.Columns.Add(_sampleColHeader);
             IDictionary<string, object> sampleTableRow = new ExpandoObject();
             var sampleNameKey = "SampleName";
@@ -194,7 +188,7 @@ namespace EnvDT.UI.ViewModel
         private void OnEditSamplesExecute()
         {
             _sampleEditDialogViewModel.Load(_labReportId);
-            _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
+            MessageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
         }
 
         private bool OnEvalCanExecute()
@@ -225,7 +219,7 @@ namespace EnvDT.UI.ViewModel
             }
             catch (Exception ex)
             {
-                _messageDialogService.ShowOkDialog(
+                MessageDialogService.ShowOkDialog(
                     Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_TaskError"],
                     string.Format(Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogMsg_TaskError"],
                     ex.Message));
@@ -291,7 +285,7 @@ namespace EnvDT.UI.ViewModel
                         IsCheckBoxInColTrue = true;
 
                         var sampleId = Samples.ElementAt(r).SampleId;
-                        var sample = _unitOfWork.Samples.GetById(sampleId);
+                        var sample = UnitOfWork.Samples.GetById(sampleId);
                         var sampleWrapper = _sampleEditDialogViewModel.Samples.Single(s => s.SampleId == sampleId);
 
                         if (publication.UsesMediumSubTypes
@@ -320,7 +314,7 @@ namespace EnvDT.UI.ViewModel
             bool isMessageDialogResultAbsentOrOK = true;
             if (needsSampleEditDialog)
             {
-                var result = _messageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
+                var result = MessageDialogService.ShowSampleEditDialog(_sampleEditDialogTitle, _sampleEditDialogViewModel);
                 isMessageDialogResultAbsentOrOK = result == MessageDialogResult.OK;
             }
 
@@ -423,7 +417,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnCloseDetailViewExecute()
         {
-            _eventAggregator.GetEvent<DetailClosedEvent>()
+            EventAggregator.GetEvent<DetailClosedEvent>()
                 .Publish(new DetailClosedEventArgs
                 {
                     Id = LabReportId,

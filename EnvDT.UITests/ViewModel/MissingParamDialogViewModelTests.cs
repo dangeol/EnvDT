@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
+using EnvDT.UI.Dialogs;
 using EnvDT.UI.ViewModel;
 using EnvDT.UI.Wrapper;
 using EnvDT.UITests.Extensions;
@@ -17,6 +18,7 @@ namespace EnvDT.UITests.ViewModel
         private MissingParamDialogViewModel _viewModel;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IUnitOfWork> _unitOfWorkMock;
+        private Mock<IMessageDialogService> _messageDialogService;
         private Mock<ILookupDataService> _lookupDataServiceMock;
         private HashSet<Guid> _missingParamIds;
         private HashSet<Guid> _missingUnitIds;
@@ -69,6 +71,8 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(It.IsAny<List<ParamNameVariant>>());
             _unitOfWorkMock.Setup(uw => uw.UnitNameVariants.GetAll())
                 .Returns(It.IsAny<List<UnitNameVariant>>());
+
+            _messageDialogService = new Mock<IMessageDialogService>();
             _lookupDataServiceMock = new Mock<ILookupDataService>();
 
             _lapReportParamNames.Add(_lapReportParamName1);
@@ -76,8 +80,8 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportUnknownParamNamesByLabReportId(It.IsAny<Guid>()))
                 .Returns(_lapReportParamNames);
 
-            _viewModel = new MissingParamDialogViewModel(_eventAggregatorMock.Object, _unitOfWorkMock.Object,
-                _lookupDataServiceMock.Object);
+            _viewModel = new MissingParamDialogViewModel(_eventAggregatorMock.Object, _messageDialogService.Object, 
+                _unitOfWorkMock.Object, _lookupDataServiceMock.Object);
         }
 
         [Fact]
