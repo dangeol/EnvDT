@@ -31,9 +31,7 @@ namespace EnvDT.UI.ViewModel
 
         public override void Load(Guid? configXlsxId)
         {
-            var configXlsx = configXlsxId.HasValue
-                ? UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value)
-                : CreateNewConfigXlsx();
+            var configXlsx = UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value);
 
             InitializeConfigXlsx(configXlsxId, configXlsx);
         }
@@ -98,13 +96,6 @@ namespace EnvDT.UI.ViewModel
         {
             return ConfigXlsx != null && ConfigXlsx.ConfigXlsxId != Guid.Empty 
                 && UnitOfWork.ConfigXlsxs.GetById(ConfigXlsx.ConfigXlsxId) != null;
-        }
-
-        private ConfigXlsx CreateNewConfigXlsx()
-        {
-            var configXlsx = new ConfigXlsx();
-            UnitOfWork.ConfigXlsxs.Create(configXlsx);
-            return configXlsx;
         }
     }
 }

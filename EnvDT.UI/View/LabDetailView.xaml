@@ -51,9 +51,14 @@
               Command="{Binding DeleteCommand}"/>
     </StackPanel>
 
-    <StackPanel Grid.Row="6" Orientation="Vertical">
-      <view:ConfigXlsxDetailView DataContext="{Binding ConfigXlsxDetailViewModel}" />
+    <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal">
+      <DockPanel IsEnabled="{Binding IsConfigXlsxDetailViewEnabled}">
+        <view:ConfigXlsxDetailView DataContext="{Binding ConfigXlsxDetailViewModel}" />
+      </DockPanel>
+      <DockPanel IsEnabled="{Binding IsConfigXmlDetailViewEnabled}">
+        <view:ConfigXmlDetailView DataContext="{Binding ConfigXmlDetailViewModel}" />
+      </DockPanel>
     </StackPanel>
-
   </Grid>
+
 </UserControl>

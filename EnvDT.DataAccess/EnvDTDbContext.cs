@@ -48,6 +48,7 @@ namespace EnvDT.DataAccess
 
         //LabReports
         public DbSet<ConfigXlsx> ConfigXlsxs { get; set; }
+        public DbSet<ConfigXml> ConfigXmls { get; set; }
         public DbSet<Laboratory> Laboratories { get; set; }
         public DbSet<LabReport> LabReports { get; set; }
         public DbSet<LabReportParam> LabReportParams { get; set; }
@@ -89,6 +90,7 @@ namespace EnvDT.DataAccess
 
             // LabReports
             modelBuilder.ApplyConfiguration(new ConfigXlsxConfig());
+            modelBuilder.ApplyConfiguration(new ConfigXmlConfig());
             modelBuilder.ApplyConfiguration(new LaboratoryConfig());
             modelBuilder.ApplyConfiguration(new LabReportConfig());
             modelBuilder.ApplyConfiguration(new ProjectConfig());

@@ -135,7 +135,7 @@ namespace EnvDT.UITests.ViewModel
             Assert.Null(_viewModel.DetailViewModel);
         }
 
-            [Fact]
+        [Fact]
         public void ShouldLoadProjectDetailViewModelAndLoadItWithIdNull()
         {
             Type type = typeof(ProjectDetailViewModel);

@@ -14,5 +14,10 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
+        public ConfigXlsx GetByLaboratoryId(Guid? laboratoryId)
+        {
+            return Context.ConfigXlsxs.AsNoTracking()
+                .SingleOrDefault(c => c.LaboratoryId == laboratoryId);
+        }
     }
 }

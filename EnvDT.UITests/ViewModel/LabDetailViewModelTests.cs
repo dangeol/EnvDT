@@ -21,13 +21,11 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<ILookupDataService> _lookupDataServiceMock;
-        private Mock<ILabReportViewModel> _labReportViewModelMock;
         private LabDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _labSavedEventMock;
         private Mock<DetailDeletedEvent> _labDeletedEventMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private Mock<ILabViewModel> _labViewModelMock;
-        private ObservableCollection<IMainTabViewModel> _tabbedViewModels;
         private Mock<IConfigXlsxDetailViewModel> _configXlsxDetailViewModelMock;
         private Mock<IConfigXmlDetailViewModel> _configXmlDetailViewModelMock;
         private ConfigXlsx _configXlsx;
@@ -43,6 +41,10 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(new Model.Entity.Laboratory {
                     LaboratoryId = _labId, 
                     LabCompany = "company", LabName = "name" });
+            _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
+                .Returns((ConfigXlsx)null);
+            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
+                .Returns((ConfigXml)null);
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailSavedEvent>())
                 .Returns(_labSavedEventMock.Object);
@@ -51,8 +53,12 @@ namespace EnvDT.UITests.ViewModel
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _lookupDataServiceMock = new Mock<ILookupDataService>(); 
             _labViewModelMock = new Mock<ILabViewModel>();
+            _configXlsxDetailViewModelMock = new Mock<IConfigXlsxDetailViewModel>();
+            _configXmlDetailViewModelMock = new Mock<IConfigXmlDetailViewModel>();
             _configXlsx = new ConfigXlsx();
+            _configXlsx.ConfigXlsxId = new Guid("775b23d9-5826-4dfb-8d12-ddc23e1a66f9");
             _configXml = new ConfigXml();
+            _configXml.ConfigXmlId = new Guid("f6e42f7c-b641-42d6-bdbf-c9b16c2cac45");
 
             _viewModel = new LabDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
@@ -98,7 +104,21 @@ namespace EnvDT.UITests.ViewModel
 
             _unitOfWorkMock.Verify(uw => uw.Laboratories.GetById(_labId), Times.Once);
         }
-        
+
+        [Fact]
+        public void ShouldLoadConfigDetailViewModelsIfPresent()
+        {
+            _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
+                .Returns(_configXlsx);
+            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
+                .Returns(_configXml);
+
+            _viewModel.Load(_labId);
+
+            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_configXlsx.ConfigXlsxId), Times.Once);
+            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_configXml.ConfigXmlId), Times.Once);
+        }
+
         [Fact]
         public void ShoudlRaisePropertyChangedEventForLab()
         {

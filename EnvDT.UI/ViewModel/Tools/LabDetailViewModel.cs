@@ -15,6 +15,10 @@ namespace EnvDT.UI.ViewModel
         private Func<IConfigXlsxDetailViewModel> _configXlsxDetailVmCreator;
         private Func<IConfigXmlDetailViewModel> _configXmlDetailVmCreator;
         private LabWrapper _laboratory;
+        private IConfigXlsxDetailViewModel _configXlsxDetailViewModel;
+        private IConfigXmlDetailViewModel _configXmlDetailViewModel;
+        private bool _isConfigXlsxDetailViewEnabled;
+        private bool _isConfigXmlDetailViewEnabled;
 
         public LabDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService, ILookupDataService lookupDataService,
@@ -37,6 +41,46 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public IConfigXlsxDetailViewModel ConfigXlsxDetailViewModel
+        {
+            get { return _configXlsxDetailViewModel; }
+            set
+            {
+                _configXlsxDetailViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public IConfigXmlDetailViewModel ConfigXmlDetailViewModel
+        {
+            get { return _configXmlDetailViewModel; }
+            set
+            {
+                _configXmlDetailViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsConfigXlsxDetailViewEnabled
+        {
+            get { return _isConfigXlsxDetailViewEnabled; }
+            set
+            {
+                _isConfigXlsxDetailViewEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsConfigXmlDetailViewEnabled
+        {
+            get { return _isConfigXmlDetailViewEnabled; }
+            set
+            {
+                _isConfigXmlDetailViewEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
         public override void Load(Guid? laboratoryId)
         {
             var laboratory = laboratoryId.HasValue
@@ -44,6 +88,23 @@ namespace EnvDT.UI.ViewModel
                 : CreateNewLab();
 
             InitializeLab(laboratoryId, laboratory);
+
+            var configXlsx = UnitOfWork.ConfigXlsxs.GetByLaboratoryId(laboratoryId);
+            var configXml = UnitOfWork.ConfigXmls.GetByLaboratoryId(laboratoryId);
+
+            IsConfigXlsxDetailViewEnabled = false;
+            IsConfigXmlDetailViewEnabled = false;
+
+            if (configXlsx != null)
+            {
+                LoadConfigXlsxDetailVm(configXlsx.ConfigXlsxId);
+                IsConfigXlsxDetailViewEnabled = true;
+            }
+            if (configXml != null)
+            {
+                LoadConfigXmlDetailVm(configXml.ConfigXmlId);
+                IsConfigXmlDetailViewEnabled = true;
+            }
         }
 
         private void InitializeLab(Guid? laboratoryId, Laboratory laboratory)
@@ -101,10 +162,12 @@ namespace EnvDT.UI.ViewModel
 
             if (result == MessageDialogResult.OK)
             {
-                RaiseDetailDeletedEvent(Laboratory.Model.LaboratoryId);
-                //SetPropertyValueToNull(this, "ConfigXlsxDetailViewModel");
+                RaiseDetailDeletedEvent(Laboratory.Model.LaboratoryId);               
                 UnitOfWork.Laboratories.Delete(Laboratory.Model);
                 UnitOfWork.Save();
+
+                IsConfigXlsxDetailViewEnabled = false;
+                IsConfigXmlDetailViewEnabled = false;
             }
         }
 
@@ -119,6 +182,18 @@ namespace EnvDT.UI.ViewModel
             var laboratory = new Laboratory();
             UnitOfWork.Laboratories.Create(laboratory);
             return laboratory;
+        }
+
+        private void LoadConfigXlsxDetailVm(Guid? laboratoryId)
+        {
+            ConfigXlsxDetailViewModel = _configXlsxDetailVmCreator();
+            ConfigXlsxDetailViewModel.Load(laboratoryId);
+        }
+
+        private void LoadConfigXmlDetailVm(Guid? laboratoryId)
+        {
+            ConfigXmlDetailViewModel = _configXmlDetailVmCreator();
+            ConfigXmlDetailViewModel.Load(laboratoryId);
         }
     }
 }
