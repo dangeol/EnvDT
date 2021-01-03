@@ -223,6 +223,24 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete the laboratory {0} {1}?.
+        /// </summary>
+        public static string LabDetailVM_DialogMsg_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("LabDetailVM_DialogMsg_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete laboratory.
+        /// </summary>
+        public static string LabDetailVM_DialogTitle_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("LabDetailVM_DialogTitle_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Missing parameters.
         /// </summary>
         public static string LabReportPreCheck_DialogTitle_MissingParam {

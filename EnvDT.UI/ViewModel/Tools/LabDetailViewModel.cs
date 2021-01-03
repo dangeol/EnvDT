@@ -12,13 +12,19 @@ namespace EnvDT.UI.ViewModel
     public class LabDetailViewModel : DetailViewModelBase, ILabDetailViewModel
     {
         private ILookupDataService _lookupDataService;
+        private Func<IConfigXlsxDetailViewModel> _configXlsxDetailVmCreator;
+        private Func<IConfigXmlDetailViewModel> _configXmlDetailVmCreator;
         private LabWrapper _laboratory;
 
         public LabDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService, ILookupDataService lookupDataService)
+            IMessageDialogService messageDialogService, ILookupDataService lookupDataService,
+            Func<IConfigXlsxDetailViewModel> configXlsxDetailVmCreator, 
+            Func<IConfigXmlDetailViewModel> configXmlDetailVmCreator)
             :base(eventAggregator, messageDialogService, unitOfWork)
         {
             _lookupDataService = lookupDataService;
+            _configXlsxDetailVmCreator = configXlsxDetailVmCreator;
+            _configXmlDetailVmCreator = configXmlDetailVmCreator;
         }
 
         public LabWrapper Laboratory
@@ -74,8 +80,8 @@ namespace EnvDT.UI.ViewModel
         {
             UnitOfWork.Save();
             HasChanges = UnitOfWork.Laboratories.HasChanges();
-            //RaiseDetailSavedEvent(Laboratory.LabId,
-                //$"{Laboratory.LabNumber} {Laboratory.LabName}");
+            RaiseDetailSavedEvent(Laboratory.LaboratoryId,
+                $"{Laboratory.LabCompany} ({Laboratory.LabName})");
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
         }
 
@@ -88,19 +94,18 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
-            /*
             var result = MessageDialogService.ShowOkCancelDialog(
                 Translator["EnvDT.UI.Properties.Strings.LabDetailVM_DialogTitle_ConfirmDeletion"],
                 string.Format(Translator["EnvDT.UI.Properties.Strings.LabDetailVM_DialogMsg_ConfirmDeletion"],
-                Laboratory.LabClient, Laboratory.LabName));
+                Laboratory.LabCompany, $"({Laboratory.LabName})"));
 
-            if (result == MessageDialogResult.Yes)
+            if (result == MessageDialogResult.OK)
             {
-                RaiseDetailDeletedEvent(Laboratory.Model.LabId);
-                SetPropertyValueToNull(this, "LabReportViewModel");
+                RaiseDetailDeletedEvent(Laboratory.Model.LaboratoryId);
+                //SetPropertyValueToNull(this, "ConfigXlsxDetailViewModel");
                 UnitOfWork.Laboratories.Delete(Laboratory.Model);
                 UnitOfWork.Save();
-            }*/
+            }
         }
 
         protected override bool OnDeleteCanExecute()
@@ -112,7 +117,7 @@ namespace EnvDT.UI.ViewModel
         private Laboratory CreateNewLab()
         {
             var laboratory = new Laboratory();
-            //UnitOfWork.Laboratories.Create(laboratory);
+            UnitOfWork.Laboratories.Create(laboratory);
             return laboratory;
         }
     }

@@ -345,4 +345,10 @@ aus der Dropdown-Liste aus.</value>
   <data name="MainWindow_Header_LabConfig" xml:space="preserve">
     <value>Labor-Konfigurator</value>
   </data>
+  <data name="LabDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Sind Sie sich sicher, dass Sie das Labor {0} {1} löschen möchten?</value>
+  </data>
+  <data name="LabDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Laborlöschung</value>
+  </data>
 </root>

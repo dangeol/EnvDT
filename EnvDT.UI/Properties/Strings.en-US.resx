@@ -344,4 +344,10 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="MainWindow_Header_LabConfig" xml:space="preserve">
     <value>Lab-Configurator</value>
   </data>
+  <data name="LabDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Do you really want to delete the laboratory {0} {1}?</value>
+  </data>
+  <data name="LabDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Delete laboratory</value>
+  </data>
 </root>
