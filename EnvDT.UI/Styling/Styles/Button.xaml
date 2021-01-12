@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <Style x:Key="BaseButtonStyle" TargetType="Button">
-    <Setter Property="FontFamily" Value="Segoe UI Semilight"/>
+    <Setter Property="FontFamily" Value="Segoe UI"/>
     <Setter Property="FontSize" Value="16"/>
     <Setter Property="Height" Value="25"/>
     <Setter Property="Width" Value="100"/>

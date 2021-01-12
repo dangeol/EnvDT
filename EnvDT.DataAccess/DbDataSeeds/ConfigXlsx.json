@@ -2,8 +2,9 @@
   {
     "ConfigXlsxId": "ce94f73b-e006-4b24-9995-731e183becb4",
     "WorksheetName": "Datenblatt",
-    "LabNameCol": 0,
-    "LabNameRow": 0,
+    "IdentWord": "Agrolab",
+    "IdentWordCol": 0,
+    "IdentWordRow": 0,
     "ReportLabidentCol": 4,
     "ReportLabidentRow": 2,
     "FirstSampleValueCol": 4,

@@ -309,7 +309,7 @@ aus der Dropdown-Liste aus.</value>
   <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
     <value>Zelle mit Prüfberichtsbezeichnung:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+  <data name="ConfgXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
     <value>Erste Spalte mit Proben-Analysewert:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
@@ -330,7 +330,7 @@ aus der Dropdown-Liste aus.</value>
   <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
     <value>Spalte für Nachweisgrenzen:</value>
   </data>
-  <data name="First column with sample value:" xml:space="preserve">
+  <data name="ConfigXlsxDetailView_Label_MethodCol" xml:space="preserve">
     <value>Spalte für Methodik:</value>
   </data>
   <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
@@ -350,5 +350,26 @@ aus der Dropdown-Liste aus.</value>
   </data>
   <data name="LabDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
     <value>Laborlöschung</value>
+  </data>
+  <data name="LabDetailView_Button_NewXlsxConfig" xml:space="preserve">
+    <value>Xls(x)-Konfig.</value>
+  </data>
+  <data name="LabDetailView_Button_NewXmlConfig" xml:space="preserve">
+    <value>Xml-Konfig.</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Col" xml:space="preserve">
+    <value>Spalte</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Row" xml:space="preserve">
+    <value>Zeile</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_IdentWord" xml:space="preserve">
+    <value>Identifikationswort:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Title" xml:space="preserve">
+    <value>Xls(x)-Konfigurator</value>
+  </data>
+  <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
+    <value>Xml-Konfigurator</value>
   </data>
 </root>

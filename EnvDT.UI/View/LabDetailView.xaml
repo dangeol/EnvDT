@@ -13,7 +13,9 @@
 
   <Grid>
     <Grid.ColumnDefinitions>
-      <ColumnDefinition Width="430" />
+      <ColumnDefinition MaxWidth="200"/>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
       <ColumnDefinition />
     </Grid.ColumnDefinitions>
     <Grid.RowDefinitions>
@@ -28,30 +30,36 @@
     </Grid.RowDefinitions>
 
     <Label Grid.Row="1" Content="{loc:Loc LabDetailView_Label_LabCompany}" Margin="10 0"/>
-    <TextBox Grid.Row="2" Text="{Binding Laboratory.LabCompany,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
+    <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Laboratory.LabCompany,
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="20 0 10 5"/>
 
-    <Label Grid.Row="3" Content="{loc:Loc LabDetailView_Label_LabName}" Margin="10 0"/>
-    <TextBox Grid.Row="4" Text="{Binding Laboratory.LabName,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="400" Margin="20 0 10 5"/>
+    <Label Grid.Row="2" Content="{loc:Loc LabDetailView_Label_LabName}" Margin="10 0"/>
+    <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Laboratory.LabName,
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="250" Margin="20 0 10 5"/>
 
-    <Label Grid.Row="1" Grid.Column="1" Content="{loc:Loc LabDetailView_Label_Country}" Margin="10 0"/>
-    <ComboBox Grid.Row="2" Grid.Column="1" Width="200" Margin="20 0 10 5" HorizontalAlignment="Left"
+    <Label Grid.Row="1" Grid.Column="2" Content="{loc:Loc LabDetailView_Label_Country}" Margin="10 0"/>
+    <ComboBox Grid.Row="1" Grid.Column="3" Width="200" Margin="20 0 10 5" HorizontalAlignment="Left"
               SelectedValue="{Binding Path=Laboratory.CountryId,UpdateSourceTrigger=PropertyChanged}"
               SelectedValuePath="LookupItemId"
               ItemsSource="{Binding Path=Laboratory.Countries}"
               DisplayMemberPath="DisplayMember">
     </ComboBox>
 
-    <StackPanel Grid.Row="5" Orientation="Horizontal">
-      <Button Content="{loc:Loc UI_Button_Save}" Margin="20 10"
+    <StackPanel Grid.Row="5" Grid.ColumnSpan="4" Orientation="Horizontal">
+      <Button Content="{loc:Loc UI_Button_Save}" Margin="20 10 10 10"
               Command="{Binding SaveCommand}"/>
 
       <Button Content="{loc:Loc UI_Button_Delete}" Margin="10 10"
               Command="{Binding DeleteCommand}"/>
+
+      <Button Content="{loc:Loc LabDetailView_Button_NewXlsxConfig}" Margin="10 10"
+              Command="{Binding CreateXlsxDetailVMCommand}"/>
+
+      <Button Content="{loc:Loc LabDetailView_Button_NewXmlConfig}" Margin="10 10"
+              Command="{Binding CreateXmlDetailVMCommand}"/>
     </StackPanel>
 
-    <StackPanel Grid.Row="6" Grid.ColumnSpan="2" Orientation="Horizontal">
+    <StackPanel Grid.Row="6" Grid.ColumnSpan="4" Orientation="Horizontal">
       <DockPanel IsEnabled="{Binding IsConfigXlsxDetailViewEnabled}">
         <view:ConfigXlsxDetailView DataContext="{Binding ConfigXlsxDetailViewModel}" />
       </DockPanel>

@@ -6,8 +6,9 @@ namespace EnvDT.Model.Entity
     {
         public Guid ConfigXlsxId { get; set; }
         public string WorksheetName { get; set; }
-        public int LabNameCol { get; set; }
-        public int LabNameRow { get; set; }
+        public string IdentWord { get; set; }        
+        public int IdentWordCol { get; set; }
+        public int IdentWordRow { get; set; }
         public int ReportLabidentCol { get; set; }
         public int ReportLabidentRow { get; set; }
         public int FirstSampleValueCol { get; set; }

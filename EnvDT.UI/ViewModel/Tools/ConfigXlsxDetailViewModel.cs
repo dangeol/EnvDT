@@ -31,7 +31,9 @@ namespace EnvDT.UI.ViewModel
 
         public override void Load(Guid? configXlsxId)
         {
-            var configXlsx = UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value);
+            var configXlsx = configXlsxId.HasValue
+                ? UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value)
+                : CreateNewConfigXlsx();
 
             InitializeConfigXlsx(configXlsxId, configXlsx);
         }
@@ -56,6 +58,19 @@ namespace EnvDT.UI.ViewModel
             {
                 // Trigger the validation
                 ConfigXlsx.WorksheetName = "";
+                ConfigXlsx.IdentWord = "";
+                ConfigXlsx.IdentWordCol = -1;
+                ConfigXlsx.IdentWordRow = -1;
+                ConfigXlsx.ReportLabidentCol = -1;
+                ConfigXlsx.ReportLabidentRow = -1;
+                ConfigXlsx.FirstSampleValueCol = -1;
+                ConfigXlsx.SampleLabIdentRow = -1;
+                ConfigXlsx.SampleNameRow = -1;
+                ConfigXlsx.FirstDataRow = -1;
+                ConfigXlsx.ParamNameCol = -1;
+                ConfigXlsx.UnitNameCol = -1;
+                ConfigXlsx.DetectionLimitCol = -1;
+                ConfigXlsx.MethodCol = -1;
             }
         }
 
@@ -96,6 +111,13 @@ namespace EnvDT.UI.ViewModel
         {
             return ConfigXlsx != null && ConfigXlsx.ConfigXlsxId != Guid.Empty 
                 && UnitOfWork.ConfigXlsxs.GetById(ConfigXlsx.ConfigXlsxId) != null;
+        }
+
+        private ConfigXlsx CreateNewConfigXlsx()
+        {
+            var configXlsx = new ConfigXlsx();
+            UnitOfWork.ConfigXlsxs.Create(configXlsx);
+            return configXlsx;
         }
     }
 }

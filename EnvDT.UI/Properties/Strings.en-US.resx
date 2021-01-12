@@ -303,12 +303,12 @@ for each item a corresponding parameter name from the dropdown menu.</value>
     <value>Worksheet name:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_LabNameCell" xml:space="preserve">
-    <value>Unique ident. cell:</value>
+    <value>Identification word cell:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
     <value>Cell of Report-Identifier:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+  <data name="ConfgXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
     <value>First column with sample value:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
@@ -329,7 +329,7 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
     <value>Detection limit column:</value>
   </data>
-  <data name="First column with sample value:" xml:space="preserve">
+  <data name="ConfigXlsxDetailView_Label_MethodCol" xml:space="preserve">
     <value>Method column:</value>
   </data>
   <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
@@ -349,5 +349,26 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   </data>
   <data name="LabDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
     <value>Delete laboratory</value>
+  </data>
+  <data name="LabDetailView_Button_NewXlsxConfig" xml:space="preserve">
+    <value>Xls(x)-Konfig.</value>
+  </data>
+  <data name="LabDetailView_Button_NewXmlConfig" xml:space="preserve">
+    <value>Xml-Config.</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Col" xml:space="preserve">
+    <value>Col.</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Row" xml:space="preserve">
+    <value>Row</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_IdentWord" xml:space="preserve">
+    <value>Identification word:</value>
+  </data>
+  <data name="ConfigXlsxDetailView_Label_Title" xml:space="preserve">
+    <value>Xls(x)-Configurator</value>
+  </data>
+  <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
+    <value>Xml-Configurator</value>
   </data>
 </root>

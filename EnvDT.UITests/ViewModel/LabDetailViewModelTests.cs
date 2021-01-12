@@ -120,6 +120,28 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Fact]
+        public void ShouldCreateConfigDetailVMsWhenCreateDetailVMCommandIsExecuted()
+        {
+            _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
+                .Returns((ConfigXlsx)null);
+            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
+                .Returns((ConfigXml)null);
+
+            _viewModel.Load(_labId);
+
+            Assert.False(_viewModel.IsConfigXlsxDetailViewEnabled);
+            Assert.False(_viewModel.IsConfigXmlDetailViewEnabled);
+
+            _viewModel.CreateXlsxDetailVMCommand.Execute(null);
+            _viewModel.CreateXmlDetailVMCommand.Execute(null);
+
+            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(null), Times.Once);
+            _configXmlDetailViewModelMock.Verify(cx => cx.Load(null), Times.Once);
+            Assert.True(_viewModel.IsConfigXlsxDetailViewEnabled);
+            Assert.True(_viewModel.IsConfigXmlDetailViewEnabled);
+        }
+
+        [Fact]
         public void ShoudlRaisePropertyChangedEventForLab()
         {
             var fired = _viewModel.IsPropertyChangedFired(

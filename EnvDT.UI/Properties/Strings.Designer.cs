@@ -61,6 +61,24 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First column with sample value:.
+        /// </summary>
+        public static string ConfgXlsxDetailView_Label_FirstSampleValueCol {
+            get {
+                return ResourceManager.GetString("ConfgXlsxDetailView_Label_FirstSampleValueCol", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Col..
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_Col {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_Col", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detection limit column:.
         /// </summary>
         public static string ConfigXlsxDetailView_Label_DetectionLimitCol {
@@ -79,20 +97,29 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to First column with sample value:.
+        ///   Looks up a localized string similar to Identification word:.
         /// </summary>
-        public static string ConfigXlsxDetailView_Label_FirstSampleValueCol {
+        public static string ConfigXlsxDetailView_Label_IdentWord {
             get {
-                return ResourceManager.GetString("ConfigXlsxDetailView_Label_FirstSampleValueCol", resourceCulture);
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_IdentWord", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unique ident. cell:.
+        ///   Looks up a localized string similar to Identification word cell:.
         /// </summary>
         public static string ConfigXlsxDetailView_Label_LabNameCell {
             get {
                 return ResourceManager.GetString("ConfigXlsxDetailView_Label_LabNameCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Method column:.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_MethodCol {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_MethodCol", resourceCulture);
             }
         }
         
@@ -115,6 +142,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Row.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_Row {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_Row", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Row of sample lab-identifiers:.
         /// </summary>
         public static string ConfigXlsxDetailView_Label_SampleLabIdentRow {
@@ -129,6 +165,15 @@ namespace EnvDT.UI.Properties {
         public static string ConfigXlsxDetailView_Label_SampleNameRow {
             get {
                 return ResourceManager.GetString("ConfigXlsxDetailView_Label_SampleNameRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xls(x)-Configurator.
+        /// </summary>
+        public static string ConfigXlsxDetailView_Label_Title {
+            get {
+                return ResourceManager.GetString("ConfigXlsxDetailView_Label_Title", resourceCulture);
             }
         }
         
@@ -151,11 +196,11 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Method column:.
+        ///   Looks up a localized string similar to Xml-Configurator.
         /// </summary>
-        public static string First_column_with_sample_value_ {
+        public static string ConfigXmlDetailView_Label_Title {
             get {
-                return ResourceManager.GetString("First column with sample value:", resourceCulture);
+                return ResourceManager.GetString("ConfigXmlDetailView_Label_Title", resourceCulture);
             }
         }
         
@@ -192,6 +237,24 @@ namespace EnvDT.UI.Properties {
         public static string ImportLabReportService_DialogTitle_ImportLabReport {
             get {
                 return ResourceManager.GetString("ImportLabReportService_DialogTitle_ImportLabReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xls(x)-Config..
+        /// </summary>
+        public static string LabDetailView_Button_NewXlsxConfig {
+            get {
+                return ResourceManager.GetString("LabDetailView_Button_NewXlsxConfig", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Xml-Config..
+        /// </summary>
+        public static string LabDetailView_Button_NewXmlConfig {
+            get {
+                return ResourceManager.GetString("LabDetailView_Button_NewXmlConfig", resourceCulture);
             }
         }
         

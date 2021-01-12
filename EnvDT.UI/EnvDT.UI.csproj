@@ -101,6 +101,10 @@
     <Page Update="Styling\Styles\DataGrid.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styling\Styles\Label.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styling\Styles\TextBlock.xaml">
       <SubType>Designer</SubType>
     </Page>

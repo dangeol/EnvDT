@@ -17,6 +17,7 @@
         <ResourceDictionary Source="Styling/Styles/Button.xaml"/>
         <ResourceDictionary Source="Styling/Styles/ComboBox.xaml"/>
         <ResourceDictionary Source="Styling/Styles/DataGrid.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/Label.xaml"/>
         <ResourceDictionary Source="Styling/Styles/TextBlock.xaml"/>
         <ResourceDictionary Source="Styling/Styles/TextBox.xaml"/>
       </ResourceDictionary.MergedDictionaries>
@@ -24,6 +25,7 @@
       <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}"></Style>
       <Style TargetType="ComboBox" BasedOn="{StaticResource BaseComboBoxStyle}"></Style>
       <Style TargetType="DataGrid" BasedOn="{StaticResource BaseDataGridStyle}"></Style>
+      <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"></Style>
       <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}"></Style>
       <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}"></Style>
     </ResourceDictionary>

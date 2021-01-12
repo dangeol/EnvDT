@@ -6,6 +6,7 @@ using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
 using System;
+using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
 {
@@ -29,7 +30,12 @@ namespace EnvDT.UI.ViewModel
             _lookupDataService = lookupDataService;
             _configXlsxDetailVmCreator = configXlsxDetailVmCreator;
             _configXmlDetailVmCreator = configXmlDetailVmCreator;
+            CreateXlsxDetailVMCommand = new DelegateCommand(OnCreateXlsxDetailVMExecute, OnCreateXlsxDetailVMCanExecute);
+            CreateXmlDetailVMCommand = new DelegateCommand(OnCreateXmlDetailVMExecute, OnCreateXmlDetailVMCanExecute);
         }
+
+        public ICommand CreateXlsxDetailVMCommand { get; private set; }
+        public ICommand CreateXmlDetailVMCommand { get; private set; }
 
         public LabWrapper Laboratory
         {
@@ -97,13 +103,11 @@ namespace EnvDT.UI.ViewModel
 
             if (configXlsx != null)
             {
-                LoadConfigXlsxDetailVm(configXlsx.ConfigXlsxId);
-                IsConfigXlsxDetailViewEnabled = true;
+                LoadConfigXlsxDetailVm(configXlsx.ConfigXlsxId);               
             }
             if (configXml != null)
             {
                 LoadConfigXmlDetailVm(configXml.ConfigXmlId);
-                IsConfigXmlDetailViewEnabled = true;
             }
         }
 
@@ -123,6 +127,8 @@ namespace EnvDT.UI.ViewModel
             };
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CreateXlsxDetailVMCommand).RaiseCanExecuteChanged();
+            ((DelegateCommand)CreateXmlDetailVMCommand).RaiseCanExecuteChanged();
             if (laboratoryId == null)
             {
                 // Trigger the validation
@@ -184,16 +190,40 @@ namespace EnvDT.UI.ViewModel
             return laboratory;
         }
 
-        private void LoadConfigXlsxDetailVm(Guid? laboratoryId)
+        private void LoadConfigXlsxDetailVm(Guid? configXlsxId)
         {
             ConfigXlsxDetailViewModel = _configXlsxDetailVmCreator();
-            ConfigXlsxDetailViewModel.Load(laboratoryId);
+            ConfigXlsxDetailViewModel.Load(configXlsxId);
+            IsConfigXlsxDetailViewEnabled = true;
         }
 
-        private void LoadConfigXmlDetailVm(Guid? laboratoryId)
+        private void LoadConfigXmlDetailVm(Guid? configXmlId)
         {
             ConfigXmlDetailViewModel = _configXmlDetailVmCreator();
-            ConfigXmlDetailViewModel.Load(laboratoryId);
+            ConfigXmlDetailViewModel.Load(configXmlId);
+            IsConfigXmlDetailViewEnabled = true;
+        }
+
+        private bool OnCreateXlsxDetailVMCanExecute()
+        {
+            return Laboratory != null && Laboratory.LaboratoryId != Guid.Empty
+                && UnitOfWork.ConfigXlsxs.GetByLaboratoryId(Laboratory.LaboratoryId) == null;
+        }
+
+        private void OnCreateXlsxDetailVMExecute()
+        {
+            LoadConfigXlsxDetailVm(null);
+        }
+
+        private bool OnCreateXmlDetailVMCanExecute()
+        {
+            return Laboratory != null && Laboratory.LaboratoryId != Guid.Empty
+                && UnitOfWork.ConfigXmls.GetByLaboratoryId(Laboratory.LaboratoryId) == null;
+        }
+
+        private void OnCreateXmlDetailVMExecute()
+        {
+            LoadConfigXmlDetailVm(null);
         }
     }
 }
