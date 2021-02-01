@@ -23,7 +23,10 @@ namespace EnvDT.UITests.ViewModel
         private Mock<ILookupDataService> _lookupDataServiceMock;
         private LabDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _labSavedEventMock;
+        private DetailDeletedEvent _detailDeletedEvent;
         private Mock<DetailDeletedEvent> _labDeletedEventMock;
+        private Mock<DetailDeletedEvent> _ConfigXlsxDeletedEventMock;
+        private Mock<DetailDeletedEvent> _ConfigXmlDeletedEventMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private Mock<ILabViewModel> _labViewModelMock;
         private Mock<IConfigXlsxDetailViewModel> _configXlsxDetailViewModelMock;
@@ -35,7 +38,10 @@ namespace EnvDT.UITests.ViewModel
         public LabDetailViewModelTests()
         {
             _labSavedEventMock = new Mock<DetailSavedEvent>();
+            _detailDeletedEvent = new DetailDeletedEvent();
             _labDeletedEventMock = new Mock<DetailDeletedEvent>();
+            _ConfigXlsxDeletedEventMock = new Mock<DetailDeletedEvent>();
+            _ConfigXmlDeletedEventMock = new Mock<DetailDeletedEvent>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(pr => pr.Laboratories.GetById(_labId))
                 .Returns(new Model.Entity.Laboratory {
@@ -115,8 +121,8 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel.Load(_labId);
 
-            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_configXlsx.ConfigXlsxId), Times.Once);
-            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_configXml.ConfigXmlId), Times.Once);
+            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
+            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
         }
 
         [Fact]
@@ -132,11 +138,11 @@ namespace EnvDT.UITests.ViewModel
             Assert.False(_viewModel.IsConfigXlsxDetailViewEnabled);
             Assert.False(_viewModel.IsConfigXmlDetailViewEnabled);
 
-            _viewModel.CreateXlsxDetailVMCommand.Execute(null);
-            _viewModel.CreateXmlDetailVMCommand.Execute(null);
+            _viewModel.CreateXlsxDetailVMCommand.Execute(_labId);
+            _viewModel.CreateXmlDetailVMCommand.Execute(_labId);
 
-            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(null), Times.Once);
-            _configXmlDetailViewModelMock.Verify(cx => cx.Load(null), Times.Once);
+            _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
+            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
             Assert.True(_viewModel.IsConfigXlsxDetailViewEnabled);
             Assert.True(_viewModel.IsConfigXmlDetailViewEnabled);
         }
@@ -346,6 +352,35 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock.Verify(d => d.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
+        }
+
+        [Fact]
+        public void ShouldRemoveConfigetailVMItemWhenConfigAreDeleted()
+        {
+            _viewModel.Load(_labId);
+
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
+                .Returns(_ConfigXlsxDeletedEventMock.Object);
+
+            _detailDeletedEvent.Publish(
+            new DetailDeletedEventArgs
+            {
+                Id = It.IsAny<Guid>(),
+                ViewModelName = "ConfigXlsxDetailViewModel"
+            });
+
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
+                 .Returns(_ConfigXmlDeletedEventMock.Object);
+
+            _detailDeletedEvent.Publish(
+            new DetailDeletedEventArgs
+            {
+                Id = It.IsAny<Guid>(),
+                ViewModelName = "ConfigXmlDetailViewModel"
+            });
+
+            Assert.Null(_viewModel.ConfigXlsxDetailViewModel);
+            Assert.Null(_viewModel.ConfigXmlDetailViewModel);
         }
     }
 }

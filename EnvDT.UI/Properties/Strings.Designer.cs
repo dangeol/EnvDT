@@ -70,6 +70,24 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Do you really want to delete this configuration?.
+        /// </summary>
+        public static string ConfigDetailVM_DialogMsg_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ConfigDetailVM_DialogMsg_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Delete Xlsx-Configuration.
+        /// </summary>
+        public static string ConfigDetailVM_DialogTitle_ConfirmDeletion {
+            get {
+                return ResourceManager.GetString("ConfigDetailVM_DialogTitle_ConfirmDeletion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Col..
         /// </summary>
         public static string ConfigXlsxDetailView_Label_Col {

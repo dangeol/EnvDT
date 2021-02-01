@@ -372,4 +372,10 @@ aus der Dropdown-Liste aus.</value>
   <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
     <value>Xml-Konfigurator</value>
   </data>
+  <data name="ConfigDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Löschung Xlsx-Konfiguration</value>
+  </data>
+  <data name="ConfigDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Sind Sie sich sicher, dass Sie diese Konfiguration löschen möchten?</value>
+  </data>
 </root>

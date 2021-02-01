@@ -12,11 +12,22 @@ namespace EnvDT.UI.ViewModel
     {
 
         private ConfigXlsxWrapper _configXlsx;
+        private bool _isConfigXlsxSaved;
 
         public ConfigXlsxDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
             IMessageDialogService messageDialogService)
             :base(eventAggregator, messageDialogService, unitOfWork)
         {
+        }
+
+        public bool IsConfigXlsxSaved
+        {
+            get { return _isConfigXlsxSaved; }
+            private set
+            {
+                _isConfigXlsxSaved = value;
+                OnPropertyChanged();
+            }
         }
 
         public ConfigXlsxWrapper ConfigXlsx
@@ -29,16 +40,17 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
-        public override void Load(Guid? configXlsxId)
+        public override void Load(Guid? laboratoryId)
         {
-            var configXlsx = configXlsxId.HasValue
-                ? UnitOfWork.ConfigXlsxs.GetById(configXlsxId.Value)
-                : CreateNewConfigXlsx();
+            var configXlsxFound = UnitOfWork.ConfigXlsxs.GetByLaboratoryId(laboratoryId);
+            var configXlsx = configXlsxFound != null
+                ? configXlsxFound
+                : CreateNewConfigXlsx(laboratoryId);
 
-            InitializeConfigXlsx(configXlsxId, configXlsx);
+            InitializeConfigXlsx(configXlsxFound, configXlsx);
         }
 
-        private void InitializeConfigXlsx(Guid? configXlsxId, ConfigXlsx configXlsx)
+        private void InitializeConfigXlsx(ConfigXlsx configXlsxFound, ConfigXlsx configXlsx)
         {
             ConfigXlsx = new ConfigXlsxWrapper(configXlsx);
             ConfigXlsx.PropertyChanged += (s, e) =>
@@ -54,8 +66,9 @@ namespace EnvDT.UI.ViewModel
             };
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
-            if (configXlsxId == null)
+            if (configXlsxFound == null)
             {
+                IsConfigXlsxSaved = false;
                 // Trigger the validation
                 ConfigXlsx.WorksheetName = "";
                 ConfigXlsx.IdentWord = "";
@@ -72,6 +85,10 @@ namespace EnvDT.UI.ViewModel
                 ConfigXlsx.DetectionLimitCol = -1;
                 ConfigXlsx.MethodCol = -1;
             }
+            else
+            {
+                IsConfigXlsxSaved = true;
+            }
         }
 
         protected override void OnSaveExecute()
@@ -79,7 +96,8 @@ namespace EnvDT.UI.ViewModel
             UnitOfWork.Save();
             HasChanges = UnitOfWork.ConfigXlsxs.HasChanges();
             //RaiseDetailSavedEvent(ConfigXlsx.ConfigXlsxId,
-                //$"{ConfigXlsx.ConfigXlsxNumber} {ConfigXlsx.ConfigXlsxName}");
+            //$"{ConfigXlsx.ConfigXlsxNumber} {ConfigXlsx.ConfigXlsxName}");
+            IsConfigXlsxSaved = true;
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
         }
 
@@ -92,30 +110,34 @@ namespace EnvDT.UI.ViewModel
 
         protected override void OnDeleteExecute()
         {
-            /*
-            var result = _messageDialogService.ShowOkCancelDialog(
-                Translator["EnvDT.UI.Properties.Strings.ConfigXlsxDetailVM_DialogTitle_ConfirmDeletion"],
-                string.Format(Translator["EnvDT.UI.Properties.Strings.ConfigXlsxDetailVM_DialogMsg_ConfirmDeletion"],
-                ConfigXlsx.ConfigXlsxClient, ConfigXlsx.ConfigXlsxName));
+            if (IsConfigXlsxSaved)
+            {
+                var result = MessageDialogService.ShowOkCancelDialog(
+                    Translator["EnvDT.UI.Properties.Strings.ConfigDetailVM_DialogTitle_ConfirmDeletion"],
+                    string.Format(Translator["EnvDT.UI.Properties.Strings.ConfigDetailVM_DialogMsg_ConfirmDeletion"]));
 
-            if (result == MessageDialogResult.Yes)
+                if (result == MessageDialogResult.OK)
+                {
+                    RaiseDetailDeletedEvent(ConfigXlsx.Model.ConfigXlsxId);
+                    UnitOfWork.ConfigXlsxs.Delete(ConfigXlsx.Model);
+                    UnitOfWork.Save();
+                }
+            }
+            else
             {
                 RaiseDetailDeletedEvent(ConfigXlsx.Model.ConfigXlsxId);
-                SetPropertyValueToNull(this, "LabReportViewModel");
-                _unitOfWork.ConfigXlsxs.Delete(ConfigXlsx.Model);
-                _unitOfWork.Save();
-            }*/
+            }
         }
 
         protected override bool OnDeleteCanExecute()
         {
-            return ConfigXlsx != null && ConfigXlsx.ConfigXlsxId != Guid.Empty 
-                && UnitOfWork.ConfigXlsxs.GetById(ConfigXlsx.ConfigXlsxId) != null;
+            return ConfigXlsx != null && ConfigXlsx.ConfigXlsxId != Guid.Empty;
         }
 
-        private ConfigXlsx CreateNewConfigXlsx()
+        private ConfigXlsx CreateNewConfigXlsx(Guid? laboratoryId)
         {
             var configXlsx = new ConfigXlsx();
+            configXlsx.LaboratoryId = (Guid)laboratoryId;
             UnitOfWork.ConfigXlsxs.Create(configXlsx);
             return configXlsx;
         }

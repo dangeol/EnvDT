@@ -391,4 +391,10 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
     <value>Xml-Configurator</value>
   </data>
+  <data name="ConfigDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
+    <value>Delete Xlsx-Configuration</value>
+  </data>
+  <data name="ConfigDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
+    <value>Do you really want to delete this configuration?</value>
+  </data>
 </root>

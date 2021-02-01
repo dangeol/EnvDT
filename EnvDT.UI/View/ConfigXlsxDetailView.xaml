@@ -150,8 +150,22 @@
       <Button Content="{loc:Loc UI_Button_Save}" Margin="20 10 10 10"
               Command="{Binding SaveCommand}"/>
 
-      <Button Content="{loc:Loc UI_Button_Delete}" Margin="10 10"
-              Command="{Binding DeleteCommand}"/>
+      <Button Margin="10 10" 
+              Command="{Binding DeleteCommand}">
+        <Button.Style>
+          <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+            <Setter Property="Content" Value="{loc:Loc UI_Button_Delete}" />
+            <Style.Triggers>
+              <DataTrigger Binding="{Binding IsConfigXlsxSaved}" Value="False">
+                <Setter Property="Content" Value="{loc:Loc UI_Button_Cancel}" />
+              </DataTrigger>
+              <DataTrigger Binding="{Binding IsConfigXlsxSaved}" Value="True">
+                <Setter Property="Content" Value="{loc:Loc UI_Button_Delete}" />
+              </DataTrigger>
+            </Style.Triggers>
+          </Style>
+        </Button.Style>
+      </Button>
     </StackPanel>
 
   </Grid>
