@@ -169,10 +169,10 @@
   <data name="SampleDetailVM_DialogTitle_EditSamples" xml:space="preserve">
     <value>Edit samples</value>
   </data>
-  <data name="SampleDetailVM_DialogTitle_TaskError" xml:space="preserve">
+  <data name="VM_DialogTitle_Error" xml:space="preserve">
     <value>Error</value>
   </data>
-  <data name="SampleDetailVM_DialogMsg_TaskError" xml:space="preserve">
+  <data name="VM_DialogMsg_Error" xml:space="preserve">
     <value>Please report the following error to your Administrator: {0}.</value>
   </data>
   <data name="ProjectDetailView_Label_ProjectClient" xml:space="preserve">
@@ -376,5 +376,11 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   </data>
   <data name="ConfigDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
     <value>Do you really want to delete this configuration?</value>
+  </data>
+  <data name="VM_DialogMsg_OutOfRangeEx" xml:space="preserve">
+    <value>The given Column or Row regarding {0} is out of range. Please check the lab-configuration. Details: {1}.</value>
+  </data>
+  <data name="VM_DialogTitle_OutOfRangeEx" xml:space="preserve">
+    <value>Error</value>
   </data>
 </root>

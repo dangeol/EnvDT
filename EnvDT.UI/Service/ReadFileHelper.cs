@@ -4,18 +4,26 @@ using System.IO;
 using System.Data;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Settings.Localization;
+using EnvDT.Model.IRepository;
+using EnvDT.Model.IDataService;
+using EnvDT.Model.Entity;
 
 namespace EnvDT.UI.Service
 {
     public class ReadFileHelper : IReadFileHelper
     {
         private IMessageDialogService _messageDialogService;
+        private IUnitOfWork _unitOfWork;
+        private ILookupDataService _lookupDataService;
         private Stream stream;
         private TranslationSource _translator = TranslationSource.Instance;
 
-        public ReadFileHelper(IMessageDialogService messageDialogService)
+        public ReadFileHelper(IMessageDialogService messageDialogService, IUnitOfWork unitOfWork, 
+            ILookupDataService lookupDataService)
         {
             _messageDialogService = messageDialogService;
+            _unitOfWork = unitOfWork;
+            _lookupDataService = lookupDataService;
         }
 
         public DataTable ReadFile(string file)
@@ -75,36 +83,63 @@ namespace EnvDT.UI.Service
                     throw new NotSupportedException("Wrong file extension.");
                 }
 
-                DataTable workSheet = reader.AsDataSet(new ExcelDataSetConfiguration()
+                DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
                 {
                     ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
                     {
                         UseHeaderRow = false
                     }
-                }).Tables["Datenblatt"];
+                });
 
+                DataTableCollection workSheets = result.Tables;
                 reader.Close();
-                if (workSheet == null)
+
+                DataTable workSheet = null;
+                var configXlsxs = _lookupDataService.GetAllConfigXlsxs();
+                ConfigXlsx configXlsx = null;
+
+                foreach (var configXlsxLookUp in configXlsxs)
+                {
+                    workSheet = workSheets[configXlsxLookUp.DisplayMember];
+                    if (workSheet != null)
+                    {                     
+                        configXlsx = _unitOfWork.ConfigXlsxs.GetByIdUpdated(configXlsxLookUp.LookupItemId);
+                        break;
+                    }
+                }
+
+                if (!HasLabCheckPassed(workSheet, configXlsx))
                 {
                     _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                    return null;
                 }
                 else
                 {
-                    // For testing only. TO DO: implement dictionary which contains table names from 
-                    // labreport configurator, which needs to be implemented.
-                    // Do LabReport identification logic here.
-                    var labName = "Agrolab Bruckberg";
-                    workSheet.Rows[0][0] = labName;
+                    workSheet.Rows[0][0] = configXlsx.ConfigXlsxId;
+                    return workSheet;
                 }
-
-                return workSheet;
             }        
             else
             {
                 throw new NotSupportedException("The file could not be read.");
             }
+        }
+
+        private bool HasLabCheckPassed(DataTable workSheet, ConfigXlsx configXlsx)
+        {
+            if (workSheet != null && configXlsx != null
+                && workSheet.Rows[configXlsx.IdentWordCol][configXlsx.IdentWordRow] != System.DBNull.Value)
+            {
+                var identCellContent = workSheet.Rows[configXlsx.IdentWordCol][configXlsx.IdentWordRow].ToString();
+                if (identCellContent.IndexOf(configXlsx.IdentWord, StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

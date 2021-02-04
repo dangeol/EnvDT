@@ -169,10 +169,10 @@
   <data name="SampleDetailVM_DialogTitle_EditSamples" xml:space="preserve">
     <value>Bearbeitung Proben</value>
   </data>
-  <data name="SampleDetailVM_DialogTitle_TaskError" xml:space="preserve">
+  <data name="VM_DialogTitle_Error" xml:space="preserve">
     <value>Fehler</value>
   </data>
-  <data name="SampleDetailVM_DialogMsg_TaskError" xml:space="preserve">
+  <data name="VM_DialogMsg_Error" xml:space="preserve">
     <value>Bitte melden Sie Ihrem Administrator den folgenden Fehler: {0}.</value>
   </data>
   <data name="ProjectDetailView_Label_ProjectClient" xml:space="preserve">
@@ -377,5 +377,11 @@ aus der Dropdown-Liste aus.</value>
   </data>
   <data name="ConfigDetailVM_DialogMsg_ConfirmDeletion" xml:space="preserve">
     <value>Sind Sie sich sicher, dass Sie diese Konfiguration löschen möchten?</value>
+  </data>
+  <data name="VM_DialogMsg_OutOfRangeEx" xml:space="preserve">
+    <value>Die angegebene Spalte oder Zeile betreffend {0} ist ungültig. Bitte überprüfen Sie die Labor-Konfiguration. Details: {1}.</value>
+  </data>
+  <data name="VM_DialogTitle_OutOfRangeEx" xml:space="preserve">
+    <value>Fehler</value>
   </data>
 </root>

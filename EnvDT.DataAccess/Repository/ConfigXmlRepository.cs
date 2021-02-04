@@ -1,6 +1,5 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
-using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 
@@ -16,7 +15,7 @@ namespace EnvDT.DataAccess.Repository
 
         public ConfigXml GetByLaboratoryId(Guid? laboratoryId)
         {
-            return Context.ConfigXmls.AsNoTracking()
+            return Context.ConfigXmls
                 .SingleOrDefault(c => c.LaboratoryId == laboratoryId);
         }
     }

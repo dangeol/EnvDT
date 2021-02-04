@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
+using EnvDT.UI.Event;
 using EnvDT.UI.Wrapper;
 using Prism.Commands;
 using Prism.Events;
@@ -23,6 +24,8 @@ namespace EnvDT.UI.ViewModel
         {
             _labReportDetailVmCreator = labReportDetailVmCreator;
             _tab = tab;
+            eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
+            eventAggregator.GetEvent<LabReportImportedEvent>().Subscribe(OnLabReportImported);
         }
 
         public ProjectWrapper Project
@@ -77,6 +80,21 @@ namespace EnvDT.UI.ViewModel
                 // Trigger the validation
                 Project.ProjectName = "";
             }
+        }
+
+        private void OnDetailSaved(DetailSavedEventArgs args)
+        {
+            switch (args.ViewModelName)
+            {
+                case nameof(ConfigXlsxDetailViewModel):
+                    CreateLabReportVm(Project.ProjectId);
+                    break;
+            }
+        }
+
+        private void OnLabReportImported(LabReportImportedEventArgs args)
+        {
+            CreateLabReportVm(Project.ProjectId);
         }
 
         private void CreateLabReportVm(Guid? projectId)

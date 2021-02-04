@@ -220,8 +220,8 @@ namespace EnvDT.UI.ViewModel
             catch (Exception ex)
             {
                 MessageDialogService.ShowOkDialog(
-                    Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_TaskError"],
-                    string.Format(Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogMsg_TaskError"],
+                    Translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_Error"],
+                    string.Format(Translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_Error"],
                     ex.Message));
             }
             finally

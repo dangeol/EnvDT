@@ -111,5 +111,18 @@ namespace EnvDT.DataAccess.DataService
                     });
             }
         }
+
+        public IEnumerable<LookupItem> GetAllConfigXlsxs()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<ConfigXlsx>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.ConfigXlsxId,
+                        DisplayMember = l.WorksheetName
+                    });
+            }
+        }
     }
 }

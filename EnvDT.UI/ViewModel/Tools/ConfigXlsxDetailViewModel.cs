@@ -95,10 +95,10 @@ namespace EnvDT.UI.ViewModel
         {
             UnitOfWork.Save();
             HasChanges = UnitOfWork.ConfigXlsxs.HasChanges();
-            //RaiseDetailSavedEvent(ConfigXlsx.ConfigXlsxId,
-            //$"{ConfigXlsx.ConfigXlsxNumber} {ConfigXlsx.ConfigXlsxName}");
             IsConfigXlsxSaved = true;
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
+            RaiseDetailSavedEvent(ConfigXlsx.Model.ConfigXlsxId,
+                "ConfigXlsx");
         }
 
         protected override bool OnSaveCanExecute()

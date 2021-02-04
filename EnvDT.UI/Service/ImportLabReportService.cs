@@ -3,6 +3,7 @@ using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.Settings.Localization;
+using Microsoft.EntityFrameworkCore;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
@@ -13,20 +14,9 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
-        private const string _worksheetName = "Datenblatt";
-        private const int _labNameCol = 0;
-        private const int _labNameRow = 0;
-        private const int _reportLabidentCol = 4;
-        private const int _reportLabidentRow = 2;
-        private const int _firstSampleValueCol = 4;
-        private const int _sampleLabIdentRow = 3;
-        private const int _sampleNameRow = 4;
-        private const int _firstDataRow = 7;
-        private const int _paramNameCol = 0;
-        private const int _unitNameCol = 1;
-        private const int _detectionLimitCol = 2;
-        private const int _methodCol = 3;
-
+        private const int _configXlsxIdCol = 0;
+        private const int _configXlsxIdRow = 0;
+       
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
@@ -47,21 +37,54 @@ namespace EnvDT.UI.Service
         {
             DataTable workSheet = _readFileHelper.ReadFile(file);
             if (workSheet != null)
-            { 
-                ImportLabReport(workSheet, projectId);
+            {
+                ConfigXlsx configXlsx;
+                try
+                {
+                    if (workSheet.Rows[_configXlsxIdRow][_configXlsxIdCol] != System.DBNull.Value)
+                    {
+                        var configXlsxId = Guid.Parse((workSheet.Rows[_configXlsxIdRow][_configXlsxIdCol]).ToString());
+                        configXlsx = _unitOfWork.ConfigXlsxs.GetById(configXlsxId);
+                    }
+                    else
+                    {
+                        DisplayReadingCellErrorMessage(nameof(configXlsx));
+                        return;
+                    }
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        nameof(configXlsx), ex.Message));
+                    return;
+                }
+                ImportLabReport(workSheet, configXlsx, projectId);
             }
         }
 
-        private void ImportLabReport(DataTable workSheet, Guid? projectId)
+        private void ImportLabReport(DataTable workSheet, ConfigXlsx configXlsx, Guid? projectId)
         {
             string reportLabIdent;
-            if (workSheet.Rows[_reportLabidentRow][_reportLabidentCol] != System.DBNull.Value)
-            { 
-                reportLabIdent = workSheet.Rows[_reportLabidentRow][_reportLabidentCol].ToString();
-            }
-            else
+            try
             {
-                DisplayReadingCellErrorMessage(nameof(reportLabIdent));
+                if (workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol] != System.DBNull.Value)
+                {
+                    reportLabIdent = workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol].ToString();
+                }
+                else
+                {
+                    DisplayReadingCellErrorMessage(nameof(reportLabIdent));
+                    return;
+                }
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                    "reportLabIdent", ex.Message));
                 return;
             }
             if (IsLabReportAlreadyPresent(reportLabIdent))
@@ -69,40 +92,53 @@ namespace EnvDT.UI.Service
                 return;
             }
 
-            string labName;
-            if (workSheet.Rows[_labNameRow][_labNameCol] != System.DBNull.Value)
-            {
-                labName = workSheet.Rows[_labNameRow][_labNameCol].ToString();
-            }
-            else
-            {
-                DisplayReadingCellErrorMessage(nameof(labName));
-                return;
-            }
-            var labCompany = _unitOfWork.LabReports.GetLabByLabName(labName).LabCompany;
-            Guid labReportId = CreateLabReport(reportLabIdent, labName, projectId).LabReportId;
+            Laboratory laboratory = _unitOfWork.Laboratories.GetById(configXlsx.LaboratoryId);
+            var labCompany = laboratory.LabCompany;
+            Guid labReportId = CreateLabReport(reportLabIdent, laboratory.LaboratoryId, projectId).LabReportId;
 
-            int c = _firstSampleValueCol;
+            int c = configXlsx.FirstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
                 string sampleLabIdent;
-                if (workSheet.Rows[_sampleLabIdentRow][c] != System.DBNull.Value)
+                try
                 {
-                    sampleLabIdent = workSheet.Rows[_sampleLabIdentRow][c].ToString();
+                    if (workSheet.Rows[configXlsx.SampleLabIdentRow][c] != System.DBNull.Value)
+                    {
+                        sampleLabIdent = workSheet.Rows[configXlsx.SampleLabIdentRow][c].ToString();
+                    }
+                    else
+                    {
+                        DisplayReadingCellErrorMessage(nameof(sampleLabIdent));
+                        return;
+                    }
                 }
-                else
+                catch (IndexOutOfRangeException ex)
                 {
-                    DisplayReadingCellErrorMessage(nameof(sampleLabIdent));
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        "sampleLabIdent", ex.Message));
                     return;
                 }
                 string sampleName;
-                if (workSheet.Rows[_sampleNameRow][c] != System.DBNull.Value)
+                try
                 {
-                    sampleName = workSheet.Rows[_sampleNameRow][c].ToString();
+                    if (workSheet.Rows[configXlsx.SampleNameRow][c] != System.DBNull.Value)
+                    {
+                        sampleName = workSheet.Rows[configXlsx.SampleNameRow][c].ToString();
+                    }
+                    else
+                    {
+                        DisplayReadingCellErrorMessage(nameof(sampleName));
+                        return;
+                    }
                 }
-                else
+                catch (IndexOutOfRangeException ex)
                 {
-                    DisplayReadingCellErrorMessage(nameof(sampleName));
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        "sampleName", ex.Message));
                     return;
                 }
 
@@ -120,12 +156,22 @@ namespace EnvDT.UI.Service
                 }
                 c++;
             }
-            CreateLabReportParams(workSheet, labReportId);
+            CreateLabReportParams(workSheet, configXlsx, labReportId);
+          
+            try
+            {
+                _unitOfWork.Save();
 
-            _unitOfWork.Save();
-
-            RaiseLabReportImportedEvent(labReportId,
+                RaiseLabReportImportedEvent(labReportId,
                 $"{reportLabIdent} {labCompany}");
+            }
+            catch (DbUpdateConcurrencyException ex)
+            {
+                _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_Error"],
+                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_Error"],
+                    ex.Message));
+            }
         }
 
         public bool IsLabReportAlreadyPresent(string reportLabIdent)
@@ -144,10 +190,8 @@ namespace EnvDT.UI.Service
             return false;
         }
 
-        private LabReport CreateLabReport(string reportLabIdent, string labName, Guid? projectId)
+        private LabReport CreateLabReport(string reportLabIdent, Guid laboratoryId, Guid? projectId)
         {
-            Guid laboratoryId = _unitOfWork.LabReports.GetLabByLabName(labName).LaboratoryId;
-
             var labReport = new LabReport();
             labReport.ReportLabIdent = reportLabIdent;
             labReport.LaboratoryId = laboratoryId;
@@ -170,22 +214,33 @@ namespace EnvDT.UI.Service
             return sample;
         }
 
-        private void CreateLabReportParams(DataTable workSheet, Guid labReportId)
+        private void CreateLabReportParams(DataTable workSheet, ConfigXlsx configXlsx, Guid labReportId)
         {
-            int r = _firstDataRow;
+            int r = configXlsx.FirstDataRow;
             while (r < workSheet.Rows.Count)
             {
                 string labParamName;
-                if (workSheet.Rows[r][_paramNameCol] != System.DBNull.Value)
-                {
-                    labParamName = workSheet.Rows[r][_paramNameCol].ToString();
+                try
+                { 
+                    if (workSheet.Rows[r][configXlsx.ParamNameCol] != System.DBNull.Value)
+                    {
+                        labParamName = workSheet.Rows[r][configXlsx.ParamNameCol].ToString();
+                    }
+                    else
+                    {
+                        DisplayReadingCellErrorMessage(nameof(labParamName));
+                        return;
+                    }
                 }
-                else
+                catch (IndexOutOfRangeException ex)
                 {
-                    DisplayReadingCellErrorMessage(nameof(labParamName));
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        "ParamName", ex.Message));
                     return;
                 }
-                var labParamUnitName = workSheet.Rows[r][_unitNameCol].ToString();
+                var labParamUnitName = workSheet.Rows[r][configXlsx.UnitNameCol].ToString();
                 var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
                 var unitId = GetUnitNameVariantByLabParamUnitName(labParamUnitName);
 
@@ -194,14 +249,14 @@ namespace EnvDT.UI.Service
                     foreach (var paramNameVariant in paramNameVariants)
                     {
                         var parameterId = paramNameVariant.ParameterId;
-                        CreateNewLabParam(workSheet, labParamName, labParamUnitName, 
+                        CreateNewLabParam(workSheet, configXlsx, labParamName, labParamUnitName, 
                             parameterId, unitId, labReportId, r);   
                     }
                 }
                 else
                 {
                     var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                    CreateNewLabParam(workSheet, labParamName, labParamUnitName, 
+                    CreateNewLabParam(workSheet, configXlsx, labParamName, labParamUnitName, 
                         unknownParameterId, unitId, labReportId, r);
                 }
                 r++;
@@ -218,8 +273,8 @@ namespace EnvDT.UI.Service
         }
 
         // TO DO: refactoring
-        private void CreateNewLabParam(DataTable workSheet, string labReportParamName, string labReportUnitName,
-            Guid parameterId, Guid unitId, Guid labReportId, int r)
+        private void CreateNewLabParam(DataTable workSheet, ConfigXlsx configXlsx, string labReportParamName,
+            string labReportUnitName, Guid parameterId, Guid unitId, Guid labReportId, int r)
         {
             var labReportParam = new LabReportParam();
             labReportParam.ParameterId = parameterId;
@@ -228,49 +283,98 @@ namespace EnvDT.UI.Service
             labReportParam.UnitId = unitId;
             labReportParam.LabReportId = labReportId;
             labReportParam.DetectionLimit = 0.0;
-            if (workSheet.Rows[r][_detectionLimitCol] != System.DBNull.Value)
+
+            try
             {
-                labReportParam.DetectionLimit = (double)workSheet.Rows[r][_detectionLimitCol];
+                if (workSheet.Rows[r][configXlsx.DetectionLimitCol] != System.DBNull.Value)
+                {
+                    labReportParam.DetectionLimit = (double)workSheet.Rows[r][configXlsx.DetectionLimitCol];
+                }
             }
-            labReportParam.Method = "";
-            if (workSheet.Rows[r][_methodCol] != System.DBNull.Value)
+            catch (IndexOutOfRangeException ex)
             {
-                labReportParam.Method = (string)workSheet.Rows[r][_methodCol];
+                _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                    "DetectionLimit", ex.Message));
+                return;
+            }
+
+            labReportParam.Method = "";
+
+            try
+            {
+                if (workSheet.Rows[r][configXlsx.MethodCol] != System.DBNull.Value)
+                {
+                    labReportParam.Method = (string)workSheet.Rows[r][configXlsx.MethodCol];
+                }
+            }
+            catch (IndexOutOfRangeException ex)
+            {
+                _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                    "Method", ex.Message));
+                return;
             }
 
             _unitOfWork.LabReportParams.Create(labReportParam);
-            CreateNewSampleValue(r, workSheet, labReportParam);
+            CreateNewSampleValue(r, workSheet, configXlsx, labReportParam);
         }
 
-        private void CreateNewSampleValue(int r, DataTable workSheet, LabReportParam labReportParam)
+        private void CreateNewSampleValue(int r, DataTable workSheet, ConfigXlsx configXlsx, LabReportParam labReportParam)
         {
-            var c = _firstSampleValueCol;
+            var c = configXlsx.FirstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
-                if (workSheet.Rows[r][c] != System.DBNull.Value)
+                try
                 {
-                    var sValue = 0.0;
-                    string sampleName;
-                    Guid sampleId = Guid.Empty;
-                    if (workSheet.Rows[_sampleNameRow][c] != System.DBNull.Value)
+                    if (workSheet.Rows[r][c] != System.DBNull.Value)
                     {
-                        sampleName = workSheet.Rows[_sampleNameRow][c].ToString();
-                        sampleId = _samples.FirstOrDefault(s => s.SampleName == sampleName).SampleId;
+                        var sValue = 0.0;
+                        string sampleName;
+                        Guid sampleId = Guid.Empty;
+
+                        try
+                        {
+                            if (workSheet.Rows[configXlsx.SampleNameRow][c] != System.DBNull.Value)
+                            {
+                                sampleName = workSheet.Rows[configXlsx.SampleNameRow][c].ToString();
+                                sampleId = _samples.FirstOrDefault(s => s.SampleName == sampleName).SampleId;
+                            }
+                        }
+                        catch (IndexOutOfRangeException ex)
+                        {
+                            _messageDialogService.ShowOkDialog(
+                                _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                                string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                                "SampleName", ex.Message));
+                            return;
+                        }
+
+                        double testVar;
+                        if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                        {
+                            sValue = (double)workSheet.Rows[r][c];
+                        }
+                        var sampleValue = new SampleValue();
+                        sampleValue.SValue = sValue;
+                        sampleValue.LabReportParamId = labReportParam.LabReportParamId;
+
+                        if (sampleId != Guid.Empty)
+                        {
+                            sampleValue.SampleId = sampleId;
+                            _unitOfWork.SampleValues.Create(sampleValue);
+                        }
                     }
-                    double testVar;
-                    if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
-                    {
-                        sValue = (double)workSheet.Rows[r][c];
-                    }
-                    var sampleValue = new SampleValue();
-                    sampleValue.SValue = sValue;
-                    sampleValue.LabReportParamId = labReportParam.LabReportParamId;
-                    
-                    if (sampleId != Guid.Empty)
-                    {
-                        sampleValue.SampleId = sampleId;
-                        _unitOfWork.SampleValues.Create(sampleValue);
-                    }                                     
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        "FirstSampleValue", ex.Message));
+                    return;
                 }
                 c++;
             }
@@ -280,11 +384,11 @@ namespace EnvDT.UI.Service
         {
             _eventAggregator.GetEvent<LabReportImportedEvent>()
                 .Publish(
-                new LabReportImportedEventArgs
-                {
-                    Id = modelId,
-                    DisplayMember = displayMember
-                });
+                    new LabReportImportedEventArgs
+                    {
+                        Id = modelId,
+                        DisplayMember = displayMember
+                    });
         }
 
         private void DisplayReadingCellErrorMessage(string variableName)
