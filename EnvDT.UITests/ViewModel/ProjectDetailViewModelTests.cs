@@ -21,6 +21,7 @@ namespace EnvDT.UITests.ViewModel
         private ProjectDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _projectSavedEventMock;
         private Mock<DetailDeletedEvent> _projectDeletedEventMock;
+        private Mock<LabReportImportedEvent> _labReportImportedEventMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private Mock<IProjectViewModel> _projectViewModelMock;
         private Mock<ITab> _tabMock;
@@ -31,6 +32,7 @@ namespace EnvDT.UITests.ViewModel
         {
             _projectSavedEventMock = new Mock<DetailSavedEvent>();
             _projectDeletedEventMock = new Mock<DetailDeletedEvent>();
+            _labReportImportedEventMock = new Mock<LabReportImportedEvent>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(pr => pr.Projects.GetById(_projectId))
                 .Returns(new Model.Entity.Project { ProjectId = _projectId, 
@@ -40,6 +42,8 @@ namespace EnvDT.UITests.ViewModel
                 .Returns(_projectSavedEventMock.Object);
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
                 .Returns(_projectDeletedEventMock.Object);
+            _eventAggregatorMock.Setup(ea => ea.GetEvent<LabReportImportedEvent>())
+                .Returns(_labReportImportedEventMock.Object);
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
