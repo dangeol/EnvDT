@@ -120,6 +120,9 @@
   <data name="conditionJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/Condition.json</value>
   </data>
+  <data name="configCsvJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/ConfigCsv.json</value>
+  </data>
   <data name="configXlsxJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/ConfigXlsx.json</value>
   </data>

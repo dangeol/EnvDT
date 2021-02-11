@@ -58,7 +58,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Update="View\ConfigXmlDetailView.xaml.cs">
+    <Compile Update="View\ConfigCsvDetailView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\LabDetailView.xaml.cs">
@@ -114,7 +114,7 @@
     <Page Update="Styling\Styles\TextBox.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\ConfigXmlDetailView.xaml">
+    <Page Update="View\ConfigCsvDetailView.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>

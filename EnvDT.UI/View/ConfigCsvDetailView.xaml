@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EnvDT.UI.View.ConfigXlsxDetailView"
+﻿<UserControl x:Class="EnvDT.UI.View.ConfigCsvDetailView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -49,16 +49,16 @@
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <Label Content="{loc:Loc ConfigXlsxDetailView_Label_Title}" 
+    <Label Content="{loc:Loc ConfigCsvDetailView_Label_Title}" 
            Style="{StaticResource BoldLabelStyle}" Margin="10 10"/>
-    
-    <Label Grid.Row="1" Content="{loc:Loc ConfigDetailView_Label_WorksheetName}" Margin="10 0"/>
-    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding ConfigXlsx.WorksheetName,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5 5 50 5"/>
 
+    <Label Grid.Row="1" Content="" Margin="10 0" Visibility="Hidden"/>
+    <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3" Text="" Width="200" Margin="5"
+             Visibility="Hidden"/>
+    
     <Label Grid.Row="2" Content="{loc:Loc ConfigDetailView_Label_IdentWord}" Margin="10 0"/>
-    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding ConfigXlsx.IdentWord,
-             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5 5 50 5"/>
+    <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3" Text="{Binding ConfigCsv.IdentWord,
+             Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Width="200" Margin="5"/>
 
     <Label Grid.Row="3" Grid.Column="1" Margin="10 0"
            Content="{loc:Loc ConfigDetailView_Label_Col}"/>
@@ -68,83 +68,83 @@
 
     <Label Grid.Row="4" Content="{loc:Loc ConfigDetailView_Label_LabNameCell}" Margin="10 0"/>
     <ComboBox Grid.Row="4" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.IdentWordCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.IdentWordCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
     <ComboBox Grid.Row="4" Grid.Column="2" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.IdentWordRow,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.IdentWordRow,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Rows}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Rows}"/>
 
     <Label Grid.Row="5" Content="{loc:Loc ConfigDetailView_Label_ReportLabidentCell}" Margin="10 0"/>
     <ComboBox Grid.Row="5" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.ReportLabidentCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.ReportLabidentCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
     <ComboBox Grid.Row="5" Grid.Column="2" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.ReportLabidentRow,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.ReportLabidentRow,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Rows}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Rows}"/>
 
     <Label Grid.Row="6" Content="{loc:Loc ConfigDetailView_Label_FirstSampleValueCol}" Margin="10 0"/>
     <ComboBox Grid.Row="6" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.FirstSampleValueCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.FirstSampleValueCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
 
     <Label Grid.Row="7" Content="{loc:Loc ConfigDetailView_Label_SampleLabIdentRow}" Margin="10 0"/>
     <ComboBox Grid.Row="7" Grid.Column="2" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.SampleLabIdentRow,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.SampleLabIdentRow,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Rows}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Rows}"/>
 
     <Label Grid.Row="8" Content="{loc:Loc ConfigDetailView_Label_SampleNameRow}" Margin="10 0"/>
     <ComboBox Grid.Row="8" Grid.Column="2" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.SampleNameRow,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.SampleNameRow,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Rows}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Rows}"/>
 
     <Label Grid.Row="9" Content="{loc:Loc ConfigDetailView_Label_FirstDataRow}" Margin="10 0"/>
     <ComboBox Grid.Row="9" Grid.Column="2" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.FirstDataRow,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.FirstDataRow,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Rows}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Rows}"/>
 
     <Label Grid.Row="10" Content="{loc:Loc ConfigDetailView_Label_ParamNameCol}" Margin="10 0"/>
     <ComboBox Grid.Row="10" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.ParamNameCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.ParamNameCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
 
     <Label Grid.Row="11" Content="{loc:Loc ConfigDetailView_Label_UnitNameCol}" Margin="10 0"/>
     <ComboBox Grid.Row="11" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.UnitNameCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.UnitNameCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
 
     <Label Grid.Row="12" Content="{loc:Loc ConfigDetailView_Label_DetectionLimitCol}" Margin="10 0"/>
     <ComboBox Grid.Row="12" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.DetectionLimitCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.DetectionLimitCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
 
     <Label Grid.Row="13" Content="{loc:Loc ConfigDetailView_Label_MethodCol}" Margin="10 0"/>
     <ComboBox Grid.Row="13" Grid.Column="1" Width="45" Margin="5"
-              SelectedValue="{Binding Path=ConfigXlsx.MethodCol,UpdateSourceTrigger=PropertyChanged}"
+              SelectedValue="{Binding Path=ConfigCsv.MethodCol,UpdateSourceTrigger=PropertyChanged}"
               DisplayMemberPath="Key"
               SelectedValuePath="Value"
-              ItemsSource="{Binding Path=ConfigXlsx.Cols}"/>
+              ItemsSource="{Binding Path=ConfigCsv.Cols}"/>
 
     <StackPanel Grid.Row="14" Orientation="Horizontal">
       <Button Content="{loc:Loc UI_Button_Save}" Margin="20 10 10 10"
@@ -156,10 +156,10 @@
           <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
             <Setter Property="Content" Value="{loc:Loc UI_Button_Delete}" />
             <Style.Triggers>
-              <DataTrigger Binding="{Binding IsConfigXlsxSaved}" Value="False">
+              <DataTrigger Binding="{Binding IsConfigCsvSaved}" Value="False">
                 <Setter Property="Content" Value="{loc:Loc UI_Button_Cancel}" />
               </DataTrigger>
-              <DataTrigger Binding="{Binding IsConfigXlsxSaved}" Value="True">
+              <DataTrigger Binding="{Binding IsConfigCsvSaved}" Value="True">
                 <Setter Property="Content" Value="{loc:Loc UI_Button_Delete}" />
               </DataTrigger>
             </Style.Triggers>

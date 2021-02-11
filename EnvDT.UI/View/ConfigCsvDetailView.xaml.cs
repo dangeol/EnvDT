@@ -2,9 +2,9 @@
 
 namespace EnvDT.UI.View
 {
-    public partial class ConfigXmlDetailView : UserControl
+    public partial class ConfigCsvDetailView : UserControl
     {
-        public ConfigXmlDetailView()
+        public ConfigCsvDetailView()
         {
             InitializeComponent();
         }

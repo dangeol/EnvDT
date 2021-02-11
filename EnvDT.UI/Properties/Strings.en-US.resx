@@ -299,37 +299,37 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="LabView_Label_LabSelection" xml:space="preserve">
     <value>Laboratory selection</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_WorksheetName" xml:space="preserve">
+  <data name="ConfigDetailView_Label_WorksheetName" xml:space="preserve">
     <value>Worksheet name:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_LabNameCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_LabNameCell" xml:space="preserve">
     <value>Identification word cell:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_ReportLabidentCell" xml:space="preserve">
     <value>Cell of Report-Identifier:</value>
   </data>
-  <data name="ConfgXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_FirstSampleValueCol" xml:space="preserve">
     <value>First column with sample value:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_SampleLabIdentRow" xml:space="preserve">
     <value>Row of sample lab-identifiers:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_SampleNameRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_SampleNameRow" xml:space="preserve">
     <value>Row of sample names:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_FirstDataRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_FirstDataRow" xml:space="preserve">
     <value>First data row:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_ParamNameCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_ParamNameCol" xml:space="preserve">
     <value>Parameter name column:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_UnitNameCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_UnitNameCol" xml:space="preserve">
     <value>Unit name column:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_DetectionLimitCol" xml:space="preserve">
     <value>Detection limit column:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_MethodCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_MethodCol" xml:space="preserve">
     <value>Method column:</value>
   </data>
   <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
@@ -353,23 +353,23 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="LabDetailView_Button_NewXlsxConfig" xml:space="preserve">
     <value>Xls(x)-Konfig.</value>
   </data>
-  <data name="LabDetailView_Button_NewXmlConfig" xml:space="preserve">
-    <value>Xml-Config.</value>
+  <data name="LabDetailView_Button_NewCsvConfig" xml:space="preserve">
+    <value>Csv-Config.</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_Col" xml:space="preserve">
+  <data name="ConfigDetailView_Label_Col" xml:space="preserve">
     <value>Col.</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_Row" xml:space="preserve">
+  <data name="ConfigDetailView_Label_Row" xml:space="preserve">
     <value>Row</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_IdentWord" xml:space="preserve">
+  <data name="ConfigDetailView_Label_IdentWord" xml:space="preserve">
     <value>Identification word:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_Title" xml:space="preserve">
-    <value>Xls(x)-Configurator</value>
+    <value>xls(x)-Configurator</value>
   </data>
-  <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
-    <value>Xml-Configurator</value>
+  <data name="ConfigCsvDetailView_Label_Title" xml:space="preserve">
+    <value>csv-Configurator</value>
   </data>
   <data name="ConfigDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
     <value>Delete Xlsx-Configuration</value>

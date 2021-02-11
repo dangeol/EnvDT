@@ -70,6 +70,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ConfigCsv.json.
+        /// </summary>
+        internal static string configCsvJson {
+            get {
+                return ResourceManager.GetString("configCsvJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ConfigXlsx.json.
         /// </summary>
         internal static string configXlsxJson {

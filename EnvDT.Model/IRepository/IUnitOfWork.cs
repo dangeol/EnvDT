@@ -5,7 +5,7 @@ namespace EnvDT.Model.IRepository
     public interface IUnitOfWork : IDisposable
     {
         public IConfigXlsxRepository ConfigXlsxs { get; }
-        public IConfigXmlRepository ConfigXmls { get; }
+        public IConfigCsvRepository ConfigCsvs { get; }
         public ILaboratoryRepository Laboratories { get; }
         public ILabReportRepository LabReports { get; }
         public ILabReportParamRepository LabReportParams { get; }

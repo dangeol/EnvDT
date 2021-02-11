@@ -300,37 +300,37 @@ aus der Dropdown-Liste aus.</value>
   <data name="LabView_Label_LabSelection" xml:space="preserve">
     <value>Labor-Auswahl</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_WorksheetName" xml:space="preserve">
+  <data name="ConfigDetailView_Label_WorksheetName" xml:space="preserve">
     <value>Tabellenblatt-Name:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_LabNameCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_LabNameCell" xml:space="preserve">
     <value>Zelle für Identifikationswort:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_ReportLabidentCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_ReportLabidentCell" xml:space="preserve">
     <value>Zelle mit Prüfberichtsbezeichnung:</value>
   </data>
-  <data name="ConfgXlsxDetailView_Label_FirstSampleValueCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_FirstSampleValueCol" xml:space="preserve">
     <value>Erste Spalte mit Proben-Analysewert:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_SampleLabIdentRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_SampleLabIdentRow" xml:space="preserve">
     <value>Zeile mit Labor-Probenbezeichnungen:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_SampleNameRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_SampleNameRow" xml:space="preserve">
     <value>Zeile mit Probenbezeichnungen:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_FirstDataRow" xml:space="preserve">
+  <data name="ConfigDetailView_Label_FirstDataRow" xml:space="preserve">
     <value>Erste Datenzeile:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_ParamNameCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_ParamNameCol" xml:space="preserve">
     <value>Spalte mit Parameter-Namen:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_UnitNameCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_UnitNameCol" xml:space="preserve">
     <value>Spalte mit den Einheiten:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_DetectionLimitCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_DetectionLimitCol" xml:space="preserve">
     <value>Spalte für Nachweisgrenzen:</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_MethodCol" xml:space="preserve">
+  <data name="ConfigDetailView_Label_MethodCol" xml:space="preserve">
     <value>Spalte für Methodik:</value>
   </data>
   <data name="LabDetailView_Label_LabCompany" xml:space="preserve">
@@ -354,23 +354,23 @@ aus der Dropdown-Liste aus.</value>
   <data name="LabDetailView_Button_NewXlsxConfig" xml:space="preserve">
     <value>Xls(x)-Konfig.</value>
   </data>
-  <data name="LabDetailView_Button_NewXmlConfig" xml:space="preserve">
-    <value>Xml-Konfig.</value>
+  <data name="LabDetailView_Button_NewCsvConfig" xml:space="preserve">
+    <value>Csv-Konfig.</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_Col" xml:space="preserve">
+  <data name="ConfigDetailView_Label_Col" xml:space="preserve">
     <value>Spalte</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_Row" xml:space="preserve">
+  <data name="ConfigDetailView_Label_Row" xml:space="preserve">
     <value>Zeile</value>
   </data>
-  <data name="ConfigXlsxDetailView_Label_IdentWord" xml:space="preserve">
+  <data name="ConfigDetailView_Label_IdentWord" xml:space="preserve">
     <value>Identifikationswort:</value>
   </data>
   <data name="ConfigXlsxDetailView_Label_Title" xml:space="preserve">
-    <value>Xls(x)-Konfigurator</value>
+    <value>xls(x)-Konfigurator</value>
   </data>
-  <data name="ConfigXmlDetailView_Label_Title" xml:space="preserve">
-    <value>Xml-Konfigurator</value>
+  <data name="ConfigCsvDetailView_Label_Title" xml:space="preserve">
+    <value>csv-Konfigurator</value>
   </data>
   <data name="ConfigDetailVM_DialogTitle_ConfirmDeletion" xml:space="preserve">
     <value>Löschung Xlsx-Konfiguration</value>

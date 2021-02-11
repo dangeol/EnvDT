@@ -26,13 +26,13 @@ namespace EnvDT.UITests.ViewModel
         private DetailDeletedEvent _detailDeletedEvent;
         private Mock<DetailDeletedEvent> _labDeletedEventMock;
         private Mock<DetailDeletedEvent> _ConfigXlsxDeletedEventMock;
-        private Mock<DetailDeletedEvent> _ConfigXmlDeletedEventMock;
+        private Mock<DetailDeletedEvent> _ConfigCsvDeletedEventMock;
         private Mock<ISampleDetailViewModel> _sampleDetailViewModelMock;
         private Mock<ILabViewModel> _labViewModelMock;
         private Mock<IConfigXlsxDetailViewModel> _configXlsxDetailViewModelMock;
-        private Mock<IConfigXmlDetailViewModel> _configXmlDetailViewModelMock;
+        private Mock<IConfigCsvDetailViewModel> _ConfigCsvDetailViewModelMock;
         private ConfigXlsx _configXlsx;
-        private ConfigXml _configXml;
+        private ConfigCsv _ConfigCsv;
 
 
         public LabDetailViewModelTests()
@@ -41,7 +41,7 @@ namespace EnvDT.UITests.ViewModel
             _detailDeletedEvent = new DetailDeletedEvent();
             _labDeletedEventMock = new Mock<DetailDeletedEvent>();
             _ConfigXlsxDeletedEventMock = new Mock<DetailDeletedEvent>();
-            _ConfigXmlDeletedEventMock = new Mock<DetailDeletedEvent>();
+            _ConfigCsvDeletedEventMock = new Mock<DetailDeletedEvent>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _unitOfWorkMock.Setup(pr => pr.Laboratories.GetById(_labId))
                 .Returns(new Model.Entity.Laboratory {
@@ -49,8 +49,8 @@ namespace EnvDT.UITests.ViewModel
                     LabCompany = "company", LabName = "name" });
             _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
                 .Returns((ConfigXlsx)null);
-            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
-                .Returns((ConfigXml)null);
+            _unitOfWorkMock.Setup(uw => uw.ConfigCsvs.GetByLaboratoryId(_labId))
+                .Returns((ConfigCsv)null);
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailSavedEvent>())
                 .Returns(_labSavedEventMock.Object);
@@ -60,16 +60,16 @@ namespace EnvDT.UITests.ViewModel
             _lookupDataServiceMock = new Mock<ILookupDataService>(); 
             _labViewModelMock = new Mock<ILabViewModel>();
             _configXlsxDetailViewModelMock = new Mock<IConfigXlsxDetailViewModel>();
-            _configXmlDetailViewModelMock = new Mock<IConfigXmlDetailViewModel>();
+            _ConfigCsvDetailViewModelMock = new Mock<IConfigCsvDetailViewModel>();
             _configXlsx = new ConfigXlsx();
             _configXlsx.ConfigXlsxId = new Guid("775b23d9-5826-4dfb-8d12-ddc23e1a66f9");
-            _configXml = new ConfigXml();
-            _configXml.ConfigXmlId = new Guid("f6e42f7c-b641-42d6-bdbf-c9b16c2cac45");
+            _ConfigCsv = new ConfigCsv();
+            _ConfigCsv.ConfigCsvId = new Guid("f6e42f7c-b641-42d6-bdbf-c9b16c2cac45");
 
             _viewModel = new LabDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
                 _lookupDataServiceMock.Object, CreateConfigXlsxDetailViewModel,
-                CreateConfigXmlDetailViewModel);
+                CreateConfigCsvDetailViewModel);
         }
 
         private IConfigXlsxDetailViewModel CreateConfigXlsxDetailViewModel()
@@ -86,18 +86,18 @@ namespace EnvDT.UITests.ViewModel
             return configXlsxDetailViewModelMock.Object;
         }
 
-        private IConfigXmlDetailViewModel CreateConfigXmlDetailViewModel()
+        private IConfigCsvDetailViewModel CreateConfigCsvDetailViewModel()
         {
-            var configXmlDetailViewModelMock = new Mock<IConfigXmlDetailViewModel>();
-            configXmlDetailViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
-                .Callback<Guid?>(laboratoryId =>
+            var ConfigCsvDetailViewModelMock = new Mock<IConfigCsvDetailViewModel>();
+            ConfigCsvDetailViewModelMock.Setup(vm => vm.Load(It.IsAny<Guid>()))
+                .Callback<Guid?>((Action<Guid?>)(laboratoryId =>
                 {
-                    _configXml.LaboratoryId = laboratoryId.Value;
-                    configXmlDetailViewModelMock.Setup(vm => vm.ConfigXml)
-                        .Returns(new ConfigXmlWrapper(_configXml));
-                });
-            _configXmlDetailViewModelMock = configXmlDetailViewModelMock;
-            return configXmlDetailViewModelMock.Object;
+                    _ConfigCsv.LaboratoryId = laboratoryId.Value;
+                    ConfigCsvDetailViewModelMock.Setup(vm => vm.ConfigCsv)
+                        .Returns(new ConfigCsvWrapper(_ConfigCsv));
+                }));
+            _ConfigCsvDetailViewModelMock = ConfigCsvDetailViewModelMock;
+            return ConfigCsvDetailViewModelMock.Object;
         }
 
         [Fact]
@@ -116,13 +116,13 @@ namespace EnvDT.UITests.ViewModel
         {
             _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
                 .Returns(_configXlsx);
-            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
-                .Returns(_configXml);
+            _unitOfWorkMock.Setup(uw => uw.ConfigCsvs.GetByLaboratoryId(_labId))
+                .Returns(_ConfigCsv);
 
             _viewModel.Load(_labId);
 
             _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
-            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
+            _ConfigCsvDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
         }
 
         [Fact]
@@ -130,21 +130,21 @@ namespace EnvDT.UITests.ViewModel
         {
             _unitOfWorkMock.Setup(uw => uw.ConfigXlsxs.GetByLaboratoryId(_labId))
                 .Returns((ConfigXlsx)null);
-            _unitOfWorkMock.Setup(uw => uw.ConfigXmls.GetByLaboratoryId(_labId))
-                .Returns((ConfigXml)null);
+            _unitOfWorkMock.Setup(uw => uw.ConfigCsvs.GetByLaboratoryId(_labId))
+                .Returns((ConfigCsv)null);
 
             _viewModel.Load(_labId);
 
             Assert.False(_viewModel.IsConfigXlsxDetailViewEnabled);
-            Assert.False(_viewModel.IsConfigXmlDetailViewEnabled);
+            Assert.False(_viewModel.IsConfigCsvDetailViewEnabled);
 
             _viewModel.CreateXlsxDetailVMCommand.Execute(_labId);
-            _viewModel.CreateXmlDetailVMCommand.Execute(_labId);
+            _viewModel.CreateCsvDetailVMCommand.Execute(_labId);
 
             _configXlsxDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
-            _configXmlDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
+            _ConfigCsvDetailViewModelMock.Verify(cx => cx.Load(_labId), Times.Once);
             Assert.True(_viewModel.IsConfigXlsxDetailViewEnabled);
-            Assert.True(_viewModel.IsConfigXmlDetailViewEnabled);
+            Assert.True(_viewModel.IsConfigCsvDetailViewEnabled);
         }
 
         [Fact]
@@ -314,7 +314,7 @@ namespace EnvDT.UITests.ViewModel
             _unitOfWorkMock.Verify(uw => uw.Laboratories.Delete(_viewModel.Laboratory.Model), 
                 Times.Exactly(expectedDeleteLabCalls));
             //Assert.Equal(configDetailViewModelIsNull, _viewModel.ConfigXlsxDetailViewModel == null);
-            //Assert.Equal(configDetailViewModelIsNull, _viewModel.ConfigXmlDetailViewModel == null);
+            //Assert.Equal(configDetailViewModelIsNull, _viewModel.ConfigCsvDetailViewModel == null);
             _messageDialogServiceMock.Verify(ds => ds.ShowOkCancelDialog(It.IsAny<string>(),
                 It.IsAny<string>()), Times.Once);
         }
@@ -370,17 +370,17 @@ namespace EnvDT.UITests.ViewModel
             });
 
             _eventAggregatorMock.Setup(ea => ea.GetEvent<DetailDeletedEvent>())
-                 .Returns(_ConfigXmlDeletedEventMock.Object);
+                 .Returns(_ConfigCsvDeletedEventMock.Object);
 
             _detailDeletedEvent.Publish(
             new DetailDeletedEventArgs
             {
                 Id = It.IsAny<Guid>(),
-                ViewModelName = "ConfigXmlDetailViewModel"
+                ViewModelName = "ConfigCsvDetailViewModel"
             });
 
             Assert.Null(_viewModel.ConfigXlsxDetailViewModel);
-            Assert.Null(_viewModel.ConfigXmlDetailViewModel);
+            Assert.Null(_viewModel.ConfigCsvDetailViewModel);
         }
     }
 }

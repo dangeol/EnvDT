@@ -1,0 +1,19 @@
+[
+  {
+    "ConfigCsvId": "d768b04f-1f95-4bac-8415-470495ba8d6e",
+    "IdentWord": "EUROFINS CSV-Export",
+    "IdentWordCol": 0,
+    "IdentWordRow": 0,
+    "ReportLabidentCol": 0,
+    "ReportLabidentRow": 2,
+    "FirstSampleValueCol": 4,
+    "SampleLabIdentRow": 4,
+    "SampleNameRow": 5,
+    "FirstDataRow": 8,
+    "ParamNameCol": 0,
+    "UnitNameCol": 1,
+    "DetectionLimitCol": 2,
+    "MethodCol": 3,
+    "LaboratoryId": "7c991390-fbf1-476c-99eb-70f7a899e420"
+  }
+]

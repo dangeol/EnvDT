@@ -10,7 +10,7 @@ namespace EnvDT.DataAccess.Repository
         {
             _context = context;           
             ConfigXlsxs = new ConfigXlsxRepository(_context);
-            ConfigXmls = new ConfigXmlRepository(_context);
+            ConfigCsvs = new ConfigCsvRepository(_context);
             Laboratories = new LaboratoryRepository(_context);
             LabReports = new LabReportRepository(_context);
             LabReportParams = new LabReportParamRepository(_context);
@@ -29,7 +29,7 @@ namespace EnvDT.DataAccess.Repository
         }
 
         public IConfigXlsxRepository ConfigXlsxs { get; private set; }
-        public IConfigXmlRepository ConfigXmls { get; private set; }
+        public IConfigCsvRepository ConfigCsvs { get; private set; }
         public ILaboratoryRepository Laboratories { get; private set; }
         public ILabReportRepository LabReports { get; private set; }
         public ILabReportParamRepository LabReportParams { get; private set; }

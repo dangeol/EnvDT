@@ -124,5 +124,18 @@ namespace EnvDT.DataAccess.DataService
                     });
             }
         }
+
+        public IEnumerable<LookupItem> GetAllConfigCsvs()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<ConfigCsv>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.ConfigCsvId,
+                        DisplayMember = l.IdentWord
+                    });
+            }
+        }
     }
 }

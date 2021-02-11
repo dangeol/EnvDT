@@ -22,7 +22,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<LabViewModel>().As<ILabViewModel>();
             builder.RegisterType<LabDetailViewModel>().As<ILabDetailViewModel>();
             builder.RegisterType<ConfigXlsxDetailViewModel>().As<IConfigXlsxDetailViewModel>();
-            builder.RegisterType<ConfigXmlDetailViewModel>().As<IConfigXmlDetailViewModel>();
+            builder.RegisterType<ConfigCsvDetailViewModel>().As<IConfigCsvDetailViewModel>();
         }
 	}
 }
