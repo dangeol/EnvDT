@@ -14,9 +14,11 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
-        private const int _configXlsxIdCol = 0;
-        private const int _configXlsxIdRow = 0;
-       
+        private const int _configIdCol = 0;
+        private const int _configIdRow = 0;
+        private const int _configTypeCol = 1;
+        private const int _configTypeRow = 0;
+
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
@@ -38,17 +40,35 @@ namespace EnvDT.UI.Service
             DataTable workSheet = _readFileHelper.ReadFile(file);
             if (workSheet != null)
             {
-                ConfigXlsx configXlsx;
+                ConfigBase configBase = new ConfigBase();
                 try
                 {
-                    if (workSheet.Rows[_configXlsxIdRow][_configXlsxIdCol] != System.DBNull.Value)
+                    if (workSheet.Rows[_configIdRow][_configIdCol] != System.DBNull.Value
+                        && workSheet.Rows[_configTypeRow][_configTypeCol] != System.DBNull.Value)
                     {
-                        var configXlsxId = Guid.Parse((workSheet.Rows[_configXlsxIdRow][_configXlsxIdCol]).ToString());
-                        configXlsx = _unitOfWork.ConfigXlsxs.GetById(configXlsxId);
+                        var configId = Guid.Parse((workSheet.Rows[_configIdRow][_configIdCol]).ToString());
+                        var configType = workSheet.Rows[_configTypeRow][_configTypeCol].ToString();
+
+                        switch (configType)
+                        {
+                            case "xls(x)":
+                                configBase = _unitOfWork.ConfigXlsxs.GetById(configId);
+                                break;
+
+                            case "csv":
+                                configBase = _unitOfWork.ConfigCsvs.GetById(configId);
+                                break;
+
+                            default:
+                                _messageDialogService.ShowOkDialog(
+                                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
+                                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                                break;
+                        }
                     }
                     else
                     {
-                        DisplayReadingCellErrorMessage(nameof(configXlsx));
+                        DisplayReadingCellErrorMessage(nameof(configBase));
                         return;
                     }
                 }
@@ -57,21 +77,21 @@ namespace EnvDT.UI.Service
                     _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
-                        nameof(configXlsx), ex.Message));
+                        nameof(configBase), ex.Message));
                     return;
                 }
-                ImportLabReport(workSheet, configXlsx, projectId);
+                ImportLabReport(workSheet, configBase, projectId);
             }
         }
 
-        private void ImportLabReport(DataTable workSheet, ConfigXlsx configXlsx, Guid? projectId)
+        private void ImportLabReport(DataTable workSheet, ConfigBase configBase, Guid? projectId)
         {
             string reportLabIdent;
             try
             {
-                if (workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol] != System.DBNull.Value)
+                if (workSheet.Rows[configBase.ReportLabidentRow][configBase.ReportLabidentCol] != System.DBNull.Value)
                 {
-                    reportLabIdent = workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol].ToString();
+                    reportLabIdent = workSheet.Rows[configBase.ReportLabidentRow][configBase.ReportLabidentCol].ToString();
                 }
                 else
                 {
@@ -92,19 +112,19 @@ namespace EnvDT.UI.Service
                 return;
             }
 
-            Laboratory laboratory = _unitOfWork.Laboratories.GetById(configXlsx.LaboratoryId);
+            Laboratory laboratory = _unitOfWork.Laboratories.GetById(configBase.LaboratoryId);
             var labCompany = laboratory.LabCompany;
             Guid labReportId = CreateLabReport(reportLabIdent, laboratory.LaboratoryId, projectId).LabReportId;
 
-            int c = configXlsx.FirstSampleValueCol;
+            int c = configBase.FirstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
                 string sampleLabIdent;
                 try
                 {
-                    if (workSheet.Rows[configXlsx.SampleLabIdentRow][c] != System.DBNull.Value)
+                    if (workSheet.Rows[configBase.SampleLabIdentRow][c] != System.DBNull.Value)
                     {
-                        sampleLabIdent = workSheet.Rows[configXlsx.SampleLabIdentRow][c].ToString();
+                        sampleLabIdent = workSheet.Rows[configBase.SampleLabIdentRow][c].ToString();
                     }
                     else
                     {
@@ -123,9 +143,9 @@ namespace EnvDT.UI.Service
                 string sampleName;
                 try
                 {
-                    if (workSheet.Rows[configXlsx.SampleNameRow][c] != System.DBNull.Value)
+                    if (workSheet.Rows[configBase.SampleNameRow][c] != System.DBNull.Value)
                     {
-                        sampleName = workSheet.Rows[configXlsx.SampleNameRow][c].ToString();
+                        sampleName = workSheet.Rows[configBase.SampleNameRow][c].ToString();
                     }
                     else
                     {
@@ -156,7 +176,7 @@ namespace EnvDT.UI.Service
                 }
                 c++;
             }
-            CreateLabReportParams(workSheet, configXlsx, labReportId);
+            CreateLabReportParams(workSheet, configBase, labReportId);
           
             try
             {
@@ -214,17 +234,17 @@ namespace EnvDT.UI.Service
             return sample;
         }
 
-        private void CreateLabReportParams(DataTable workSheet, ConfigXlsx configXlsx, Guid labReportId)
+        private void CreateLabReportParams(DataTable workSheet, ConfigBase configBase, Guid labReportId)
         {
-            int r = configXlsx.FirstDataRow;
+            int r = configBase.FirstDataRow;
             while (r < workSheet.Rows.Count)
             {
                 string labParamName;
                 try
                 { 
-                    if (workSheet.Rows[r][configXlsx.ParamNameCol] != System.DBNull.Value)
+                    if (workSheet.Rows[r][configBase.ParamNameCol] != System.DBNull.Value)
                     {
-                        labParamName = workSheet.Rows[r][configXlsx.ParamNameCol].ToString();
+                        labParamName = workSheet.Rows[r][configBase.ParamNameCol].ToString();
                     }
                     else
                     {
@@ -240,7 +260,7 @@ namespace EnvDT.UI.Service
                         "ParamName", ex.Message));
                     return;
                 }
-                var labParamUnitName = workSheet.Rows[r][configXlsx.UnitNameCol].ToString();
+                var labParamUnitName = workSheet.Rows[r][configBase.UnitNameCol].ToString();
                 var paramNameVariants = _unitOfWork.ParamNameVariants.GetParamNameVariantsByLabParamName(labParamName);
                 var unitId = GetUnitNameVariantByLabParamUnitName(labParamUnitName);
 
@@ -249,14 +269,14 @@ namespace EnvDT.UI.Service
                     foreach (var paramNameVariant in paramNameVariants)
                     {
                         var parameterId = paramNameVariant.ParameterId;
-                        CreateNewLabParam(workSheet, configXlsx, labParamName, labParamUnitName, 
+                        CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName, 
                             parameterId, unitId, labReportId, r);   
                     }
                 }
                 else
                 {
                     var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                    CreateNewLabParam(workSheet, configXlsx, labParamName, labParamUnitName, 
+                    CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName, 
                         unknownParameterId, unitId, labReportId, r);
                 }
                 r++;
@@ -273,7 +293,7 @@ namespace EnvDT.UI.Service
         }
 
         // TO DO: refactoring
-        private void CreateNewLabParam(DataTable workSheet, ConfigXlsx configXlsx, string labReportParamName,
+        private void CreateNewLabParam(DataTable workSheet, ConfigBase configBase, string labReportParamName,
             string labReportUnitName, Guid parameterId, Guid unitId, Guid labReportId, int r)
         {
             var labReportParam = new LabReportParam();
@@ -286,9 +306,9 @@ namespace EnvDT.UI.Service
 
             try
             {
-                if (workSheet.Rows[r][configXlsx.DetectionLimitCol] != System.DBNull.Value)
+                if (workSheet.Rows[r][configBase.DetectionLimitCol] != System.DBNull.Value)
                 {
-                    labReportParam.DetectionLimit = (double)workSheet.Rows[r][configXlsx.DetectionLimitCol];
+                    labReportParam.DetectionLimit = (double)workSheet.Rows[r][configBase.DetectionLimitCol];
                 }
             }
             catch (IndexOutOfRangeException ex)
@@ -304,9 +324,9 @@ namespace EnvDT.UI.Service
 
             try
             {
-                if (workSheet.Rows[r][configXlsx.MethodCol] != System.DBNull.Value)
+                if (workSheet.Rows[r][configBase.MethodCol] != System.DBNull.Value)
                 {
-                    labReportParam.Method = (string)workSheet.Rows[r][configXlsx.MethodCol];
+                    labReportParam.Method = (string)workSheet.Rows[r][configBase.MethodCol];
                 }
             }
             catch (IndexOutOfRangeException ex)
@@ -319,12 +339,12 @@ namespace EnvDT.UI.Service
             }
 
             _unitOfWork.LabReportParams.Create(labReportParam);
-            CreateNewSampleValue(r, workSheet, configXlsx, labReportParam);
+            CreateNewSampleValue(r, workSheet, configBase, labReportParam);
         }
 
-        private void CreateNewSampleValue(int r, DataTable workSheet, ConfigXlsx configXlsx, LabReportParam labReportParam)
+        private void CreateNewSampleValue(int r, DataTable workSheet, ConfigBase configBase, LabReportParam labReportParam)
         {
-            var c = configXlsx.FirstSampleValueCol;
+            var c = configBase.FirstSampleValueCol;
             while (c < workSheet.Columns.Count)
             {
                 try
@@ -337,9 +357,9 @@ namespace EnvDT.UI.Service
 
                         try
                         {
-                            if (workSheet.Rows[configXlsx.SampleNameRow][c] != System.DBNull.Value)
+                            if (workSheet.Rows[configBase.SampleNameRow][c] != System.DBNull.Value)
                             {
-                                sampleName = workSheet.Rows[configXlsx.SampleNameRow][c].ToString();
+                                sampleName = workSheet.Rows[configBase.SampleNameRow][c].ToString();
                                 sampleId = _samples.FirstOrDefault(s => s.SampleName == sampleName).SampleId;
                             }
                         }

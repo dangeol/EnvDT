@@ -125,15 +125,17 @@ namespace EnvDT.DataAccess.DataService
             }
         }
 
-        public IEnumerable<LookupItem> GetAllConfigCsvs()
+        public IEnumerable<LookupItemConfigCsv> GetAllConfigCsvs()
         {
             using (var ctx = _contextCreator())
             {
                 return ctx.Set<ConfigCsv>().AsNoTracking().ToList()
-                    .Select(l => new LookupItem
+                    .Select(l => new LookupItemConfigCsv
                     {
                         LookupItemId = l.ConfigCsvId,
-                        DisplayMember = l.IdentWord
+                        IdentWord = l.IdentWord,
+                        IdentWordCol = l.IdentWordCol,
+                        IdentWordRow = l.IdentWordRow
                     });
             }
         }

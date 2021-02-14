@@ -1,6 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace EnvDT.UI.Wrapper
 {
@@ -8,7 +9,15 @@ namespace EnvDT.UI.Wrapper
     {
         public ConfigCsvWrapper(ConfigCsv model) : base(model)
         {
+            Rows = new ObservableCollection<int>();
+            Cols = new ObservableCollection<int>();
+            FeedRows();
+            FeedCols();
         }
+
+        public ObservableCollection<int> Rows { get; }
+
+        public ObservableCollection<int> Cols { get; }
 
         public Guid ConfigCsvId
         {
@@ -170,6 +179,22 @@ namespace EnvDT.UI.Wrapper
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
+            }
+        }
+
+        private void FeedCols()
+        {
+            for (int i = 0; i < 31; i++)
+            {
+                Cols.Add(i);
+            }
+        }
+
+        private void FeedRows()
+        {
+            for (int i = 0; i < 31; i++)
+            {
+                Rows.Add(i);
             }
         }
     }

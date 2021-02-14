@@ -14,6 +14,6 @@ namespace EnvDT.Model.IDataService
         public IEnumerable<LookupItem> GetAllLaboratoriesLookup();
         public IEnumerable<LookupItem> GetAllCountriesLookup();
         public IEnumerable<LookupItem> GetAllConfigXlsxs();
-        public IEnumerable<LookupItem> GetAllConfigCsvs();
+        public IEnumerable<LookupItemConfigCsv> GetAllConfigCsvs();
     }
 }

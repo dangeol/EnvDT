@@ -13,4 +13,12 @@ namespace EnvDT.Model.Entity
         public new Guid LookupItemId { get { return Guid.Empty; } }
         public new string DisplayMember { get { return " - "; } }
     }
+
+    public class LookupItemConfigCsv
+    {
+        public Guid LookupItemId { get; set; }
+        public string IdentWord { get; set; }
+        public int IdentWordCol { get; set; }
+        public int IdentWordRow { get; set; }
+    }
 }
