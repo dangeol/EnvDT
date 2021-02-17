@@ -303,7 +303,7 @@ aus der Dropdown-Liste aus.</value>
   <data name="ConfigDetailView_Label_WorksheetName" xml:space="preserve">
     <value>Tabellenblatt-Name:</value>
   </data>
-  <data name="ConfigDetailView_Label_LabNameCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_IdentWordCell" xml:space="preserve">
     <value>Zelle für Identifikationswort:</value>
   </data>
   <data name="ConfigDetailView_Label_ReportLabidentCell" xml:space="preserve">
@@ -383,5 +383,17 @@ aus der Dropdown-Liste aus.</value>
   </data>
   <data name="VM_DialogTitle_OutOfRangeEx" xml:space="preserve">
     <value>Fehler</value>
+  </data>
+  <data name="ConfigDetailView_Label_HeaderRow" xml:space="preserve">
+    <value>Header-Zeile:</value>
+  </data>
+  <data name="ConfigDetailView_Label_IdentWordRow" xml:space="preserve">
+    <value>Zeile mit Identifikationswort:</value>
+  </data>
+  <data name="ConfigDetailView_Label_DelimiterChar" xml:space="preserve">
+    <value>Datenfelder-Trennzeichen:</value>
+  </data>
+  <data name="ConfigDetailView_Label_DecimalSepChar" xml:space="preserve">
+    <value>Dezimaltrennzeichen:</value>
   </data>
 </root>

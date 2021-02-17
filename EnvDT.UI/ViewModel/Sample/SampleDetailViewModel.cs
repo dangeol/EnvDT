@@ -1,5 +1,5 @@
 ﻿using EnvDT.Model.Core;
-using EnvDT.Model.Core.HelperClasses;
+using EnvDT.Model.Core.HelperEntity;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;

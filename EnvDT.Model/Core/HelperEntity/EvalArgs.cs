@@ -1,7 +1,7 @@
 ﻿using EnvDT.Model.Entity;
 using System;
 
-namespace EnvDT.Model.Core.HelperClasses
+namespace EnvDT.Model.Core.HelperEntity
 {
     public class EvalArgs
     {

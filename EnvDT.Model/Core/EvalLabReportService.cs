@@ -1,5 +1,5 @@
 ﻿using EnvDT.Model.Entity;
-using EnvDT.Model.Core.HelperClasses;
+using EnvDT.Model.Core.HelperEntity;
 using System;
 using System.Collections.Generic;
 using System.Linq;

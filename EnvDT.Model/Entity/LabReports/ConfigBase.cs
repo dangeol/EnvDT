@@ -5,7 +5,6 @@ namespace EnvDT.Model.Entity
     public class ConfigBase
     {
         public string IdentWord { get; set; }
-        public int IdentWordCol { get; set; }
         public int IdentWordRow { get; set; }
         public int ReportLabidentCol { get; set; }
         public int ReportLabidentRow { get; set; }

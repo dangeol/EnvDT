@@ -302,7 +302,7 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="ConfigDetailView_Label_WorksheetName" xml:space="preserve">
     <value>Worksheet name:</value>
   </data>
-  <data name="ConfigDetailView_Label_LabNameCell" xml:space="preserve">
+  <data name="ConfigDetailView_Label_IdentWordCell" xml:space="preserve">
     <value>Identification word cell:</value>
   </data>
   <data name="ConfigDetailView_Label_ReportLabidentCell" xml:space="preserve">
@@ -382,5 +382,17 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   </data>
   <data name="VM_DialogTitle_OutOfRangeEx" xml:space="preserve">
     <value>Error</value>
+  </data>
+  <data name="ConfigDetailView_Label_HeaderRow" xml:space="preserve">
+    <value>Header row:</value>
+  </data>
+  <data name="ConfigDetailView_Label_IdentWordRow" xml:space="preserve">
+    <value>Identification word row:</value>
+  </data>
+  <data name="ConfigDetailView_Label_DelimiterChar" xml:space="preserve">
+    <value>Value delimiter:</value>
+  </data>
+  <data name="ConfigDetailView_Label_DecimalSepChar" xml:space="preserve">
+    <value>Decimal separator:</value>
   </data>
 </root>

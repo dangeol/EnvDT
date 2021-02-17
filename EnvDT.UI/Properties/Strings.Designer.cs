@@ -79,6 +79,24 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Decimal separator:.
+        /// </summary>
+        public static string ConfigDetailView_Label_DecimalSepChar {
+            get {
+                return ResourceManager.GetString("ConfigDetailView_Label_DecimalSepChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value delimiter:.
+        /// </summary>
+        public static string ConfigDetailView_Label_DelimiterChar {
+            get {
+                return ResourceManager.GetString("ConfigDetailView_Label_DelimiterChar", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detection limit column:.
         /// </summary>
         public static string ConfigDetailView_Label_DetectionLimitCol {
@@ -106,6 +124,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Header row:.
+        /// </summary>
+        public static string ConfigDetailView_Label_HeaderRow {
+            get {
+                return ResourceManager.GetString("ConfigDetailView_Label_HeaderRow", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Identification word:.
         /// </summary>
         public static string ConfigDetailView_Label_IdentWord {
@@ -117,9 +144,18 @@ namespace EnvDT.UI.Properties {
         /// <summary>
         ///   Looks up a localized string similar to Identification word cell:.
         /// </summary>
-        public static string ConfigDetailView_Label_LabNameCell {
+        public static string ConfigDetailView_Label_IdentWordCell {
             get {
-                return ResourceManager.GetString("ConfigDetailView_Label_LabNameCell", resourceCulture);
+                return ResourceManager.GetString("ConfigDetailView_Label_IdentWordCell", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identification word row:.
+        /// </summary>
+        public static string ConfigDetailView_Label_IdentWordRow {
+            get {
+                return ResourceManager.GetString("ConfigDetailView_Label_IdentWordRow", resourceCulture);
             }
         }
         

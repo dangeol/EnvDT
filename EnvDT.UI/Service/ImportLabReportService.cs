@@ -1,4 +1,5 @@
-﻿using EnvDT.Model.Entity;
+﻿using EnvDT.Model.Core.HelperEntity;
+using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
@@ -37,76 +38,34 @@ namespace EnvDT.UI.Service
 
         public void RunImport(string file, Guid? projectId)
         {
-            DataTable workSheet = _readFileHelper.ReadFile(file);
-            if (workSheet != null)
-            {
-                ConfigBase configBase = new ConfigBase();
-                try
-                {
-                    if (workSheet.Rows[_configIdRow][_configIdCol] != System.DBNull.Value
-                        && workSheet.Rows[_configTypeRow][_configTypeCol] != System.DBNull.Value)
-                    {
-                        var configId = Guid.Parse((workSheet.Rows[_configIdRow][_configIdCol]).ToString());
-                        var configType = workSheet.Rows[_configTypeRow][_configTypeCol].ToString();
-
-                        switch (configType)
-                        {
-                            case "xls(x)":
-                                configBase = _unitOfWork.ConfigXlsxs.GetById(configId);
-                                break;
-
-                            case "csv":
-                                configBase = _unitOfWork.ConfigCsvs.GetById(configId);
-                                break;
-
-                            default:
-                                _messageDialogService.ShowOkDialog(
-                                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
-                                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        DisplayReadingCellErrorMessage(nameof(configBase));
-                        return;
-                    }
-                }
-                catch (IndexOutOfRangeException ex)
-                {
-                    _messageDialogService.ShowOkDialog(
-                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
-                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
-                        nameof(configBase), ex.Message));
-                    return;
-                }
-                ImportLabReport(workSheet, configBase, projectId);
-            }
+            ImportedFileData data = _readFileHelper.ReadFile(file);           
+            ImportLabReport(data, projectId);
         }
 
-        private void ImportLabReport(DataTable workSheet, ConfigBase configBase, Guid? projectId)
+        private void ImportLabReport(ImportedFileData data, Guid? projectId)
         {
-            string reportLabIdent;
-            try
+            DataTable workSheet = data.WorkSheet;
+            ConfigBase configBase = new ConfigBase();
+            var configId = data.ConfigId;
+            var configType = data.ConfigType;
+            string reportLabIdent = data.ReportLabIdent;
+            switch (configType)
             {
-                if (workSheet.Rows[configBase.ReportLabidentRow][configBase.ReportLabidentCol] != System.DBNull.Value)
-                {
-                    reportLabIdent = workSheet.Rows[configBase.ReportLabidentRow][configBase.ReportLabidentCol].ToString();
-                }
-                else
-                {
-                    DisplayReadingCellErrorMessage(nameof(reportLabIdent));
-                    return;
-                }
-            }
-            catch (IndexOutOfRangeException ex)
-            {
-                _messageDialogService.ShowOkDialog(
-                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
-                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
-                    "reportLabIdent", ex.Message));
-                return;
-            }
+                case "xls(x)":
+                    configBase = _unitOfWork.ConfigXlsxs.GetById(configId);
+                    break;
+
+                case "csv":
+                    configBase = data.ConfigCsv;
+                    break;
+
+                default:
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                    break;
+            }          
+           
             if (IsLabReportAlreadyPresent(reportLabIdent))
             {
                 return;
@@ -308,7 +267,16 @@ namespace EnvDT.UI.Service
             {
                 if (workSheet.Rows[r][configBase.DetectionLimitCol] != System.DBNull.Value)
                 {
-                    labReportParam.DetectionLimit = (double)workSheet.Rows[r][configBase.DetectionLimitCol];
+                    //labReportParam.DetectionLimit = (double)workSheet.Rows[r][configBase.DetectionLimitCol];
+                    //labReportParam.DetectionLimit = Convert.ToDouble(workSheet.Rows[r][configBase.DetectionLimitCol]);
+                    //var str = workSheet.Rows[r][configBase.DetectionLimitCol].ToString();
+                    //labReportParam.DetectionLimit = double.Parse(str, System.Globalization.CultureInfo.InvariantCulture);
+                    double testVar;
+                    var str = workSheet.Rows[r][configBase.DetectionLimitCol].ToString();
+                    if (Double.TryParse(str, out testVar))
+                    {
+                        labReportParam.DetectionLimit = testVar;
+                    }
                 }
             }
             catch (IndexOutOfRangeException ex)
@@ -373,9 +341,10 @@ namespace EnvDT.UI.Service
                         }
 
                         double testVar;
-                        if (Double.TryParse(workSheet.Rows[r][c].ToString(), out testVar))
+                        var str = workSheet.Rows[r][c].ToString();
+                        if (Double.TryParse(str, out testVar))
                         {
-                            sValue = (double)workSheet.Rows[r][c];
+                            sValue = testVar;
                         }
                         var sampleValue = new SampleValue();
                         sampleValue.SValue = sValue;

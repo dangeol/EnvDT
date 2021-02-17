@@ -6,36 +6,17 @@ namespace EnvDT.UI.Wrapper
 {
     public class ConfigXlsxWrapper : ModelWrapper<ConfigXlsx>
     {
-        private Dictionary<int, int> _rows;
-        private Dictionary<char, int> _cols;
-
         public ConfigXlsxWrapper(ConfigXlsx model) : base(model)
         {
-            _rows = new Dictionary<int, int>();
-            _cols = new Dictionary<char, int>();
+            Rows = new Dictionary<int, int>();
+            Cols = new Dictionary<char, int>();
             FeedRowDict();
             FeedColDict();            
         }
 
-        public Dictionary<int, int> Rows
-        {
-            get { return _rows; }
-            set
-            {
-                _rows = value;
-                OnPropertyChanged();
-            }
-        }
+        public Dictionary<int, int> Rows { get; }
 
-        public Dictionary<char, int> Cols
-        {
-            get { return _cols; }
-            set
-            {
-                _cols = value;
-                OnPropertyChanged();
-            }
-        }
+        public Dictionary<char, int> Cols { get; }
 
         public Guid ConfigXlsxId
         { 
@@ -216,7 +197,7 @@ namespace EnvDT.UI.Wrapper
         {
             for (int i = 65; i < 91; i++)
             {
-                _cols.Add((char)i, i - 65);
+                Cols.Add((char)i, i - 65);
             }
         }
 
@@ -224,7 +205,7 @@ namespace EnvDT.UI.Wrapper
         {
             for (int i = 0; i < 31; i++)
             {
-                _rows.Add(i + 1, i);
+                Rows.Add(i + 1, i);
             }
         }
     }

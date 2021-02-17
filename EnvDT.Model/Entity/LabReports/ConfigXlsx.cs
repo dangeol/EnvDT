@@ -6,5 +6,6 @@ namespace EnvDT.Model.Entity
     {
         public Guid ConfigXlsxId { get; set; }
         public string WorksheetName { get; set; }
+        public int IdentWordCol { get; set; }
     }
 }

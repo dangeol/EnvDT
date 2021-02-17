@@ -10,6 +10,7 @@ using EnvDT.Model.Entity;
 using CsvHelper;
 using System.Globalization;
 using CsvHelper.Configuration;
+using EnvDT.Model.Core.HelperEntity;
 
 namespace EnvDT.UI.Service
 {
@@ -29,14 +30,14 @@ namespace EnvDT.UI.Service
             _lookupDataService = lookupDataService;
         }
 
-        public DataTable ReadFile(string file)
+        public ImportedFileData ReadFile(string filePath)
         {
-            if (file != null && file.Length > 0)
+            if (filePath != null && filePath.Length > 0)
             {
                 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
                 try
                 {
-                    stream = File.OpenRead(file);
+                    stream = File.OpenRead(filePath);
                 }
                 catch (Exception ex)
                 {
@@ -47,13 +48,13 @@ namespace EnvDT.UI.Service
 
                     return null;
                 }
-                if (file.EndsWith(".xls") || file.EndsWith(".xlsx"))
+                if (filePath.EndsWith(".xls") || filePath.EndsWith(".xlsx"))
                 { 
-                    return GetDataTableFromXlsx(file);
+                    return GetDataTableFromXlsx(filePath);
                 }
-                else if (file.EndsWith(".csv"))
+                else if (filePath.EndsWith(".csv"))
                 {
-                    return GetDataTableFromCsv(file);
+                    return GetDataTableFromCsv(filePath);
                 }
                 else
                 {
@@ -66,11 +67,11 @@ namespace EnvDT.UI.Service
             }
         }
 
-        private DataTable GetDataTableFromXlsx(string file)
+        private ImportedFileData GetDataTableFromXlsx(string filePath)
         {
             IExcelDataReader reader = null;
 
-            if (file.EndsWith(".xls"))
+            if (filePath.EndsWith(".xls"))
             {
                 try
                 {
@@ -86,7 +87,7 @@ namespace EnvDT.UI.Service
                     return null;
                 }
             }
-            else if (file.EndsWith(".xlsx"))
+            else if (filePath.EndsWith(".xlsx"))
             {
                 try
                 {
@@ -115,10 +116,10 @@ namespace EnvDT.UI.Service
             reader.Close();
 
             DataTable workSheet = null;
-            var configXlsxs = _lookupDataService.GetAllConfigXlsxs();
+            var configXlsxLookups = _lookupDataService.GetAllConfigXlsxs();
             ConfigXlsx configXlsx = null;
 
-            foreach (var configXlsxLookUp in configXlsxs)
+            foreach (var configXlsxLookUp in configXlsxLookups)
             {
                 workSheet = workSheets[configXlsxLookUp.DisplayMember];
                 if (workSheet != null)
@@ -130,9 +131,9 @@ namespace EnvDT.UI.Service
 
             string identCellContent = "";
             if (workSheet != null && configXlsx != null
-                && workSheet.Rows[configXlsx.IdentWordCol][configXlsx.IdentWordRow] != System.DBNull.Value)
+                && workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol] != System.DBNull.Value)
             {
-                identCellContent = workSheet.Rows[configXlsx.IdentWordCol][configXlsx.IdentWordRow].ToString();
+                identCellContent = workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol].ToString();
             }
 
             if (!HasLabCheckPassed(identCellContent, configXlsx.IdentWord))
@@ -144,59 +145,182 @@ namespace EnvDT.UI.Service
             }
             else
             {
-                workSheet.Rows[0][0] = configXlsx.ConfigXlsxId;
-                workSheet.Rows[0][1] = "xls(x)";
-                return workSheet;
+                string reportLabIdent;
+                try
+                {
+                    if (workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol] != System.DBNull.Value)
+                    {
+                        reportLabIdent = workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol].ToString();
+                    }
+                    else
+                    {
+                        DisplayReadingCellErrorMessage(nameof(reportLabIdent));
+                        return null;
+                    }
+                }
+                catch (IndexOutOfRangeException ex)
+                {
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                        "reportLabIdent", ex.Message));
+                    return null;
+                }
+
+                ImportedFileData data = new ImportedFileData();
+                data.WorkSheet = workSheet;
+                data.ConfigId = configXlsx.ConfigXlsxId;
+                data.ConfigType = "xls(x)";
+                data.ReportLabIdent = reportLabIdent;
+                return data;
             }
         }
 
-        private DataTable GetDataTableFromCsv(string file)
+        private ImportedFileData GetDataTableFromCsv(string filePath)
         {
-            var reader = new StreamReader(file);
-            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            string reportLabIdent = "";
+
+            using (FileStream fs1 = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (FileStream fs2 = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            using (BufferedStream bs1 = new BufferedStream(fs1))
+            using (BufferedStream bs2 = new BufferedStream(fs2))
+            using (var stream = new MemoryStream())
+            using (StreamReader sr1 = new StreamReader(bs1))
+            using (StreamReader sr2 = new StreamReader(bs2))
+            using (StreamWriter sw = new StreamWriter(stream))
             {
-                Delimiter = ";",
-                NewLine = Environment.NewLine,
-                MissingFieldFound = null
-            };
-            using var csvReader = new CsvReader(reader, config);
-            using var dr = new CsvDataReader(csvReader);
+                ConfigCsv configCsv = GetConfigCsvId(sr1);
 
-            var workSheet = new DataTable();
-            workSheet.Load(dr);
-
-            var configCsvs = _lookupDataService.GetAllConfigCsvs();
-            Guid configCsvId = Guid.Empty;
-
-            string identCellContent = "";
-
-            foreach (var configCsvLookUp in configCsvs)
-            {
-                if (workSheet != null 
-                    && workSheet.Rows[configCsvLookUp.IdentWordCol][configCsvLookUp.IdentWordRow] != System.DBNull.Value)
+                if (configCsv == null)
                 {
-                    identCellContent = workSheet.Rows[configCsvLookUp.IdentWordCol][configCsvLookUp.IdentWordRow].ToString();
+                    _messageDialogService.ShowOkDialog(
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
+                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                    return null;
                 }
-                if (HasLabCheckPassed(identCellContent, configCsvLookUp.IdentWord))
+
+                int headerRow = ++configCsv.HeaderRow;
+                int dataRow = ++configCsv.FirstDataRow;
+
+                string line;
+                int i = 0;
+                while ((line = sr2.ReadLine()) != null)
                 {
-                    configCsvId = _unitOfWork.ConfigCsvs.GetByIdUpdated(configCsvLookUp.LookupItemId).ConfigCsvId;
-                    break;
+                    System.Diagnostics.Debug.WriteLine("line" + i + ": " + line);
+                    if (i == configCsv.ReportLabidentRow && i < headerRow)
+                    {
+                        reportLabIdent = line;
+                    }
+                    i++;
+                    if (i < headerRow) 
+                        continue;
+                    if (i > headerRow && i < dataRow)
+                        continue;
+
+                    {                     
+                        sw.WriteLine(line);
+                        if (i == headerRow)
+                        {
+                            i++;
+                            sw.WriteLine(line);
+                        }
+                        sw.Flush();
+                    }
+                }
+
+                sw.Flush();
+                stream.Position = 0;
+
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+                {
+                    Delimiter = configCsv.DelimiterChar,
+                    IgnoreBlankLines = false,
+                    DetectColumnCountChanges = false,
+                    MissingFieldFound = null
+                };
+                using (var reader = new StreamReader(stream))
+                using (var csv = new CsvReader(reader, config))
+                {
+                    using (var dr = new CsvDataReader(csv))
+                    {
+                        var workSheet = new DataTable();
+                        workSheet.Load(dr);
+                        headerRow--;
+
+                        if (configCsv.ReportLabidentRow >= headerRow)
+                        {
+                            configCsv.ReportLabidentRow -= headerRow;
+                        }
+                        if (configCsv.SampleLabIdentRow >= headerRow)
+                        {
+                            configCsv.SampleLabIdentRow -= headerRow;
+                        }
+                        if (configCsv.SampleNameRow >= headerRow)
+                        {
+                            configCsv.SampleNameRow -= headerRow;
+                        }
+                        if (configCsv.FirstDataRow >= headerRow)
+                        {
+                            configCsv.FirstDataRow -= headerRow;
+                        }
+
+                        if (reportLabIdent.Equals(""))
+                        { 
+                            try
+                            {
+                                if (workSheet.Rows[configCsv.ReportLabidentRow][configCsv.ReportLabidentCol] != System.DBNull.Value)
+                                {
+                                    reportLabIdent = workSheet.Rows[configCsv.ReportLabidentRow][configCsv.ReportLabidentCol].ToString();
+                                }
+                                else
+                                {
+                                    DisplayReadingCellErrorMessage(nameof(reportLabIdent));
+                                    return null;
+                                }
+                            }
+                            catch (IndexOutOfRangeException ex)
+                            {
+                                _messageDialogService.ShowOkDialog(
+                                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                                    "reportLabIdent", ex.Message));
+                                return null;
+                            }
+                        }
+
+                        ImportedFileData data = new ImportedFileData();
+                        data.WorkSheet = workSheet;
+                        data.ConfigId = configCsv.ConfigCsvId;
+                        data.ConfigCsv = configCsv;
+                        data.ConfigType = "csv";
+                        data.ReportLabIdent = reportLabIdent;
+                        return data;
+                    }
+                }
+            }
+        }
+
+        private ConfigCsv GetConfigCsvId(StreamReader sr)
+        {
+            var configCsvs = _unitOfWork.ConfigCsvs.GetAll();
+
+            foreach (var configCsv in configCsvs)
+            {
+                var identWord = configCsv.IdentWord;
+                var identWordRow = configCsv.IdentWordRow;
+                string line;
+                int i = 0;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    if (i == identWordRow && HasLabCheckPassed(line, identWord))
+                    {
+                        return configCsv;
+                    }
+                    i++;
                 }
             }
 
-            if (Guid.Equals(configCsvId, Guid.Empty))
-            {
-                _messageDialogService.ShowOkDialog(
-                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
-                    _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
-                return null;
-            }
-            else 
-            { 
-                workSheet.Rows[0][0] = configCsvId;
-                workSheet.Rows[0][1] = "csv";
-                return workSheet;
-            }                         
+            return null;
         }
 
         private bool HasLabCheckPassed(string identCellContent, string identWord)
@@ -207,6 +331,14 @@ namespace EnvDT.UI.Service
             }
 
             return false;
+        }
+
+        private void DisplayReadingCellErrorMessage(string variableName)
+        {
+            _messageDialogService.ShowOkDialog(
+                _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_CellError"],
+                string.Format(_translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_CellError"],
+                variableName));
         }
     }
 }

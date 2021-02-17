@@ -1,9 +1,9 @@
-﻿using System.Data;
+﻿using EnvDT.Model.Core.HelperEntity;
 
 namespace EnvDT.UI.Service
 {
     public interface IReadFileHelper
     {
-        public DataTable ReadFile(string file);
+        public ImportedFileData ReadFile(string file);
     }
 }

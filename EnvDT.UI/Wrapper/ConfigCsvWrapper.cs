@@ -9,13 +9,13 @@ namespace EnvDT.UI.Wrapper
     {
         public ConfigCsvWrapper(ConfigCsv model) : base(model)
         {
-            Rows = new ObservableCollection<int>();
+            Rows = new Dictionary<int, int>();
             Cols = new ObservableCollection<int>();
             FeedRows();
             FeedCols();
         }
 
-        public ObservableCollection<int> Rows { get; }
+        public Dictionary<int, int> Rows { get; }
 
         public ObservableCollection<int> Cols { get; }
 
@@ -24,15 +24,27 @@ namespace EnvDT.UI.Wrapper
             get { return Model.ConfigCsvId; }
         }
 
-        public string IdentWord
+        public int HeaderRow
+        {
+            get { return GetValue<int>(); }
+            set { SetValue(value); }
+        }
+
+        public string DelimiterChar
         {
             get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
-        public int IdentWordCol
+        public string DecimalSepChar
         {
-            get { return GetValue<int>(); }
+            get { return GetValue<string>(); }
+            set { SetValue(value); }
+        }
+
+        public string IdentWord
+        {
+            get { return GetValue<string>(); }
             set { SetValue(value); }
         }
 
@@ -107,14 +119,26 @@ namespace EnvDT.UI.Wrapper
             ClearErrors(propertyName);
             switch (propertyName)
             {
+                case nameof(HeaderRow):
+                    if (IdentWordRow == -1)
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
                 case nameof(IdentWord):
                     if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
-                case nameof(IdentWordCol):
-                    if (IdentWordCol == -1)
+                case nameof(DelimiterChar):
+                    if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
+                case nameof(DecimalSepChar):
+                    if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
@@ -194,7 +218,7 @@ namespace EnvDT.UI.Wrapper
         {
             for (int i = 0; i < 31; i++)
             {
-                Rows.Add(i);
+                Rows.Add(i + 1, i);
             }
         }
     }

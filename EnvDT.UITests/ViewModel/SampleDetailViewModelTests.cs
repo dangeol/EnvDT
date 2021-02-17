@@ -9,7 +9,7 @@ using EnvDT.UI.Event;
 using EnvDT.Model.Entity;
 using System.Collections.Generic;
 using System.Linq;
-using EnvDT.Model.Core.HelperClasses;
+using EnvDT.Model.Core.HelperEntity;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Wrapper;
 using System.Collections.ObjectModel;

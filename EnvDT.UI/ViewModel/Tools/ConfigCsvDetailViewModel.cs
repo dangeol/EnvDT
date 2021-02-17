@@ -70,8 +70,10 @@ namespace EnvDT.UI.ViewModel
             {
                 IsConfigCsvSaved = false;
                 // Trigger the validation
+                ConfigCsv.HeaderRow = -1;
+                ConfigCsv.DelimiterChar = "";
+                ConfigCsv.DecimalSepChar = "";
                 ConfigCsv.IdentWord = "";
-                ConfigCsv.IdentWordCol = -1;
                 ConfigCsv.IdentWordRow = -1;
                 ConfigCsv.ReportLabidentCol = -1;
                 ConfigCsv.ReportLabidentRow = -1;
