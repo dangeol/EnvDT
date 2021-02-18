@@ -15,11 +15,6 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
-        private const int _configIdCol = 0;
-        private const int _configIdRow = 0;
-        private const int _configTypeCol = 1;
-        private const int _configTypeRow = 0;
-
         private IEventAggregator _eventAggregator;
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;

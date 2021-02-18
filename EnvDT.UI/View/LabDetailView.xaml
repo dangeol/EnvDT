@@ -58,7 +58,7 @@
       <Button Content="{loc:Loc LabDetailView_Button_NewCsvConfig}" Margin="10 10"
               Command="{Binding CreateCsvDetailVMCommand}"/>
     </StackPanel>
-
+    
     <StackPanel Grid.Row="6" Grid.ColumnSpan="4" Orientation="Horizontal">
       <DockPanel IsEnabled="{Binding IsConfigXlsxDetailViewEnabled}">
         <view:ConfigXlsxDetailView DataContext="{Binding ConfigXlsxDetailViewModel}" />

@@ -132,13 +132,13 @@ namespace EnvDT.UI.Wrapper
                     }
                     break;
                 case nameof(DelimiterChar):
-                    if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(DelimiterChar, "", StringComparison.OrdinalIgnoreCase))
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
                 case nameof(DecimalSepChar):
-                    if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
+                    if (string.Equals(DecimalSepChar, "", StringComparison.OrdinalIgnoreCase))
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }

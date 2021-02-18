@@ -11,6 +11,7 @@ using CsvHelper;
 using System.Globalization;
 using CsvHelper.Configuration;
 using EnvDT.Model.Core.HelperEntity;
+using System.Threading;
 
 namespace EnvDT.UI.Service
 {
@@ -202,11 +203,18 @@ namespace EnvDT.UI.Service
                 int headerRow = ++configCsv.HeaderRow;
                 int dataRow = ++configCsv.FirstDataRow;
 
+                var hasCultureConflict = false;
+                var threadDecimalSepChar = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+                var docDecimalSepChar = configCsv.DecimalSepChar;
+                if (!string.Equals(threadDecimalSepChar, docDecimalSepChar))
+                {
+                    hasCultureConflict = true;
+                }
+
                 string line;
                 int i = 0;
                 while ((line = sr2.ReadLine()) != null)
                 {
-                    System.Diagnostics.Debug.WriteLine("line" + i + ": " + line);
                     if (i == configCsv.ReportLabidentRow && i < headerRow)
                     {
                         reportLabIdent = line;
@@ -216,6 +224,11 @@ namespace EnvDT.UI.Service
                         continue;
                     if (i > headerRow && i < dataRow)
                         continue;
+                    if (hasCultureConflict)
+                    {
+                        // TO DO: this should be more refined
+                        line = line.Replace(docDecimalSepChar, threadDecimalSepChar);
+                    }
 
                     {                     
                         sw.WriteLine(line);
