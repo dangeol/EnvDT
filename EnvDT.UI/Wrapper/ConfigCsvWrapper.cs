@@ -120,7 +120,7 @@ namespace EnvDT.UI.Wrapper
             switch (propertyName)
             {
                 case nameof(HeaderRow):
-                    if (IdentWordRow == -1)
+                    if (HeaderRow == -1)
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }

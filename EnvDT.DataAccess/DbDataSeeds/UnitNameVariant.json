@@ -43,5 +43,30 @@
     "UnitNameVariantId": "a95bbc62-7d8c-4613-96a9-37168230a1f1",
     "UnitNameAlias": "ng l-TEq/kg",
     "UnitId": "25bf9b56-d7ad-44af-b8db-f3ef72ff1c3e"
-  }
+  },
+   {
+   "UnitNameVariantId": "a0508a28-8b25-43e7-beb9-a05a65c81ac8",
+   "UnitNameAlias": "Ma.-%",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "65eed3d8-64c3-4e42-87e2-da3f1339475a",
+   "UnitNameAlias": "Ma.-% OS",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "4e16ee7b-0556-43c0-943b-04e773953039",
+   "UnitNameAlias": "Ma.-% TS",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "2598976d-e9cd-4b31-99a6-bb4a94b20acd",
+   "UnitNameAlias": "mg/kg TS",
+   "UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830"
+ },
+ {
+   "UnitNameVariantId": "93fd03dd-e591-48a4-b657-41aac5a971dc",
+   "UnitNameAlias": "mg/kg OS",
+   "UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830"
+ }
 ]
