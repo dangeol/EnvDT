@@ -259,6 +259,24 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The following values are not in a correct number format: {0}.
+        /// </summary>
+        public static string DialogMsg_FormatError {
+            get {
+                return ResourceManager.GetString("DialogMsg_FormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Format Error.
+        /// </summary>
+        public static string DialogTitle_FormatError {
+            get {
+                return ResourceManager.GetString("DialogTitle_FormatError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The value of the following key could not be read: {0}..
         /// </summary>
         public static string ImportLabReportService_DialogMsg_CellError {

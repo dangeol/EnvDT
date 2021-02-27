@@ -415,4 +415,10 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="ConfigDetailView_Label_DecimalSepChar" xml:space="preserve">
     <value>Decimal separator:</value>
   </data>
+  <data name="DialogTitle_FormatError" xml:space="preserve">
+    <value>Format Error</value>
+  </data>
+  <data name="DialogMsg_FormatError" xml:space="preserve">
+    <value>The following values are not in a correct number format: {0}</value>
+  </data>
 </root>

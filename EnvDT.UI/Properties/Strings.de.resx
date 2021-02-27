@@ -396,4 +396,10 @@ aus der Dropdown-Liste aus.</value>
   <data name="ConfigDetailView_Label_DecimalSepChar" xml:space="preserve">
     <value>Dezimaltrennzeichen:</value>
   </data>
+  <data name="DialogTitle_FormatError" xml:space="preserve">
+    <value>Format-Fehler</value>
+  </data>
+  <data name="DialogMsg_FormatError" xml:space="preserve">
+    <value>Die folgenden Werte haben kein korrektes Nummern-Format: {0} </value>
+  </data>
 </root>

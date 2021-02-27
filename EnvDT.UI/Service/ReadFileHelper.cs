@@ -12,6 +12,7 @@ using System.Globalization;
 using CsvHelper.Configuration;
 using EnvDT.Model.Core.HelperEntity;
 using System.Threading;
+using System.Collections.Generic;
 
 namespace EnvDT.UI.Service
 {
@@ -20,16 +21,22 @@ namespace EnvDT.UI.Service
         private IMessageDialogService _messageDialogService;
         private IUnitOfWork _unitOfWork;
         private ILookupDataService _lookupDataService;
+        private IEnumerable<LookupItem> _configXlsxLookups;
+        private Func<IExcelXmlReader> _excelXmlReaderCreator;
         private Stream stream;
         private TranslationSource _translator = TranslationSource.Instance;
 
         public ReadFileHelper(IMessageDialogService messageDialogService, IUnitOfWork unitOfWork, 
-            ILookupDataService lookupDataService)
+            ILookupDataService lookupDataService, Func<IExcelXmlReader> excelXmlReaderCreator)
         {
             _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
             _lookupDataService = lookupDataService;
+            _excelXmlReaderCreator = excelXmlReaderCreator;
+            _configXlsxLookups = _lookupDataService.GetAllConfigXlsxs();
         }
+
+        public IExcelXmlReader ExcelXmlReader { get; set; }
 
         public ImportedFileData ReadFile(string filePath)
         {
@@ -70,22 +77,31 @@ namespace EnvDT.UI.Service
 
         private ImportedFileData GetDataTableFromXlsx(string filePath)
         {
-            IExcelDataReader reader = null;
-
+            IExcelDataReader reader;
             if (filePath.EndsWith(".xls"))
             {
                 try
                 {
                     reader = ExcelReaderFactory.CreateBinaryReader(stream);
+                    return GetXlsxImportedFileData(reader);
                 }
                 catch (Exception ex)
                 {
-                    _messageDialogService.ShowOkDialog(
-                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
-                        string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
-                        ex.Message));
-
-                    return null;
+                    StreamReader sr = new StreamReader(stream);
+                    string text = sr.ReadToEnd();
+                    // At least one German lab still uses old SpreadsheetML format, but with *.XLS filename extension.
+                    var testString = "schemas-microsoft-com:office:spreadsheet";
+                    if (ex.GetType().Name.Equals("HeaderException") && text.Contains(testString))
+                    {                       
+                        return GetExcelXmlImportedFileData(stream);
+                    }
+                    else
+                    {
+                        _messageDialogService.ShowOkDialog(
+                            _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
+                            string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
+                            ex.Message));
+                    }
                 }
             }
             else if (filePath.EndsWith(".xlsx"))
@@ -93,6 +109,7 @@ namespace EnvDT.UI.Service
                 try
                 {
                     reader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                    return GetXlsxImportedFileData(reader);
                 }
                 catch (Exception ex)
                 {
@@ -100,11 +117,13 @@ namespace EnvDT.UI.Service
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
                         ex.Message));
-
-                    return null;
-                }
+                }                  
             }
+            return null;
+        }
 
+        private ImportedFileData GetXlsxImportedFileData(IExcelDataReader reader)
+        {
             DataSet result = reader.AsDataSet(new ExcelDataSetConfiguration()
             {
                 ConfigureDataTable = (_) => new ExcelDataTableConfiguration()
@@ -115,29 +134,43 @@ namespace EnvDT.UI.Service
 
             DataTableCollection workSheets = result.Tables;
             reader.Close();
+            return GetImportedFileData(workSheets);
+        }       
 
-            DataTable workSheet = null;
-            var configXlsxLookups = _lookupDataService.GetAllConfigXlsxs();
-            ConfigXlsx configXlsx = null;
+        private ImportedFileData GetExcelXmlImportedFileData(Stream stream)
+        {
+            ExcelXmlReader = _excelXmlReaderCreator();
+            DataTableCollection workSheets = ExcelXmlReader.ReadExcelXml(stream).Tables;
 
-            foreach (var configXlsxLookUp in configXlsxLookups)
+            return GetImportedFileData(workSheets);
+        }
+
+        private ImportedFileData GetImportedFileData(DataTableCollection workSheets)
+        {
+            DataTable? workSheet = null;
+            ConfigXlsx? configXlsx = null;
+            bool configXlsxFound = false;
+            foreach (var configXlsxLookUp in _configXlsxLookups)
             {
                 workSheet = workSheets[configXlsxLookUp.DisplayMember];
                 if (workSheet != null)
                 {
                     configXlsx = _unitOfWork.ConfigXlsxs.GetByIdUpdated(configXlsxLookUp.LookupItemId);
-                    break;
+                    string identCellContent = "";
+                    if (workSheet != null && configXlsx != null
+                        && workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol] != System.DBNull.Value)
+                    {
+                        identCellContent = workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol].ToString();
+                    }
+                    if (HasLabCheckPassed(identCellContent, configXlsx.IdentWord))
+                    {
+                        configXlsxFound = true;
+                        break;
+                    }
                 }
             }
 
-            string identCellContent = "";
-            if (workSheet != null && configXlsx != null
-                && workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol] != System.DBNull.Value)
-            {
-                identCellContent = workSheet.Rows[configXlsx.IdentWordRow][configXlsx.IdentWordCol].ToString();
-            }
-
-            if (!HasLabCheckPassed(identCellContent, configXlsx.IdentWord))
+            if (!configXlsxFound)
             {
                 _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
@@ -146,35 +179,40 @@ namespace EnvDT.UI.Service
             }
             else
             {
-                string reportLabIdent;
-                try
+                return RunDataImport(workSheet, configXlsx);
+            }
+        }
+
+        private ImportedFileData RunDataImport(DataTable workSheet, ConfigXlsx configXlsx)
+        {
+            string reportLabIdent;
+            try
+            {
+                if (workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol] != System.DBNull.Value)
                 {
-                    if (workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol] != System.DBNull.Value)
-                    {
-                        reportLabIdent = workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol].ToString();
-                    }
-                    else
-                    {
-                        DisplayReadingCellErrorMessage(nameof(reportLabIdent));
-                        return null;
-                    }
+                    reportLabIdent = workSheet.Rows[configXlsx.ReportLabidentRow][configXlsx.ReportLabidentCol].ToString();
                 }
-                catch (IndexOutOfRangeException ex)
+                else
                 {
-                    _messageDialogService.ShowOkDialog(
-                        _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
-                        string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
-                        "reportLabIdent", ex.Message));
+                    DisplayReadingCellErrorMessage(nameof(reportLabIdent));
                     return null;
                 }
-
-                ImportedFileData data = new ImportedFileData();
-                data.WorkSheet = workSheet;
-                data.ConfigId = configXlsx.ConfigXlsxId;
-                data.ConfigType = "xls(x)";
-                data.ReportLabIdent = reportLabIdent;
-                return data;
             }
+            catch (IndexOutOfRangeException ex)
+            {
+                _messageDialogService.ShowOkDialog(
+                    _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
+                    string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
+                    "reportLabIdent", ex.Message));
+                return null;
+            }
+
+            ImportedFileData data = new ImportedFileData();
+            data.WorkSheet = workSheet;
+            data.ConfigId = configXlsx.ConfigXlsxId;
+            data.ConfigType = "xls(x)";
+            data.ReportLabIdent = reportLabIdent;
+            return data;
         }
 
         private ImportedFileData GetDataTableFromCsv(string filePath)

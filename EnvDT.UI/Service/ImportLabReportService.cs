@@ -33,8 +33,11 @@ namespace EnvDT.UI.Service
 
         public void RunImport(string file, Guid? projectId)
         {
-            ImportedFileData data = _readFileHelper.ReadFile(file);           
-            ImportLabReport(data, projectId);
+            ImportedFileData data = _readFileHelper.ReadFile(file);         
+            if (data != null)
+            {
+                ImportLabReport(data, projectId);
+            }
         }
 
         private void ImportLabReport(ImportedFileData data, Guid? projectId)

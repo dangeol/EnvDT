@@ -33,6 +33,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<LabReportPreCheck>().As<ILabReportPreCheck>();
             builder.RegisterType<EvalCalc>().As<IEvalCalc>();
             builder.RegisterType<ReadFileHelper>().As<IReadFileHelper>();
+            builder.RegisterType<ExcelXmlReader>().As<IExcelXmlReader>();
             builder.RegisterType<DispatcherWrapper>().As<IDispatcher>();
         }
 	}
