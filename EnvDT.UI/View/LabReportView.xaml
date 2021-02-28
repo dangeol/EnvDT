@@ -25,7 +25,7 @@
                    FontSize="11" Margin="20 0 10 0" Foreground="Green" Width="150"
                    HorizontalAlignment="Left"/>
 
-        <Button Content="{loc:Loc LabReportView_Button_Import}" 
+        <Button Content="{loc:Loc LabReportView_Button_Import}"
                 HorizontalAlignment="Left" Margin="20 5 10 10"
                 Command="{Binding ImportLabReportCommand}"/>
 

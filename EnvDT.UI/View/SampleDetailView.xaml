@@ -31,7 +31,18 @@
         <Button Content="{loc:Loc SampleDetailView_Button_Edit}" 
                 Command="{Binding EditSamplesCommand}" Margin="10"/>
         <Button Content="{loc:Loc SampleDetailView_Button_Eval}"  
-                Command="{Binding EvalLabReportCommand}" Margin="10"/>
+                Command="{Binding EvalLabReportCommand}" Margin="10">
+          <Button.Style>
+            <Style TargetType="{x:Type Button}">
+              <Setter Property="IsEnabled" Value="True"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsAnimationVisible}" Value="True">
+                  <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </Button>
       </StackPanel>
     </StackPanel>
 

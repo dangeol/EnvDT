@@ -22,6 +22,7 @@ namespace EnvDT.UI.ViewModel
             EventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
             EventAggregator.GetEvent<DetailDeletedEvent>().Subscribe(OnDetailDeleted);
             Projects = new ObservableCollection<NavItemViewModel>();
+            Title = Translator["EnvDT.UI.Properties.Strings.MainTabView_Header_Title"];
             IsSampleTab = false;
             LoadModels();
         }
@@ -29,6 +30,9 @@ namespace EnvDT.UI.ViewModel
         public ObservableCollection<NavItemViewModel> Projects { get; private set; }
 
         public ICommand CloseDetailViewCommand { get; }
+
+        // Title of current tab
+        public string Title { get; private set; }
 
         public bool IsSampleTab { get; private set; }
 

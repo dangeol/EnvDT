@@ -31,7 +31,7 @@
       <TabControl.ItemTemplate>
         <DataTemplate>
           <StackPanel Orientation="Horizontal">
-            <TextBlock Text="{loc:Loc MainTabView_Header_Title}" 
+            <TextBlock Text="{Binding Title}"
                        VerticalAlignment="Center" FontSize="14" FontFamily="Segoe UI"/>
             <Button Command="{Binding CloseDetailViewCommand}" 
                     Visibility="{Binding IsSampleTab,

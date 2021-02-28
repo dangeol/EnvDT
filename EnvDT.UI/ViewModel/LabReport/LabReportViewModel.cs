@@ -25,6 +25,7 @@ namespace EnvDT.UI.ViewModel
         private Guid? _projectId;
         private string _labReportFileName;
         private NavItemViewModel _selectedLabReport;
+        private bool _isNotBusy;
         private const string _sampleDetailViewModelName = "SampleDetailViewModel";
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
@@ -119,7 +120,7 @@ namespace EnvDT.UI.ViewModel
 
         private void OnImportLabReportExecute()
         {
-            _importLabReportService.RunImport(LabReportFilePath, _projectId);
+            _importLabReportService.RunImport(LabReportFilePath, _projectId);           
         }
 
         private bool OnImportLabReportCanExecute()
