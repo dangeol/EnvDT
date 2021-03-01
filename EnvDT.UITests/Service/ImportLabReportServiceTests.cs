@@ -2,8 +2,10 @@
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Service;
+using EnvDT.UI.ViewModel;
 using Moq;
 using Prism.Events;
+using System;
 using Xunit;
 
 namespace EnvDT.UITests.Service
@@ -14,6 +16,7 @@ namespace EnvDT.UITests.Service
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IReadFileHelper> _readFileHelperMock;
+        private Mock<IDispatcher> _dispatcherMock;
         private ImportLabReportService _importLabReportService;
         private LabReport _labReport;
         private string _reportLabIdent = "ident";
@@ -28,9 +31,13 @@ namespace EnvDT.UITests.Service
                 .Returns(_labReport);
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
             _readFileHelperMock = new Mock<IReadFileHelper>();
+            _dispatcherMock = new Mock<IDispatcher>();
+            _dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>()))
+                .Callback((Action a) => a());
 
             _importLabReportService = new ImportLabReportService(_eventAggregatorMock.Object,
-                _messageDialogServiceMock.Object, _unitOfWorkMock.Object, _readFileHelperMock.Object);
+                _messageDialogServiceMock.Object, _unitOfWorkMock.Object, _readFileHelperMock.Object,
+                _dispatcherMock.Object);
         }
 
         [Fact]

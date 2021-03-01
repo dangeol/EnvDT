@@ -29,7 +29,7 @@ namespace EnvDT.Model.Core
             _missingParamDialogVmCreator = missingParamDetailVmCreator;
             if (dispatcher == null)
             {
-                throw new ArgumentNullException("dispatcher");
+                throw new ArgumentNullException(nameof(dispatcher));
             }
             _dispatcher = dispatcher;
         }
@@ -56,7 +56,7 @@ namespace EnvDT.Model.Core
                         }
                         else if (missingParameter.First().UnitId == _unitOfWork.Units.GetUnitIdOfUnknown())
                         {
-                            _missingUnitIds.Add(publParam.UnitId);                         
+                            _missingUnitIds.Add(publParam.UnitId);
                         }
                     }
                 }
@@ -65,7 +65,7 @@ namespace EnvDT.Model.Core
             {
                 var result = MessageDialogResult.Cancel;
                 _dispatcher.Invoke(() =>
-                { 
+                {
                     var missingParamDialogVM = _missingParamDialogVmCreator();
                     missingParamDialogVM.Load(labReportId, _missingParamIds, _missingUnitIds);
                     var titleName = _translator["EnvDT.UI.Properties.Strings.LabReportPreCheck_DialogTitle_MissingParam"];

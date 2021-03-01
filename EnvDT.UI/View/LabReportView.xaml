@@ -7,6 +7,7 @@
              xmlns:resx="clr-namespace:EnvDT.UI.Properties"
              xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
              loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
+             xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:local="clr-namespace:EnvDT.UI.View"            
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid>
@@ -25,9 +26,24 @@
                    FontSize="11" Margin="20 0 10 0" Foreground="Green" Width="150"
                    HorizontalAlignment="Left"/>
 
-        <Button Content="{loc:Loc LabReportView_Button_Import}"
+        <Button Content="{loc:Loc LabReportView_Button_Import}" 
                 HorizontalAlignment="Left" Margin="20 5 10 10"
-                Command="{Binding ImportLabReportCommand}"/>
+                Command="{Binding ImportLabReportCommand}">
+          <Button.Style>
+            <Style TargetType="{x:Type Button}">
+              <Setter Property="IsEnabled" Value="True"/>
+              <Setter Property="FontFamily" Value="Segoe UI"/>
+              <Setter Property="FontSize" Value="16"/>
+              <Setter Property="Height" Value="25"/>
+              <Setter Property="Width" Value="100"/>
+              <Style.Triggers>
+                <DataTrigger Binding="{Binding IsAnimationVisible}" Value="True">
+                  <Setter Property="IsEnabled" Value="False"/>
+                </DataTrigger>
+              </Style.Triggers>
+            </Style>
+          </Button.Style>
+        </Button>
 
         <Button Content="{loc:Loc LabReportView_Button_Eval}" 
                 HorizontalAlignment="Left" Margin="20 10 10 10"
@@ -50,6 +66,17 @@
         </DataGrid.Columns>
       </DataGrid>
     </DockPanel>
+
+    <Popup Name="LoadingPopup" IsOpen="{Binding IsAnimationVisible}"
+           HorizontalAlignment="Center" VerticalAlignment="Center" 
+           Width="200" Height="100" AllowsTransparency="True"   
+           Placement="Center">
+      <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <TextBlock Background="Transparent" Text="{loc:Loc LabReportView_TextBlock_LoadingPopup}"/>
+        <Image Name="BarGif" Width="150" Height="75" 
+               gif:ImageBehavior.AnimatedSource="/Styling/Images/bar.gif" />
+      </StackPanel>
+    </Popup>
 
   </Grid>
 </UserControl>

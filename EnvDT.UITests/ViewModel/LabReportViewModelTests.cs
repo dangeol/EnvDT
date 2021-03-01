@@ -28,6 +28,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IImportLabReportService> _importLabReportServiceMock;
         private LabReportViewModel _viewModel;
         private LabReportImportedEvent _labReportImportedEvent;
+        private Mock<IDispatcher> _dispatcherMock;
 
         private string _labReportFilePath = "C:\\Directory\\LabReport.xls";
         private string _labReportFileName = "LabReport.xls";
@@ -80,10 +81,14 @@ namespace EnvDT.UITests.ViewModel
                 });
             _importLabReportServiceMock = new Mock<IImportLabReportService>();
 
+            _dispatcherMock = new Mock<IDispatcher>();
+            _dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>()))
+                .Callback((Action a) => a());
+
             _viewModel = new LabReportViewModel(_eventAggregatorMock.Object,
                 _messageDialogServiceMock.Object, _lookupDataServiceMock.Object,
                 _unitOfWorkMock.Object, _tabMock.Object, _openLabReportServiceMock.Object, 
-                _importLabReportServiceMock.Object);
+                _importLabReportServiceMock.Object, _dispatcherMock.Object);
         }
 
         [Fact]

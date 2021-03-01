@@ -9,6 +9,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EnvDT.UI.ViewModel
@@ -25,12 +26,14 @@ namespace EnvDT.UI.ViewModel
         private Guid? _projectId;
         private string _labReportFileName;
         private NavItemViewModel _selectedLabReport;
-        private bool _isNotBusy;
+        private bool _isAnimationVisible;
         private const string _sampleDetailViewModelName = "SampleDetailViewModel";
+        private IDispatcher _dispatcher;
 
         public LabReportViewModel(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             ILookupDataService lookupDataService, IUnitOfWork unitOfWork, ITab tab,
-            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService)
+            IOpenLabReportService openLabReportService, IImportLabReportService importLabReportService,
+            IDispatcher dispatcher)
             : base(eventAggregator)
         {
             _eventAggregator = eventAggregator;
@@ -41,6 +44,11 @@ namespace EnvDT.UI.ViewModel
             _tab = tab;
             _openLabReportService = openLabReportService;
             _importLabReportService = importLabReportService;
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException(nameof(dispatcher));
+            }
+            _dispatcher = dispatcher;
 
             OpenLabReportCommand = new DelegateCommand(OnOpenLabReportExecute, OnOpenLabReportCanExecute);
             ImportLabReportCommand = new DelegateCommand(OnImportLabReportExecute, OnImportLabReportCanExecute);
@@ -48,6 +56,7 @@ namespace EnvDT.UI.ViewModel
             DeleteLabReportCommand = new DelegateCommand(OnDeleteLabReportExecute, OnDeleteLabReportCanExecute);
 
             LabReports = new ObservableCollection<NavItemViewModel>();
+            IsAnimationVisible = false;
         }
 
         public ICommand OpenLabReportCommand { get; }
@@ -59,8 +68,8 @@ namespace EnvDT.UI.ViewModel
         public string LabReportFileName
         {
             get { return _labReportFileName; }
-            set 
-            { 
+            set
+            {
                 _labReportFileName = value;
                 OnPropertyChanged();
             }
@@ -69,8 +78,8 @@ namespace EnvDT.UI.ViewModel
         public NavItemViewModel SelectedLabReport
         {
             get { return _selectedLabReport; }
-            set 
-            { 
+            set
+            {
                 _selectedLabReport = value;
                 if (_selectedLabReport != null)
                 {
@@ -83,6 +92,16 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public bool IsAnimationVisible
+        {
+            get { return _isAnimationVisible; }
+            set
+            {
+                _isAnimationVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void Load(Guid? projectId)
         {
             _projectId = projectId;
@@ -90,12 +109,15 @@ namespace EnvDT.UI.ViewModel
             ((DelegateCommand)OpenLabReportCommand).RaiseCanExecuteChanged();
             LabReports.Clear();
 
-            foreach (var labReport in _lookupDataService.GetAllLabReportsLookupByProjectId(projectId))
+            _dispatcher.Invoke(() =>
             {
-                LabReports.Add(new NavItemViewModel(
-                    labReport.LookupItemId, labReport.DisplayMember, "",
-                    _eventAggregator));
-            }
+                foreach (var labReport in _lookupDataService.GetAllLabReportsLookupByProjectId(projectId))
+                {
+                    LabReports.Add(new NavItemViewModel(
+                        labReport.LookupItemId, labReport.DisplayMember, "",
+                        _eventAggregator));
+                }
+            });
         }
 
         private void OnOpenLabReportExecute()
@@ -118,14 +140,36 @@ namespace EnvDT.UI.ViewModel
             return _projectId != null;
         }
 
-        private void OnImportLabReportExecute()
+        private async void OnImportLabReportExecute()
         {
-            _importLabReportService.RunImport(LabReportFilePath, _projectId);           
+            await OnImportLabReportExecuteImpl();
+        }
+
+        internal async Task OnImportLabReportExecuteImpl()
+        {
+            IsAnimationVisible = true;
+
+            try
+            {
+                await Task.Run(() =>
+                {
+                    _importLabReportService.RunImport(LabReportFilePath, _projectId);
+                }).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                _messageDialogService.ShowOkDialog(
+                    Translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_Error"],
+                    string.Format(Translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_Error"],
+                    ex.Message));
+            }
+
+            IsAnimationVisible = false;
         }
 
         private bool OnImportLabReportCanExecute()
         {
-            return LabReportFilePath != null;
+            return LabReportFilePath != null && !IsAnimationVisible;
         }
 
         protected override bool OnOpenDetailViewCanExecute()
@@ -153,7 +197,7 @@ namespace EnvDT.UI.ViewModel
 
             var result = _messageDialogService.ShowOkCancelDialog(
                 Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogTitle_ConfirmDeletion"],
-                string.Format(Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogMsg_ConfirmDeletion"], 
+                string.Format(Translator["EnvDT.UI.Properties.Strings.LabReportVM_DialogMsg_ConfirmDeletion"],
                 SelectedLabReport.DisplayMember));
             if (result == MessageDialogResult.OK)
             {
@@ -175,19 +219,22 @@ namespace EnvDT.UI.ViewModel
 
         private void OnLabReportImported(LabReportImportedEventArgs args)
         {
-            var displayMember = args.DisplayMember;
+            _dispatcher.Invoke(() =>
+            {
+                var displayMember = args.DisplayMember;
 
-            var labReportItem = LabReports.SingleOrDefault(l => l.LookupItemId == args.Id);
-            if (labReportItem != null)
-            {
-                labReportItem.DisplayMember = displayMember;
-            }
-            else
-            {
-                labReportItem = new NavItemViewModel(args.Id, displayMember, "",
-                    _eventAggregator);
-                LabReports.Add(labReportItem);
-            }
+                var labReportItem = LabReports.SingleOrDefault(l => l.LookupItemId == args.Id);
+                if (labReportItem != null)
+                {
+                    labReportItem.DisplayMember = displayMember;
+                }
+                else
+                {
+                    labReportItem = new NavItemViewModel(args.Id, displayMember, "",
+                        _eventAggregator);
+                    LabReports.Add(labReportItem);
+                }
+            });
         }
     }
 }

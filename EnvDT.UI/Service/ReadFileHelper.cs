@@ -13,6 +13,7 @@ using CsvHelper.Configuration;
 using EnvDT.Model.Core.HelperEntity;
 using System.Threading;
 using System.Collections.Generic;
+using EnvDT.UI.ViewModel;
 
 namespace EnvDT.UI.Service
 {
@@ -25,15 +26,22 @@ namespace EnvDT.UI.Service
         private Func<IExcelXmlReader> _excelXmlReaderCreator;
         private Stream stream;
         private TranslationSource _translator = TranslationSource.Instance;
+        private IDispatcher _dispatcher;
 
-        public ReadFileHelper(IMessageDialogService messageDialogService, IUnitOfWork unitOfWork, 
-            ILookupDataService lookupDataService, Func<IExcelXmlReader> excelXmlReaderCreator)
+        public ReadFileHelper(IMessageDialogService messageDialogService, IUnitOfWork unitOfWork,
+            ILookupDataService lookupDataService, Func<IExcelXmlReader> excelXmlReaderCreator,
+            IDispatcher dispatcher)
         {
             _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
             _lookupDataService = lookupDataService;
             _excelXmlReaderCreator = excelXmlReaderCreator;
             _configXlsxLookups = _lookupDataService.GetAllConfigXlsxs();
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException(nameof(dispatcher));
+            }
+            _dispatcher = dispatcher;
         }
 
         public IExcelXmlReader ExcelXmlReader { get; set; }
@@ -49,15 +57,18 @@ namespace EnvDT.UI.Service
                 }
                 catch (Exception ex)
                 {
-                    _messageDialogService.ShowOkDialog(
-                        _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_FileError"],
-                        string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_FileError"],
-                        ex.Message));
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
+                            _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_FileError"],
+                            string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_FileError"],
+                            ex.Message));
+                    });
 
                     return null;
                 }
                 if (filePath.EndsWith(".xls") || filePath.EndsWith(".xlsx"))
-                { 
+                {
                     return GetDataTableFromXlsx(filePath);
                 }
                 else if (filePath.EndsWith(".csv"))
@@ -92,15 +103,18 @@ namespace EnvDT.UI.Service
                     // At least one German lab still uses old SpreadsheetML format, but with *.XLS filename extension.
                     var testString = "schemas-microsoft-com:office:spreadsheet";
                     if (ex.GetType().Name.Equals("HeaderException") && text.Contains(testString))
-                    {                       
+                    {
                         return GetExcelXmlImportedFileData(stream);
                     }
                     else
                     {
-                        _messageDialogService.ShowOkDialog(
+                        _dispatcher.Invoke(() =>
+                        {
+                            _messageDialogService.ShowOkDialog(
                             _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
                             string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
                             ex.Message));
+                        });
                     }
                 }
             }
@@ -113,11 +127,14 @@ namespace EnvDT.UI.Service
                 }
                 catch (Exception ex)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_CorruptExcel"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_CorruptExcel"],
                         ex.Message));
-                }                  
+                    });
+                }
             }
             return null;
         }
@@ -135,7 +152,7 @@ namespace EnvDT.UI.Service
             DataTableCollection workSheets = result.Tables;
             reader.Close();
             return GetImportedFileData(workSheets);
-        }       
+        }
 
         private ImportedFileData GetExcelXmlImportedFileData(Stream stream)
         {
@@ -172,9 +189,12 @@ namespace EnvDT.UI.Service
 
             if (!configXlsxFound)
             {
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
                     _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                });
                 return null;
             }
             else
@@ -200,10 +220,13 @@ namespace EnvDT.UI.Service
             }
             catch (IndexOutOfRangeException ex)
             {
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                     string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                     "reportLabIdent", ex.Message));
+                });
                 return null;
             }
 
@@ -232,9 +255,12 @@ namespace EnvDT.UI.Service
 
                 if (configCsv == null)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                    });
                     return null;
                 }
 
@@ -258,7 +284,7 @@ namespace EnvDT.UI.Service
                         reportLabIdent = line;
                     }
                     i++;
-                    if (i < headerRow) 
+                    if (i < headerRow)
                         continue;
                     if (i > headerRow && i < dataRow)
                         continue;
@@ -268,7 +294,7 @@ namespace EnvDT.UI.Service
                         line = line.Replace(docDecimalSepChar, threadDecimalSepChar);
                     }
 
-                    {                     
+                    {
                         sw.WriteLine(line);
                         if (i == headerRow)
                         {
@@ -316,7 +342,7 @@ namespace EnvDT.UI.Service
                         }
 
                         if (reportLabIdent.Equals(""))
-                        { 
+                        {
                             try
                             {
                                 if (workSheet.Rows[configCsv.ReportLabidentRow][configCsv.ReportLabidentCol] != System.DBNull.Value)
@@ -331,10 +357,13 @@ namespace EnvDT.UI.Service
                             }
                             catch (IndexOutOfRangeException ex)
                             {
-                                _messageDialogService.ShowOkDialog(
+                                _dispatcher.Invoke(() =>
+                                {
+                                    _messageDialogService.ShowOkDialog(
                                     _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                                     string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                                     "reportLabIdent", ex.Message));
+                                });
                                 return null;
                             }
                         }
@@ -386,10 +415,13 @@ namespace EnvDT.UI.Service
 
         private void DisplayReadingCellErrorMessage(string variableName)
         {
-            _messageDialogService.ShowOkDialog(
+            _dispatcher.Invoke(() =>
+            {
+                _messageDialogService.ShowOkDialog(
                 _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_CellError"],
                 string.Format(_translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_CellError"],
                 variableName));
+            });
         }
     }
 }

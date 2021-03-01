@@ -401,4 +401,7 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="DialogMsg_FormatError" xml:space="preserve">
     <value>The following values are not in a correct number format: {0}</value>
   </data>
+  <data name="LabReportView_TextBlock_LoadingPopup" xml:space="preserve">
+    <value>Import of laboratory report</value>
+  </data>
 </root>

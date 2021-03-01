@@ -421,6 +421,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import of laboratory report.
+        /// </summary>
+        public static string LabReportView_TextBlock_LoadingPopup {
+            get {
+                return ResourceManager.GetString("LabReportView_TextBlock_LoadingPopup", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please close first related open Tab {0}..
         /// </summary>
         public static string LabReportVM_DialogMsg_CloseTab {

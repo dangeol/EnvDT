@@ -4,6 +4,7 @@ using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
 using EnvDT.UI.Settings.Localization;
+using EnvDT.UI.ViewModel;
 using Microsoft.EntityFrameworkCore;
 using Prism.Events;
 using System;
@@ -21,19 +22,25 @@ namespace EnvDT.UI.Service
         private IReadFileHelper _readFileHelper;
         private List<Sample> _samples = new List<Sample>();
         private TranslationSource _translator = TranslationSource.Instance;
+        private IDispatcher _dispatcher;
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
-            IUnitOfWork unitOfWork, IReadFileHelper readFileHelper)
+            IUnitOfWork unitOfWork, IReadFileHelper readFileHelper, IDispatcher dispatcher)
         {
             _eventAggregator = eventAggregator;
             _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
             _readFileHelper = readFileHelper;
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException(nameof(dispatcher));
+            }
+            _dispatcher = dispatcher;
         }
 
         public void RunImport(string file, Guid? projectId)
         {
-            ImportedFileData data = _readFileHelper.ReadFile(file);         
+            ImportedFileData data = _readFileHelper.ReadFile(file);
             if (data != null)
             {
                 ImportLabReport(data, projectId);
@@ -58,12 +65,15 @@ namespace EnvDT.UI.Service
                     break;
 
                 default:
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogTitle_UnknLabRFormat"],
                         _translator["EnvDT.UI.Properties.Strings.ReadFileHelper_DialogMsg_UnknLabRFormat"]);
+                    });
                     break;
-            }          
-           
+            }
+
             if (IsLabReportAlreadyPresent(reportLabIdent))
             {
                 return;
@@ -91,10 +101,13 @@ namespace EnvDT.UI.Service
                 }
                 catch (IndexOutOfRangeException ex)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                         "sampleLabIdent", ex.Message));
+                    });
                     return;
                 }
                 string sampleName;
@@ -112,10 +125,13 @@ namespace EnvDT.UI.Service
                 }
                 catch (IndexOutOfRangeException ex)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                         "sampleName", ex.Message));
+                    });
                     return;
                 }
 
@@ -124,8 +140,8 @@ namespace EnvDT.UI.Service
                 {
                     existingSample.SampleLabIdent += "_" + sampleLabIdent;
                 }
-                else 
-                { 
+                else
+                {
                     Sample sample = CreateSample(
                         sampleLabIdent, sampleName, labReportId
                     );
@@ -134,7 +150,7 @@ namespace EnvDT.UI.Service
                 c++;
             }
             CreateLabReportParams(workSheet, configBase, labReportId);
-          
+
             try
             {
                 _unitOfWork.Save();
@@ -144,24 +160,28 @@ namespace EnvDT.UI.Service
             }
             catch (DbUpdateConcurrencyException ex)
             {
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_Error"],
                     string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_Error"],
                     ex.Message));
+                });
             }
         }
 
         public bool IsLabReportAlreadyPresent(string reportLabIdent)
         {
             var foundLabReport = _unitOfWork.LabReports.GetByReportLabIdent(reportLabIdent);
-            if (foundLabReport != null) { 
-                var result = _messageDialogService.ShowOkDialog(
+            if (foundLabReport != null)
+            {
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_ImportLabReport"],
                     _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_ImportLabReport"]);
+                });
 
-                if (result == MessageDialogResult.OK)
-                {
-                }
                 return true;
             }
             return false;
@@ -198,7 +218,7 @@ namespace EnvDT.UI.Service
             {
                 string labParamName;
                 try
-                { 
+                {
                     if (workSheet.Rows[r][configBase.ParamNameCol] != System.DBNull.Value)
                     {
                         labParamName = workSheet.Rows[r][configBase.ParamNameCol].ToString();
@@ -211,10 +231,13 @@ namespace EnvDT.UI.Service
                 }
                 catch (IndexOutOfRangeException ex)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                         "ParamName", ex.Message));
+                    });
                     return;
                 }
                 var labParamUnitName = workSheet.Rows[r][configBase.UnitNameCol].ToString();
@@ -226,14 +249,14 @@ namespace EnvDT.UI.Service
                     foreach (var paramNameVariant in paramNameVariants)
                     {
                         var parameterId = paramNameVariant.ParameterId;
-                        CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName, 
-                            parameterId, unitId, labReportId, r);   
+                        CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName,
+                            parameterId, unitId, labReportId, r);
                     }
                 }
                 else
                 {
                     var unknownParameterId = _unitOfWork.Parameters.GetParameterIdOfUnknown();
-                    CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName, 
+                    CreateNewLabParam(workSheet, configBase, labParamName, labParamUnitName,
                         unknownParameterId, unitId, labReportId, r);
                 }
                 r++;
@@ -265,10 +288,6 @@ namespace EnvDT.UI.Service
             {
                 if (workSheet.Rows[r][configBase.DetectionLimitCol] != System.DBNull.Value)
                 {
-                    //labReportParam.DetectionLimit = (double)workSheet.Rows[r][configBase.DetectionLimitCol];
-                    //labReportParam.DetectionLimit = Convert.ToDouble(workSheet.Rows[r][configBase.DetectionLimitCol]);
-                    //var str = workSheet.Rows[r][configBase.DetectionLimitCol].ToString();
-                    //labReportParam.DetectionLimit = double.Parse(str, System.Globalization.CultureInfo.InvariantCulture);
                     double testVar;
                     var str = workSheet.Rows[r][configBase.DetectionLimitCol].ToString();
                     if (Double.TryParse(str, out testVar))
@@ -279,10 +298,13 @@ namespace EnvDT.UI.Service
             }
             catch (IndexOutOfRangeException ex)
             {
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                     string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                     "DetectionLimit", ex.Message));
+                });
                 return;
             }
 
@@ -297,10 +319,13 @@ namespace EnvDT.UI.Service
             }
             catch (IndexOutOfRangeException ex)
             {
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                     string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                     "Method", ex.Message));
+                });
                 return;
             }
 
@@ -331,10 +356,13 @@ namespace EnvDT.UI.Service
                         }
                         catch (IndexOutOfRangeException ex)
                         {
-                            _messageDialogService.ShowOkDialog(
+                            _dispatcher.Invoke(() =>
+                            {
+                                _messageDialogService.ShowOkDialog(
                                 _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                                 string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                                 "SampleName", ex.Message));
+                            });
                             return;
                         }
 
@@ -357,10 +385,13 @@ namespace EnvDT.UI.Service
                 }
                 catch (IndexOutOfRangeException ex)
                 {
-                    _messageDialogService.ShowOkDialog(
+                    _dispatcher.Invoke(() =>
+                    {
+                        _messageDialogService.ShowOkDialog(
                         _translator["EnvDT.UI.Properties.Strings.VM_DialogTitle_OutOfRangeEx"],
                         string.Format(_translator["EnvDT.UI.Properties.Strings.VM_DialogMsg_OutOfRangeEx"],
                         "FirstSampleValue", ex.Message));
+                    });
                     return;
                 }
                 c++;
@@ -380,10 +411,13 @@ namespace EnvDT.UI.Service
 
         private void DisplayReadingCellErrorMessage(string variableName)
         {
-            _messageDialogService.ShowOkDialog(
+            _dispatcher.Invoke(() =>
+            {
+                _messageDialogService.ShowOkDialog(
                 _translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogTitle_CellError"],
-                string.Format(_translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_CellError"], 
+                string.Format(_translator["EnvDT.UI.Properties.Strings.ImportLabReportService_DialogMsg_CellError"],
                 variableName));
+            });
         }
     }
 }

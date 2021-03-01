@@ -402,4 +402,7 @@ aus der Dropdown-Liste aus.</value>
   <data name="DialogMsg_FormatError" xml:space="preserve">
     <value>Die folgenden Werte haben kein korrektes Nummern-Format: {0} </value>
   </data>
+  <data name="LabReportView_TextBlock_LoadingPopup" xml:space="preserve">
+    <value>Laborberichts-Import</value>
+  </data>
 </root>

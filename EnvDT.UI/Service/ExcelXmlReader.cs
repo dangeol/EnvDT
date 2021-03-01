@@ -1,5 +1,6 @@
 ﻿using EnvDT.UI.Dialogs;
 using EnvDT.UI.Settings.Localization;
+using EnvDT.UI.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,10 +18,16 @@ namespace EnvDT.UI.Service
         private IMessageDialogService _messageDialogService;
         private TranslationSource _translator = TranslationSource.Instance;
         private List<string> _badDataList = new List<string>();
+        private IDispatcher _dispatcher;
 
-        public ExcelXmlReader(IMessageDialogService messageDialogService)
+        public ExcelXmlReader(IMessageDialogService messageDialogService, IDispatcher dispatcher)
         {
             _messageDialogService = messageDialogService;
+            if (dispatcher == null)
+            {
+                throw new ArgumentNullException(nameof(dispatcher));
+            }
+            _dispatcher = dispatcher;
         }
 
         public DataSet ReadExcelXml(Stream stream)
@@ -50,7 +57,7 @@ namespace EnvDT.UI.Service
                 if (rows.Count > 0)
                 {
                     int startIndex = 0;
-                    
+
                     for (int i = startIndex; i < rows.Count; i++)
                     {
                         DataRow row = dataTable.NewRow();
@@ -63,7 +70,7 @@ namespace EnvDT.UI.Service
                             {
                                 actualCellIndex = int.Parse(cell.Attributes["ss:Index"].Value) - 1;
                             }
-                                
+
                             XmlNode data = cell.SelectSingleNode("ss:Data", nsmgr);
 
                             if (actualCellIndex >= dataTable.Columns.Count)
@@ -74,7 +81,7 @@ namespace EnvDT.UI.Service
                                     {
                                         dataTable.Columns.Add("Column" + j.ToString());
                                     }
-                                } 
+                                }
                             }
 
                             if (data != null)
@@ -85,7 +92,7 @@ namespace EnvDT.UI.Service
                             if (cell.Attributes["ss:MergeAcross"] != null)
                             {
                                 actualCellIndex += int.Parse(cell.Attributes["ss:MergeAcross"].Value) + 1;
-                            }                               
+                            }
                             else
                             {
                                 actualCellIndex++;
@@ -93,7 +100,7 @@ namespace EnvDT.UI.Service
                         }
 
                         // Last row could be empty.
-                        if (i < rows.Count - 1 || i == rows.Count - 1 
+                        if (i < rows.Count - 1 || i == rows.Count - 1
                             && (!row.ItemArray.All(field => field is System.DBNull ||
                                 string.Compare((field as string).Trim(), string.Empty) == 0)))
                         {
@@ -106,10 +113,13 @@ namespace EnvDT.UI.Service
             if (_badDataList.Count > 0)
             {
                 var badDataListJoined = string.Join(", ", _badDataList);
-                _messageDialogService.ShowOkDialog(
+                _dispatcher.Invoke(() =>
+                {
+                    _messageDialogService.ShowOkDialog(
                     _translator["EnvDT.UI.Properties.Strings.DialogTitle_FormatError"],
                     string.Format(_translator["EnvDT.UI.Properties.Strings.DialogMsg_FormatError"],
                     badDataListJoined));
+                });
             }
 
             return dataSet;
