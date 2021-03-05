@@ -405,4 +405,25 @@ aus der Dropdown-Liste aus.</value>
   <data name="LabReportView_TextBlock_LoadingPopup" xml:space="preserve">
     <value>Laborberichts-Import</value>
   </data>
+  <data name="SampleDetailVM_Footnote_MinParams" xml:space="preserve">
+    <value>Unter Einbeziehung von: </value>
+  </data>
+  <data name="SampleDetailView_Label_SameLrParam" xml:space="preserve">
+    <value>Multi.-Werte Konflikte</value>
+  </data>
+  <data name="SampleDetailView_Label_DiffLrParam" xml:space="preserve">
+    <value>Multi-Methoden Konflikte</value>
+  </data>
+  <data name="SampleDetailView_RadioButton_MinValue" xml:space="preserve">
+    <value>Min.-Wert</value>
+  </data>
+  <data name="SampleDetailView_RadioButton_MaxValue" xml:space="preserve">
+    <value>Max.-Wert</value>
+  </data>
+  <data name="SampleDetailView_ToolTip_SameLrParam" xml:space="preserve">
+    <value>Legt fest, welcher Analysewert gewählt wird, wenn für einen Parameter mehrere Werte gefunden wurden (z.b. jeweils für verschiedene Fraktionen derselben Probe).</value>
+  </data>
+  <data name="SampleDetailView_ToolTip_DiffLrParam" xml:space="preserve">
+    <value>Legt fest, welcher Analysewert gewählt wird, wenn für einen Parameter mehrere Werte mit verschiedenen Analysemethoden gefunden wurden.</value>
+  </data>
 </root>

@@ -14,12 +14,14 @@
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
         </ResourceDictionary>
+        <ResourceDictionary Source="Styling/Icons/Icons.xaml"/>
         <ResourceDictionary Source="Styling/Styles/Button.xaml"/>
         <ResourceDictionary Source="Styling/Styles/ComboBox.xaml"/>
         <ResourceDictionary Source="Styling/Styles/DataGrid.xaml"/>
         <ResourceDictionary Source="Styling/Styles/Label.xaml"/>
         <ResourceDictionary Source="Styling/Styles/TextBlock.xaml"/>
         <ResourceDictionary Source="Styling/Styles/TextBox.xaml"/>
+        <ResourceDictionary Source="Styling/Styles/ToolTip.xaml"/>
       </ResourceDictionary.MergedDictionaries>
       <!--Default Styles-->
       <Style TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}"></Style>
@@ -28,6 +30,7 @@
       <Style TargetType="Label" BasedOn="{StaticResource BaseLabelStyle}"></Style>
       <Style TargetType="TextBlock" BasedOn="{StaticResource BaseTextBlockStyle}"></Style>
       <Style TargetType="TextBox" BasedOn="{StaticResource BaseTextBoxStyle}"></Style>
+      <Style TargetType="ToolTip" BasedOn="{StaticResource BaseToolTipStyle}"></Style>
     </ResourceDictionary>
   </Application.Resources>
 </Application>

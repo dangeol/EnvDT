@@ -35,9 +35,15 @@ namespace EnvDT.UI.ViewModel
         private string _sampleEditDialogTitle;
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
+        private Dictionary<int,string> _footnoteStrings = new();
         private bool _isEvalResultVisible;
         private bool _isAnimationVisible;
         private string _sampleColHeader;
+        private bool _selectSameLrParamMaxValue;
+        private bool _selectDiffLrParamMaxValue;
+
+        private const string _superscriptDigits =
+            "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
         public SampleDetailViewModel(
             IEventAggregator eventAggregator, IMessageDialogService messageDialogService, 
@@ -70,6 +76,8 @@ namespace EnvDT.UI.ViewModel
             IsSampleTab = true;
             IsEvalResultVisible = false;
             IsAnimationVisible = false;
+            SelectSameLrParamMaxValue = true;
+            SelectDiffLrParamMaxValue = false;
         }
 
         public ICommand EditSamplesCommand { get; }
@@ -143,6 +151,26 @@ namespace EnvDT.UI.ViewModel
             }
         }
 
+        public bool SelectSameLrParamMaxValue
+        {
+            get { return _selectSameLrParamMaxValue; }
+            set
+            {
+                _selectSameLrParamMaxValue = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool SelectDiffLrParamMaxValue
+        {
+            get { return _selectDiffLrParamMaxValue; }
+            set
+            {
+                _selectDiffLrParamMaxValue = value;
+                OnPropertyChanged();
+            }
+        }
+     
         public override void Load(Guid? labReportId)
         {
             _labReportId = (Guid)labReportId;
@@ -325,6 +353,7 @@ namespace EnvDT.UI.ViewModel
         {
             _evalResultTable = new DataTable();
             _evalResultTable.Columns.Add(_sampleColHeader);
+            _footnoteStrings.Clear();
             _footnotesTable.Clear();
             _footnoteIndex = 1;
 
@@ -391,28 +420,58 @@ namespace EnvDT.UI.ViewModel
             {
                 LabReportId = (Guid)LabReportId,
                 Sample = sample,
-                PublicationId = publicationId
+                PublicationId = publicationId,
+                SelectSameLrParamMaxValue = SelectSameLrParamMaxValue,
+                SelectDiffLrParamMaxValue = SelectDiffLrParamMaxValue
             };
             var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
             _evalResultTable.Rows[r][0] = sample.SampleName;
+
             var highestValClassName = evalResult.HighestValClassName;
-            if (evalResult.MissingParams.Length == 0)
+            if (evalResult.MissingParams.Length > 0)
             {
-                _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
+                var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_Missing"];
+                var footnoteText = $"{text} {evalResult.MissingParams}";
+                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
             }
-            else
+            if (evalResult.MinValueParams.Length > 0)
             {
-                _evalResultTable.Rows[r][c_sampleTable] = $"{highestValClassName} {_footnoteIndex})";
-                var missingText = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_Missing"];
-                var missingParamFootNote = $"{missingText} {evalResult.MissingParams}";
+                var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_MinParams"];
+                var footnoteText = $"{text} {evalResult.MinValueParams}";
+                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
+            }
+            _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
+            _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
+        }
+
+        private string ConstructFootnotes(string cellText, string footnoteText)
+        {
+            if (!_footnoteStrings.ContainsValue(footnoteText))
+            {
+                _footnoteStrings.Add(_footnoteIndex, footnoteText);
                 DataRow dr = _footnotesTable.NewRow();
-                dr["Key"] = $"{_footnoteIndex})";
-                dr["Value"] = missingParamFootNote;
+                dr["Key"] = $"{ToSuperscript(_footnoteIndex)}\u207E";
+                dr["Value"] = footnoteText;
                 _footnotesTable.Rows.Add(dr);
+                cellText += $"{ToSuperscript(_footnoteIndex)}\u207E";
 
                 _footnoteIndex++;
             }
-            _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
+            else
+            {
+                var existingFootnoteIndex = _footnoteStrings.FirstOrDefault(x => x.Value == footnoteText).Key;
+                cellText += $"{ToSuperscript(existingFootnoteIndex)}\u207E";
+            }
+
+            return cellText;
+        }
+
+        private string ToSuperscript(int integer)
+        {
+            string superscript = new string(integer.ToString()
+                                    .Select(x => _superscriptDigits[x - '0'])
+                                    .ToArray());
+            return superscript;
         }
 
         private void OnCloseDetailViewExecute()

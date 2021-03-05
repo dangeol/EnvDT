@@ -26,6 +26,7 @@ namespace EnvDT.ModelTests.Core
         private List<SampleValue> _sampleValues;
         private SampleValue _sampleValue1;
         private SampleValue _sampleValue2;
+        private FinalSValue _finalSValue;
         private Unit _unit;
         private Parameter _parameter;
         private ValuationClass _valuationClass;
@@ -39,6 +40,7 @@ namespace EnvDT.ModelTests.Core
             _labReportPreCheck = new Mock<ILabReportPreCheck>();
             _evalCalcMock = new Mock<IEvalCalc>();
             _publParam = new PublParam();
+            _publParam.IsMandatory = true;
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _refValue = new RefValue();
@@ -76,6 +78,9 @@ namespace EnvDT.ModelTests.Core
             _sampleValue1.SValue = 10.0;
             _sampleValues = new List<SampleValue>();
             _sampleValues.Add(_sampleValue1);
+            _finalSValue = new FinalSValue();
+            _finalSValue.LabReportParamName = "";
+            _finalSValue.SValue = _sampleValue1.SValue;
             _unit = new Unit();
             _unit.UnitName = "mg/kg";
             _parameter = new Parameter();
@@ -96,6 +101,9 @@ namespace EnvDT.ModelTests.Core
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 _sampleValue1.SValue, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(_sampleValue1.SValue);
+            _evalCalcMock.Setup(ec => ec.GetFinalSValue(
+                It.IsAny<EvalArgs>(), It.IsAny<string>(), It.IsAny<List<KeyValuePair<LabReportParam, double>>>()))
+                .Returns(_finalSValue);
 
             // Instantiate class 
             _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object,
@@ -148,28 +156,6 @@ namespace EnvDT.ModelTests.Core
             var missingParamsLengthAfter = evalResult.MissingParams.Length;
 
             Assert.True(missingParamsLengthAfter > missingParamsLengthBefore);
-        }
-
-        [Fact]
-        public void ShouldOutputMaxExceedingSampleValueWhenSampleParamHasTwoSampleValues()
-        {
-            _sampleValue2 = new SampleValue();
-            _sampleValue2.SValue = 20.1;
-            _sampleValues.Add(_sampleValue2);
-
-            _evalCalcMock.Setup(ec => ec.SampleValueConversion(
-                _sampleValue2.SValue, It.IsAny<string>(), It.IsAny<string>()))
-                .Returns(_sampleValue2.SValue);
-            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
-                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
-                .Returns(true);
-
-            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
-                .Returns(_labReportParams);
-            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
-
-            Assert.Contains(_sampleValue2.SValue.ToString(), evalResult.ExceedingValues);
-            Assert.DoesNotContain(_sampleValue1.SValue.ToString(), evalResult.ExceedingValues);
-        }
+        }        
     }
 }

@@ -13,7 +13,8 @@ namespace EnvDT.Model.Core
         private ILabReportPreCheck _labReportPreCheck;
         private IEvalCalc _evalCalc;
         private EvalResult _evalResult;
-        HashSet<PublParam> _missingParams = new HashSet<PublParam>();
+        private HashSet<PublParam> _missingParams = new HashSet<PublParam>();
+        private HashSet<string> _paramNamesForMin = new HashSet<string>();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, IEvalCalc evalCalc)
         {
@@ -31,6 +32,7 @@ namespace EnvDT.Model.Core
         public EvalResult GetEvalResult(EvalArgs evalArgs)
         {
             _missingParams.Clear();
+            _paramNamesForMin.Clear();
             _evalResult = new EvalResult();
             var publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = publication.PublParams;
@@ -40,16 +42,14 @@ namespace EnvDT.Model.Core
             foreach (PublParam publParam in publParams)
             {
                 var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, evalArgs.LabReportId);
-                var labReportParam = new LabReportParam();
 
                 if (labReportParams.Count() == 0)
                 {
-                    _missingParams.Add(publParam);
+                    if (publParam.IsMandatory)
+                    {
+                        _missingParams.Add(publParam);
+                    }                    
                     continue;
-                }
-                else
-                {
-                    labReportParam = labReportParams.First();
                 }
 
                 var refValues = Enumerable.Empty<RefValue>();
@@ -76,7 +76,7 @@ namespace EnvDT.Model.Core
 
                 foreach (RefValue refValue in refValues)
                 {
-                    var exceedingValue = GetExceedingValue(evalArgs.Sample.SampleId, publParam, refValue, labReportParam);
+                    var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
                     if (exceedingValue != null)
                     {
                         exceedingValues.Add(exceedingValue);
@@ -118,31 +118,24 @@ namespace EnvDT.Model.Core
             {
                 var missingParamName = _unitOfWork.Parameters.GetById(missingParam.ParameterId).ParamNameDe;
                 var missingParamUnitName = _unitOfWork.Units.GetById(missingParam.UnitId).UnitName;
-                missingParamsList += missingParamName + " (" + missingParamUnitName + "); ";
+                missingParamsList += $"{missingParamName} ({missingParamUnitName}); ";
+            }
+            var minValueParamsList = "";
+            foreach (string paramNameForMin in _paramNamesForMin)
+            {
+                minValueParamsList += $"{paramNameForMin}; ";
             }
             _evalResult.SampleName = evalArgs.Sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValues = exceedingValueList;
             _evalResult.MissingParams = missingParamsList;
+            _evalResult.MinValueParams = minValueParamsList;
             return _evalResult;
         }
 
-        private ExceedingValue GetExceedingValue(Guid sampleId, PublParam publParam, RefValue refValue, LabReportParam labReportParam)
+        private ExceedingValue GetExceedingValue(
+            EvalArgs evalArgs, PublParam publParam, RefValue refValue, IEnumerable<LabReportParam> labReportParams)
         {
-            var sampleValues = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(sampleId, labReportParam.LabReportParamId);
-            double sampleValue;
-            if (sampleValues.Count() == 0)
-            {
-                _missingParams.Add(publParam);
-                return null;
-            }
-            else
-            {
-                // TO DO: add setting to select if min or max shall be taken
-                sampleValue = sampleValues.Max(row => row.SValue);
-            }
-            var sampleValueUnitName = _unitOfWork.Units.GetById(labReportParam.UnitId).UnitName;
-
             var refVal = refValue.RValue;
             var refValUnitName = _unitOfWork.Units.GetById(publParam.UnitId).UnitName;
             var refValParam = _unitOfWork.Parameters.GetById(publParam.ParameterId);
@@ -151,16 +144,44 @@ namespace EnvDT.Model.Core
             var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
             var refValueValClassLevel = refValueValClass.ValClassLevel;
 
-            sampleValue = _evalCalc.SampleValueConversion(sampleValue, sampleValueUnitName, refValUnitName);
+            var sampleId = evalArgs.Sample.SampleId;
 
-            if (_evalCalc.IsSampleValueExceedingRefValue(sampleValue, refVal, refValParamAnnot))
+            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = new();
+
+            foreach (LabReportParam lrparam in labReportParams)
+            {
+                var sampleValueUnitName = _unitOfWork.Units.GetById(lrparam.UnitId).UnitName;
+                var sValuesFromLrParam = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(
+                                            sampleId, lrparam.LabReportParamId);
+
+                foreach (SampleValue sValueFromLrParam in sValuesFromLrParam)
+                {
+                    var sValueConverted = _evalCalc.SampleValueConversion(sValueFromLrParam.SValue, sampleValueUnitName, refValUnitName);
+                    LrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(lrparam, sValueConverted));
+                }
+            }
+
+            if (LrParamSValuePairs.Count() == 0)
+            {
+                _missingParams.Add(publParam);
+                return null;
+            }
+
+            FinalSValue finalSValue = _evalCalc.GetFinalSValue(evalArgs, refValParamAnnot, LrParamSValuePairs);
+
+            if (finalSValue.LabReportParamName.Length > 0)
+            {
+                _paramNamesForMin.Add(finalSValue.LabReportParamName);
+            }
+
+            if (_evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refVal, refValParamAnnot))
             {
                 return new ExceedingValue()
                 {
                     Level = refValueValClassLevel,
                     ParamName = refValParamNameDe,
-                    Value = sampleValue,
-                    Unit = sampleValueUnitName
+                    Value = finalSValue.SValue,
+                    Unit = refValUnitName
                 };
             }
             return null;

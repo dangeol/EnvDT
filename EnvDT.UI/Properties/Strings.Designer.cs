@@ -791,11 +791,74 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Multi. methods conflicts.
+        /// </summary>
+        public static string SampleDetailView_Label_DiffLrParam {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Label_DiffLrParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Multi. values conflict.
+        /// </summary>
+        public static string SampleDetailView_Label_SameLrParam {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Label_SameLrParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Max. value.
+        /// </summary>
+        public static string SampleDetailView_RadioButton_MaxValue {
+            get {
+                return ResourceManager.GetString("SampleDetailView_RadioButton_MaxValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Min. value.
+        /// </summary>
+        public static string SampleDetailView_RadioButton_MinValue {
+            get {
+                return ResourceManager.GetString("SampleDetailView_RadioButton_MinValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defines which analytical value is selected if multiple values were found for the same parameter using different analytical methods..
+        /// </summary>
+        public static string SampleDetailView_ToolTip_DiffLrParam {
+            get {
+                return ResourceManager.GetString("SampleDetailView_ToolTip_DiffLrParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Defines which analytical value is selected if multiple values were found for the same parameter - e.g. from different fractions of the same sample..
+        /// </summary>
+        public static string SampleDetailView_ToolTip_SameLrParam {
+            get {
+                return ResourceManager.GetString("SampleDetailView_ToolTip_SameLrParam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit samples.
         /// </summary>
         public static string SampleDetailVM_DialogTitle_EditSamples {
             get {
                 return ResourceManager.GetString("SampleDetailVM_DialogTitle_EditSamples", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Taken into account: .
+        /// </summary>
+        public static string SampleDetailVM_Footnote_MinParams {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_Footnote_MinParams", resourceCulture);
             }
         }
         

@@ -186,6 +186,12 @@
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
+		"ParamNameVariantId": "219e4df0-af9e-4433-9297-5c1338716bc9",
+		"ParamNameAlias": "elektrische Leitfähigkeit (n. CO2-Begasung)",
+		"ParameterId": "184a8d1a-2560-4e92-bc9c-d44d76d49b99",
+		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
+	},
+	{
 		"ParamNameVariantId": "4ca227da-2a67-43ff-8d9d-86e979d449b1",
 		"ParamNameAlias": "Cyanide ges.",
 		"ParameterId": "9d8fb566-372d-4c45-adbe-1db7f52f27e4",
@@ -427,7 +433,7 @@
 	},
 	{
 		"ParamNameVariantId": "5bef80a4-8a6a-4308-8b5c-456ba585aabe",
-		"ParamNameAlias": "pH in CaCl2",
+		"ParamNameAlias": "pH-Wert (n. CO2-Begasung)",
 		"ParameterId": "eeabe458-352b-4d66-a8cb-205812516aec",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
@@ -439,7 +445,7 @@
 	},
 	{
 		"ParamNameVariantId": "8b2c82f3-936b-42c8-a797-66c80ce6c9cb",
-		"ParamNameAlias": "pH in CaCl2",
+		"ParamNameAlias": "pH-Wert (n. CO2-Begasung)",
 		"ParameterId": "49287d6a-1473-4863-80c7-c846593c5eb3",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},

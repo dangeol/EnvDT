@@ -104,6 +104,14 @@
     <Page Update="Dialogs\MissingParamDialog.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Styling\Icons\Icons.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Styling\Styles\ToolTip.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Styling\Styles\DataGrid.xaml">
       <SubType>Designer</SubType>
     </Page>

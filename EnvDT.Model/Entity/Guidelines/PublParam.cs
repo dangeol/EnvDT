@@ -7,6 +7,7 @@ namespace EnvDT.Model.Entity
     {
         public Guid PublParamId { get; set; }
         public int Position { get; set; }
+        public bool IsMandatory { get; set; }
         public bool IsConditional { get; set; }
         public double Tolerance { get; set; }
         public Guid PublicationId { get; set; }

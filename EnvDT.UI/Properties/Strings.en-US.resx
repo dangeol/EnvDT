@@ -404,4 +404,25 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="LabReportView_TextBlock_LoadingPopup" xml:space="preserve">
     <value>Import of laboratory report</value>
   </data>
+  <data name="SampleDetailVM_Footnote_MinParams" xml:space="preserve">
+    <value>Taken into account: </value>
+  </data>
+  <data name="SampleDetailView_Label_SameLrParam" xml:space="preserve">
+    <value>Multi. values conflicts</value>
+  </data>
+  <data name="SampleDetailView_Label_DiffLrParam" xml:space="preserve">
+    <value>Multi. methods conflicts</value>
+  </data>
+  <data name="SampleDetailView_RadioButton_MinValue" xml:space="preserve">
+    <value>Min. value</value>
+  </data>
+  <data name="SampleDetailView_RadioButton_MaxValue" xml:space="preserve">
+    <value>Max. value</value>
+  </data>
+  <data name="SampleDetailView_ToolTip_SameLrParam" xml:space="preserve">
+    <value>Defines which analytical value is selected if multiple values were found for the same parameter - e.g. from different fractions of the same sample.</value>
+  </data>
+  <data name="SampleDetailView_ToolTip_DiffLrParam" xml:space="preserve">
+    <value>Defines which analytical value is selected if multiple values were found for the same parameter using different analytical methods.</value>
+  </data>
 </root>

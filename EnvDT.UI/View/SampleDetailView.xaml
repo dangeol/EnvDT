@@ -9,7 +9,7 @@
              loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"
              xmlns:gif="http://wpfanimatedgif.codeplex.com"
              xmlns:view="clr-namespace:EnvDT.UI.View"
-             xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"             
+             xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel" d:DataContext="{d:DesignInstance Type=viewModel:SampleDetailViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
 
   <Grid>
@@ -47,8 +47,32 @@
             </Style>
           </Button.Style>
         </Button>
+        <StackPanel Margin="10">
+          <StackPanel Orientation="Horizontal">
+            <Label Content="{loc:Loc SampleDetailView_Label_SameLrParam}" />
+            <Border Background="Transparent" ToolTip="{loc:Loc SampleDetailView_ToolTip_SameLrParam}">
+              <Viewbox Width="15" Height="15">
+                <ContentControl Content="{StaticResource infoIcon}" />
+              </Viewbox>
+            </Border>
+          </StackPanel>
+          <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MinValue}" IsChecked="True"/>
+          <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MaxValue}" IsChecked="{Binding SelectSameLrParamMaxValue}" />
+        </StackPanel>
+        <StackPanel Margin="10">
+          <StackPanel Orientation="Horizontal">
+            <Label Content="{loc:Loc SampleDetailView_Label_DiffLrParam}" />
+            <Border Background="Transparent" ToolTip="{loc:Loc SampleDetailView_ToolTip_DiffLrParam}">
+              <Viewbox Width="15" Height="15">
+                <ContentControl Content="{StaticResource infoIcon}" />
+              </Viewbox>
+            </Border>
+          </StackPanel>
+          <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MinValue}" IsChecked="True"/>
+          <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MaxValue}" IsChecked="{Binding SelectDiffLrParamMaxValue}" />
+        </StackPanel>
       </StackPanel>
-    </StackPanel>
+    </StackPanel> 
 
     <Image Name="WheelGif" Grid.Row="1"
            Visibility="{Binding IsAnimationVisible,
@@ -72,6 +96,7 @@
       <DataGrid ItemsSource="{Binding EvalResultDataView}"
                 Name="EvalResultsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}" 
+                GridLinesVisibility="All"
                 AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 

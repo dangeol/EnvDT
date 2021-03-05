@@ -43,7 +43,9 @@
     </Menu>
 
     <Grid x:Name="MainContent" Grid.Row="1">
-      <ContentControl Content="{Binding CurrentViewModel}" />
+      <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ContentControl Content="{Binding CurrentViewModel}" />
+      </ScrollViewer>
     </Grid>
   </Grid>
 </Window>

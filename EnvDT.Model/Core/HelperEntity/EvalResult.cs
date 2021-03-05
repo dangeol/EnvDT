@@ -6,5 +6,6 @@
         public string HighestValClassName { get; set; }
         public string ExceedingValues { get; set; }
         public string MissingParams { get; set; }
+        public string MinValueParams { get; set; }
     }
 }

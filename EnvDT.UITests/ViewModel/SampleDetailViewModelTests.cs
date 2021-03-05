@@ -96,6 +96,7 @@ namespace EnvDT.UITests.ViewModel
 
             _evalResult = new EvalResult();
             _evalResult.MissingParams = "";
+            _evalResult.MinValueParams = "";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
                 .Returns(_evalResult);
 
@@ -206,8 +207,9 @@ namespace EnvDT.UITests.ViewModel
 
             await _viewModel.OnEvalExecuteImpl();
 
-            //Currently 2 samples checked
-            Assert.Equal(2, _viewModel.FootnotesDataView.Table.Rows.Count);
+            // Currently 2 samples checked
+            // Only one line, because both times, same MissingParams string
+            Assert.Equal(1, _viewModel.FootnotesDataView.Table.Rows.Count);
         }
     }
 }

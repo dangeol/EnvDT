@@ -10,5 +10,7 @@ namespace EnvDT.Model.Core.HelperEntity
         public Guid PublicationId { get; set; }
         public Guid MediumSubTypeId { get; set; }
         public Guid ConditionId { get; set; }
+        public bool SelectSameLrParamMaxValue { get; set; }
+        public bool SelectDiffLrParamMaxValue { get; set; }
     }
 }

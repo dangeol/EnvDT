@@ -47,7 +47,7 @@ namespace EnvDT.Model.Core
                 foreach (PublParam publParam in publParams)
                 {
                     var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
-                    if (labReportParams.Count() == 0)
+                    if (publParam.IsMandatory && labReportParams.Count() == 0)
                     {
                         var missingParameter = _unitOfWork.LabReportParams.GetLabReportParamNamesByPublParam(publParam, labReportId);
                         if (missingParameter.Count() == 0)
