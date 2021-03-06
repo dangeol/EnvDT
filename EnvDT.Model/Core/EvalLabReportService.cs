@@ -161,17 +161,24 @@ namespace EnvDT.Model.Core
                 }
             }
 
+            FinalSValue finalSValue = new();
+
             if (LrParamSValuePairs.Count() == 0)
             {
                 _missingParams.Add(publParam);
                 return null;
             }
-
-            FinalSValue finalSValue = _evalCalc.GetFinalSValue(evalArgs, refValParamAnnot, LrParamSValuePairs);
-
-            if (finalSValue.LabReportParamName.Length > 0)
+            else if (LrParamSValuePairs.Count() == 0)
             {
-                _paramNamesForMin.Add(finalSValue.LabReportParamName);
+                finalSValue.SValue = LrParamSValuePairs.First().Value;
+            }
+            else 
+            {
+                finalSValue = _evalCalc.GetFinalSValue(evalArgs, refValParamAnnot, LrParamSValuePairs);
+                if (finalSValue.LabReportParamName.Length > 0)
+                {
+                    _paramNamesForMin.Add(finalSValue.LabReportParamName);
+                }
             }
 
             if (_evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refVal, refValParamAnnot))

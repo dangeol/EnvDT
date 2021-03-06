@@ -215,8 +215,8 @@ namespace EnvDT.UITests.ViewModel
 
             Assert.NotNull(_viewModel.Project);
             Assert.Equal(Guid.Empty, _viewModel.Project.ProjectId);
-            Assert.Null(_viewModel.Project.ProjectNumber);
-            Assert.Null(_viewModel.Project.ProjectClient);
+            Assert.Equal("", _viewModel.Project.ProjectNumber);
+            Assert.Equal("", _viewModel.Project.ProjectClient);
             Assert.Equal("", _viewModel.Project.ProjectName);
             Assert.Null(_viewModel.Project.ProjectAddress);
 

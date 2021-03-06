@@ -132,12 +132,6 @@
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
-		"ParamNameVariantId": "56786a41-fae6-48a3-9ca3-80b5c27f5a80",
-		"ParamNameAlias": "Nickel (Ni)",
-		"ParameterId": "357eec92-a175-42d2-97e5-0bf36af34fe4",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
 		"ParamNameVariantId": "5a5608ba-f063-4f53-8c7b-99ed718dccb2",
 		"ParamNameAlias": "Quecksilber (Hg)",
 		"ParameterId": "eef34ebb-4fcf-495b-a64b-b72848cd881f",
@@ -288,57 +282,15 @@
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
-		"ParamNameVariantId": "382161aa-2f83-402c-9b63-c7bbb4ef35c4",
-		"ParamNameAlias": "Antimon (Sb)",
-		"ParameterId": "712fb2e6-f1d7-4272-8990-e941aee52272",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "cbf59d6c-c266-4f6a-bf3f-605b731ac3e1",
-		"ParamNameAlias": "Arsen (As)",
-		"ParameterId": "e71095e6-8be3-47bb-82a1-004019e8f7a1",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "89a4d7d6-4800-4282-8a09-0c5a8d4871c1",
-		"ParamNameAlias": "Barium (Ba)",
-		"ParameterId": "196634aa-dfe4-4e15-9c51-95f8bdd003cc",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
 		"ParamNameVariantId": "0cc7ee32-0ab3-4c22-8e17-1d8ca8876033",
 		"ParamNameAlias": "Benzo[a]pyren",
 		"ParameterId": "7a7d9e70-7484-4529-85df-dfccec111731",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
-		"ParamNameVariantId": "6aaea9d1-f321-42b7-8197-e3f5c6651dd3",
-		"ParamNameAlias": "Blei (Pb)",
-		"ParameterId": "1aa085d0-423b-402d-bfe6-662aae6f60cb",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
 		"ParamNameVariantId": "186ecc9c-85cd-4278-9fdb-5216c8649d28",
 		"ParamNameAlias": "Summe BTEX",
 		"ParameterId": "eee4ed4f-0116-4453-99b4-aad31e6b21e0",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "f6125554-1961-4647-9bbe-7f43beef4036",
-		"ParamNameAlias": "Cadmium (Cd)",
-		"ParameterId": "6517ed08-1e14-4445-add3-3aa313bfe962",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "204a6fb1-5108-47c3-bc12-4d4ab5f2aef0",
-		"ParamNameAlias": "Chlorid (Cl)",
-		"ParameterId": "fd2929d5-58e1-4305-9ef7-a4612d6ec379",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "dbc71702-5b5a-4ae4-a323-3ce3cee33746",
-		"ParamNameAlias": "Chrom (Cr)",
-		"ParameterId": "8d9e46c1-dcbc-40d9-8b80-440b9f104486",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
@@ -378,12 +330,6 @@
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
-		"ParamNameVariantId": "619cef14-a237-4cad-b445-7d6968e3bc2d",
-		"ParamNameAlias": "Kupfer (Cu)",
-		"ParameterId": "b98699fb-df9d-4ff6-9202-24d27530b6fd",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
 		"ParamNameVariantId": "72c8aba1-618c-4f0d-8864-7e83ad165d0e",
 		"ParamNameAlias": "Summe LHKW (10 Parameter)",
 		"ParameterId": "16eb58c7-5df6-4070-8cc9-4ca7988cc5eb",
@@ -399,12 +345,6 @@
 		"ParamNameVariantId": "daab04d4-812e-4760-a9e9-507b5de5d00c",
 		"ParamNameAlias": "Schwerflüchtige lipophile Stoffe",
 		"ParameterId": "e36b044b-5265-4ee2-87dd-c5deb0cd048b",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "ed608957-8380-48b4-8068-37b00cbcd247",
-		"ParamNameAlias": "Molybdän (Mo)",
-		"ParameterId": "bf2827a7-9b58-49ce-997b-8c9d5851b4d0",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{
@@ -457,38 +397,8 @@
 	},
 	{
 		"ParamNameVariantId": "360e82bc-4c92-4bbd-b5de-a4d99def9207",
-		"ParamNameAlias": "Phenolindex, wasserdampfflüchtig ",
+		"ParamNameAlias": "Phenolindex, wasserdampfflüchtig",
 		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "3ddddea5-5671-4d17-9447-79e26edde394",
-		"ParamNameAlias": "Quecksilber (Hg)",
-		"ParameterId": "eef34ebb-4fcf-495b-a64b-b72848cd881f",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "a486a78b-751a-4d5d-b42a-11b25782847a",
-		"ParamNameAlias": "Selen (Se)",
-		"ParameterId": "a64f9340-9d8f-4bf3-878e-b857095e5b54",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "e842a60a-26d3-467a-9059-a721010617ba",
-		"ParamNameAlias": "Sulfat (SO4)",
-		"ParameterId": "fc25a292-f7c3-45aa-9434-573cf85a245c",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "a6b3eb72-7d28-4aed-ae59-827e5a3a6059",
-		"ParamNameAlias": "Thallium (Tl)",
-		"ParameterId": "02059352-ea6b-4ad6-9a54-74124641b8ee",
-		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
-	},
-	{
-		"ParamNameVariantId": "cd65f465-3be0-447b-ab0c-4c5beff636a8",
-		"ParamNameAlias": "Zink (Zn)",
-		"ParameterId": "80622228-e555-47f4-95da-35b3137619ce",
 		"LanguageId": "8cda8403-a9bc-4409-a63b-19d0c33c1c4d"
 	},
 	{

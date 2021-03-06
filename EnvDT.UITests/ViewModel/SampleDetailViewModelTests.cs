@@ -211,5 +211,19 @@ namespace EnvDT.UITests.ViewModel
             // Only one line, because both times, same MissingParams string
             Assert.Equal(1, _viewModel.FootnotesDataView.Table.Rows.Count);
         }
+
+        [Fact]
+        public async Task ShouldShowMinValueParamsInFootnotesWhenNecessary()
+        {
+            _evalResult.MinValueParams = "MinValueParams";
+
+            _viewModel.Load(_labReportId);
+            _viewModel.SampleDataView.Table.Rows[1][1] = true;
+            _viewModel.SampleDataView.Table.Rows[1][2] = true;
+
+            await _viewModel.OnEvalExecuteImpl();
+
+            Assert.Equal(1, _viewModel.FootnotesDataView.Table.Rows.Count);
+        }
     }
 }
