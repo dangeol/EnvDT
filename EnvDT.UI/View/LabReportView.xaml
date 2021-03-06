@@ -12,7 +12,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="200"/>
+      <RowDefinition Height="400"/>
     </Grid.RowDefinitions>
 
     <DockPanel Margin="20 20 20 20">

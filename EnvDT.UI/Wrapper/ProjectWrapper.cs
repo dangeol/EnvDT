@@ -44,10 +44,22 @@ namespace EnvDT.UI.Wrapper
             ClearErrors(propertyName);
             switch (propertyName)
             {
+                case nameof(ProjectNumber):
+                    if (string.Equals(ProjectNumber, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
+                case nameof(ProjectClient):
+                    if (string.Equals(ProjectClient, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
                 case nameof(ProjectName):
                     if (string.Equals(ProjectName, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.ProjectWrapper_TextBlock_ProjectName"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
             }

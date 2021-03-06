@@ -274,27 +274,6 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   <data name="SampleDetailVM_GridHeader_Sample" xml:space="preserve">
     <value>Sample</value>
   </data>
-  <data name="MissingParamNameWrapper_TextBlock_ParamNameAlias" xml:space="preserve">
-    <value>Parameter Name Alias must be chosen.</value>
-  </data>
-  <data name="MissingParamNameWrapper_TextBlock_Language" xml:space="preserve">
-    <value>Language must be chosen.</value>
-  </data>
-  <data name="MissingUnitNameWrapper_TextBlock_UnitName" xml:space="preserve">
-    <value>Unit Name Alias must be chosen.</value>
-  </data>
-  <data name="ProjectWrapper_TextBlock_ProjectName" xml:space="preserve">
-    <value>Project Name cannot be empty.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_SampleName" xml:space="preserve">
-    <value>Sample Name cannot be empty.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_MediumSubTypeId" xml:space="preserve">
-    <value>Sub type must be chosen.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_ConditionId" xml:space="preserve">
-    <value>Condition must be chosen.</value>
-  </data>
   <data name="MissingParamDialog_GridHeader_Parameter" xml:space="preserve">
     <value>Parameter</value>
   </data>

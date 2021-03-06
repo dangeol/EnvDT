@@ -59,7 +59,7 @@ namespace EnvDT.UI.Wrapper
                 case nameof(UnitNameAlias):
                     if (string.Equals(UnitNameAlias, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.MissingUnitNameWrapper_TextBlock_UnitName"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
             }

@@ -78,6 +78,8 @@ namespace EnvDT.UI.ViewModel
             if (projectId == null)
             {
                 // Trigger the validation
+                Project.ProjectNumber = "";
+                Project.ProjectClient = "";
                 Project.ProjectName = "";
             }
         }

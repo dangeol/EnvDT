@@ -255,27 +255,6 @@ aus der Dropdown-Liste aus.</value>
   <data name="SampleDetailVM_GridHeader_Sample" xml:space="preserve">
     <value>Probe</value>
   </data>
-  <data name="MissingParamNameWrapper_TextBlock_ParamNameAlias" xml:space="preserve">
-    <value>Parameternamen-Alias muss ausgewählt werden.</value>
-  </data>
-  <data name="MissingParamNameWrapper_TextBlock_Language" xml:space="preserve">
-    <value>Sprache muss ausgewählt werden.</value>
-  </data>
-  <data name="MissingUnitNameWrapper_TextBlock_UnitName" xml:space="preserve">
-    <value>Einheitennamen-Alias muss ausgewählt werden.</value>
-  </data>
-  <data name="ProjectWrapper_TextBlock_ProjectName" xml:space="preserve">
-    <value>Projektbezeichnung muss angegeben werden.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_SampleName" xml:space="preserve">
-    <value>Probenbezeichnung muss angegeben werden.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_MediumSubTypeId" xml:space="preserve">
-    <value>Materialunterkategorie muss angegeben werden.</value>
-  </data>
-  <data name="SampleWrapper_TextBlock_ConditionId" xml:space="preserve">
-    <value>Bedingung muss angegeben werden.</value>
-  </data>
   <data name="MissingParamDialog_GridHeader_Parameter" xml:space="preserve">
     <value>Parameter</value>
   </data>

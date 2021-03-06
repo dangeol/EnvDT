@@ -82,19 +82,19 @@ namespace EnvDT.UI.Wrapper
                 case nameof(SampleName):
                     if (string.Equals(SampleName, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_SampleName"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
                 case nameof(MediumSubTypeId):
                     if (Guid.Equals(MediumSubTypeId, Guid.Empty))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_MediumSubTypeId"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
                 case nameof(ConditionId):
                     if (Guid.Equals(ConditionId, Guid.Empty))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.SampleWrapper_TextBlock_ConditionId"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
             }

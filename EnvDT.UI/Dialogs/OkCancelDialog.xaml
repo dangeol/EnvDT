@@ -7,12 +7,12 @@
         xmlns:resx="clr-namespace:EnvDT.UI.Properties"
         xmlns:loc="clr-namespace:EnvDT.UI.Settings.Localization"
         loc:Translation.ResourceManager="{x:Static resx:Strings.ResourceManager}"        
-        Background="#DDDDDD"
         FontSize="10.0"
         WindowStartupLocation="CenterOwner"
         WindowStyle="ToolWindow"
         ShowInTaskbar="False"
         ResizeMode="NoResize" MinWidth="300" SizeToContent="WidthAndHeight">
+  
     <Border BorderBrush="White" BorderThickness="2">
         <Grid>
             <Grid.RowDefinitions>

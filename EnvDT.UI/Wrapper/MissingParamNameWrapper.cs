@@ -87,13 +87,13 @@ namespace EnvDT.UI.Wrapper
                 case nameof(ParamNameAlias):
                     if (string.Equals(ParamNameAlias, "", StringComparison.OrdinalIgnoreCase))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.MissingParamNameWrapper_TextBlock_ParamNameAlias"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
                 case nameof(LanguageId):
                     if (Guid.Equals(LanguageId, Guid.Empty))
                     {
-                        yield return Translator["EnvDT.UI.Properties.Strings.MissingParamNameWrapper_TextBlock_Language"];
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }
                     break;
             }

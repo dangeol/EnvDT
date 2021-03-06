@@ -584,33 +584,6 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Language must be chosen..
-        /// </summary>
-        public static string MissingParamNameWrapper_TextBlock_Language {
-            get {
-                return ResourceManager.GetString("MissingParamNameWrapper_TextBlock_Language", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parameter Name Alias must be chosen..
-        /// </summary>
-        public static string MissingParamNameWrapper_TextBlock_ParamNameAlias {
-            get {
-                return ResourceManager.GetString("MissingParamNameWrapper_TextBlock_ParamNameAlias", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unit Name Alias must be chosen..
-        /// </summary>
-        public static string MissingUnitNameWrapper_TextBlock_UnitName {
-            get {
-                return ResourceManager.GetString("MissingUnitNameWrapper_TextBlock_UnitName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Project address.
         /// </summary>
         public static string ProjectDetailView_Label_ProjectAddress {
@@ -697,15 +670,6 @@ namespace EnvDT.UI.Properties {
         public static string ProjectView_Label_ProjectSelection {
             get {
                 return ResourceManager.GetString("ProjectView_Label_ProjectSelection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Project Name cannot be empty..
-        /// </summary>
-        public static string ProjectWrapper_TextBlock_ProjectName {
-            get {
-                return ResourceManager.GetString("ProjectWrapper_TextBlock_ProjectName", resourceCulture);
             }
         }
         
@@ -877,33 +841,6 @@ namespace EnvDT.UI.Properties {
         public static string SampleDetailVM_GridHeader_Sample {
             get {
                 return ResourceManager.GetString("SampleDetailVM_GridHeader_Sample", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Condition must be chosen..
-        /// </summary>
-        public static string SampleWrapper_TextBlock_ConditionId {
-            get {
-                return ResourceManager.GetString("SampleWrapper_TextBlock_ConditionId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sub type must be chosen..
-        /// </summary>
-        public static string SampleWrapper_TextBlock_MediumSubTypeId {
-            get {
-                return ResourceManager.GetString("SampleWrapper_TextBlock_MediumSubTypeId", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Sample Name cannot be empty..
-        /// </summary>
-        public static string SampleWrapper_TextBlock_SampleName {
-            get {
-                return ResourceManager.GetString("SampleWrapper_TextBlock_SampleName", resourceCulture);
             }
         }
         

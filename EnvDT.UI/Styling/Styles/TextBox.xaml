@@ -9,17 +9,25 @@
     <Setter Property="Validation.ErrorTemplate">
       <Setter.Value>
         <ControlTemplate>
-          <StackPanel>
-            <AdornedElementPlaceholder x:Name="placeholder" />
-            <TextBlock FontSize="10"
-                       Foreground="Red"
-                       Text="{Binding ElementName=placeholder,
-                              Path=AdornedElement.(Validation.Errors)[0].ErrorContent}" />
-          </StackPanel>
+          <DockPanel LastChildFill="True">
+            <Border BorderBrush="OrangeRed" BorderThickness="1">
+              <AdornedElementPlaceholder>
+                <Border HorizontalAlignment="Right"  BorderBrush="OrangeRed"  
+                        Width="15" Height="15" Margin="5" Background="OrangeRed" 
+                        CornerRadius="5" DockPanel.Dock="Right">
+                  <TextBlock Text="!"  VerticalAlignment="Center" HorizontalAlignment="Center" 
+                             Foreground="White" FontSize="15"></TextBlock>
+                </Border>
+              </AdornedElementPlaceholder>
+            </Border>
+          </DockPanel>
         </ControlTemplate>
       </Setter.Value>
     </Setter>
     <Style.Triggers>
+      <Trigger Property="IsFocused" Value="True">
+        <Setter Property="Background" Value="#f7f7f7"/>
+      </Trigger>
       <Trigger Property="Validation.HasError" Value="True">
         <Setter Property="Background" Value="#ffd4d4" />
         <Setter Property="ToolTip"

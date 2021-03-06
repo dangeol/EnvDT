@@ -13,20 +13,19 @@
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto"/>
-      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
-    <Label Content="{loc:Loc ProjectView_Label_ProjectSelection}" Margin="10 0"/>
-    <StackPanel Grid.Row="1" Orientation="Horizontal">
-      <ComboBox Width="400" IsEditable="True" Margin="20 0 10 10"
+    <StackPanel Orientation="Horizontal" Margin="0 10 0 0">
+      <Label Content="{loc:Loc ProjectView_Label_ProjectSelection}" Width="180" Margin="10 0" />
+      <ComboBox Width="300" IsEditable="True" Margin="5 5 10 5"
                 ItemsSource="{Binding Projects}"
                 DisplayMemberPath="DisplayMember"
                 SelectedItem="{Binding SelectedItem}"/>
 
-      <Button Content="{loc:Loc ProjectView_Button_AddProject}" Margin="10 0 10 10"
+      <Button Content="{loc:Loc ProjectView_Button_AddProject}" Margin="10 0"
               Command="{Binding CreateNewDetailCommand}"
-              CommandParameter="{x:Type viewModel:ProjectDetailViewModel}"/>
+              CommandParameter="{x:Type viewModel:ProjectDetailViewModel}" />
     </StackPanel>
 
     <StackPanel Grid.Row="2" Orientation="Vertical" IsEnabled="{Binding IsDetailViewEnabled}">
