@@ -308,6 +308,8 @@ namespace EnvDT.UI.ViewModel
                             dr["Key"] = $"[{refIndex}]";
                             dr["Value"] = publRef;
                             _selectedPublsTable.Rows.Add(dr);
+
+                            refIndex++;
                         }
 
                         IsCheckBoxInColTrue = true;
@@ -331,9 +333,7 @@ namespace EnvDT.UI.ViewModel
                             needsSampleEditDialog = true;
                             //Trigger validation
                             sampleWrapper.ConditionId = Guid.Empty;
-                        }
-
-                        refIndex++;
+                        }                       
                     }
                     r++;
                 }

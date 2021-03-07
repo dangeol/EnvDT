@@ -20,10 +20,11 @@
 
     <StackPanel Orientation="Vertical">
       <DataGrid ItemsSource="{Binding SampleDataView,Mode=TwoWay}"
-                SelectionUnit="CellOrRowHeader" SelectionMode="Single"
+                SelectionUnit="CellOrRowHeader" SelectionMode="Single"                
                 CellStyle="{StaticResource DataGridDirectEditingStyle}"
                 DataGridCell.Selected="DataGrid_Selected"
-                CanUserAddRows="False" AutoGenerateColumns="True"             
+                CanUserAddRows="False" AutoGenerateColumns="True"   
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                 RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
@@ -85,7 +86,7 @@
                 Converter={StaticResource booleanToVisibilityConverter}}">
 
       <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
-                AutoGeneratingColumn="dataGrid_AutoGeneratingColumn"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                 Name="SelectedPublsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True" BorderThickness="0"
@@ -101,7 +102,7 @@
       </DataGrid>
 
       <DataGrid ItemsSource="{Binding FootnotesDataView}"
-                AutoGeneratingColumn="dataGrid_AutoGeneratingColumn"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
                 Name="FootnotesDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True"  BorderThickness="0"

@@ -30,4 +30,23 @@
     </Style.Triggers>
   </Style>
 
+  <Style x:Key="ColumnHeaderRotateStyle" TargetType="DataGridColumnHeader">
+    <Setter Property="ContentTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <Grid MaxWidth="50" Height="38">
+            <Grid.LayoutTransform>
+              <RotateTransform Angle="270" />
+            </Grid.LayoutTransform>
+            <TextBlock 
+              TextWrapping="WrapWithOverflow"
+              Text="{Binding}" />
+          </Grid>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Setter Property="HorizontalContentAlignment" Value="Center" />
+    <Setter Property="VerticalContentAlignment" Value="Bottom" />
+  </Style>
+
 </ResourceDictionary>

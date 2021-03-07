@@ -13,11 +13,12 @@ namespace EnvDT.UI.View
             InitializeComponent();
         }
 
-        private void dataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (e.Column.Header.ToString() == "Key")
+            if (!e.Column.Header.ToString().Equals("Sample") &&
+                !e.Column.Header.ToString().Equals("Probe"))
             {
-                e.Column.MaxWidth = 15;
+                e.Column.HeaderStyle = Application.Current.FindResource("ColumnHeaderRotateStyle") as Style;
             }
         }
 
