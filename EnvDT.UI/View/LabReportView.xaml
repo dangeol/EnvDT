@@ -58,7 +58,7 @@
       <DataGrid ItemsSource="{Binding LabReports}" 
                 SelectedItem="{Binding SelectedLabReport}"
                 IsReadOnly="True" AutoGenerateColumns="False" RowHeaderWidth="0"
-                HorizontalAlignment="Left" 
+                HorizontalAlignment="Left" SelectionMode="Single"
                 ScrollViewer.CanContentScroll="True"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
         

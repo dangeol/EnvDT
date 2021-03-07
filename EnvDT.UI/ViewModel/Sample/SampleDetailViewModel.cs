@@ -241,6 +241,7 @@ namespace EnvDT.UI.ViewModel
                 {
                     if (LabReportPreCheckSuccess())
                     {
+                        Samples = UnitOfWork.Samples.GetSamplesByLabReportId(_labReportId);
                         BuildEvalResultDataView();
                     }
                 }).ConfigureAwait(true);

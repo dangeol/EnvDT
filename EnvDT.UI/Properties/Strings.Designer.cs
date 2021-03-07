@@ -575,7 +575,8 @@ namespace EnvDT.UI.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to Some parameters could not be automatically identified. Please select 
-        ///for each item a corresponding parameter name from the dropdown menu..
+        ///for each item a corresponding parameter name from the dropdown menu.
+        ///If there is no corresponding parameter name or in the case of doubt, please select [N/A]..
         /// </summary>
         public static string MissingParamDialog_TextBlock_SelectParams {
             get {
@@ -841,6 +842,33 @@ namespace EnvDT.UI.Properties {
         public static string SampleDetailVM_GridHeader_Sample {
             get {
                 return ResourceManager.GetString("SampleDetailVM_GridHeader_Sample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Condition.
+        /// </summary>
+        public static string SampleEditDialog_GridHeader_Condition {
+            get {
+                return ResourceManager.GetString("SampleEditDialog_GridHeader_Condition", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sample.
+        /// </summary>
+        public static string SampleEditDialog_GridHeader_Sample {
+            get {
+                return ResourceManager.GetString("SampleEditDialog_GridHeader_Sample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the samples:.
+        /// </summary>
+        public static string SampleEditDialog_Label_EditSamples {
+            get {
+                return ResourceManager.GetString("SampleEditDialog_Label_EditSamples", resourceCulture);
             }
         }
         

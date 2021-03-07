@@ -216,7 +216,8 @@
   </data>
   <data name="MissingParamDialog_TextBlock_SelectParams" xml:space="preserve">
     <value>Some parameters could not be automatically identified. Please select 
-for each item a corresponding parameter name from the dropdown menu.</value>
+for each item a corresponding parameter name from the dropdown menu.
+If there is no corresponding parameter name or in the case of doubt, please select [N/A].</value>
   </data>
   <data name="MissingParamDialog_Label_MissingParams" xml:space="preserve">
     <value>Missing parameters:</value>
@@ -403,5 +404,14 @@ for each item a corresponding parameter name from the dropdown menu.</value>
   </data>
   <data name="SampleDetailView_ToolTip_DiffLrParam" xml:space="preserve">
     <value>Defines which analytical value is selected if multiple values were found for the same parameter using different analytical methods.</value>
+  </data>
+  <data name="SampleEditDialog_Label_EditSamples" xml:space="preserve">
+    <value>Edit the samples:</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_Sample" xml:space="preserve">
+    <value>Sample</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_Condition" xml:space="preserve">
+    <value>Condition</value>
   </data>
 </root>

@@ -24,12 +24,12 @@
       </Grid.RowDefinitions>
 
       <StackPanel Orientation="Vertical">
-        <Label Content="Edit the samples:" 
+        <Label Content="{loc:Loc SampleEditDialog_Label_EditSamples}" 
              HorizontalAlignment="Left" Margin="10 0 10 0"/>
         <DataGrid ItemsSource="{Binding Samples}" 
                   AutoGenerateColumns="False" Margin="10">
           <DataGrid.Columns>
-            <DataGridTextColumn Header="Sample" MinWidth="180" IsReadOnly="True"
+            <DataGridTextColumn Header="{loc:Loc SampleEditDialog_GridHeader_Sample}" MinWidth="180" IsReadOnly="True"
               Binding="{Binding SampleName}"/>
             <DataGridTemplateColumn Header="Medium sub-type" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
@@ -42,7 +42,7 @@
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTemplateColumn Header="Condition" MinWidth="180">
+            <DataGridTemplateColumn Header="{loc:Loc SampleEditDialog_GridHeader_Condition}" MinWidth="180">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <ComboBox SelectedValue="{Binding Path=ConditionId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"

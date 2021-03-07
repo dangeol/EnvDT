@@ -114,6 +114,7 @@ namespace EnvDT.UI.ViewModel
             SetValues();
             UnitOfWork.Save();
             HasChanges = UnitOfWork.Samples.HasChanges();
+            // add here event???
         }
        
         private void SetValues()

@@ -216,8 +216,8 @@
   </data>
   <data name="MissingParamDialog_TextBlock_SelectParams" xml:space="preserve">
     <value>Einige Parameter konnten nicht automatisch identifiziert werden.
-Bitte wählen Sie für jeden fehlenden Parameter den passenden Parameternamen 
-aus der Dropdown-Liste aus.</value>
+Bitte wählen Sie für jeden fehlenden Parameter den passenden Parameternamen aus der Dropdown-Liste aus.
+Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn Zweifel besteht, wählen Sie bitte [N/A].</value>
   </data>
   <data name="MissingParamDialog_Label_MissingParams" xml:space="preserve">
     <value>Fehlende Parameter:</value>
@@ -404,5 +404,14 @@ aus der Dropdown-Liste aus.</value>
   </data>
   <data name="SampleDetailView_ToolTip_DiffLrParam" xml:space="preserve">
     <value>Legt fest, welcher Analysewert gewählt wird, wenn für einen Parameter mehrere Werte mit verschiedenen Analysemethoden gefunden wurden.</value>
+  </data>
+  <data name="SampleEditDialog_Label_EditSamples" xml:space="preserve">
+    <value>Bearbeitung der Proben:</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_Condition" xml:space="preserve">
+    <value>Bedingung</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_Sample" xml:space="preserve">
+    <value>Probe</value>
   </data>
 </root>
