@@ -15,6 +15,7 @@ namespace EnvDT.ModelTests.Core
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<ILabReportPreCheck> _labReportPreCheck;
         private Mock<IEvalCalc> _evalCalcMock;
+        private Mock<IFootnotes> _footnotesMock;
         private Sample _sample;
         private Publication _publication;
         private PublParam _publParam;
@@ -23,7 +24,6 @@ namespace EnvDT.ModelTests.Core
         private List<RefValue> _refValues;
         private EvalArgs _evalArgs;
 
-        private List<SampleValue> _sampleValues;
         private SampleValue _sampleValue1;
         private SampleValue _sampleValue2;
         private FinalSValue _finalSValue;
@@ -33,14 +33,17 @@ namespace EnvDT.ModelTests.Core
         private string _nextLevelName = "NextLevelName";
         private List<LabReportParam> _labReportParams;
         private LabReportParam _labReportParam;
+        private List<KeyValuePair<LabReportParam, double>> _lrParamSValuePairs;
 
         public EvalLabReportServiceTests()
         {
             _unitOfWorkMock = new Mock<IUnitOfWork>();
             _labReportPreCheck = new Mock<ILabReportPreCheck>();
             _evalCalcMock = new Mock<IEvalCalc>();
+            _footnotesMock = new Mock<IFootnotes>();
             _publParam = new PublParam();
             _publParam.IsMandatory = true;
+            _publParam.FootnoteId = "";
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _refValue = new RefValue();
@@ -76,8 +79,8 @@ namespace EnvDT.ModelTests.Core
             // GetExceedingValue method
             _sampleValue1 = new SampleValue();
             _sampleValue1.SValue = 10.0;
-            _sampleValues = new List<SampleValue>();
-            _sampleValues.Add(_sampleValue1);
+            _lrParamSValuePairs = new List<KeyValuePair<LabReportParam, double>>();
+            _lrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(_labReportParam, _sampleValue1.SValue));
             _finalSValue = new FinalSValue();
             _finalSValue.LabReportParamName = "";
             _finalSValue.SValue = _sampleValue1.SValue;
@@ -88,9 +91,6 @@ namespace EnvDT.ModelTests.Core
             _valuationClass.ValClassLevel = 1;
             _valuationClass.ValuationClassName = "LevelName";
 
-            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(
-                It.IsAny<Guid>(), It.IsAny<Guid>()))
-                .Returns(_sampleValues);
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))
                 .Returns(_unit);
             _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(It.IsAny<Guid>()))
@@ -101,13 +101,16 @@ namespace EnvDT.ModelTests.Core
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 _sampleValue1.SValue, It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(_sampleValue1.SValue);
+            _evalCalcMock.Setup(ec => ec.GetLrParamSValuePairs(
+                It.IsAny<IEnumerable<LabReportParam>>(), It.IsAny<Guid>(), It.IsAny<string>()))
+                .Returns(_lrParamSValuePairs);
             _evalCalcMock.Setup(ec => ec.GetFinalSValue(
                 It.IsAny<EvalArgs>(), It.IsAny<string>(), It.IsAny<List<KeyValuePair<LabReportParam, double>>>()))
                 .Returns(_finalSValue);
 
             // Instantiate class 
             _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object,
-                _labReportPreCheck.Object, _evalCalcMock.Object);
+                _labReportPreCheck.Object, _evalCalcMock.Object, _footnotesMock.Object);
         }
 
         [Theory]
@@ -151,7 +154,7 @@ namespace EnvDT.ModelTests.Core
             var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
             var missingParamsLengthBefore = evalResult.MissingParams.Length;
 
-            _sampleValues.Clear();
+            _lrParamSValuePairs.Clear();
             evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
             var missingParamsLengthAfter = evalResult.MissingParams.Length;
 

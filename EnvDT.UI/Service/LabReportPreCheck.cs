@@ -1,4 +1,5 @@
-﻿using EnvDT.Model.Entity;
+﻿using EnvDT.Model.Core.HelperEntity;
+using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Settings.Localization;
@@ -17,21 +18,20 @@ namespace EnvDT.Model.Core
         private HashSet<Guid> _missingUnitIds;
         private Func<IMissingParamDialogViewModel> _missingParamDialogVmCreator;
         private TranslationSource _translator = TranslationSource.Instance;
-        private IDispatcher _dispatcher;
+        private readonly IDispatcher _dispatcher;
+        private IFootnotes _footnotes;
 
         public LabReportPreCheck(IUnitOfWork unitOfWork, IMessageDialogService messageDialogService,
-            Func<IMissingParamDialogViewModel> missingParamDetailVmCreator, IDispatcher dispatcher)
+            Func<IMissingParamDialogViewModel> missingParamDetailVmCreator, IDispatcher dispatcher,
+            IFootnotes countrySpecific)
         {
             _unitOfWork = unitOfWork;
             _messageDialogService = messageDialogService;
             _missingParamIds = new HashSet<Guid>();
             _missingUnitIds = new HashSet<Guid>();
             _missingParamDialogVmCreator = missingParamDetailVmCreator;
-            if (dispatcher == null)
-            {
-                throw new ArgumentNullException(nameof(dispatcher));
-            }
-            _dispatcher = dispatcher;
+            _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
+            _footnotes = countrySpecific;
         }
 
         public bool FindMissingParametersUnits(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
@@ -47,10 +47,20 @@ namespace EnvDT.Model.Core
                 foreach (PublParam publParam in publParams)
                 {
                     var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
-                    if (publParam.IsMandatory && labReportParams.Count() == 0)
+                    var isParamReallyMissing = true;
+                    // If footnote existing, checking if condition is met that makes this param mandatory ("really missing")
+                    if (publParam.FootnoteId.Length > 0)
+                    {
+                        var footnoteRef = $"{publication.Abbreviation}_{publParam.FootnoteId}";
+                        EvalArgs evalArgs = new();
+                        evalArgs.LabReportId = labReportId;
+                        isParamReallyMissing = _footnotes.IsFootnoteCondTrue(evalArgs, 0, footnoteRef).Result;
+                    }
+
+                    if (publParam.IsMandatory && !labReportParams.Any() && isParamReallyMissing)
                     {
                         var missingParameter = _unitOfWork.LabReportParams.GetLabReportParamNamesByPublParam(publParam, labReportId);
-                        if (missingParameter.Count() == 0)
+                        if (!labReportParams.Any())
                         {
                             _missingParamIds.Add(publParam.ParameterId);
                         }

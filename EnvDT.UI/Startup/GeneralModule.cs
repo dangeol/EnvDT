@@ -35,6 +35,7 @@ namespace EnvDT.UI.Startup
             builder.RegisterType<ReadFileHelper>().As<IReadFileHelper>();
             builder.RegisterType<ExcelXmlReader>().As<IExcelXmlReader>();
             builder.RegisterType<DispatcherWrapper>().As<IDispatcher>();
+            builder.RegisterType<Footnotes>().As<IFootnotes>();
         }
 	}
 }

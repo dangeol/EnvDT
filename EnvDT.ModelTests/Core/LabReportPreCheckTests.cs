@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Core;
+using EnvDT.Model.Core.HelperEntity;
 using EnvDT.Model.Entity;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
@@ -8,8 +9,6 @@ using Moq;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Windows;
-using System.Windows.Threading;
 using Xunit;
 
 namespace EnvDT.ModelTests.Core
@@ -21,6 +20,8 @@ namespace EnvDT.ModelTests.Core
         private Mock<IMessageDialogService> _messageDialogServiceMock;
         private Mock<IMissingParamDialogViewModel> _missingParamDetailViewModelMock;
         private Mock<IDispatcher> _dispatcherMock;
+        private Mock<IFootnotes> _footnotesMock;
+        private FootnoteResult _footnoteResult;
         private Publication _publication;
         private PublParam _publParam;
         private List<PublParam> _publParams;
@@ -41,9 +42,15 @@ namespace EnvDT.ModelTests.Core
             _dispatcherMock = new Mock<IDispatcher>();
             _dispatcherMock.Setup(x => x.Invoke(It.IsAny<Action>()))
                 .Callback((Action a) => a());
+            _footnoteResult = new FootnoteResult();
+            _footnoteResult.Result = true;
+            _footnotesMock = new Mock<IFootnotes>();
+            _footnotesMock.Setup(fn => fn.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(_footnoteResult);
             _publParam = new PublParam();
             _publParam.ParameterId = new Guid("019df8e5-0042-4e0a-b5b3-93686a81de6b");
             _publParam.IsMandatory = true;
+            _publParam.FootnoteId = "";
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _publication = new Publication();
@@ -66,7 +73,7 @@ namespace EnvDT.ModelTests.Core
 
             _labReportPreCheck = new LabReportPreCheck(_unitOfWorkMock.Object, 
                 _messageDialogServiceMock.Object, CreateMissingParamDetailViewModel,
-                _dispatcherMock.Object);
+                _dispatcherMock.Object, _footnotesMock.Object);
         }
 
         private IMissingParamDialogViewModel CreateMissingParamDetailViewModel()

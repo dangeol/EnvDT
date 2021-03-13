@@ -12,15 +12,19 @@ namespace EnvDT.Model.Core
         private IUnitOfWork _unitOfWork;
         private ILabReportPreCheck _labReportPreCheck;
         private IEvalCalc _evalCalc;
+        private IFootnotes _footnotes;
         private EvalResult _evalResult;
+        private Publication _publication;
         private HashSet<PublParam> _missingParams = new HashSet<PublParam>();
         private HashSet<string> _paramNamesForMin = new HashSet<string>();
 
-        public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, IEvalCalc evalCalc)
+        public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, 
+            IEvalCalc evalCalc, IFootnotes footnotes)
         {
             _unitOfWork = unitOfWork;
             _labReportPreCheck = labReportPreCheck;
             _evalCalc = evalCalc;
+            _footnotes = footnotes;
         }
 
         public bool LabReportPreCheck(Guid labReportId, IReadOnlyCollection<Guid> publicationIds)
@@ -34,8 +38,8 @@ namespace EnvDT.Model.Core
             _missingParams.Clear();
             _paramNamesForMin.Clear();
             _evalResult = new EvalResult();
-            var publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
-            var publParams = publication.PublParams;
+            _publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
+            var publParams = _publication.PublParams;
             var highestLevel = 0;
             List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
 
@@ -45,7 +49,7 @@ namespace EnvDT.Model.Core
 
                 if (labReportParams.Count() == 0)
                 {
-                    if (publParam.IsMandatory)
+                    if (publParam.IsMandatory && publParam.FootnoteId.Length == 0)
                     {
                         _missingParams.Add(publParam);
                     }                    
@@ -54,17 +58,17 @@ namespace EnvDT.Model.Core
 
                 var refValues = Enumerable.Empty<RefValue>();
 
-                if (publication.UsesMediumSubTypes && !publication.UsesConditions)
+                if (_publication.UsesMediumSubTypes && !_publication.UsesConditions)
                 {
                     refValues = _unitOfWork.RefValues.GetRefValuesWithMedSubTypesByPublParamIdAndSample(
                         publParam.PublParamId, evalArgs.Sample);
                 }
-                else if (!publication.UsesMediumSubTypes && publication.UsesConditions)
+                else if (!_publication.UsesMediumSubTypes && _publication.UsesConditions)
                 {
                     refValues = _unitOfWork.RefValues.GetRefValuesWithConditionsByPublParamIdAndSample(
                         publParam.PublParamId, evalArgs.Sample);
                 }
-                else if (publication.UsesMediumSubTypes && publication.UsesConditions)
+                else if (_publication.UsesMediumSubTypes && _publication.UsesConditions)
                 {
                     refValues = _unitOfWork.RefValues.GetRefValuesWithMedSubTypesAndConditionsByPublParamIdAndSample(
                         publParam.PublParamId, evalArgs.Sample);
@@ -89,9 +93,9 @@ namespace EnvDT.Model.Core
                 }
             }
             var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
-                highestLevel, publication.PublicationId);
+                highestLevel, _publication.PublicationId);
             var valClassStrOneDown = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
-                highestLevel - 1, publication.PublicationId);
+                highestLevel - 1, _publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStrOneDown;
             var exceedingValueList = "";
 
@@ -136,7 +140,25 @@ namespace EnvDT.Model.Core
         private ExceedingValue GetExceedingValue(
             EvalArgs evalArgs, PublParam publParam, RefValue refValue, IEnumerable<LabReportParam> labReportParams)
         {
-            var refVal = refValue.RValue;
+            var sampleId = evalArgs.Sample.SampleId;
+
+            double refVal;
+            if (refValue.RValueAlt > 0)
+            {
+                var footnoteRef = $"{_publication.Abbreviation}_{refValue.FootnoteId}";
+
+                FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, 1, footnoteRef);
+                if (footnoteResult.MissingParams != null)
+                { 
+                    _missingParams.UnionWith(footnoteResult.MissingParams);
+                }
+                bool shouldRefValueAltBeTaken = footnoteResult.Result;
+                refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
+            }
+            else
+            {
+                refVal = refValue.RValue;
+            }
             var refValUnitName = _unitOfWork.Units.GetById(publParam.UnitId).UnitName;
             var refValParam = _unitOfWork.Parameters.GetById(publParam.ParameterId);
             var refValParamNameDe = refValParam.ParamNameDe;
@@ -144,22 +166,8 @@ namespace EnvDT.Model.Core
             var refValueValClass = _unitOfWork.ValuationClasses.GetById(refValue.ValuationClassId);
             var refValueValClassLevel = refValueValClass.ValClassLevel;
 
-            var sampleId = evalArgs.Sample.SampleId;
-
-            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = new();
-
-            foreach (LabReportParam lrparam in labReportParams)
-            {
-                var sampleValueUnitName = _unitOfWork.Units.GetById(lrparam.UnitId).UnitName;
-                var sValuesFromLrParam = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(
-                                            sampleId, lrparam.LabReportParamId);
-
-                foreach (SampleValue sValueFromLrParam in sValuesFromLrParam)
-                {
-                    var sValueConverted = _evalCalc.SampleValueConversion(sValueFromLrParam.SValue, sampleValueUnitName, refValUnitName);
-                    LrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(lrparam, sValueConverted));
-                }
-            }
+            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = 
+                _evalCalc.GetLrParamSValuePairs(labReportParams, sampleId, refValUnitName);
 
             FinalSValue finalSValue = new();
 
@@ -168,11 +176,11 @@ namespace EnvDT.Model.Core
                 _missingParams.Add(publParam);
                 return null;
             }
-            else if (LrParamSValuePairs.Count() == 0)
+            else if (LrParamSValuePairs.Count() == 1)
             {
                 finalSValue.SValue = LrParamSValuePairs.First().Value;
             }
-            else 
+            else
             {
                 finalSValue = _evalCalc.GetFinalSValue(evalArgs, refValParamAnnot, LrParamSValuePairs);
                 if (finalSValue.LabReportParamName.Length > 0)

@@ -53,11 +53,7 @@ namespace EnvDT.UI.ViewModel
         {
             _evalLabReportService = evalLabReportService;
             _sampleEditDialogViewModel = sampleEditDialogViewModel;
-            if (dispatcher == null)
-            {
-                throw new ArgumentNullException("dispatcher");
-            }
-            _dispatcher = dispatcher;
+            _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
             _sampleTable = new DataTable();
             _selectedPublsTable = new DataTable();
             _selectedPublsTable.Columns.Add("Key");

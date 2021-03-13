@@ -1,6 +1,8 @@
 ﻿using EnvDT.Model.Core;
 using EnvDT.Model.Core.HelperEntity;
 using EnvDT.Model.Entity;
+using EnvDT.Model.IRepository;
+using Moq;
 using System.Collections.Generic;
 using Xunit;
 
@@ -10,9 +12,12 @@ namespace EnvDT.ModelTests.Core
     {
         private EvalCalc _evalCalc;
 
+        private Mock<IUnitOfWork> _unitOfWorkMock;
+
         public EvalCalcTests()
         {
-            _evalCalc = new EvalCalc();           
+            _unitOfWorkMock = new Mock<IUnitOfWork>();
+            _evalCalc = new EvalCalc(_unitOfWorkMock.Object);           
         }       
 
         [Theory]

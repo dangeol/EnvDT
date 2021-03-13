@@ -37,11 +37,7 @@ namespace EnvDT.UI.Service
             _lookupDataService = lookupDataService;
             _excelXmlReaderCreator = excelXmlReaderCreator;
             _configXlsxLookups = _lookupDataService.GetAllConfigXlsxs();
-            if (dispatcher == null)
-            {
-                throw new ArgumentNullException(nameof(dispatcher));
-            }
-            _dispatcher = dispatcher;
+            _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
         }
 
         public IExcelXmlReader ExcelXmlReader { get; set; }

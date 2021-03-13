@@ -1,5 +1,7 @@
 ﻿using EnvDT.Model.Core.HelperEntity;
 using EnvDT.Model.Entity;
+using EnvDT.Model.IRepository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,7 +9,14 @@ namespace EnvDT.Model.Core
 {
     public class EvalCalc : IEvalCalc
     {
-       public double SampleValueConversion(double sampleValue, string sampleValueUnitName, string refValUnitName)
+        private IUnitOfWork _unitOfWork;
+
+        public EvalCalc(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
+        public double SampleValueConversion(double sampleValue, string sampleValueUnitName, string refValUnitName)
         {
             if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) ==
                 "m" && sampleValueUnitName.Substring(0, 1) == "µ")
@@ -24,9 +33,32 @@ namespace EnvDT.Model.Core
                    || refValParamAnnot == "lower" && sampleValue < refVal;
         }
 
+        public List<KeyValuePair<LabReportParam, double>> GetLrParamSValuePairs(
+            IEnumerable<LabReportParam> labReportParams,
+            Guid sampleId,
+            string refValUnitName)
+        {
+            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = new();
+
+            foreach (LabReportParam lrparam in labReportParams)
+            {
+                var sampleValueUnitName = _unitOfWork.Units.GetById(lrparam.UnitId).UnitName;
+                var sValuesFromLrParam = _unitOfWork.SampleValues.GetSampleValuesBySampleIdAndLabReportParamId(
+                                            sampleId, lrparam.LabReportParamId);
+
+                foreach (SampleValue sValueFromLrParam in sValuesFromLrParam)
+                {
+                    var sValueConverted = SampleValueConversion(sValueFromLrParam.SValue, sampleValueUnitName, refValUnitName);
+                    LrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(lrparam, sValueConverted));
+                }
+            }
+
+            return LrParamSValuePairs;
+        }
+
         public FinalSValue GetFinalSValue(EvalArgs evalArgs, string refValParamAnnot, List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs)
         {
-            // get min or max sample value of same final parameter, but from different substrate
+            // get min or max sample value of same final parameter, but from different sample fraction
             var sValuesWithParamName = LrParamSValuePairs.GroupBy(sv => sv.Key.LabReportParamName).Select(g => new
             {
                 g.Key,
@@ -47,7 +79,7 @@ namespace EnvDT.Model.Core
                     finalValueWithParamName.Key : "";
 
             double sValue = finalValueWithParamName.Value;
-            FinalSValue finalSValue = new FinalSValue
+            FinalSValue finalSValue = new()
             {
                 LabReportParamName = labReportParamName,
                 SValue = finalValueWithParamName.Value

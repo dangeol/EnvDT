@@ -16,13 +16,13 @@ namespace EnvDT.UI.Service
 {
     public class ImportLabReportService : IImportLabReportService
     {
-        private IEventAggregator _eventAggregator;
-        private IMessageDialogService _messageDialogService;
-        private IUnitOfWork _unitOfWork;
-        private IReadFileHelper _readFileHelper;
-        private List<Sample> _samples = new List<Sample>();
-        private TranslationSource _translator = TranslationSource.Instance;
-        private IDispatcher _dispatcher;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly IMessageDialogService _messageDialogService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IReadFileHelper _readFileHelper;
+        private readonly List<Sample> _samples = new List<Sample>();
+        private readonly TranslationSource _translator = TranslationSource.Instance;
+        private readonly IDispatcher _dispatcher;
 
         public ImportLabReportService(IEventAggregator eventAggregator, IMessageDialogService messageDialogService,
             IUnitOfWork unitOfWork, IReadFileHelper readFileHelper, IDispatcher dispatcher)
@@ -31,11 +31,7 @@ namespace EnvDT.UI.Service
             _messageDialogService = messageDialogService;
             _unitOfWork = unitOfWork;
             _readFileHelper = readFileHelper;
-            if (dispatcher == null)
-            {
-                throw new ArgumentNullException(nameof(dispatcher));
-            }
-            _dispatcher = dispatcher;
+            _dispatcher = dispatcher ?? throw new ArgumentNullException(nameof(dispatcher));
         }
 
         public void RunImport(string file, Guid? projectId)
