@@ -97,6 +97,7 @@ namespace EnvDT.UITests.ViewModel
             _evalResult = new EvalResult();
             _evalResult.MissingParams = "";
             _evalResult.MinValueParams = "";
+            _evalResult.TakingAccountOf = "";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
                 .Returns(_evalResult);
 

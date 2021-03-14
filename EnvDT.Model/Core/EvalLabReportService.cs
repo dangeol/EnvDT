@@ -17,6 +17,7 @@ namespace EnvDT.Model.Core
         private Publication _publication;
         private HashSet<PublParam> _missingParams = new HashSet<PublParam>();
         private HashSet<string> _paramNamesForMin = new HashSet<string>();
+        private HashSet<string> _takingAccountOf = new HashSet<string>();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, 
             IEvalCalc evalCalc, IFootnotes footnotes)
@@ -129,11 +130,17 @@ namespace EnvDT.Model.Core
             {
                 minValueParamsList += $"{paramNameForMin}; ";
             }
+            var takingAccountOfList = "";
+            foreach (string takingAccountOf in _takingAccountOf)
+            {
+                takingAccountOfList += $"{takingAccountOf}; ";
+            }
             _evalResult.SampleName = evalArgs.Sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValues = exceedingValueList;
             _evalResult.MissingParams = missingParamsList;
             _evalResult.MinValueParams = minValueParamsList;
+            _evalResult.TakingAccountOf = takingAccountOfList;
             return _evalResult;
         }
 
@@ -148,12 +155,17 @@ namespace EnvDT.Model.Core
                 var footnoteRef = $"{_publication.Abbreviation}_{refValue.FootnoteId}";
 
                 FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, 1, footnoteRef);
+                bool shouldRefValueAltBeTaken = footnoteResult.Result;
+                refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
+
                 if (footnoteResult.MissingParams != null)
                 { 
                     _missingParams.UnionWith(footnoteResult.MissingParams);
                 }
-                bool shouldRefValueAltBeTaken = footnoteResult.Result;
-                refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
+                if (footnoteResult.TakingAccountOf != null)
+                {
+                    _takingAccountOf.UnionWith(footnoteResult.TakingAccountOf);
+                }
             }
             else
             {

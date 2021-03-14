@@ -414,4 +414,7 @@ Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn 
   <data name="SampleEditDialog_GridHeader_Sample" xml:space="preserve">
     <value>Probe</value>
   </data>
+  <data name="SampleDetailVM_Footnote_TakingAccountOf" xml:space="preserve">
+    <value>Unter Berücksichtigung von: </value>
+  </data>
 </root>

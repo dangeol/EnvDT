@@ -49,12 +49,12 @@ namespace EnvDT.Model.Core
             return method.Invoke(evalArgs, evalType);
         }
 
-        private FootnoteSValueList GetFinalSValues(EvalArgs evalArgs, List<FootnoteParam> footnoteParams)
+        private FootnoteSValueList GetFinalSValues(EvalArgs evalArgs, Dictionary<string, FootnoteParam> footnoteParams)
         {
             Dictionary<string, double> finalSValues = new();
-            HashSet<PublParam> missingParams = new();           
+            HashSet<PublParam> missingParams = new();
 
-            foreach (FootnoteParam footnoteParam in footnoteParams)
+            foreach (FootnoteParam footnoteParam in footnoteParams.Values)
             {
                 var publParam = _unitOfWork.PublParams.GetByPublIdParameterNameDeAndUnitName(
                     evalArgs.PublicationId, footnoteParam.FootnoteParamName, footnoteParam.FootnoteUnitName);
@@ -110,25 +110,33 @@ namespace EnvDT.Model.Core
         private FootnoteResult VerfLf_e5(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new();
+            HashSet<string> takingAccountOf = new();
             footnoteResult.Result = false;
+            footnoteResult.TakingAccountOf = takingAccountOf;
 
-            List<FootnoteParam> footnoteParams = new()
+            Dictionary<string, FootnoteParam> footnoteParams = new()
             {
-                new FootnoteParam() { FootnoteParamName = "Chrom Gesamt", FootnoteUnitName = "µg/l", FootnoteParamAnnot = "" },
-                new FootnoteParam() { FootnoteParamName = "Chrom VI", FootnoteUnitName = "µg/l", FootnoteParamAnnot = "" },
+                { 
+                    "Chrom Gesamt", 
+                    new FootnoteParam() { FootnoteParamName = "Chrom Gesamt", FootnoteUnitName = "µg/l", FootnoteParamAnnot = "" } 
+                },
+                { 
+                    "Chrom VI", 
+                    new FootnoteParam() { FootnoteParamName = "Chrom VI", FootnoteUnitName = "µg/l", FootnoteParamAnnot = "" } 
+                },
             };
             switch (evalType)
             {
                 case 0:
-                    // Check condition:
+                    // Check condition in LabReportPreCheck:
                     // return true if (Chrom Gesamt > 30 µg / l && Chrom Gesamt <= 50 µg / l)
                     var sampleValuesAndLrUnitNames = _unitOfWork.SampleValues.GetSampleValuesAndLrUnitNamesByLabReportIdParamNameDeAndUnitName(
-                        evalArgs.LabReportId, footnoteParams[0].FootnoteParamName, footnoteParams[0].FootnoteUnitName);
+                        evalArgs.LabReportId, footnoteParams["Chrom Gesamt"].FootnoteParamName, footnoteParams["Chrom Gesamt"].FootnoteUnitName);
 
                     foreach (SampleValueAndLrUnitName svun in sampleValuesAndLrUnitNames)
                     {
                         var sValueConverted = _evalCalc.SampleValueConversion(
-                            svun.sampleValue.SValue, svun.unitName, footnoteParams[0].FootnoteUnitName);
+                            svun.sampleValue.SValue, svun.unitName, footnoteParams["Chrom Gesamt"].FootnoteUnitName);
                         if (sValueConverted > 30 && sValueConverted <= 50)
                         {
                             footnoteResult.Result = true;
@@ -138,18 +146,21 @@ namespace EnvDT.Model.Core
                     return footnoteResult;
 
                 case 1:
-                    // Evaluate footnote:
+                    // Evaluate footnote in EvalLabReportService:
                     // return true if Chrom Gesamt > 30 μg/l && Chrom Gesamt <= 50 μg/l && Cr (VI) <= 8 μg/l
                     FootnoteSValueList finalSValues = GetFinalSValues(evalArgs, footnoteParams);
                     var values = finalSValues.FinalSValues;
-                    footnoteResult.MissingParams = finalSValues.MissingParams;
-
-                    if (finalSValues.MissingParams.Count == 0 && 
-                        values["Chrom Gesamt"] > 30 && values["Chrom Gesamt"] <= 50 && values["Cr (VI)"] <= 8)
+                    
+                    if (values["Chrom Gesamt"] > 30 && values["Chrom Gesamt"] <= 50)
                     {
-                        footnoteResult.Result = true;
-                    }
+                        footnoteResult.MissingParams = finalSValues.MissingParams;
 
+                        if (finalSValues.MissingParams.Count == 0 && values["Chrom VI"] <= 8)
+                        {
+                            footnoteResult.Result = true;
+                            footnoteResult.TakingAccountOf.Add("Fußnote 5 (Eluat)");
+                        }
+                    }
                     return footnoteResult;
 
                 default:

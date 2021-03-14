@@ -24,7 +24,7 @@
                 CellStyle="{StaticResource DataGridDirectEditingStyle}"
                 DataGridCell.Selected="DataGrid_Selected"
                 CanUserAddRows="False" AutoGenerateColumns="True"   
-                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_SampleDataView"
                 RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
@@ -86,7 +86,7 @@
                 Converter={StaticResource booleanToVisibilityConverter}}">
 
       <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
-                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_PublAndFootnotes"
                 Name="SelectedPublsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True" BorderThickness="0"
@@ -102,7 +102,7 @@
       </DataGrid>
 
       <DataGrid ItemsSource="{Binding FootnotesDataView}"
-                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_PublAndFootnotes"
                 Name="FootnotesDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
                 HeadersVisibility="None" AutoGenerateColumns="True"  BorderThickness="0"

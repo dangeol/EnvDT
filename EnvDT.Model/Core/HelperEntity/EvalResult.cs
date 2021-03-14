@@ -7,5 +7,6 @@
         public string ExceedingValues { get; set; }
         public string MissingParams { get; set; }
         public string MinValueParams { get; set; }
+        public string TakingAccountOf { get; set; }
     }
 }

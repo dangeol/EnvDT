@@ -837,6 +837,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Taking account of: .
+        /// </summary>
+        public static string SampleDetailVM_Footnote_TakingAccountOf {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_Footnote_TakingAccountOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
         public static string SampleDetailVM_GridHeader_Sample {

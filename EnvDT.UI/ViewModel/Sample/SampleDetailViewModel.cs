@@ -437,6 +437,12 @@ namespace EnvDT.UI.ViewModel
                 var footnoteText = $"{text} {evalResult.MinValueParams}";
                 highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
             }
+            if (evalResult.TakingAccountOf.Length > 0)
+            {
+                var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_TakingAccountOf"];
+                var footnoteText = $"{text} {evalResult.TakingAccountOf}";
+                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
+            }
             _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
             _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
         }

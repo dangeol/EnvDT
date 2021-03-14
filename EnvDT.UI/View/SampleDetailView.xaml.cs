@@ -13,12 +13,20 @@ namespace EnvDT.UI.View
             InitializeComponent();
         }
 
-        private void DataGrid_AutoGeneratingColumn(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        private void DataGrid_AutoGeneratingColumn_SampleDataView(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
             if (!e.Column.Header.ToString().Equals("Sample") &&
                 !e.Column.Header.ToString().Equals("Probe"))
             {
                 e.Column.HeaderStyle = Application.Current.FindResource("ColumnHeaderRotateStyle") as Style;
+            }
+        }
+
+        private void DataGrid_AutoGeneratingColumn_PublAndFootnotes(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            if (e.Column.Header.ToString().Equals("Key"))
+            {
+                e.Column.Width = 10; 
             }
         }
 
