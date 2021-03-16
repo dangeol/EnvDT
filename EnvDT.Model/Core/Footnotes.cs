@@ -43,7 +43,7 @@ namespace EnvDT.Model.Core
             Func<EvalArgs, int, FootnoteResult> method;
             if (!_footnotes.TryGetValue(footnoteRef, out method))
             {
-                footnoteResult.Result = true;
+                footnoteResult.Result = false;
                 return footnoteResult;
             }
             return method.Invoke(evalArgs, evalType);
@@ -110,8 +110,10 @@ namespace EnvDT.Model.Core
         private FootnoteResult VerfLf_e5(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new();
-            HashSet<string> takingAccountOf = new();
             footnoteResult.Result = false;
+            HashSet<PublParam> missingParams = new();
+            HashSet<string> takingAccountOf = new();                                 
+            footnoteResult.MissingParams = missingParams;
             footnoteResult.TakingAccountOf = takingAccountOf;
 
             Dictionary<string, FootnoteParam> footnoteParams = new()

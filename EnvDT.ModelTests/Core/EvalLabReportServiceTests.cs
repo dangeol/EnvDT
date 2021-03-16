@@ -79,6 +79,8 @@ namespace EnvDT.ModelTests.Core
             // GetExceedingValue method
             _sampleValue1 = new SampleValue();
             _sampleValue1.SValue = 10.0;
+            _sampleValue2 = new SampleValue();
+            _sampleValue2.SValue = 12.5;
             _lrParamSValuePairs = new List<KeyValuePair<LabReportParam, double>>();
             _lrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(_labReportParam, _sampleValue1.SValue));
             _finalSValue = new FinalSValue();
@@ -159,6 +161,55 @@ namespace EnvDT.ModelTests.Core
             var missingParamsLengthAfter = evalResult.MissingParams.Length;
 
             Assert.True(missingParamsLengthAfter > missingParamsLengthBefore);
-        }        
+        }
+
+        [Fact]
+        public void ShouldAddMinValueParamsWhenEvalResultHasMinValueParams()
+        {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var minValueParamsLengthBefore = evalResult.MinValueParams.Length;
+            
+            _finalSValue.LabReportParamName = "param";
+            _lrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(_labReportParam, _sampleValue2.SValue));
+            evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var minValueParamsLengthAfter = evalResult.MinValueParams.Length;
+
+            Assert.True(minValueParamsLengthAfter > minValueParamsLengthBefore);
+        }
+
+        [Fact]
+        public void ShouldAddTakingAccountOfFootnoteRefsWhenRefValHasRefValAltAndEvalResultHasTakingAccountOf()
+        {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var takingAccountOfListLengthBefore = evalResult.TakingAccountOf.Length;
+
+            _refValue.RValueAlt = 100;
+            HashSet<PublParam> missingParams = new()
+            {
+                new PublParam()
+            };
+            HashSet<string> takingAccountOf = new();
+            takingAccountOf.Add("Footnote1");
+            FootnoteResult footnoteResult = new()
+            {
+                Result = true,
+                MissingParams = missingParams,
+                TakingAccountOf = takingAccountOf
+            };
+
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(footnoteResult);
+            
+            evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var takingAccountOfListLengthAfter = evalResult.TakingAccountOf.Length;
+
+            Assert.True(takingAccountOfListLengthAfter > takingAccountOfListLengthBefore);
+        }
     }
 }
