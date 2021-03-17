@@ -417,4 +417,7 @@ Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn 
   <data name="SampleDetailVM_Footnote_TakingAccountOf" xml:space="preserve">
     <value>Unter Berücksichtigung von: </value>
   </data>
+  <data name="SampleDetailView_Checkbox_EvalFootnotes" xml:space="preserve">
+    <value>Auswertung von Fußnoten</value>
+  </data>
 </root>

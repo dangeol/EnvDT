@@ -65,6 +65,7 @@ namespace EnvDT.ModelTests.Core
             _evalArgs.LabReportId = It.IsAny<Guid>();
             _evalArgs.Sample = _sample;
             _evalArgs.PublicationId = _publication.PublicationId;
+            _evalArgs.EvalFootnotes = true;
 
             _unitOfWorkMock.Setup(uw => uw.Samples.GetById(It.IsAny<Guid>()))
                 .Returns(It.IsAny<Sample>());

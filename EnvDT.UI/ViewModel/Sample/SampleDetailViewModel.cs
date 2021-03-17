@@ -41,7 +41,7 @@ namespace EnvDT.UI.ViewModel
         private string _sampleColHeader;
         private bool _selectSameLrParamMaxValue;
         private bool _selectDiffLrParamMaxValue;
-
+        private bool _evalFootnotes;
         private const string _superscriptDigits =
             "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
@@ -74,6 +74,7 @@ namespace EnvDT.UI.ViewModel
             IsAnimationVisible = false;
             SelectSameLrParamMaxValue = true;
             SelectDiffLrParamMaxValue = false;
+            EvalFootnotes = true;
         }
 
         public ICommand EditSamplesCommand { get; }
@@ -166,7 +167,17 @@ namespace EnvDT.UI.ViewModel
                 OnPropertyChanged();
             }
         }
-     
+
+        public bool EvalFootnotes
+        {
+            get { return _evalFootnotes; }
+            set
+            {
+                _evalFootnotes = value;
+                OnPropertyChanged();
+            }
+        }
+
         public override void Load(Guid? labReportId)
         {
             _labReportId = (Guid)labReportId;
@@ -419,7 +430,8 @@ namespace EnvDT.UI.ViewModel
                 Sample = sample,
                 PublicationId = publicationId,
                 SelectSameLrParamMaxValue = SelectSameLrParamMaxValue,
-                SelectDiffLrParamMaxValue = SelectDiffLrParamMaxValue
+                SelectDiffLrParamMaxValue = SelectDiffLrParamMaxValue,
+                EvalFootnotes = EvalFootnotes
             };
             var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
             _evalResultTable.Rows[r][0] = sample.SampleName;

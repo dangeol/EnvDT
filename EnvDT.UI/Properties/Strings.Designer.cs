@@ -756,6 +756,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluate footnotes.
+        /// </summary>
+        public static string SampleDetailView_Checkbox_EvalFootnotes {
+            get {
+                return ResourceManager.GetString("SampleDetailView_Checkbox_EvalFootnotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Multi. methods conflicts.
         /// </summary>
         public static string SampleDetailView_Label_DiffLrParam {

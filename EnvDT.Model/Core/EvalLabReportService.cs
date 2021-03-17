@@ -150,7 +150,7 @@ namespace EnvDT.Model.Core
             var sampleId = evalArgs.Sample.SampleId;
 
             double refVal;
-            if (refValue.RValueAlt > 0)
+            if (refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
             {
                 var footnoteRef = $"{_publication.Abbreviation}_{refValue.FootnoteId}";
 

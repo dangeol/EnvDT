@@ -72,6 +72,10 @@
           <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MinValue}" IsChecked="True"/>
           <RadioButton Content="{loc:Loc SampleDetailView_RadioButton_MaxValue}" IsChecked="{Binding SelectDiffLrParamMaxValue}" />
         </StackPanel>
+        <StackPanel Margin="10">
+          <CheckBox Content="{loc:Loc SampleDetailView_Checkbox_EvalFootnotes}" IsChecked="{Binding EvalFootnotes}"
+                    Margin="0 25 0 0"/>
+        </StackPanel>
       </StackPanel>
     </StackPanel> 
 

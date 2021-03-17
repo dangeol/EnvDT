@@ -12,5 +12,6 @@ namespace EnvDT.Model.Core.HelperEntity
         public Guid ConditionId { get; set; }
         public bool SelectSameLrParamMaxValue { get; set; }
         public bool SelectDiffLrParamMaxValue { get; set; }
+        public bool EvalFootnotes { get; set; }
     }
 }
