@@ -74,7 +74,7 @@ namespace EnvDT.ModelTests.Core
         {
             _evalArgs.Sample = _sample;
             _evalType = 0;
-            _footnoteRef = "Verf-Lf (BY)_e5";
+            _footnoteRef = "VerfLfBY_e5";
 
             //Chrome Gesamt
             _sValue = sValue;
@@ -112,7 +112,7 @@ namespace EnvDT.ModelTests.Core
         {
             _evalArgs.Sample = _sample;
             _evalType = 1;
-            _footnoteRef = "Verf-Lf (BY)_e5";
+            _footnoteRef = "VerfLfBY_e5";
 
             //Chrome Gesamt
             _sValue = sValue1;
@@ -153,9 +153,9 @@ namespace EnvDT.ModelTests.Core
         {
             _evalArgs.Sample = _sample;
             _evalType = 1;
-            _footnoteRef = "Verf-Lf (BY)_e5";
+            _footnoteRef = "VerfLfBY_e5";
 
-            //Chrome Gesamt
+            //Chrom Gesamt
             _sValue = sValue;
 
             var labReportParamsEmpty = new List<LabReportParam>();

@@ -9,6 +9,7 @@ namespace EnvDT.Model.Core
 {
     /*
      * This class contains methods to evaluate footnotes of guidelines, grouped by country and guideline.
+     * This is experimental and uncomplete.
      */
     public class Footnotes : IFootnotes
     {
@@ -27,12 +28,17 @@ namespace EnvDT.Model.Core
         {
             /*
              * Format of the Keys:
-             * [Abbreviation of Publication]_[Footnote reference]_[c/e]
+             * [PublIdent of Publication]_[Footnote reference]_[c/e]
              * [Footnote reference] is composend of [char][footnoteNumber]
              * with [char] either 'e' (eluate) or 's' (solid matter)
              */
-             // GERMANY
-             _footnotes.Add("Verf-Lf (BY)_e5", new Func<EvalArgs, int, FootnoteResult>(VerfLf_e5));
+            // GERMANY
+            _footnotes.Add("VerfLfBY_e1", new Func<EvalArgs, int, FootnoteResult>(VerfLfBY_e1));
+            _footnotes.Add("VerfLfBY_e5", new Func<EvalArgs, int, FootnoteResult>(VerfLfBY_e5));
+            _footnotes.Add("VwVBW_e1", new Func<EvalArgs, int, FootnoteResult>(VwVBW_e1));
+            _footnotes.Add("DihlmEBW_e5", new Func<EvalArgs, int, FootnoteResult>(DihlmEBW_e5));
+            _footnotes.Add("DepV_e8", new Func<EvalArgs, int, FootnoteResult>(DepV_e8));
+            _footnotes.Add("DepVBY_e13", new Func<EvalArgs, int, FootnoteResult>(DepVBY_e13));
         }
 
         // with evalType 0: check in LabReportPreCheck if condition is met
@@ -99,6 +105,23 @@ namespace EnvDT.Model.Core
          */
 
         /*
+         * Verf-Lf (BY) Footnote Eluate 1:
+         */
+        private FootnoteResult VerfLfBY_e1(EvalArgs evalArgs, int evalType)
+        {
+            FootnoteResult footnoteResult = new()
+            {
+                Result = false,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "Abweichungen von den Bereichen der Zuordnungswerte für den pH-Wert und/oder " +
+                "die Überschreitung der elektrischen Leitfähigkeit im Eluat stellen allein kein Ausschlusskriterium dar, " +
+                "die Ursache ist im Einzelfall zu prüfen und zu dokumentieren."
+            };
+
+            return footnoteResult;
+        }
+
+        /*
          * Verf-Lf (BY) Footnote Eluate 5:
          * "Bei Überschreitung des Z 1.1-Werts für Chrom(gesamt) von 30 μg/l ist der Anteil an Cr(VI) (Chromat) zu bestimmen.
          * Der Cr(VI)-Gehalt darf für eine Z 1.1-Einstufung 8 μg/l nicht überschreiten.
@@ -107,10 +130,11 @@ namespace EnvDT.Model.Core
          * Für Material der Klasse Z 1.2 und Z 2 ist eine Bewertung des Cr(VI)-Eluatwerts nicht vorgesehen und nicht einstufungsrelevant, 
          * es genügt die Bestimmung von Chrom(gesamt)."
          */
-        private FootnoteResult VerfLf_e5(EvalArgs evalArgs, int evalType)
+        private FootnoteResult VerfLfBY_e5(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new();
             footnoteResult.Result = false;
+            footnoteResult.IsNotExclusionCriterion = false;
             HashSet<PublParam> missingParams = new();
             HashSet<string> takingAccountOf = new();                                 
             footnoteResult.MissingParams = missingParams;
@@ -168,6 +192,70 @@ namespace EnvDT.Model.Core
                 default:
                     return footnoteResult;
             }
-        }       
+        }
+
+        /*
+         * VwV (BW) Footnote Eluate 1:
+         */
+        private FootnoteResult VwVBW_e1(EvalArgs evalArgs, int evalType)
+        {
+            FootnoteResult footnoteResult = new()
+            {
+                Result = false,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "Eine Überschreitung dieser Parameter allein ist kein Ausschlusskriterium."
+            };
+
+            return footnoteResult;
+        }
+
+        /*
+         * Dihlm-E (BW) Footnote Eluate 5:
+         */
+        private FootnoteResult DihlmEBW_e5(EvalArgs evalArgs, int evalType)
+        {
+            FootnoteResult footnoteResult = new()
+            {
+                Result = false,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "(pH-Wert): pH-Werte stellen allein kein Ausschlusskriterium dar."
+            };
+
+            return footnoteResult;
+        }
+
+        /*
+         * DepV Footnote Eluate 8:
+         */
+        private FootnoteResult DepV_e8(EvalArgs evalArgs, int evalType)
+        {
+            FootnoteResult footnoteResult = new()
+            {
+                Result = false,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "Abweichende pH-Werte stellen allein kein Ausschlusskriterium dar. Bei Über- oder Unterschreitungen " +
+                "ist die Ursache zu prüfen. Werden jedoch auf Deponien der Klassen I und II gefährliche Abfälle abgelagert, " +
+                "muss deren pH - Wert mindestens 6,0 betragen."
+            };
+
+            return footnoteResult;
+        }
+
+        /*
+         * DepV (BY) Footnote Eluate 13:
+         */
+        private FootnoteResult DepVBY_e13(EvalArgs evalArgs, int evalType)
+        {
+            FootnoteResult footnoteResult = new()
+            {
+                Result = false,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "Abweichende pH-Werte stellen allein kein Ausschlusskriterium dar. Bei Über- oder Unterschreitungen " +
+                "ist die Ursache zu prüfen. Werden jedoch auf Deponien der Klassen I und II gefährliche Abfälle abgelagert, " +
+                "muss deren pH - Wert mindestens 6 betragen."
+            };
+
+            return footnoteResult;
+        }
     }
 }

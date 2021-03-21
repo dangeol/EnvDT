@@ -35,6 +35,7 @@ namespace EnvDT.UITests.ViewModel
         private List<Publication> _publications;
         private string _reportLabIdent = "ident";
         private EvalResult _evalResult;
+        private HashSet<string> _generalFootnoteTexts;
 
         public SampleDetailViewModelTests()
         {
@@ -94,7 +95,9 @@ namespace EnvDT.UITests.ViewModel
             _sampleEditDialogViewModelMock.Setup(vm => vm.Samples)
                 .Returns(sampleWrappers);
 
+            _generalFootnoteTexts = new();
             _evalResult = new EvalResult();
+            _evalResult.GeneralFootnoteTexts = _generalFootnoteTexts;
             _evalResult.MissingParams = "";
             _evalResult.MinValueParams = "";
             _evalResult.TakingAccountOf = "";
@@ -195,6 +198,24 @@ namespace EnvDT.UITests.ViewModel
 
             _messageDialogServiceMock.Verify(ds => ds.ShowSampleEditDialog(It.IsAny<string>(),
                 (ISampleEditDialogViewModel)It.IsAny<object>()), Times.Once);
+        }
+
+        [Fact]
+        public async Task ShouldShowGeneralFootnoteTextsInFootnotesWhenNecessary()
+        {
+            HashSet<string> _generalFootnoteTexts = new();
+            _generalFootnoteTexts.Add("new footnote text");
+            _generalFootnoteTexts.Add("new footnote text");
+            _generalFootnoteTexts.Add("another footnote text");
+            _evalResult.GeneralFootnoteTexts = _generalFootnoteTexts;
+
+            _viewModel.Load(_labReportId);
+            _viewModel.SampleDataView.Table.Rows[1][1] = true;
+            _viewModel.SampleDataView.Table.Rows[1][2] = true;
+
+            await _viewModel.OnEvalExecuteImpl();
+
+            Assert.Equal(2, _viewModel.FootnotesDataView.Table.Rows.Count);
         }
 
         [Fact]

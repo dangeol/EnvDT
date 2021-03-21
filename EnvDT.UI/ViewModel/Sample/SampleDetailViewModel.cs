@@ -437,6 +437,13 @@ namespace EnvDT.UI.ViewModel
             _evalResultTable.Rows[r][0] = sample.SampleName;
 
             var highestValClassName = evalResult.HighestValClassName;
+            if (evalResult.GeneralFootnoteTexts.Count > 0)
+            {
+                foreach (string generalFootnoteText in evalResult.GeneralFootnoteTexts)
+                {
+                    highestValClassName = ConstructFootnotes(highestValClassName, generalFootnoteText);
+                }
+            }
             if (evalResult.MissingParams.Length > 0)
             {
                 var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_Missing"];

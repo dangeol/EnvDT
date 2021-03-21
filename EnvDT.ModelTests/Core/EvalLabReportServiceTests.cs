@@ -29,8 +29,10 @@ namespace EnvDT.ModelTests.Core
         private FinalSValue _finalSValue;
         private Unit _unit;
         private Parameter _parameter;
-        private ValuationClass _valuationClass;
-        private string _nextLevelName = "NextLevelName";
+        private ValuationClass _valuationClass1;
+        private ValuationClass _valuationClass2;
+        private string _nextLevelName1 = "NextLevelName1";
+        private string _nextLevelName2 = "NextLevelName2";
         private List<LabReportParam> _labReportParams;
         private LabReportParam _labReportParam;
         private List<KeyValuePair<LabReportParam, double>> _lrParamSValuePairs;
@@ -74,8 +76,11 @@ namespace EnvDT.ModelTests.Core
             _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesWithoutAttributesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
-                It.IsAny<int>(), It.IsAny<Guid>()))
-                .Returns(_nextLevelName);
+                It.Is<int>(i => i == 0), It.IsAny<Guid>()))
+                .Returns(_nextLevelName1);
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
+                It.Is<int>(i => i == 1), It.IsAny<Guid>()))
+                .Returns(_nextLevelName2);
 
             // GetExceedingValue method
             _sampleValue1 = new SampleValue();
@@ -90,16 +95,19 @@ namespace EnvDT.ModelTests.Core
             _unit = new Unit();
             _unit.UnitName = "mg/kg";
             _parameter = new Parameter();
-            _valuationClass = new ValuationClass();
-            _valuationClass.ValClassLevel = 1;
-            _valuationClass.ValuationClassName = "LevelName";
+            _valuationClass1 = new ValuationClass();
+            _valuationClass1.ValClassLevel = 1;
+            _valuationClass1.ValuationClassName = "LevelName1";
+            _valuationClass2 = new ValuationClass();
+            _valuationClass2.ValClassLevel = 2;
+            _valuationClass2.ValuationClassName = "LevelName2";
 
             _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))
                 .Returns(_unit);
             _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(It.IsAny<Guid>()))
                 .Returns(_parameter);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))
-                .Returns(_valuationClass);
+                .Returns(_valuationClass1);
 
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 _sampleValue1.SValue, It.IsAny<string>(), It.IsAny<string>()))
@@ -133,6 +141,81 @@ namespace EnvDT.ModelTests.Core
             Assert.Equal(evalResult.SampleName, _sample.SampleName);
             Assert.Equal(expectedResult, evalResult.ExceedingValues.Length > 0);
         }
+
+        [Theory]
+        [InlineData(false, false, "NextLevelName2")]
+        [InlineData(false, true, "NextLevelName2")]
+        [InlineData(true, false, "NextLevelName2")]
+        [InlineData(true, true, "NextLevelName1")]
+        public void ShouldNotIncreaseValuationClassLevelIfFootnotesAreEvaluatedAndFootnoteResultHasIsNotExclusionCriterion(
+            bool isNotExclusionCriterion, bool evalFootnotes, string expectedResult)
+        {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
+                .Returns(true);
+
+            _evalArgs.EvalFootnotes = evalFootnotes;
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            HashSet<string> generalFootnoteTexts = new();
+            evalResult.GeneralFootnoteTexts = generalFootnoteTexts;
+            
+            _publParam.FootnoteId = "footnoteId";
+            _refValue.FootnoteId = "";
+
+            FootnoteResult footnoteResult = new()
+            {
+                Result = true,
+                IsNotExclusionCriterion = isNotExclusionCriterion,
+                GeneralFootnoteTexts = "Footnote1 text"
+            };
+
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(footnoteResult);
+
+            evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+
+            Assert.Equal(expectedResult, evalResult.HighestValClassName);
+        }
+
+        [Fact]
+        public void ShouldAddGeneralFootnoteTextsIfPublParamHasFootnoteIdAndFootnoteResultHasFootnoteText()
+        {
+            _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
+                .Returns(_labReportParams);
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
+                It.IsAny<int>(), It.IsAny<Guid>()))
+                .Returns(_nextLevelName1);
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))
+                .Returns(_valuationClass1);
+            _evalCalcMock.Setup(ec => ec.IsSampleValueExceedingRefValue(
+                It.IsAny<double>(), It.IsAny<double>(), It.IsAny<string>()))
+                .Returns(true);
+
+            var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            HashSet<string> generalFootnoteTexts = new();
+            evalResult.GeneralFootnoteTexts = generalFootnoteTexts;
+            var generalFootnoteTextsLengthBefore = evalResult.GeneralFootnoteTexts.Count;
+
+            _publParam.FootnoteId = "footnoteId";
+            _refValue.FootnoteId = "";
+
+            FootnoteResult footnoteResult = new()
+            {
+                Result = true,
+                IsNotExclusionCriterion = true,
+                GeneralFootnoteTexts = "Footnote1 text"
+            };
+
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+                .Returns(footnoteResult);
+
+            evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
+            var generalFootnoteTextsLengthAfter = evalResult.GeneralFootnoteTexts.Count;
+
+            Assert.True(generalFootnoteTextsLengthAfter > generalFootnoteTextsLengthBefore);
+        }        
 
         [Fact]
         public void EvalResultShouldHaveMissingParamsWhenParamNotFound()
@@ -191,6 +274,7 @@ namespace EnvDT.ModelTests.Core
             var takingAccountOfListLengthBefore = evalResult.TakingAccountOf.Length;
 
             _refValue.RValueAlt = 100;
+            _refValue.FootnoteId = "";
             HashSet<PublParam> missingParams = new()
             {
                 new PublParam()

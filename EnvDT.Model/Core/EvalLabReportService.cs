@@ -15,9 +15,10 @@ namespace EnvDT.Model.Core
         private IFootnotes _footnotes;
         private EvalResult _evalResult;
         private Publication _publication;
-        private HashSet<PublParam> _missingParams = new HashSet<PublParam>();
-        private HashSet<string> _paramNamesForMin = new HashSet<string>();
-        private HashSet<string> _takingAccountOf = new HashSet<string>();
+        private HashSet<string> _generalFootnoteTexts = new();
+        private HashSet<PublParam> _missingParams = new();
+        private HashSet<string> _paramNamesForMin = new();
+        private HashSet<string> _takingAccountOf = new();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, 
             IEvalCalc evalCalc, IFootnotes footnotes)
@@ -36,13 +37,14 @@ namespace EnvDT.Model.Core
 
         public EvalResult GetEvalResult(EvalArgs evalArgs)
         {
+            _generalFootnoteTexts.Clear();
             _missingParams.Clear();
             _paramNamesForMin.Clear();
             _evalResult = new EvalResult();
             _publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = _publication.PublParams;
             var highestLevel = 0;
-            List<ExceedingValue> exceedingValues = new List<ExceedingValue>();
+            List<ExceedingValue> exceedingValues = new();
 
             foreach (PublParam publParam in publParams)
             {
@@ -86,7 +88,8 @@ namespace EnvDT.Model.Core
                     {
                         exceedingValues.Add(exceedingValue);
 
-                        if (exceedingValue.Level > highestLevel)
+                        // TO DO: if pH or LF, and EvalFootnote true, don't add to highestLevel
+                        if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)
                         {
                             highestLevel = exceedingValue.Level;
                         }
@@ -99,13 +102,14 @@ namespace EnvDT.Model.Core
                 highestLevel - 1, _publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStrOneDown;
             var exceedingValueList = "";
+            bool mustGeneralFootnoteTextsBeShown = false;
 
             foreach (ExceedingValue exceedingValue in exceedingValues)
             {
+                // TO DO: if IsNotExclusionCriterion, and EvalFootnote true, output string with footnote ref.
                 if (exceedingValue.Level == highestLevel)
                 {
-                    var exceedingValuesStr = exceedingValue.ParamName +
-                        " (" + exceedingValue.Value + " " + exceedingValue.Unit + ")";
+                    var exceedingValuesStr = $"{exceedingValue.ParamName} ({exceedingValue.Value} {exceedingValue.Unit})";
 
                     if (exceedingValueList.Length == 0)
                     {
@@ -116,8 +120,16 @@ namespace EnvDT.Model.Core
                         exceedingValueList += Environment.NewLine + exceedingValuesStr;
                     }                  
                 }
+                if (exceedingValue.Level > highestLevel)
+                {
+                    mustGeneralFootnoteTextsBeShown = true;
+                }
             }
 
+            if (!mustGeneralFootnoteTextsBeShown)
+            {
+                _generalFootnoteTexts.Clear();
+            }
             var missingParamsList = "";
             foreach (PublParam missingParam in _missingParams)
             {
@@ -138,6 +150,7 @@ namespace EnvDT.Model.Core
             _evalResult.SampleName = evalArgs.Sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValues = exceedingValueList;
+            _evalResult.GeneralFootnoteTexts = _generalFootnoteTexts;
             _evalResult.MissingParams = missingParamsList;
             _evalResult.MinValueParams = minValueParamsList;
             _evalResult.TakingAccountOf = takingAccountOfList;
@@ -148,16 +161,23 @@ namespace EnvDT.Model.Core
             EvalArgs evalArgs, PublParam publParam, RefValue refValue, IEnumerable<LabReportParam> labReportParams)
         {
             var sampleId = evalArgs.Sample.SampleId;
+            bool isNotExclusionCriterion = false;
 
             double refVal;
-            if (refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
+            if ((publParam.FootnoteId.Length > 0 || refValue.RValueAlt > 0) && evalArgs.EvalFootnotes)
             {
-                var footnoteRef = $"{_publication.Abbreviation}_{refValue.FootnoteId}";
+                var footnoteId = refValue.FootnoteId.Length > 0 ? refValue.FootnoteId : publParam.FootnoteId;
+                var footnoteRef = $"{_publication.PublIdent}_{footnoteId}";
 
                 FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, 1, footnoteRef);
+                isNotExclusionCriterion = footnoteResult.IsNotExclusionCriterion;
                 bool shouldRefValueAltBeTaken = footnoteResult.Result;
                 refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
 
+                if (footnoteResult.GeneralFootnoteTexts != null)
+                {
+                    _generalFootnoteTexts.Add(footnoteResult.GeneralFootnoteTexts);
+                }
                 if (footnoteResult.MissingParams != null)
                 { 
                     _missingParams.UnionWith(footnoteResult.MissingParams);
@@ -208,7 +228,8 @@ namespace EnvDT.Model.Core
                     Level = refValueValClassLevel,
                     ParamName = refValParamNameDe,
                     Value = finalSValue.SValue,
-                    Unit = refValUnitName
+                    Unit = refValUnitName,
+                    IsNotExclusionCriterion = isNotExclusionCriterion
                 };
             }
             return null;
