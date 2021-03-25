@@ -437,12 +437,19 @@ namespace EnvDT.UI.ViewModel
             _evalResultTable.Rows[r][0] = sample.SampleName;
 
             var highestValClassName = evalResult.HighestValClassName;
+            var exceedingValues = evalResult.ExceedingValues;
+
             if (evalResult.GeneralFootnoteTexts.Count > 0)
             {
                 foreach (string generalFootnoteText in evalResult.GeneralFootnoteTexts)
                 {
                     highestValClassName = ConstructFootnotes(highestValClassName, generalFootnoteText);
                 }
+                exceedingValues = exceedingValues.Replace("\u2070\u207E", $"{ToSuperscript(_footnoteIndex - 1)}\u207E");
+            }
+            else
+            {
+                exceedingValues = exceedingValues.Replace("\u2070\u207E", "");
             }
             if (evalResult.MissingParams.Length > 0)
             {
@@ -463,7 +470,7 @@ namespace EnvDT.UI.ViewModel
                 highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
             }
             _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
-            _evalResultTable.Rows[r][c_sampleTable + 1] = evalResult.ExceedingValues;
+            _evalResultTable.Rows[r][c_sampleTable + 1] = exceedingValues;
         }
 
         private string ConstructFootnotes(string cellText, string footnoteText)

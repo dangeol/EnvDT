@@ -101,6 +101,7 @@ namespace EnvDT.UITests.ViewModel
             _evalResult.MissingParams = "";
             _evalResult.MinValueParams = "";
             _evalResult.TakingAccountOf = "";
+            _evalResult.ExceedingValues = "Param1 (Value 1 Unit 1)";
             _evalLabReportServiceMock.Setup(er => er.GetEvalResult(It.IsAny<EvalArgs>()))
                 .Returns(_evalResult);
 

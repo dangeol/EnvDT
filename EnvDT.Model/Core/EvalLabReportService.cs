@@ -88,7 +88,6 @@ namespace EnvDT.Model.Core
                     {
                         exceedingValues.Add(exceedingValue);
 
-                        // TO DO: if pH or LF, and EvalFootnote true, don't add to highestLevel
                         if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)
                         {
                             highestLevel = exceedingValue.Level;
@@ -102,23 +101,34 @@ namespace EnvDT.Model.Core
                 highestLevel - 1, _publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStrOneDown;
             var exceedingValueList = "";
+            HashSet<string> testList = new();
             bool mustGeneralFootnoteTextsBeShown = false;
 
             foreach (ExceedingValue exceedingValue in exceedingValues)
-            {
-                // TO DO: if IsNotExclusionCriterion, and EvalFootnote true, output string with footnote ref.
-                if (exceedingValue.Level == highestLevel)
+            {              
+                if (exceedingValue.Level >= highestLevel)
                 {
-                    var exceedingValuesStr = $"{exceedingValue.ParamName} ({exceedingValue.Value} {exceedingValue.Unit})";
+                    var exceedingValuesStrOrig = $"{exceedingValue.ParamName} ({exceedingValue.Value} {exceedingValue.Unit})";
+                    var exceedingValuesStr = exceedingValuesStrOrig;
 
-                    if (exceedingValueList.Length == 0)
-                    {
-                        exceedingValueList += exceedingValuesStr;
+                    if (!testList.Contains(exceedingValuesStr))
+                    { 
+                        if (exceedingValue.IsNotExclusionCriterion)
+                        {
+                            exceedingValuesStr += "\u2070\u207E";
+                        }
+                    
+                        if (exceedingValueList.Length == 0)
+                        {
+                            exceedingValueList += exceedingValuesStr;
+                        }
+                        else
+                        {
+                            exceedingValueList += Environment.NewLine + exceedingValuesStr;
+                        }
+
+                        testList.Add(exceedingValuesStrOrig);
                     }
-                    else
-                    {
-                        exceedingValueList += Environment.NewLine + exceedingValuesStr;
-                    }                  
                 }
                 if (exceedingValue.Level > highestLevel)
                 {
