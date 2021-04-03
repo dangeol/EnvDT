@@ -28,6 +28,17 @@ namespace EnvDT.UI.View
             {
                 e.Column.Width = 10; 
             }
+            else
+            {
+                //TO DO: fix this - text wrapping does not work here
+                var col = e.Column as DataGridTextColumn;
+
+                var style = new Style(typeof(TextBlock));
+                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+                style.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
+
+                col.ElementStyle = style;
+            }
         }
 
         public void CopyToClipboard(object obj, RoutedEventArgs e)

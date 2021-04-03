@@ -35,7 +35,8 @@ namespace EnvDT.UI.ViewModel
         private string _sampleEditDialogTitle;
         private bool _isColumnEmpty = true;
         private int _footnoteIndex;
-        private Dictionary<int,string> _footnoteStrings = new();
+        private HashSet<int> _footnoteIndexes;
+        private Dictionary<int,string> _footnoteStrings;
         private bool _isEvalResultVisible;
         private bool _isAnimationVisible;
         private string _sampleColHeader;
@@ -58,6 +59,8 @@ namespace EnvDT.UI.ViewModel
             _selectedPublsTable = new DataTable();
             _selectedPublsTable.Columns.Add("Key");
             _selectedPublsTable.Columns.Add("Value");
+            _footnoteStrings = new();
+            _footnoteIndexes = new();
             _footnotesTable = new DataTable();
             _footnotesTable.Columns.Add("Key");
             _footnotesTable.Columns.Add("Value");
@@ -360,7 +363,7 @@ namespace EnvDT.UI.ViewModel
         private void BuildEvalResultDataView()
         {
             _evalResultTable = new DataTable();
-            _evalResultTable.Columns.Add(_sampleColHeader);
+            _evalResultTable.Columns.Add(_sampleColHeader);          
             _footnoteStrings.Clear();
             _footnotesTable.Clear();
             _footnoteIndex = 1;
@@ -373,6 +376,7 @@ namespace EnvDT.UI.ViewModel
 
             while (c < _sampleTable.Columns.Count)
             {
+                _footnoteIndexes.Clear();
                 var r = r_init;
                 var publication = _publications.ElementAt(c - c_init);
                 var publicationId = publication.PublicationId;
@@ -443,7 +447,7 @@ namespace EnvDT.UI.ViewModel
             {
                 foreach (string generalFootnoteText in evalResult.GeneralFootnoteTexts)
                 {
-                    highestValClassName = ConstructFootnotes(highestValClassName, generalFootnoteText);
+                    ConstructFootnotes(generalFootnoteText);
                 }
                 exceedingValues = exceedingValues.Replace("\u2070\u207E", $"{ToSuperscript(_footnoteIndex - 1)}\u207E");
             }
@@ -455,25 +459,32 @@ namespace EnvDT.UI.ViewModel
             {
                 var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_Missing"];
                 var footnoteText = $"{text} {evalResult.MissingParams}";
-                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
+                ConstructFootnotes(footnoteText);
             }
             if (evalResult.MinValueParams.Length > 0)
             {
                 var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_MinParams"];
                 var footnoteText = $"{text} {evalResult.MinValueParams}";
-                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
+                ConstructFootnotes(footnoteText);
             }
             if (evalResult.TakingAccountOf.Length > 0)
             {
                 var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_TakingAccountOf"];
                 var footnoteText = $"{text} {evalResult.TakingAccountOf}";
-                highestValClassName = ConstructFootnotes(highestValClassName, footnoteText);
+                ConstructFootnotes(footnoteText);
             }
+            var cellFootNoteIndexes = "";
+            var footnoteIndexesSorted = _footnoteIndexes.OrderBy(item => item);
+            foreach (int footnoteIndex in footnoteIndexesSorted)
+            {
+                cellFootNoteIndexes += $"{ToSuperscript(footnoteIndex)}\u207E";
+            };
+            highestValClassName += cellFootNoteIndexes;
             _evalResultTable.Rows[r][c_sampleTable] = highestValClassName;
             _evalResultTable.Rows[r][c_sampleTable + 1] = exceedingValues;
         }
 
-        private string ConstructFootnotes(string cellText, string footnoteText)
+        private void ConstructFootnotes(string footnoteText)
         {
             if (!_footnoteStrings.ContainsValue(footnoteText))
             {
@@ -482,17 +493,15 @@ namespace EnvDT.UI.ViewModel
                 dr["Key"] = $"{ToSuperscript(_footnoteIndex)}\u207E";
                 dr["Value"] = footnoteText;
                 _footnotesTable.Rows.Add(dr);
-                cellText += $"{ToSuperscript(_footnoteIndex)}\u207E";
+                _footnoteIndexes.Add(_footnoteIndex);
 
                 _footnoteIndex++;
             }
             else
             {
                 var existingFootnoteIndex = _footnoteStrings.FirstOrDefault(x => x.Value == footnoteText).Key;
-                cellText += $"{ToSuperscript(existingFootnoteIndex)}\u207E";
+                _footnoteIndexes.Add(existingFootnoteIndex);
             }
-
-            return cellText;
         }
 
         private string ToSuperscript(int integer)

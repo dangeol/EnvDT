@@ -75,10 +75,10 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_publication);
             _unitOfWorkMock.Setup(uw => uw.RefValues.GetRefValuesWithoutAttributesByPublParamId(It.IsAny<Guid>()))
                 .Returns(_refValues);
-            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetValClassNameNextLevelFromLevel(
                 It.Is<int>(i => i == 0), It.IsAny<Guid>()))
                 .Returns(_nextLevelName1);
-            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetValClassNameNextLevelFromLevel(
                 It.Is<int>(i => i == 1), It.IsAny<Guid>()))
                 .Returns(_nextLevelName2);
 
@@ -184,7 +184,7 @@ namespace EnvDT.ModelTests.Core
         {
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
                 .Returns(_labReportParams);
-            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.getValClassNameNextLevelFromLevel(
+            _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetValClassNameNextLevelFromLevel(
                 It.IsAny<int>(), It.IsAny<Guid>()))
                 .Returns(_nextLevelName1);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))

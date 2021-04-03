@@ -79,7 +79,7 @@ namespace EnvDT.Model.Core
                 else
                 { 
                     refValues = _unitOfWork.RefValues.GetRefValuesWithoutAttributesByPublParamId(publParam.PublParamId);
-                }
+                }             
 
                 foreach (RefValue refValue in refValues)
                 {
@@ -95,9 +95,9 @@ namespace EnvDT.Model.Core
                     }
                 }
             }
-            var valClassStr = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
+            var valClassStr = _unitOfWork.ValuationClasses.GetValClassNameNextLevelFromLevel(
                 highestLevel, _publication.PublicationId);
-            var valClassStrOneDown = _unitOfWork.ValuationClasses.getValClassNameNextLevelFromLevel(
+            var valClassStrOneDown = _unitOfWork.ValuationClasses.GetValClassNameNextLevelFromLevel(
                 highestLevel - 1, _publication.PublicationId);
             var highestValClassName = valClassStr.Length > 0 ? valClassStr : ">" + valClassStrOneDown;
             var exceedingValueList = "";
@@ -157,6 +157,17 @@ namespace EnvDT.Model.Core
             {
                 takingAccountOfList += $"{takingAccountOf}; ";
             }
+            // TO DO: This here is a Hack to account for specifities of German guidelines. Should be implemented programmatically.
+            if (Guid.Equals(evalArgs.Sample.MediumSubTypeId, new Guid("65dd3830-ec8f-4be2-b47e-92926e964f50"))
+                && highestValClassName.Equals("Z0"))
+            {
+                highestValClassName = "Z1.1";
+                if (!exceedingValueList.Contains("\u207E"))
+                {
+                    exceedingValueList = "";
+                }
+            }
+            // end of Hack.
             _evalResult.SampleName = evalArgs.Sample.SampleName;
             _evalResult.HighestValClassName = highestValClassName;
             _evalResult.ExceedingValues = exceedingValueList;
