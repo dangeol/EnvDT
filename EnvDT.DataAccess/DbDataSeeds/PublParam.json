@@ -1835,5 +1835,60 @@
 		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
 		"UnitId": "e78e1c38-7177-45ba-b093-637143f4c568",
 		"MediumId": "9e74869f-401b-4dac-8da6-1a819bb6c67f"
+	},
+	{
+		"PublParamId": "d0a59aec-5d40-44e8-a81a-abf41194ce2f",
+		"Position": 0,
+		"IsMandatory": true,
+		"FootnoteId": "",
+		"Tolerance": 0,
+		"PublicationId": "85215daf-a546-489d-84e2-0846ef568c67",
+		"ParameterId": "263368f8-4aa5-4eed-9664-ad08824261d2",
+		"UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830",
+		"MediumId": "ab5d451f-8123-4ee9-97bf-f25ccd1fad51"
+	},
+	{
+		"PublParamId": "9452df3a-c137-4668-9232-599953803e06",
+		"Position": 1,
+		"IsMandatory": true,
+		"FootnoteId": "",
+		"Tolerance": 0,
+		"PublicationId": "85215daf-a546-489d-84e2-0846ef568c67",
+		"ParameterId": "7a7d9e70-7484-4529-85df-dfccec111731",
+		"UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830",
+		"MediumId": "ab5d451f-8123-4ee9-97bf-f25ccd1fad51"
+	},
+	{
+		"PublParamId": "c8bbf282-6259-47c2-99fa-5339842a4538",
+		"Position": 0,
+		"IsMandatory": true,
+		"FootnoteId": "",
+		"Tolerance": 0,
+		"PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731",
+		"ParameterId": "263368f8-4aa5-4eed-9664-ad08824261d2",
+		"UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830",
+		"MediumId": "ab5d451f-8123-4ee9-97bf-f25ccd1fad51"
+	},
+	{
+		"PublParamId": "12189b5f-4bf8-41a5-8da5-f7503fefdfba",
+		"Position": 1,
+		"IsMandatory": true,
+		"FootnoteId": "",
+		"Tolerance": 0,
+		"PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731",
+		"ParameterId": "7a7d9e70-7484-4529-85df-dfccec111731",
+		"UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830",
+		"MediumId": "ab5d451f-8123-4ee9-97bf-f25ccd1fad51"
+	},
+	{
+		"PublParamId": "ba6fba6b-bab8-43a6-9cd1-4067937603ec",
+		"Position": 2,
+		"IsMandatory": false,
+		"FootnoteId": "",
+		"Tolerance": 0,
+		"PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731",
+		"ParameterId": "5c146f74-3fe3-4abf-84ab-b760efb12de3",
+		"UnitId": "e78e1c38-7177-45ba-b093-637143f4c568",
+		"MediumId": "9e74869f-401b-4dac-8da6-1a819bb6c67f"
 	}
 ]

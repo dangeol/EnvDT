@@ -88,7 +88,7 @@
     <StackPanel Grid.Row="1" Orientation="Vertical" 
                 Visibility="{Binding IsEvalResultVisible,
                 Converter={StaticResource booleanToVisibilityConverter}}">
-
+      
       <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
                 AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_PublAndFootnotes"
                 Name="SelectedPublsDataGrid" CanUserAddRows="False"

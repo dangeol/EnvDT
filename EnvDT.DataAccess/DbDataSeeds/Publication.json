@@ -88,5 +88,35 @@
     "Note": "",
     "UsesMediumSubTypes": false,
     "UsesConditions": false
+  },
+  {
+    "PublicationId": "85215daf-a546-489d-84e2-0846ef568c67",
+    "Title": "Leitfaden zum Umgang mit teerhaltigem Straßenaufbruch, vom März 2010.",
+    "Abbreviation": "StraAuf (BW)",
+    "PublIdent": "StraAufBW",
+    "OrderId": 6,
+    "Author": "",
+    "Publisher": "Ministerium für Umwelt, Naturschutz und Verkehr Baden-Württemberg",
+    "Year": "2010",
+    "URL": "",
+    "Addendum": "",
+    "Note": "",
+    "UsesMediumSubTypes": false,
+    "UsesConditions": false
+  },
+  {
+    "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731",
+    "Title": "Merkblatt Nr. 3.4/1 - Umweltfachliche Beurteilung der Lagerung, Aufbereitung und Verwertung von Straßenaufbruch, 01.03.2019.",
+    "Abbreviation": "StraAuf (BY)",
+    "PublIdent": "StraAufBY",
+    "OrderId": 7,
+    "Author": "",
+    "Publisher": "Bayerisches Landesamt für Umwelt",
+    "Year": "2019",
+    "URL": "",
+    "Addendum": "",
+    "Note": "",
+    "UsesMediumSubTypes": false,
+    "UsesConditions": false
   }
 ]
