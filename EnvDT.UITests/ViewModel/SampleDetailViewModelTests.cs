@@ -156,8 +156,8 @@ namespace EnvDT.UITests.ViewModel
             //2 samples in labreport
             Assert.Equal(2, _viewModel.EvalResultDataView.Table.Rows.Count);
             //For each selected publication, two new columns are added; 
-            //1 sample name column + 2 new colums = 3.
-            Assert.Equal(3, _viewModel.EvalResultDataView.Table.Columns.Count);
+            //1 sample name column, 1 (hidden) sort column, + 2 new colums = 3.
+            Assert.Equal(4, _viewModel.EvalResultDataView.Table.Columns.Count);
             Assert.Equal(_samples[0].SampleName, _viewModel.EvalResultDataView.Table.Rows[0][0]);
             Assert.Equal(_samples[1].SampleName, _viewModel.EvalResultDataView.Table.Rows[1][0]);            
 
@@ -173,7 +173,7 @@ namespace EnvDT.UITests.ViewModel
             //2 Publications selected
             Assert.Equal(2, _viewModel.SelectedPublsDataView.Table.Rows.Count);
             Assert.Equal(1, _viewModel.EvalResultDataView.Table.Rows.Count);
-            Assert.Equal(5, _viewModel.EvalResultDataView.Table.Columns.Count);
+            Assert.Equal(6, _viewModel.EvalResultDataView.Table.Columns.Count);
             //No missing params
             Assert.Equal(0, _viewModel.FootnotesDataView.Table.Rows.Count);
             _messageDialogServiceMock.Verify(ds => ds.ShowSampleEditDialog(It.IsAny<string>(),

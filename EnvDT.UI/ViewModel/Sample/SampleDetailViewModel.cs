@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Events;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data;
 using System.Dynamic;
 using System.Linq;
@@ -40,6 +41,8 @@ namespace EnvDT.UI.ViewModel
         private bool _isEvalResultVisible;
         private bool _isAnimationVisible;
         private string _sampleColHeader;
+        private string _classifColHeader;
+        private string _classifParamsColHeader;
         private bool _selectSameLrParamMaxValue;
         private bool _selectDiffLrParamMaxValue;
         private bool _evalFootnotes;
@@ -68,7 +71,10 @@ namespace EnvDT.UI.ViewModel
             _selectedPubls = new List<Publication>();
             _sampleEditDialogTitle = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_EditSamples"];
             _sampleColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_Sample"];
+            _classifColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_Classification"];
+            _classifParamsColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_ClassificationParams"];
             Samples = new List<Sample>();
+            PublColDescriptions = new ObservableCollection<string>();
             EditSamplesCommand = new DelegateCommand(OnEditSamplesExecute, OnEditSamplesCanExecute);
             EvalLabReportCommand = new DelegateCommand(OnEvalExecute, OnEvalCanExecute);
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
@@ -87,6 +93,7 @@ namespace EnvDT.UI.ViewModel
         public bool IsSampleTab { get; private set; }
         public Guid? LabReportId { get; set; }
         public IEnumerable<Sample> Samples { get; private set; }
+        public ObservableCollection<string> PublColDescriptions { get; private set; }
 
         // Title of current tab
         public string Title { get; private set; }
@@ -200,12 +207,14 @@ namespace EnvDT.UI.ViewModel
         {
             _publications = UnitOfWork.Publications.GetAll().OrderBy(p => p.OrderId);
             _sampleTable.Columns.Add(_sampleColHeader);
+            PublColDescriptions.Clear();
             IDictionary<string, object> sampleTableRow = new ExpandoObject();
             var sampleNameKey = "SampleName";
             sampleTableRow[sampleNameKey] = "";
             foreach (var publication in _publications)
             {
                 _sampleTable.Columns.Add(publication.Abbreviation, typeof(bool));
+                PublColDescriptions.Add($"{publication.Publisher}: {publication.Title}");
                 var publColName = $"publ_{publication.OrderId}";
                 sampleTableRow[publColName] = 0;
             }
@@ -363,7 +372,8 @@ namespace EnvDT.UI.ViewModel
         private void BuildEvalResultDataView()
         {
             _evalResultTable = new DataTable();
-            _evalResultTable.Columns.Add(_sampleColHeader);          
+            _evalResultTable.Columns.Add(_sampleColHeader);
+            _evalResultTable.Columns.Add("SortCol");
             _footnoteStrings.Clear();
             _footnotesTable.Clear();
             _footnoteIndex = 1;
@@ -371,7 +381,7 @@ namespace EnvDT.UI.ViewModel
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
-            var c_sampleTable = 1;
+            var c_sampleTable = 2;
             var publListNumber = 1;
 
             while (c < _sampleTable.Columns.Count)
@@ -392,7 +402,7 @@ namespace EnvDT.UI.ViewModel
                     }
                     if (_sampleTable.Rows[r][c].Equals(true))
                     {
-                        FillTwoResultTableCells(c_sampleTable, r, publicationId);
+                        FillTwoResultTableCells(c_sampleTable, r, publicationId, publListNumber);
                     }
                     r++;
                 }
@@ -405,8 +415,8 @@ namespace EnvDT.UI.ViewModel
                 {
                     c_sampleTable += 2;
                     var _colCount = _evalResultTable.Columns.Count;
-                    _evalResultTable.Columns[_colCount - 2].ColumnName = $"V{publListNumber}";
-                    _evalResultTable.Columns[_colCount - 1].ColumnName = $"E{publListNumber}";
+                    _evalResultTable.Columns[_colCount - 2].ColumnName = $"{_classifColHeader} [{publListNumber}]";
+                    _evalResultTable.Columns[_colCount - 1].ColumnName = $"{_classifParamsColHeader} [{publListNumber}]";
                     publListNumber++;
                 }
                 c++;                
@@ -419,12 +429,16 @@ namespace EnvDT.UI.ViewModel
                     _evalResultTable.Rows.RemoveAt(row);
                 }
             }
-            EvalResultDataView = new DataView(_evalResultTable);
+            var firstColName = _evalResultTable.Columns[0].ColumnName;
+            EvalResultDataView = new DataView(_evalResultTable)
+            {
+                Sort = $"SortCol ASC, {firstColName} ASC"
+            };
             FootnotesDataView = new DataView(_footnotesTable);
             SelectedPublsDataView = new DataView(_selectedPublsTable);
         }
 
-        private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId)
+        private void FillTwoResultTableCells(int c_sampleTable, int r, Guid publicationId, int publListNumber)
         {
             _isColumnEmpty = false;
             var sample = Samples.ElementAt(r);
@@ -439,6 +453,7 @@ namespace EnvDT.UI.ViewModel
             };
             var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
             _evalResultTable.Rows[r][0] = sample.SampleName;
+            _evalResultTable.Rows[r][1] = publListNumber;
 
             var highestValClassName = evalResult.HighestValClassName;
             var exceedingValues = evalResult.ExceedingValues;

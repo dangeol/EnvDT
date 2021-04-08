@@ -855,6 +855,26 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Classifi-
+        ///cation..
+        /// </summary>
+        public static string SampleDetailVM_GridHeader_Classification {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_GridHeader_Classification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Classif.
+        ///Params..
+        /// </summary>
+        public static string SampleDetailVM_GridHeader_ClassificationParams {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_GridHeader_ClassificationParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sample.
         /// </summary>
         public static string SampleDetailVM_GridHeader_Sample {

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:EnvDT.UI"
              xmlns:startup="clr-namespace:EnvDT.UI.Startup"
-             xmlns:view="clr-namespace:EnvDT.UI.View"
+             xmlns:view="clr-namespace:EnvDT.UI.View" 
+             xmlns:service="clr-namespace:EnvDT.UI.Service"
              Startup="Application_Startup"
              DispatcherUnhandledException="Application_DispatcherUnhandledException">
   
@@ -13,6 +14,7 @@
         <!--Custom Resources-->
         <ResourceDictionary>
           <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
+          <service:IndexToDescriptionConverter x:Key="IndexToDescriptionConverter"/>
         </ResourceDictionary>
         <ResourceDictionary Source="Styling/Icons/Icons.xaml"/>
         <ResourceDictionary Source="Styling/Styles/Button.xaml"/>

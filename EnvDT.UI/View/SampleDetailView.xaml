@@ -99,6 +99,7 @@
       </DataGrid>
 
       <DataGrid ItemsSource="{Binding EvalResultDataView}"
+                AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_EvalResultDataView"
                 Name="EvalResultsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}" 
                 GridLinesVisibility="All"

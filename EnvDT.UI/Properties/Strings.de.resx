@@ -420,4 +420,12 @@ Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn 
   <data name="SampleDetailView_Checkbox_EvalFootnotes" xml:space="preserve">
     <value>Auswertung von Fußnoten</value>
   </data>
+  <data name="SampleDetailVM_GridHeader_Classification" xml:space="preserve">
+    <value>Einstu-
+fung</value>
+  </data>
+  <data name="SampleDetailVM_GridHeader_ClassificationParams" xml:space="preserve">
+    <value>Einstufungsrel.
+Parameter</value>
+  </data>
 </root>

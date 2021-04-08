@@ -420,4 +420,12 @@ If there is no corresponding parameter name or in the case of doubt, please sele
   <data name="SampleDetailView_Checkbox_EvalFootnotes" xml:space="preserve">
     <value>Evaluate footnotes</value>
   </data>
+  <data name="SampleDetailVM_GridHeader_Classification" xml:space="preserve">
+    <value>Classifi-
+cation.</value>
+  </data>
+  <data name="SampleDetailVM_GridHeader_ClassificationParams" xml:space="preserve">
+    <value>Classif.
+Params.</value>
+  </data>
 </root>

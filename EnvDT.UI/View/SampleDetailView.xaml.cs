@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using EnvDT.UI.Service;
+using System.Collections.Generic;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -19,6 +22,34 @@ namespace EnvDT.UI.View
                 !e.Column.Header.ToString().Equals("Probe"))
             {
                 e.Column.HeaderStyle = Application.Current.FindResource("ColumnHeaderRotateStyle") as Style;
+            }         
+        }
+
+        private void DataGrid_AutoGeneratingColumn_EvalResultDataView(object sender, DataGridAutoGeneratingColumnEventArgs e)
+        {
+            // The following has been taken without modification from https://stackoverflow.com/a/55400647
+
+            var columnName = (string)e.Column.Header;
+          
+            var bindingBuilder = new StringBuilder(columnName.Length * 2 + 2);
+
+            bindingBuilder.Append('[');
+            foreach (var c in columnName)
+            {
+                bindingBuilder.Append('^');
+                bindingBuilder.Append(c);
+            }
+            bindingBuilder.Append(']');
+
+            e.Column = new DataGridTextColumn
+            {
+                Binding = new Binding(bindingBuilder.ToString()),
+                Header = e.Column.Header,
+            };
+
+            if (e.Column.Header.ToString().Equals("SortCol"))
+            {
+                e.Column.Visibility = Visibility.Collapsed;
             }
         }
 
