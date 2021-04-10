@@ -7,4 +7,46 @@
     <Setter Property="Height" Value="25"/>
     <Setter Property="Width" Value="100"/>
   </Style>
+
+  <Style x:Key="CopyButtonStyle" TargetType="Button">
+    <Setter Property="Height" Value="20"/>
+    <Setter Property="Width" Value="20"/>
+    <Setter Property="ContentTemplate">
+      <Setter.Value>
+        <DataTemplate>
+          <StackPanel Orientation="Horizontal">
+            <ContentPresenter x:Name="contentPresenter" Content="{TemplateBinding Content}"/>
+            <Viewbox Width="15" Height="15">
+              <ContentControl Content="{Binding}"
+                              VerticalAlignment="Center"/>
+            </Viewbox>
+          </StackPanel>
+        </DataTemplate>
+      </Setter.Value>
+    </Setter>
+    <Style.Triggers>
+      <Trigger Property="IsMouseOver" Value="True">
+        <Setter Property="ToolTip">
+          <Setter.Value>
+            <ToolTip Content="{Binding}"/>
+          </Setter.Value>
+        </Setter>
+      </Trigger>
+    </Style.Triggers>
+  </Style>
+
+  <Style x:Key="CloseTabButtonStyle" TargetType="Button">
+    <Setter Property="Height" Value="15"/>
+    <Setter Property="Width" Value="15"/>
+    <Setter Property="Margin" Value="3 2 1 2"/>
+    <Setter Property="Padding" Value="-5"/>
+    <Setter Property="BorderThickness" Value="0"/>
+    <Setter Property="VerticalContentAlignment" Value="Center"/>
+    <Setter Property="HorizontalContentAlignment" Value="Center"/>
+    <Setter Property="FontFamily" Value="Courier New"/>
+    <Setter Property="FontSize" Value="9"/>
+    <Setter Property="FontWeight" Value="SemiBold"/>
+  </Style>
+
 </ResourceDictionary>
+  

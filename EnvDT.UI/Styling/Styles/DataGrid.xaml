@@ -2,14 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
   <Style x:Key="BaseDataGridStyle" TargetType="DataGrid">
-    <Setter Property="FontFamily" Value="Segoe UI"/>
-    <Setter Property="FontSize" Value="14"/>
-    <Setter Property="GridLinesVisibility" Value="None"/>
+    <Setter Property="FontFamily" Value="Segoe UI" />
+    <Setter Property="FontSize" Value="14" />
+    <Setter Property="GridLinesVisibility" Value="None" />
+    
   </Style>
 
   <Style x:Key="WhiteDataGridCellStyle" 
          TargetType="{x:Type DataGridCell}">
-    <Setter Property="Foreground" Value="Black"/>
+    <Setter Property="Foreground" Value="Black" />
     <Setter Property="Background" Value="{x:Null}" />
     <Setter Property="BorderBrush" Value="{x:Null}" />
     <Style.Triggers>

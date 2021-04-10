@@ -1,5 +1,4 @@
-﻿using EnvDT.UI.Service;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,11 +17,15 @@ namespace EnvDT.UI.View
 
         private void DataGrid_AutoGeneratingColumn_SampleDataView(object sender, DataGridAutoGeneratingColumnEventArgs e)
         {
-            if (!e.Column.Header.ToString().Equals("Sample") &&
-                !e.Column.Header.ToString().Equals("Probe"))
+            if (e.Column.Header.ToString().Equals("Sample") ||
+                e.Column.Header.ToString().Equals("Probe"))
             {
+                e.Column.CellStyle = Application.Current.FindResource("WhiteDataGridCellStyle") as Style;
+            }
+            else
+            {              
                 e.Column.HeaderStyle = Application.Current.FindResource("ColumnHeaderRotateStyle") as Style;
-            }         
+            }
         }
 
         private void DataGrid_AutoGeneratingColumn_EvalResultDataView(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -59,25 +62,41 @@ namespace EnvDT.UI.View
             {
                 e.Column.Width = 10; 
             }
-            else
-            {
-                //TO DO: fix this - text wrapping does not work here
-                var col = e.Column as DataGridTextColumn;
 
+            //TO DO: fix this - text wrapping does not work here
+            var col = e.Column as DataGridTextColumn;
+            if (col != null)
+            {
                 var style = new Style(typeof(TextBlock));
-                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
-                style.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Center));
+                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.WrapWithOverflow));
+                style.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Top));
 
                 col.ElementStyle = style;
             }
         }
 
-        public void CopyToClipboard(object obj, RoutedEventArgs e)
+        public void CopyToClipboard_SelectedPublsDataGrid(object obj, RoutedEventArgs e)
+        {
+            SelectedPublsDataGrid.SelectAllCells();
+            SelectedPublsDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.ExcludeHeader;
+            ApplicationCommands.Copy.Execute(null, SelectedPublsDataGrid);
+            SelectedPublsDataGrid.UnselectAllCells();
+        }
+
+        public void CopyToClipboard_EvalResultsDataGrid(object obj, RoutedEventArgs e)
         {
             EvalResultsDataGrid.SelectAllCells();
             EvalResultsDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.IncludeHeader;
             ApplicationCommands.Copy.Execute(null, EvalResultsDataGrid);
             EvalResultsDataGrid.UnselectAllCells();
+        }
+
+        public void CopyToClipboard_FootnotesDataGrid(object obj, RoutedEventArgs e)
+        {
+            FootnotesDataGrid.SelectAllCells();
+            FootnotesDataGrid.ClipboardCopyMode = DataGridClipboardCopyMode.ExcludeHeader;
+            ApplicationCommands.Copy.Execute(null, FootnotesDataGrid);
+            FootnotesDataGrid.UnselectAllCells();
         }
 
         // Taken from the following source and slightly modified:

@@ -46,6 +46,7 @@ namespace EnvDT.UI.ViewModel
         private bool _selectSameLrParamMaxValue;
         private bool _selectDiffLrParamMaxValue;
         private bool _evalFootnotes;
+        private bool _isFootnotesCopyButtonVisible;
         private const string _superscriptDigits =
             "\u2070\u00b9\u00b2\u00b3\u2074\u2075\u2076\u2077\u2078\u2079";
 
@@ -80,6 +81,7 @@ namespace EnvDT.UI.ViewModel
             CloseDetailViewCommand = new DelegateCommand(OnCloseDetailViewExecute);
             IsSampleTab = true;
             IsEvalResultVisible = false;
+            IsFootnotesCopyButtonVisible = false;
             IsAnimationVisible = false;
             SelectSameLrParamMaxValue = true;
             SelectDiffLrParamMaxValue = false;
@@ -144,6 +146,16 @@ namespace EnvDT.UI.ViewModel
             set
             {
                 _isEvalResultVisible = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool IsFootnotesCopyButtonVisible
+        {
+            get { return _isFootnotesCopyButtonVisible; }
+            set
+            {
+                _isFootnotesCopyButtonVisible = value;
                 OnPropertyChanged();
             }
         }
@@ -435,6 +447,10 @@ namespace EnvDT.UI.ViewModel
                 Sort = $"SortCol ASC, {firstColName} ASC"
             };
             FootnotesDataView = new DataView(_footnotesTable);
+            if (_footnotesTable.Rows.Count > 0)
+            {
+                IsFootnotesCopyButtonVisible = true;
+            }
             SelectedPublsDataView = new DataView(_selectedPublsTable);
         }
 

@@ -448,4 +448,7 @@ cation.</value>
     <value>Classif.
 Params.</value>
   </data>
+  <data name="SampleDetailView_ToolTip_CopyButton" xml:space="preserve">
+    <value>Copy to clipboard</value>
+  </data>
 </root>

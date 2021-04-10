@@ -85,11 +85,26 @@
            VerticalAlignment="Center" HorizontalAlignment="Center"
            Width="100" Height="100" gif:ImageBehavior.AnimatedSource="/Styling/Images/wheel.gif" />
 
-    <StackPanel Grid.Row="1" Orientation="Vertical" 
-                Visibility="{Binding IsEvalResultVisible,
-                Converter={StaticResource booleanToVisibilityConverter}}">
-      
-      <DataGrid ItemsSource="{Binding SelectedPublsDataView}"
+    <Grid Grid.Row="1" Visibility="{Binding IsEvalResultVisible,
+          Converter={StaticResource booleanToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="20" />
+        <ColumnDefinition />
+      </Grid.ColumnDefinitions>
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition Height="Auto"/>
+        <RowDefinition />
+      </Grid.RowDefinitions>
+
+      <Button Style="{StaticResource CopyButtonStyle}" 
+              Content="{StaticResource copyIcon}" VerticalAlignment="Top" Margin="0 10 0 0"
+              Click="CopyToClipboard_SelectedPublsDataGrid">
+        <Button.ToolTip>
+          <ToolTip Content="{loc:Loc SampleDetailView_ToolTip_CopyButton}" />
+        </Button.ToolTip>
+      </Button>
+      <DataGrid Grid.Column="1" ItemsSource="{Binding SelectedPublsDataView}"
                 AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_PublAndFootnotes"
                 Name="SelectedPublsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
@@ -98,7 +113,14 @@
                 HorizontalScrollBarVisibility="Hidden">
       </DataGrid>
 
-      <DataGrid ItemsSource="{Binding EvalResultDataView}"
+      <Button Grid.Row="1" Style="{StaticResource CopyButtonStyle}" 
+              Content="{StaticResource copyIcon}" VerticalAlignment="Top" Margin="0 10 0 0"
+              Click="CopyToClipboard_EvalResultsDataGrid">
+        <Button.ToolTip>
+          <ToolTip Content="{loc:Loc SampleDetailView_ToolTip_CopyButton}" />
+        </Button.ToolTip>
+      </Button>
+      <DataGrid Grid.Column="1" Grid.Row="1" ItemsSource="{Binding EvalResultDataView}"
                 AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_EvalResultDataView"
                 Name="EvalResultsDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}" 
@@ -106,7 +128,16 @@
                 AutoGenerateColumns="True" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <DataGrid ItemsSource="{Binding FootnotesDataView}"
+      <Button Grid.Row="2" Style="{StaticResource CopyButtonStyle}" 
+              Content="{StaticResource copyIcon}" VerticalAlignment="Top" Margin="0 10 0 0"              
+              Visibility="{Binding IsFootnotesCopyButtonVisible,
+                           Converter={StaticResource booleanToVisibilityConverter}}" 
+              Click="CopyToClipboard_FootnotesDataGrid">
+        <Button.ToolTip>
+          <ToolTip Content="{loc:Loc SampleDetailView_ToolTip_CopyButton}" />
+        </Button.ToolTip>
+      </Button>
+      <DataGrid Grid.Column="1" Grid.Row="2" ItemsSource="{Binding FootnotesDataView}"
                 AutoGeneratingColumn="DataGrid_AutoGeneratingColumn_PublAndFootnotes"
                 Name="FootnotesDataGrid" CanUserAddRows="False"
                 CellStyle="{StaticResource WhiteDataGridCellStyle}"
@@ -114,8 +145,6 @@
                 FontSize="9" IsReadOnly="True" RowHeaderWidth="0" Margin="10">
       </DataGrid>
 
-      <Button Content="{loc:Loc SampleDetailView_Button_Copy}" 
-              Click="CopyToClipboard" Margin="10"/>
-    </StackPanel>
+    </Grid>
   </Grid>
 </UserControl>
