@@ -41,6 +41,7 @@ namespace EnvDT.UI.ViewModel
         private bool _isEvalResultVisible;
         private bool _isAnimationVisible;
         private string _sampleColHeader;
+        private string _wasteCodeColHeader;
         private string _classifColHeader;
         private string _classifParamsColHeader;
         private bool _selectSameLrParamMaxValue;
@@ -72,6 +73,7 @@ namespace EnvDT.UI.ViewModel
             _selectedPubls = new List<Publication>();
             _sampleEditDialogTitle = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_DialogTitle_EditSamples"];
             _sampleColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_Sample"];
+            _wasteCodeColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_WasteCode"];
             _classifColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_Classification"];
             _classifParamsColHeader = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_GridHeader_ClassificationParams"];
             Samples = new List<Sample>();
@@ -386,6 +388,7 @@ namespace EnvDT.UI.ViewModel
             _evalResultTable = new DataTable();
             _evalResultTable.Columns.Add(_sampleColHeader);
             _evalResultTable.Columns.Add("SortCol");
+            _evalResultTable.Columns.Add(_wasteCodeColHeader);
             _footnoteStrings.Clear();
             _footnotesTable.Clear();
             _footnoteIndex = 1;
@@ -393,7 +396,7 @@ namespace EnvDT.UI.ViewModel
             var r_init = 0;
             var c_init = 1;
             var c = c_init;
-            var c_sampleTable = 2;
+            var c_sampleTable = 3;
             var publListNumber = 1;
 
             while (c < _sampleTable.Columns.Count)
@@ -433,6 +436,8 @@ namespace EnvDT.UI.ViewModel
                 }
                 c++;                
             }
+            //Move WasteCode Column to end:
+            _evalResultTable.Columns[2].SetOrdinal(_evalResultTable.Columns.Count - 1);
             //Remove empty rows:
             for (int row = _evalResultTable.Rows.Count - 1; row >= 0; row--)
             {
@@ -441,6 +446,7 @@ namespace EnvDT.UI.ViewModel
                     _evalResultTable.Rows.RemoveAt(row);
                 }
             }
+
             var firstColName = _evalResultTable.Columns[0].ColumnName;
             EvalResultDataView = new DataView(_evalResultTable)
             {
@@ -469,7 +475,16 @@ namespace EnvDT.UI.ViewModel
             };
             var evalResult = _evalLabReportService.GetEvalResult(evalArgs);
             _evalResultTable.Rows[r][0] = sample.SampleName;
-            _evalResultTable.Rows[r][1] = publListNumber;
+            // Only fill SortCol cell if empty, to keep the right order
+            if (_evalResultTable.Rows[r][1] == DBNull.Value)
+            {
+                _evalResultTable.Rows[r][1] = publListNumber;
+            }            
+            var wasteCodeEWC = UnitOfWork.WasteCodeEWCs.GetById(sample.WasteCodeEWCId);
+            if (wasteCodeEWC != null)
+            { 
+                _evalResultTable.Rows[r][2] = $"{wasteCodeEWC.WasteCodeNumber}{Environment.NewLine}{wasteCodeEWC.WasteCodeDescrDeAVV}";
+            }
 
             var highestValClassName = evalResult.HighestValClassName;
             var exceedingValues = evalResult.ExceedingValues;

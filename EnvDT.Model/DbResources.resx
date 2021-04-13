@@ -183,4 +183,7 @@
   <data name="valuationClassMedSubTypeJson" xml:space="preserve">
     <value>../EnvDT.DataAccess/DbDataSeeds/ValuationClassMedSubType.json</value>
   </data>
+  <data name="wasteCodeEWCJson" xml:space="preserve">
+    <value>../EnvDT.DataAccess/DbDataSeeds/WasteCodeEWC.json</value>
+  </data>
 </root>

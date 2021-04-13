@@ -756,7 +756,8 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluate footnotes.
+        ///   Looks up a localized string similar to Evaluate footnotes
+        ///(experimental, uncomplete).
         /// </summary>
         public static string SampleDetailView_Checkbox_EvalFootnotes {
             get {
@@ -893,6 +894,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Waste Code.
+        /// </summary>
+        public static string SampleDetailVM_GridHeader_WasteCode {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_GridHeader_WasteCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Condition.
         /// </summary>
         public static string SampleEditDialog_GridHeader_Condition {
@@ -907,6 +917,15 @@ namespace EnvDT.UI.Properties {
         public static string SampleEditDialog_GridHeader_Sample {
             get {
                 return ResourceManager.GetString("SampleEditDialog_GridHeader_Sample", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Waste Code.
+        /// </summary>
+        public static string SampleEditDialog_GridHeader_WasteCode {
+            get {
+                return ResourceManager.GetString("SampleEditDialog_GridHeader_WasteCode", resourceCulture);
             }
         }
         

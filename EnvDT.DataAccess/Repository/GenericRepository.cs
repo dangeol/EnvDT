@@ -27,7 +27,7 @@ namespace EnvDT.DataAccess.Repository
             Context.Set<TEntity>().Remove(model);
         }
 
-        public virtual TEntity GetById(Guid id)
+        public virtual TEntity GetById(Guid? id)
         {
             return Context.Set<TEntity>().Find(id);
         }

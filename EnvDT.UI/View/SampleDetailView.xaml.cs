@@ -54,6 +54,27 @@ namespace EnvDT.UI.View
             {
                 e.Column.Visibility = Visibility.Collapsed;
             }
+
+            // Column widths and text wrapping:
+            var col = e.Column as DataGridTextColumn;            
+            if (col != null)
+            {
+                if (e.Column.Header.ToString().Equals("Waste Code") ||
+                    e.Column.Header.ToString().Equals("Abfallschlüssel"))
+                {
+                    col.Width = new DataGridLength(150, DataGridLengthUnitType.Star);
+                }
+                else
+                {
+                    e.Column.MaxWidth = 200;
+                }
+
+                var style = new Style(typeof(TextBlock));
+                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
+                style.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Top));
+
+                col.ElementStyle = style;
+            }         
         }
 
         private void DataGrid_AutoGeneratingColumn_PublAndFootnotes(object sender, DataGridAutoGeneratingColumnEventArgs e)
@@ -68,7 +89,7 @@ namespace EnvDT.UI.View
             if (col != null)
             {
                 var style = new Style(typeof(TextBlock));
-                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.WrapWithOverflow));
+                style.Setters.Add(new Setter(TextBlock.TextWrappingProperty, TextWrapping.Wrap));
                 style.Setters.Add(new Setter(VerticalAlignmentProperty, VerticalAlignment.Top));
 
                 col.ElementStyle = style;

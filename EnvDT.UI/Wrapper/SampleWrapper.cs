@@ -7,9 +7,10 @@ namespace EnvDT.UI.Wrapper
 {
     public class SampleWrapper : ModelWrapper<Sample>
     {
-        private ObservableCollection<LookupItem> _media = new ObservableCollection<LookupItem>();
-        private ObservableCollection<LookupItem> _mediumSubTypes = new ObservableCollection<LookupItem>();
-        private ObservableCollection<LookupItem> _conditions = new ObservableCollection<LookupItem>();
+        private ObservableCollection<LookupItem> _media = new();
+        private ObservableCollection<LookupItem> _mediumSubTypes = new();
+        private ObservableCollection<LookupItem> _conditions = new();
+        private ObservableCollection<LookupItem> _wasteCodeEWCs = new();
 
         public SampleWrapper(Sample model) : base(model)
         {
@@ -74,6 +75,22 @@ namespace EnvDT.UI.Wrapper
             }
         }
 
+        public Guid WasteCodeEWCId
+        {
+            get { return GetValue<Guid>(); }
+            set { SetValue(value); }
+        }
+
+        public ObservableCollection<LookupItem> WasteCodeEWCs
+        {
+            get { return _wasteCodeEWCs; }
+            set
+            {
+                _wasteCodeEWCs = value;
+                OnPropertyChanged();
+            }
+        }
+
         protected override IEnumerable<string> ValidateProperty(string propertyName)
         {
             ClearErrors(propertyName);
@@ -93,6 +110,12 @@ namespace EnvDT.UI.Wrapper
                     break;
                 case nameof(ConditionId):
                     if (Guid.Equals(ConditionId, Guid.Empty))
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
+                case nameof(WasteCodeEWCId):
+                    if (Guid.Equals(WasteCodeEWCId, Guid.Empty))
                     {
                         yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
                     }

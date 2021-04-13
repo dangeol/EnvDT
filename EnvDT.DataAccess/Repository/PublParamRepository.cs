@@ -15,7 +15,7 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public override PublParam GetById(Guid projectParamId)
+        public override PublParam GetById(Guid? projectParamId)
         {
             return Context.PublParams.AsNoTracking()
                 .Include(pp => pp.RefValues)

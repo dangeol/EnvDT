@@ -257,5 +257,14 @@ namespace EnvDT.Model {
                 return ResourceManager.GetString("valuationClassMedSubTypeJson", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/WasteCodeEWC.json.
+        /// </summary>
+        internal static string wasteCodeEWCJson {
+            get {
+                return ResourceManager.GetString("wasteCodeEWCJson", resourceCulture);
+            }
+        }
     }
 }

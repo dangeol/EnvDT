@@ -53,6 +53,17 @@
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
+            <DataGridTemplateColumn Header="{loc:Loc SampleEditDialog_GridHeader_WasteCode}" MinWidth="180">
+              <DataGridTemplateColumn.CellTemplate>
+                <DataTemplate>
+                  <ComboBox SelectedValue="{Binding Path=WasteCodeEWCId,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                            SelectedValuePath="LookupItemId"
+                            ItemsSource="{Binding Path=WasteCodeEWCs}"
+                            DisplayMemberPath="DisplayMember">
+                  </ComboBox>
+                </DataTemplate>
+              </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
           </DataGrid.Columns>
         </DataGrid>
       </StackPanel>

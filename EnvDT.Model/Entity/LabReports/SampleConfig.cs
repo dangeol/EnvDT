@@ -20,6 +20,9 @@ namespace EnvDT.Model.Entity
             builder.HasOne(s => s.Condition)
                 .WithMany(c => c.Samples)
                 .HasForeignKey(s => s.ConditionId);
+            builder.HasOne(s => s.WasteCodeEWC)
+                .WithMany(wc => wc.Samples)
+                .HasForeignKey(s => s.WasteCodeEWCId);
         }
     }
 }

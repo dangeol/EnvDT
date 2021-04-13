@@ -124,5 +124,19 @@ namespace EnvDT.DataAccess.DataService
                     });
             }
         }
+
+        public IEnumerable<LookupItem> GetAllWasteCodeEWCsLookup()
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<WasteCodeEWC>().AsNoTracking().ToList()
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.WasteCodeEWCId,
+                        DisplayMember = $"{l.WasteCodeNumber}: {l.WasteCodeDescrDeAVV}"
+                    })
+                    .OrderBy(l => l.DisplayMember);
+            }
+        }
     }
 }

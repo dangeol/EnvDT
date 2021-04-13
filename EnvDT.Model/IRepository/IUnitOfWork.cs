@@ -21,6 +21,7 @@ namespace EnvDT.Model.IRepository
         public IUnitRepository Units { get; }
         public IUnitNameVariantRepository UnitNameVariants { get; }
         public IValuationClassRepository ValuationClasses { get; }
+        public IWasteCodeEWCRepository WasteCodeEWCs { get; }
         public int Save();
     }
 }

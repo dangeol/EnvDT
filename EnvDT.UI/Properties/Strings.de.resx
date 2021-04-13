@@ -418,7 +418,8 @@ Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn 
     <value>Unter Berücksichtigung von: </value>
   </data>
   <data name="SampleDetailView_Checkbox_EvalFootnotes" xml:space="preserve">
-    <value>Auswertung von Fußnoten</value>
+    <value>Auswertung von Fußnoten
+(experimentell, unvollständig)</value>
   </data>
   <data name="SampleDetailVM_GridHeader_Classification" xml:space="preserve">
     <value>Einstu-
@@ -430,5 +431,11 @@ Parameter</value>
   </data>
   <data name="SampleDetailView_ToolTip_CopyButton" xml:space="preserve">
     <value>Kopie in die Zwischenablage</value>
+  </data>
+  <data name="SampleDetailVM_GridHeader_WasteCode" xml:space="preserve">
+    <value>Abfallschlüssel</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_WasteCode" xml:space="preserve">
+    <value>Abfallschlüssel</value>
   </data>
 </root>

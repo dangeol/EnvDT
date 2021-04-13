@@ -438,7 +438,8 @@ If there is no corresponding parameter name or in the case of doubt, please sele
     <value>Taking account of: </value>
   </data>
   <data name="SampleDetailView_Checkbox_EvalFootnotes" xml:space="preserve">
-    <value>Evaluate footnotes</value>
+    <value>Evaluate footnotes
+(experimental, uncomplete)</value>
   </data>
   <data name="SampleDetailVM_GridHeader_Classification" xml:space="preserve">
     <value>Classifi-
@@ -450,5 +451,11 @@ Params.</value>
   </data>
   <data name="SampleDetailView_ToolTip_CopyButton" xml:space="preserve">
     <value>Copy to clipboard</value>
+  </data>
+  <data name="SampleDetailVM_GridHeader_WasteCode" xml:space="preserve">
+    <value>Waste Code</value>
+  </data>
+  <data name="SampleEditDialog_GridHeader_WasteCode" xml:space="preserve">
+    <value>Waste Code</value>
   </data>
 </root>

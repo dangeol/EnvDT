@@ -54,6 +54,10 @@ namespace EnvDT.UI.ViewModel
                 {
                     sample.ConditionId = _standardGuid;
                 }
+                if (sample.WasteCodeEWCId == null)
+                {
+                    sample.WasteCodeEWCId = _standardGuid;
+                }
                 SampleWrapper wrapper = InitializeSample(sample);
                 wrapper.PropertyChanged += Wrapper_PropertyChanged;
                 Samples.Add(wrapper);
@@ -67,6 +71,7 @@ namespace EnvDT.UI.ViewModel
             wrapper.MediumId = (Guid)sample.MediumId;
             wrapper.MediumSubTypeId = (Guid)sample.MediumSubTypeId;
             wrapper.ConditionId = (Guid)sample.ConditionId;
+            wrapper.WasteCodeEWCId = (Guid)sample.WasteCodeEWCId;
 
             var mediumSubTypes = _lookupDataService.GetAllMediumSubTypesLookup();
             foreach (LookupItem mediumSubType in mediumSubTypes)
@@ -77,6 +82,11 @@ namespace EnvDT.UI.ViewModel
             foreach (LookupItem condition in conditions)
             {
                 wrapper.Conditions.Add(condition);
+            }
+            var wasteCodeEWCs = _lookupDataService.GetAllWasteCodeEWCsLookup();
+            foreach (LookupItem wasteCodeEWC in wasteCodeEWCs)
+            {
+                wrapper.WasteCodeEWCs.Add(wasteCodeEWC);
             }
 
             return wrapper;
@@ -140,6 +150,12 @@ namespace EnvDT.UI.ViewModel
                     && !Guid.Equals(wrapper.ConditionId, _standardGuid))
                 {
                     sample.ConditionId = wrapper.ConditionId;
+                }
+                if (wrapper.WasteCodeEWCId != null
+                    && !Guid.Equals(wrapper.WasteCodeEWCId, Guid.Empty)
+                    && !Guid.Equals(wrapper.WasteCodeEWCId, _standardGuid))
+                {
+                    sample.WasteCodeEWCId = wrapper.WasteCodeEWCId;
                 }
             }
         }   

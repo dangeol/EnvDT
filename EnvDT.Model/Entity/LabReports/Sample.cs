@@ -18,6 +18,8 @@ namespace EnvDT.Model.Entity
         public MediumSubType MediumSubType { get; set; }
         public Guid? ConditionId { get; set; }
         public Condition Condition { get; set; }
+        public Guid? WasteCodeEWCId { get; set; }
+        public WasteCodeEWC WasteCodeEWC { get; set; }
 
         public List<SampleValue> SampleValues { get; set; }
     }

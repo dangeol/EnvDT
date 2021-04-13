@@ -187,37 +187,37 @@
   },
   {
     "ValuationClassId": "a4aa72e0-b595-4de3-b8c4-00b2edef5212",
-    "ValuationClassName": "Ausbauasphalt\nohne\nVerunreinigungen,\nVerwertungsklasse\nA (RuVA-StB)",
+    "ValuationClassName": "Ausbauasphalt ohne Verunreinigungen, Verwertungsklasse A (RuVA-StB)",
     "ValClassLevel": 1,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   },
   {
     "ValuationClassId": "5fd022bb-7d9e-406d-9213-5a5cd66c438d",
-    "ValuationClassName": "gering\nverunreinigter\nAusbauasphalt,\nVerwertungsklasse\nA (RuVA-StB) ",
+    "ValuationClassName": "gering verunreinigter Ausbauasphalt, Verwertungsklasse A (RuVA-StB) ",
     "ValClassLevel": 2,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   },
   {
     "ValuationClassId": "985d33e1-49f5-40f9-ad8d-f35a794c64ce",
-    "ValuationClassName": "Pechhaltiger\nStraﬂenaufbruch,\nVerwertungsklasse\nB (RuVA-StB)",
+    "ValuationClassName": "Pechhaltiger Straﬂenaufbruch, Verwertungsklasse B (RuVA-StB)",
     "ValClassLevel": 3,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   },
   {
     "ValuationClassId": "e870a14b-fd15-4024-af35-348b62bb3ad8",
-    "ValuationClassName": "Pechhaltiger\nStraﬂenaufbruch,\nVerwertungsklasse\nC (RuVA-StB)",
+    "ValuationClassName": "Pechhaltiger Straﬂenaufbruch, Verwertungsklasse C (RuVA-StB)",
     "ValClassLevel": 4,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   },
   {
     "ValuationClassId": "9ba60326-c842-4ed3-9d6d-f93b146fb347",
-    "ValuationClassName": "gef‰hrlicher\npechhaltiger\nStraﬂenaufbruch,\nVerwertungsklasse\nB (RuVA-StB) ",
+    "ValuationClassName": "gef‰hrlicher pechhaltiger Straﬂenaufbruch, Verwertungsklasse B (RuVA-StB)",
     "ValClassLevel": 5,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   },
   {
     "ValuationClassId": "6b8de4e1-d287-40c5-9d1c-6c04f31cab84",
-    "ValuationClassName": "gef‰hrlicher\npechhaltiger\nStraﬂenaufbruch,\nVerwertungsklasse\nC (RuVA-StB)",
+    "ValuationClassName": "gef‰hrlicher pechhaltiger Straﬂenaufbruch, Verwertungsklasse C (RuVA-StB)",
     "ValClassLevel": 6,
     "PublicationId": "1829621b-059b-46e7-a1c0-374a6bc13731"
   }

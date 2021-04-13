@@ -39,12 +39,13 @@ namespace EnvDT.DataAccess
         public DbSet<PublParam> PublParams { get; set; }
         public DbSet<PublRegion> PublRegions { get; set; }
         public DbSet<RefValue> RefValues { get; set; }
+        public DbSet<Region> Regions { get; set; }
+        public DbSet<Unit> Units { get; set; }
         public DbSet<UnitNameVariant> UnitNameVariants { get; set; }
         public DbSet<ValuationClass> ValuationClasses { get; set; }
         public DbSet<ValuationClassCondition> ValuationClassConditions { get; set; }
         public DbSet<ValuationClassMedSubType> ValuationClassMedMedSubTypes { get; set; }
-        public DbSet<Region> Regions { get; set; }
-        public DbSet<Unit> Units { get; set; }
+        public DbSet<WasteCodeEWC> WasteCodeEWCs { get; set; }
 
         //LabReports
         public DbSet<ConfigXlsx> ConfigXlsxs { get; set; }
@@ -81,12 +82,13 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new PublParamConfig());
             modelBuilder.ApplyConfiguration(new PublRegionConfig());
             modelBuilder.ApplyConfiguration(new RefValueConfig());
+            modelBuilder.ApplyConfiguration(new RegionConfig());
+            modelBuilder.ApplyConfiguration(new UnitConfig());
             modelBuilder.ApplyConfiguration(new UnitNameVariantConfig());
             modelBuilder.ApplyConfiguration(new ValuationClassConfig());
             modelBuilder.ApplyConfiguration(new ValuationClassConditionConfig());
             modelBuilder.ApplyConfiguration(new ValuationClassMedSubTypeConfig());
-            modelBuilder.ApplyConfiguration(new RegionConfig());
-            modelBuilder.ApplyConfiguration(new UnitConfig());
+            modelBuilder.ApplyConfiguration(new WasteCodeEWCConfig());
 
             // LabReports
             modelBuilder.ApplyConfiguration(new ConfigXlsxConfig());

@@ -26,6 +26,7 @@ namespace EnvDT.DataAccess.Repository
             Units = new UnitRepository(_context);
             UnitNameVariants = new UnitNameVariantRepository(_context);
             ValuationClasses = new ValuationClassRepository(_context);
+            WasteCodeEWCs = new WasteCodeEWCRepository(_context);
         }
 
         public IConfigXlsxRepository ConfigXlsxs { get; private set; }
@@ -45,6 +46,7 @@ namespace EnvDT.DataAccess.Repository
         public IUnitRepository Units { get; private set; }
         public IUnitNameVariantRepository UnitNameVariants { get; private set; }
         public IValuationClassRepository ValuationClasses { get; private set; }
+        public IWasteCodeEWCRepository WasteCodeEWCs { get; private set; }
 
         public int Save()
         {

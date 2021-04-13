@@ -14,7 +14,7 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
-        public override Project GetById(Guid projectId)
+        public override Project GetById(Guid? projectId)
         {
             return Context.Projects
                 .Include(p => p.LabReports)
