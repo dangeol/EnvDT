@@ -18,6 +18,7 @@ namespace EnvDT.Model.Core
         private HashSet<string> _generalFootnoteTexts = new();
         private HashSet<PublParam> _missingParams = new();
         private HashSet<string> _paramNamesForMin = new();
+        private HashSet<string> _toleranceParams = new();
         private HashSet<string> _takingAccountOf = new();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, 
@@ -40,6 +41,7 @@ namespace EnvDT.Model.Core
             _generalFootnoteTexts.Clear();
             _missingParams.Clear();
             _paramNamesForMin.Clear();
+            _toleranceParams.Clear();
             _evalResult = new EvalResult();
             _publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = _publication.PublParams;
@@ -152,6 +154,11 @@ namespace EnvDT.Model.Core
             {
                 minValueParamsList += $"{paramNameForMin}; ";
             }
+            var toleranceParamsList = "";
+            foreach (string toleranceParam in _toleranceParams)
+            {
+                toleranceParamsList += $"{toleranceParam}; ";
+            }
             var takingAccountOfList = "";
             foreach (string takingAccountOf in _takingAccountOf)
             {
@@ -174,6 +181,7 @@ namespace EnvDT.Model.Core
             _evalResult.GeneralFootnoteTexts = _generalFootnoteTexts;
             _evalResult.MissingParams = missingParamsList;
             _evalResult.MinValueParams = minValueParamsList;
+            _evalResult.ToleranceParams = toleranceParamsList;
             _evalResult.TakingAccountOf = takingAccountOfList;
             return _evalResult;
         }
@@ -239,6 +247,15 @@ namespace EnvDT.Model.Core
                 if (finalSValue.LabReportParamName.Length > 0)
                 {
                     _paramNamesForMin.Add(finalSValue.LabReportParamName);
+                }
+            }
+            var refValUnchanged = refVal;
+            if (publParam.Tolerance > 0)
+            {              
+                refVal += refVal * publParam.Tolerance;
+                if (finalSValue.SValue > refValUnchanged && finalSValue.SValue <= refVal)
+                { 
+                    _toleranceParams.Add($"{refValParamNameDe} ({refValUnitName})");
                 }
             }
 

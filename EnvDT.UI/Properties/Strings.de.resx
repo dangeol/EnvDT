@@ -438,4 +438,7 @@ Parameter</value>
   <data name="SampleEditDialog_GridHeader_WasteCode" xml:space="preserve">
     <value>Abfallschlüssel</value>
   </data>
+  <data name="SampleDetailVM_Footnote_ToleranceParams" xml:space="preserve">
+    <value>Für folgende Parameter wurden in [{0}] definierte Toleranzwerte angewendet:</value>
+  </data>
 </root>

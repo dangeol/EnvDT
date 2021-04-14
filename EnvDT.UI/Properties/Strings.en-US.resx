@@ -438,4 +438,7 @@ Params.</value>
   <data name="SampleEditDialog_GridHeader_WasteCode" xml:space="preserve">
     <value>Waste Code</value>
   </data>
+  <data name="SampleDetailVM_Footnote_ToleranceParams" xml:space="preserve">
+    <value>For the following parameters, tolerance values as defined in [{0}] were applied:</value>
+  </data>
 </root>

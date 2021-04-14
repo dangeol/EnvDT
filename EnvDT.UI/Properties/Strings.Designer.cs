@@ -865,6 +865,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to For the following parameters, tolerance values as defined in [{0}] were applied:.
+        /// </summary>
+        public static string SampleDetailVM_Footnote_ToleranceParams {
+            get {
+                return ResourceManager.GetString("SampleDetailVM_Footnote_ToleranceParams", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Classifi-
         ///cation..
         /// </summary>

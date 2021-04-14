@@ -513,6 +513,12 @@ namespace EnvDT.UI.ViewModel
                 var footnoteText = $"{text} {evalResult.MinValueParams}";
                 ConstructFootnotes(footnoteText);
             }
+            if (evalResult.ToleranceParams.Length > 0)
+            {
+                var text = string.Format(Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_ToleranceParams"], publListNumber);
+                var footnoteText = $"{text} {evalResult.ToleranceParams}";
+                ConstructFootnotes(footnoteText);
+            }
             if (evalResult.TakingAccountOf.Length > 0)
             {
                 var text = Translator["EnvDT.UI.Properties.Strings.SampleDetailVM_Footnote_TakingAccountOf"];

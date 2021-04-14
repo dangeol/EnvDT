@@ -46,6 +46,7 @@ namespace EnvDT.ModelTests.Core
             _publParam = new PublParam();
             _publParam.IsMandatory = true;
             _publParam.FootnoteId = "";
+            _publParam.Tolerance = 0;
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _refValue = new RefValue();
