@@ -6646,5 +6646,2221 @@
     "FootnoteId": "",
     "PublParamId": "ba6fba6b-bab8-43a6-9cd1-4067937603ec",
     "ValuationClassId": "6b8de4e1-d287-40c5-9d1c-6c04f31cab84"
+  },
+  {
+    "RefValueId": "5ae382e6-b001-42df-a27c-6b0d86964768",
+    "RValue": 0.5,
+    "RValueAlt": 1,
+    "FootnoteId": "T1.1_5",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "ea360312-b2e5-4d6f-bc87-b75987e61a9e",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "8ca00989-fe81-44bc-a6f1-3413521d692d",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "7a7be386-59c8-4ebf-a965-fdd6edb73ce5",
+    "RValue": 0.3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "8437d46d-c65c-4225-903d-2e61dc5418d8",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "225358e3-9723-4440-ae17-3a08cb488c97",
+    "RValue": 0.05,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "f1c58907-da35-417d-8773-50a051534a4c",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "21f849db-f228-4649-b8d5-f7e412d12a0b",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "6f2b17fb-4e65-4284-8186-667cac83e734",
+    "RValue": 0.4,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "8100979b-122d-434d-87f2-c076cc5e6df3",
+    "RValue": 36,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "708e2b2f-ab53-48c8-b2a0-483d8245f8ca",
+    "RValue": 0.4,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "43c2579c-9283-4413-9cf6-26c6600959b5",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "f224840a-81ed-4184-99eb-7ca603202493",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "26e1b3ad-6e35-42ce-9d1f-dc5ea3c4f0e9",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "5b4b425b-1bf2-433e-86a0-dd7652200f0f",
+    "RValue": 60,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "3d248275-f73f-4006-8e28-146d18727509",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3a38b7cd-a1fb-4330-b83e-db7168d73a1e",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "70bd9386-f030-42ec-9ba3-0d994ef0bc06",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "155e007e-cfdb-4413-a420-7cbecae3508e",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "8fa50d85-fe9a-4b1e-aa29-7a5d5b530264"
+  },
+  {
+    "RefValueId": "2067544f-63a3-4e59-878c-27766d1d34b9",
+    "RValue": 0.5,
+    "RValueAlt": 1,
+    "FootnoteId": "T1.1_5",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "4e33a542-b16b-46e3-a64a-ee093ddc00d3",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "ef6a022c-2a81-48ef-b1fc-9e07e06397cf",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "4edf6247-fc8c-4096-ba7d-ed333bd487b8",
+    "RValue": 0.3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "d6800117-74f9-4d87-920f-2d3d5e4a7ff3",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "686a8644-2756-4bc5-9c65-1f0c18783414",
+    "RValue": 0.05,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "0603d4b6-3a87-42b7-b840-f572889e129b",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "e0571445-7f99-41ef-b2b2-ff9cc84592f3",
+    "RValue": 70,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "0ea30188-ea1b-4baf-82d5-33a786bb177c",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "6cb8801e-6c9d-4e4f-9d28-dcdc8d2fbb01",
+    "RValue": 60,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "8b6e4979-f970-47c4-bdea-657263627136",
+    "RValue": 0.7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "9e7462c6-545b-4937-9d56-3130046a1bb4",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "a896c2b6-0536-4b43-b86f-28f0f14ff9fd",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "d0ba0b17-3791-4d28-9422-f983308218ed",
+    "RValue": 0.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "c11974f3-d88c-4044-bb57-d5dcbead5a35",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "ab14e8a2-4318-4dd0-b1eb-002069c3567f",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3a38b7cd-a1fb-4330-b83e-db7168d73a1e",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "a3022fd1-a9be-46b4-a47f-ffdc49ef1d03",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "5d30318b-9e2f-494b-8cf6-31f17521535a",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "060d9a65-6124-4aa9-891b-34417fdd2bb1"
+  },
+  {
+    "RefValueId": "d3333850-1544-4b35-8c39-3c56bddfa2b1",
+    "RValue": 0.5,
+    "RValueAlt": 1,
+    "FootnoteId": "T1.1_5",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "ab766bf3-da5d-4c24-bb29-4eca0191ac2b",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "020fbab1-ac8a-4234-a53b-135c5dbc52f3",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "8576f306-484e-4fff-9050-6646d33e65db",
+    "RValue": 0.3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "a1d71cb3-d314-486f-b613-0d5ba4ad5707",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "e9322cde-8ad2-480c-b10f-786c661dd63f",
+    "RValue": 0.05,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "5e1cd4b5-b4a3-423b-a1f7-3f861190d689",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "5ef6b9b4-58c8-4914-8e2c-786c8e854029",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "f6ac9d00-6174-4653-9c07-1b4f474fc046",
+    "RValue": 1.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "af76f300-352c-4055-ab29-97046659de12",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "a6cd9baa-72ff-41b9-a878-db5e7fb3d028",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "fd7f5dd5-7ebe-43cf-887a-6b844cc722fd",
+    "RValue": 60,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "2d864c02-f65d-4975-8430-557c70d60271",
+    "RValue": 70,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "06b1edfd-95ec-4ac6-b444-55dcd96a6890",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "37fcfb74-8ef5-4c17-99c9-c4a55adcff92",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "938574da-a2bf-4a82-ae18-eb6ed2c3cb84",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3a38b7cd-a1fb-4330-b83e-db7168d73a1e",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "d0969fa5-89bb-4d3d-8484-7e3768867ee3",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "4f85d6f0-5237-4f24-a308-83dd2ce995b7",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "84b8bdfb-c93a-45d5-8f55-d1875b4fd2b6"
+  },
+  {
+    "RefValueId": "0a66ddd8-9595-4fcc-a735-0d375fee761d",
+    "RValue": 0.5,
+    "RValueAlt": 1,
+    "FootnoteId": "T1.1_5",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "81ea841e-ae52-44fe-8fe7-7a2ab47f3e3a",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "725e2c74-74eb-4203-9f41-bd8e672db4d7",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "49e41b03-b690-40b8-af98-279662ca3e83",
+    "RValue": 0.6,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "c2771f30-a4ed-4f6e-b828-f8b6a931c4ce",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "c0f6359f-1c84-4114-9f2e-11ea7324b1bc",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "d78d78d9-75c5-4d64-8fd4-c758c9c25d2f",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "375ce29f-8865-4319-a51f-d5e4fdcef73f",
+    "RValue": 140,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "2fc33c2b-6fdd-42d9-badf-884ac4568089",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "5ad1ad9b-22b2-4e77-a918-de30ae7d69ba",
+    "RValue": 120,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "47ac3156-eb81-4b3c-80f6-c00cb93bca99",
+    "RValue": 0.7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "798cb296-57c3-4bf7-b501-93f2ed4cf17f",
+    "RValue": 80,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "fac60b71-54c6-4bfc-a695-166bc00b2032",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "c029b13d-6b4e-4134-8355-706caf606729",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "bdc77808-3c2b-4530-b7f9-d02e5ba15ae6",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "655c3318-d5e1-41fa-baaa-d6d81f862207",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "071e7948-7312-417f-bded-5d663af4a4aa",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "8f8522ad-5470-4fc8-804d-6cd58a9e46af"
+  },
+  {
+    "RefValueId": "966b3342-d485-4943-b2e5-98b8e49125fb",
+    "RValue": 0.5,
+    "RValueAlt": 1,
+    "FootnoteId": "T1.1_5",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "188447bc-32f7-4e9e-ae62-796cd9e2aa06",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "72cdb55c-a417-4c5c-a1f3-4a74f08c8edf",
+    "RValue": 400,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "682425c9-d8ca-48d5-b4dc-f03c02605031",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "5d7e657b-24e4-4a75-8349-cb0b6c15925f",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "334d14c3-2ce2-45dd-a135-5b25d766dacb",
+    "RValue": 0.6,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "83ad8bd3-4eca-4623-961c-d93c02e39f1b",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "2c02d61e-d479-4826-b93f-eeed02d65006",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "11a49b14-5285-4203-80e8-961711f12f87",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "6717716b-e44f-48c9-97d0-e924ec279d59",
+    "RValue": 140,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "0bdcacf8-b523-4ac8-a535-448c4fbaecd9",
+    "RValue": 1.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "debcdc16-c0a6-4ca6-9c4d-4b4f142b233c",
+    "RValue": 120,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "e2cc63cb-5eb6-49f8-9ce2-a4940c1f9ee9",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "007b69b6-2387-412b-8d84-e92cde08658a",
+    "RValue": 80,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "08f7ca65-124c-4903-931b-1824251967b6",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "7f4d973e-f02e-468a-8ddb-05bf8051ddff",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "3aecbc55-3e03-4774-9784-12097611d94e",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "932e8474-49d1-43d0-9f2a-144995c3174f",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "2df15f08-3bba-43b2-b749-895b51c62ffc",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "cd157cc5-7cc5-46e3-8bdb-ce24e963e3f4"
+  },
+  {
+    "RefValueId": "34ea56ae-584a-4c5c-b97e-7ac7fe187ca0",
+    "RValue": 1.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "9cc8bc01-118b-4346-8595-42a84d53bff4",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "ebb7525d-6ef4-4fa7-82d8-b51bfa2346cd",
+    "RValue": 600,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "682425c9-d8ca-48d5-b4dc-f03c02605031",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "dcda1bca-72df-478d-b479-a70516cd8657",
+    "RValue": 3,
+    "RValueAlt": 9,
+    "FootnoteId": "T1.1_3",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "96f99375-2290-4e83-b175-9de423bec65a",
+    "RValue": 0.9,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "9ac90992-5cd5-43ed-a03e-6c53e598a47b",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "5d741af1-161a-4414-b6f2-1488fe7f87a9",
+    "RValue": 0.15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "41436082-a969-47d6-baa1-02aeb2e29355",
+    "RValue": 45,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "84bff880-de08-460e-b769-58aa0ba27a7e",
+    "RValue": 210,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "dc83f39e-2175-47e2-b4a9-7ffe8b9065b7",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "d7db232e-3199-4407-87a7-7674298fd928",
+    "RValue": 180,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "c7369b3b-2a95-46f8-b306-09228093e98b",
+    "RValue": 2.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "1658aa48-d8bf-4d5a-bbcc-04ec840e9208",
+    "RValue": 120,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "95e44669-2628-40a7-9a76-f333d35c4aa7",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "803d0324-e366-40b3-82e9-db943b5b9dc5",
+    "RValue": 1.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "9e8760f1-560f-4924-8c93-762af60d45a8",
+    "RValue": 450,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "fa8e995f-1e7b-4e1f-b7c4-f513db0148fa",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3a38b7cd-a1fb-4330-b83e-db7168d73a1e",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "51919c4c-8835-47e5-adee-968bd8c4f290",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "f6c0229c-3284-40f3-aed9-77fb30ca3ae7",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "7570f911-a368-4b4b-8f2c-06d44c890c0b"
+  },
+  {
+    "RefValueId": "3608cacd-8664-4712-926f-642d9685cd07",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "ce1c081f-bbfe-4c91-83e0-f4b855a87989",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "70cc1739-86a8-4623-80c0-1a217137fb95",
+    "RValue": 1000,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "f7742a0f-ea85-4961-8125-8652b1858b29",
+    "RValue": 2000,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "682425c9-d8ca-48d5-b4dc-f03c02605031",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "06689927-d3b3-4691-a915-270121521deb",
+    "RValue": 30,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "495d9a26-1023-433c-8e94-9e79008e38d1",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "62870f6b-9cf2-43c3-95fc-ce5bf512544a",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "2da51a1c-8c35-4a63-96b8-136a68a39c93",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "482d6776-f975-4538-923b-d90b259f4440",
+    "RValue": 0.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "83caa942-a026-4b5c-a1ce-a554805f0495",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "e2a438ca-9676-402f-979f-a9aa9a600797",
+    "RValue": 700,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "1cd49552-93a9-41d5-bed1-ca081f36e198",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "fa9ea066-d0ed-4376-8441-aaf867f5af6c",
+    "RValue": 600,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "a390286a-66c9-4880-bbfb-b638fbe8ca24",
+    "RValue": 7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "93e2f147-8bb7-4461-8e2d-a1245b020b2e",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "40258cb3-706a-4d23-9202-9f76bfe881e0",
+    "RValue": 400,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "2b2767af-c2be-46c0-8f09-2e0ea6f3fae5",
+    "RValue": 500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "53b37c74-2092-404e-9738-d2dbff1ddda5",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "b040476a-fc5d-4d74-806f-e93b44cb1101",
+    "RValue": 1500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "62d0f769-75e0-4efb-95fc-9b1a90e8beee",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3a38b7cd-a1fb-4330-b83e-db7168d73a1e",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "7fea764f-1847-4988-978a-c73cf52a80e7",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "63430aea-5601-45d3-8401-8e90a3888c64",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "11b1c395-64ee-4db3-bae2-cd8399134d14",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "3f575188-c776-405c-a2c6-362196785459",
+    "ValuationClassId": "f277b141-02f1-494f-9377-f3051f37779a"
+  },
+  {
+    "RefValueId": "fe182ffe-fdf7-4e20-9a28-da57fa8ec13b",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "08a80336-0c71-4251-94a0-25e0725f14c0",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "60efded3-8d2e-407b-a831-2f9a9abb1eda",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "be88bf54-b553-4400-b993-337a4baaa287",
+    "RValue": 0.02,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "7f2a618c-0a2d-4fbf-9c76-8ca045168b28",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "867098e5-1b2c-40ae-87a7-a55e0d2e072f",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "76404b27-c683-46ef-a697-5daa8b125f74",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "0607c81b-65c2-4cff-a2e6-8b8b73600d11",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "b53a9638-f449-4146-bf04-d537826aec0c",
+    "RValue": 0.6,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b265a90d-4c68-4528-a600-e0e643ed6e7b",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "79a76f8d-47bd-468d-8b12-450aa6ee78ef",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "858fd05b-3714-41ed-baa4-679b895200f0",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "3ffabfa2-4fd1-4a86-9efc-784d3d463f95",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "894afaf9-3760-4ef4-8aef-f78171d87f8f",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "bae36442-67f3-4ed8-9351-fed37c3dc0ad",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "058e3764-2ac6-4b19-bbb1-b81062e9df8b",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "015877be-32d7-4800-b12c-ffe3cb686b8a",
+    "RValue": 0.3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b0b8c5c7-c378-426c-a2f5-47b81db176c7",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "f88e30aa-4969-4493-b4ad-eab8649909f5",
+    "RValue": 120,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "31da9550-0208-4231-bee6-5bee28ae437c",
+    "ValuationClassId": "53505b17-ef9d-427b-814a-1a273268df6d"
+  },
+  {
+    "RefValueId": "974466a1-7b18-4edf-8d06-9704303ec149",
+    "RValue": 300,
+    "RValueAlt": 1000000,
+    "FootnoteId": "T2_3",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "8dbaab85-6d63-4ce9-b8a6-cc561fd9a8e1"
+  },
+  {
+    "RefValueId": "ac2ee60e-6823-42e7-b1cf-4e6074cc9758",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "8dbaab85-6d63-4ce9-b8a6-cc561fd9a8e1"
+  },
+  {
+    "RefValueId": "68f780be-4364-46eb-b3ba-a98e438a81c0",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "8dbaab85-6d63-4ce9-b8a6-cc561fd9a8e1"
+  },
+  {
+    "RefValueId": "093a3fdc-1975-498d-b58a-b4521e2b3e31",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "8dbaab85-6d63-4ce9-b8a6-cc561fd9a8e1"
+  },
+  {
+    "RefValueId": "dccf755c-6d36-4c8a-913b-7dcaecc95824",
+    "RValue": 500,
+    "RValueAlt": 1000000,
+    "FootnoteId": "T2_3",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "4023eb72-d145-423d-90be-a39b62d61cd0"
+  },
+  {
+    "RefValueId": "e6b82320-9a6e-4ac3-8a3c-6530b682f8a5",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "4023eb72-d145-423d-90be-a39b62d61cd0"
+  },
+  {
+    "RefValueId": "a8479da0-d4b4-4896-b263-d2e95f695fc7",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "4023eb72-d145-423d-90be-a39b62d61cd0"
+  },
+  {
+    "RefValueId": "b3863840-c173-4212-b7a4-a60e2d6e9bda",
+    "RValue": 0.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "4023eb72-d145-423d-90be-a39b62d61cd0"
+  },
+  {
+    "RefValueId": "96593b26-a2df-41f6-a6da-591994963a48",
+    "RValue": 1000,
+    "RValueAlt": 1000000,
+    "FootnoteId": "T2_3",
+    "PublParamId": "29a46ff1-f8e3-42ed-9384-50f1f0f4e738",
+    "ValuationClassId": "773a977a-9328-4e1e-9c83-c172e3aafcb6"
+  },
+  {
+    "RefValueId": "c54d9f01-29a4-4d43-81b3-3f97fc8ca911",
+    "RValue": 75,
+    "RValueAlt": 100,
+    "FootnoteId": "T2_2",
+    "PublParamId": "6e42429d-8fa8-43fa-818d-815369875a5e",
+    "ValuationClassId": "773a977a-9328-4e1e-9c83-c172e3aafcb6"
+  },
+  {
+    "RefValueId": "19ead4ea-3310-45fa-9d2e-400db33f1621",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c67246b6-3926-42cc-bca5-7f41824c3a12",
+    "ValuationClassId": "773a977a-9328-4e1e-9c83-c172e3aafcb6"
+  },
+  {
+    "RefValueId": "d4b365ac-77f5-48f4-82e1-3af38cd8cb74",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "d871cf9a-2a91-45f5-8a44-42b45dec7d72",
+    "ValuationClassId": "773a977a-9328-4e1e-9c83-c172e3aafcb6"
+  },
+  {
+    "RefValueId": "1363eff7-7a60-438f-8e51-5ea47528465b",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "ded468c9-ad00-43dd-bf18-c947cb7c8db1",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "402cfcee-ff5c-4aae-829c-880127cb6e9a",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "004d532d-6a45-4ab8-8bbc-07a89aa6ac13",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "be902153-89c1-44b8-9159-f461e8cb6105",
+    "RValue": 9.999,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c83d6dc0-b81c-494a-b38c-9712c6db1d21",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "98a8dd4b-c918-4893-a6be-4932d2a9c663",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "f04d5dbc-6966-4ee0-8cb1-2af0d8d51529",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "97ab5c55-ce32-4454-8b2a-e8c3bc3d6a84",
+    "RValue": 0.2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "6b1baea2-666f-4c54-aa69-473d4df7d2c4",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "a70d11f1-3492-4f8e-b697-d14fa91e6cea",
+    "RValue": 10,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "1f978895-5787-4c91-bac3-03ece20713c6",
+    "RValue": 50,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "99a895ba-812e-4a40-b68f-7f0044dc207e",
+    "RValue": 6.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "c122fa16-c96c-4131-a0cd-4f241ba4599a",
+    "RValue": 9,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "4fc04ae5-7391-42c9-9668-1b5f6e56525c",
+    "RValue": 500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "c1b57029-ecc3-4a06-98cd-58bd7c14058e",
+    "RValue": 9.999,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "378a88a8-0cd2-4434-9a47-cdf6bc512fb1",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "ae26f59f-8c3b-4719-946c-89ee234dbd7b",
+    "RValue": 9.999,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "f1212c1f-b5f9-4810-afb2-6dc177d62aa8"
+  },
+  {
+    "RefValueId": "fcaa6d52-8460-451c-8268-1d238eff731d",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "6d1266f9-03ad-4b4e-92c3-a911f3cb3619",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "24eb235d-74ce-41d6-a7f9-984496d15184",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "4d093de6-3645-416e-b576-3492a3a8d3cc",
+    "RValue": 30,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "f265da98-8f0d-4d53-b1af-88d3f8b127c3",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c83d6dc0-b81c-494a-b38c-9712c6db1d21",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "3f9ecdce-651b-417a-ac48-58c06109bf08",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "61c744d0-a413-45d8-a2f4-a72d0230748d",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "e9fbe35b-7214-4d74-aae1-ef3c1590db26",
+    "RValue": 0.2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "2dc47fa1-56e2-4b65-9dd7-2e1bcc7820aa",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "43f72d9c-7c32-4007-a525-699e442bdd98",
+    "RValue": 10,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "282bd9db-0ae0-4cba-84b8-372d8a7edf59",
+    "RValue": 50,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "7b4baa84-8c3b-4b24-af26-2557119e0ec2",
+    "RValue": 6.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "ae97ab2b-d081-4466-bcab-c06024bcfc75",
+    "RValue": 9,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "f23ba86d-e934-4d23-993e-84b787c7a64a",
+    "RValue": 500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "e3093f1b-d56c-4cce-a4ce-ef359d13db2f",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "378a88a8-0cd2-4434-9a47-cdf6bc512fb1",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "cef6d7ea-e4d3-4f20-9430-64c4485b36fb",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "5f1c7537-d76f-440e-8072-a5a42d7dba9e"
+  },
+  {
+    "RefValueId": "be93f530-5aa6-4907-91e3-a2ec6ad3d007",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "27d9dab5-186f-4951-9ca3-9a8d019c84da",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "12a8eb81-ed37-485a-bfe8-e0dbd3c6f332",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "63d7605c-0a86-4634-b7d4-32c320023603",
+    "RValue": 75,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "f4042b10-65ba-4adb-9f63-297b55614de6",
+    "RValue": 3,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c83d6dc0-b81c-494a-b38c-9712c6db1d21",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "26fe4e60-4a4e-43b7-ba18-863b0b0c6e8a",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "3ab5da15-389d-4040-888f-3471624266d8",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "6a76c4c7-3fff-49ce-a2dd-6f5281e93aa8",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "379d4b6b-5817-4dc6-b74b-05ed585b9361",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "cc213427-c3e5-45fb-b252-bc9df7ce992f",
+    "RValue": 20,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "7f7791d8-8267-4195-ade5-c4e434d0fc55",
+    "RValue": 100,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "400a0a96-749c-44bb-b43f-468c16aecac1",
+    "RValue": 6,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "d4eb7ffe-e3c0-4965-ac09-6e3e6826598a",
+    "RValue": 12,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "051a571d-71d5-40de-931f-19defa594287",
+    "RValue": 1000,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "dbc7c55e-1814-43ab-8a23-845754717296",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "378a88a8-0cd2-4434-9a47-cdf6bc512fb1",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "a61dabab-e001-4e06-bd02-bd9f04b0a7e1",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "3024f967-98ae-4711-8600-23d5df9954cd"
+  },
+  {
+    "RefValueId": "a5ac3019-109f-4937-86d9-66f14e255e1e",
+    "RValue": 60,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "506531db-92b1-49d0-89da-f2f699e6164a",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "1eab0417-d750-48ab-9f14-e1ccebfe0c1c",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "c3316710-c512-4025-9d17-3883233f88aa",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "cc0c4880-35aa-4d2a-be9a-58e411ee53db",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "c83d6dc0-b81c-494a-b38c-9712c6db1d21",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "cf5370db-adf4-4ee8-9103-a36a1ca0caa3",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "f304937e-a7bd-4a62-8ea1-53314b707aba",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "c54c727a-de2d-4994-b959-1f9224f9904b",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "42fffcb0-7c36-476d-976d-ac28e5ddf7ae",
+    "RValue": 600,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "768dbcae-546a-4cde-be6a-d15ee7dee910",
+    "RValue": 30,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "3acc6777-56d1-41ee-9ca0-5e0ed766b204",
+    "RValue": 150,
+    "RValueAlt": 250,
+    "FootnoteId": "T1.3_4",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "b75f7082-4197-4507-879b-54106f9db8ac",
+    "RValue": 5.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "73464e51-11e7-48f3-95e7-80705759a9ab",
+    "RValue": 12,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "00cabb69-e660-4d8e-ada9-ee2498347c50",
+    "RValue": 1500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "56888b35-2dcc-4f93-b2fc-f80f75794044",
+    "RValue": 100,
+    "RValueAlt": 1000000,
+    "FootnoteId": "T1.3_3",
+    "PublParamId": "378a88a8-0cd2-4434-9a47-cdf6bc512fb1",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "c1aa0523-996c-418d-9e05-1061c01a2ded",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "00293267-b146-4c06-9b9b-04c35c116e5b"
+  },
+  {
+    "RefValueId": "c025bc56-342d-41b9-83ff-cae9f3792f48",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "84dc1717-31f0-434d-9a0a-741e082502bd",
+    "RValue": 20,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "24aefa81-a258-4f6e-9ba7-d6eaf5f9eccd",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "2af59a0a-3017-48b3-8777-86c1ac7887a5",
+    "RValue": 15,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "565d7fc2-8074-4388-81ba-8142b9948b86",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "f24767c8-316b-47ad-b9ea-2c67d18e0259",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "97d86f71-27fc-4ef2-8aeb-5e21fbdf5b40",
+    "RValue": 0.2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "28cec88c-8b80-4d55-af54-af06950d08cd",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "010a068a-717f-4c19-b16b-1ae4febdd9f9",
+    "RValue": 10,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "ca70778f-a1c4-4a9f-aa6e-0b21d89ed040",
+    "RValue": 50,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "d1664fc9-4447-40ad-8e3d-914e86a7ebd4",
+    "RValue": 7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "68157b97-bb07-4426-ab1f-0a3f61515899",
+    "RValue": 12.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "74246f17-4841-4cd7-9d4a-6459ff8424ce",
+    "RValue": 500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "4aef8b49-8c6f-4bac-9e68-bebc30a0fbab",
+    "RValue": 9.999,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "403e952b-24a6-4f80-9673-6bc33a808a64"
+  },
+  {
+    "RefValueId": "91886769-0d9a-4725-a67c-62d33ab3d043",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "1d9585b7-a71a-4d6e-90cb-bc29ff3ae56b",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "c72ba25d-10ec-4a14-adc1-4eb004ccb567",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "c6abc082-563d-4b8f-9c1e-a9c8d513c902",
+    "RValue": 30,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "ce81ff11-7e69-43bf-b67f-9ca5ff2d72e1",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "6c006c5d-dbf8-44a9-9523-85e52da6bf34",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "e6748651-f9c6-4289-919c-056d440d5ad1",
+    "RValue": 0.2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "91128fe1-8802-45c1-bf01-70d11e643efc",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "8b96ac79-d7bb-4a89-834d-faca65b4c27d",
+    "RValue": 20,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "de598266-6770-4fdc-8dcf-570292fe6ef6",
+    "RValue": 150,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "80799423-81d8-4466-a041-17f19e316b24",
+    "RValue": 7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "1b9f1b4a-2b49-4407-9e92-d1502bd18fb9",
+    "RValue": 12.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "5ca31a9f-662c-46d8-920d-dad58909fb4f",
+    "RValue": 1500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "b53ca043-ff8a-46bc-bafe-e8a54813e7e9",
+    "RValue": 10,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "e717d6b2-2fe0-4354-8d7e-53a8e14a0a7e"
+  },
+  {
+    "RefValueId": "10b1a7a6-7cd5-40bb-a52c-d6be456bc2dd",
+    "RValue": 40,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "117b63fe-be7b-4aa4-8fe8-e4fada8dc706",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "816eae24-bcc4-4168-a63e-4149e8cac9d5",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "0ddadc96-b893-49fb-99f3-d91ec6caa50c",
+    "RValue": 75,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "1ee9799e-3377-4650-85ce-077cf003346a",
+    "RValue": 150,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "5840fffd-6c5f-4239-a902-c2510b98320e",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "2c648461-9b49-45e4-b87a-7a46cd7b4492",
+    "RValue": 1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "1088f1bc-6a52-4597-8a6f-851bbf23bbc6",
+    "RValue": 300,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "90a12680-f82a-4598-b926-d284a0b2cacf",
+    "RValue": 40,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "28d7b309-0365-4fae-99ab-975db5fa112e",
+    "RValue": 300,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "3d8af726-34ea-4f27-9ee1-7e8a8d3c7a5d",
+    "RValue": 7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "4bdfd02b-72db-4e19-aca2-18027bf83051",
+    "RValue": 12.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "a5490fdd-3997-4741-a19d-4997ac57172c",
+    "RValue": 2500,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "0b654843-af4d-4a35-801b-041937ce61af",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "4238adae-8379-47c9-92e3-b925cb5ba4df"
+  },
+  {
+    "RefValueId": "88ae7d12-3b40-4789-8137-f13a1cdcddc3",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8b8e2d9b-26c3-4eef-8dfe-e8aa8db3b47d",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "285ce6ef-93a5-4f96-9922-fafd8e885063",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "33d2a4de-b3b7-405a-acc1-159a652cd1cf",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "71eeb4ac-5be5-45d5-9fb8-02fdad651432",
+    "RValue": 5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "fd24861d-6349-4a66-8830-1042f87f96bf",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "87a0b697-0753-4912-aa0d-06164186e81d",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "980c4357-54ca-4ecf-a5c4-991b3ff23fa3",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "095c4c29-d9d5-45a2-8edb-3f702010c057",
+    "RValue": 200,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "963235bc-34c6-4137-83b4-00783b9157e7",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "36c5fedd-ef44-44de-a557-9870ce8f5f82",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "dba1619a-113f-465c-b152-78309ee37683",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "e865e00d-cf92-482b-b83e-22040eb0644c",
+    "RValue": 2,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "2e0e25c4-d086-44f6-ad87-f891a4a388e2",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "f3eb3d47-2b5a-4ec8-aec8-d6bcea825f21",
+    "RValue": 400,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "7dcbb64d-30e3-42d0-bb8f-934409bf7435",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "9ad713c9-bc96-4e9e-9474-ee03fd9d51e9",
+    "RValue": 150,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "24cbd520-09b9-4365-9086-85abcec60d2c",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "a0981d69-56c3-4054-8d0c-6bbf65e6193f",
+    "RValue": 600,
+    "RValueAlt": 250,
+    "FootnoteId": "T2_1",
+    "PublParamId": "3cfe760a-b4bb-42df-ba89-b2ffb51a942f",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "a3e3d3f8-179a-4729-b82c-d96e5de2ed62",
+    "RValue": 7,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "22e2da7c-e579-42d3-897a-c3c6b6eb47b6",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "281e321b-5be5-43f4-a590-8bd66f0358dc",
+    "RValue": 12.5,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "8cdadb6d-ef7c-4fe7-9ac1-5d9c9315c3bd",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "5015de5b-aaf8-4fe0-a7f9-3a765e972c9f",
+    "RValue": 3000,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b9162544-5a34-4e4e-9d24-0dba0905b3b7",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "6d1cf2f0-7702-4eff-8c01-ae9fe27bb5d0",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "98f330b5-d94c-42b2-92d2-aa25bff1171a",
+    "ValuationClassId": "635aae54-ca62-4766-b405-314aec5944dd"
+  },
+  {
+    "RefValueId": "8df5fc97-2665-4581-ac06-9886b0e14704",
+    "RValue": 25,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "42bd4b68-8336-44cd-a458-b61196a26867",
+    "ValuationClassId": "dd8e7f72-c5b0-4c12-893d-29d19cc1e6c5"
+  },
+  {
+    "RefValueId": "9750bf3c-7068-402a-ad9b-0ff0879da868",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b2a479b3-8cb9-47bf-ad29-c349e7d8465f",
+    "ValuationClassId": "dd8e7f72-c5b0-4c12-893d-29d19cc1e6c5"
+  },
+  {
+    "RefValueId": "1b9a4fa7-86f2-4f4b-960f-8c34aa1c09d4",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "42bd4b68-8336-44cd-a458-b61196a26867",
+    "ValuationClassId": "268bec71-f592-48af-a994-af21bb74cc6c"
+  },
+  {
+    "RefValueId": "e1029004-821d-4d9e-af4a-0c261514f635",
+    "RValue": 0.1,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b2a479b3-8cb9-47bf-ad29-c349e7d8465f",
+    "ValuationClassId": "268bec71-f592-48af-a994-af21bb74cc6c"
+  },
+  {
+    "RefValueId": "462e848e-af91-491f-93f3-12af43e8292f",
+    "RValue": 100,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "42bd4b68-8336-44cd-a458-b61196a26867",
+    "ValuationClassId": "40359eeb-4af5-401a-97d2-1670c36b4c33"
+  },
+  {
+    "RefValueId": "8d9e6526-2544-4f6c-a1af-4d564e0999a9",
+    "RValue": 50,
+    "RValueAlt": 0,
+    "FootnoteId": "",
+    "PublParamId": "b2a479b3-8cb9-47bf-ad29-c349e7d8465f",
+    "ValuationClassId": "40359eeb-4af5-401a-97d2-1670c36b4c33"
   }
 ]
