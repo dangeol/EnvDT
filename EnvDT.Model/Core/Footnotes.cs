@@ -29,7 +29,7 @@ namespace EnvDT.Model.Core
             /*
              * Format of the Keys:
              * [PublIdent of Publication]_[Footnote reference]_[c/e]
-             * [Footnote reference] is composend of [char][footnoteNumber]
+             * [Footnote reference] is composend of [char][footnoteNumber] or [Table ref.]_[footnoteNumber]
              * with [char] either 'e' (eluate) or 's' (solid matter)
              */
             // GERMANY
@@ -155,7 +155,7 @@ namespace EnvDT.Model.Core
             {
                 case 0:
                     // Check condition in LabReportPreCheck:
-                    // return true if (Chrom Gesamt > 30 µg / l && Chrom Gesamt <= 50 µg / l)
+                    // return true if (Chrom Gesamt > 30 µg/l && Chrom Gesamt <= 50 µg/l)
                     var sampleValuesAndLrUnitNames = _unitOfWork.SampleValues.GetSampleValuesAndLrUnitNamesByLabReportIdParamNameDeAndUnitName(
                         evalArgs.LabReportId, footnoteParams["Chrom Gesamt"].FootnoteParamName, footnoteParams["Chrom Gesamt"].FootnoteUnitName);
 

@@ -51,6 +51,8 @@ namespace EnvDT.ModelTests.Core
             _publParams.Add(_publParam);
             _refValue = new RefValue();
             _refValue.RValue = 5.0;
+            _refValue.RValueAlt = 10.0;
+            _refValue.FootnoteId = "";
             _refValues = new List<RefValue>();
             _refValues.Add(_refValue);
             _publication = new Publication();
@@ -266,7 +268,7 @@ namespace EnvDT.ModelTests.Core
         }
 
         [Fact]
-        public void ShouldAddTakingAccountOfFootnoteRefsWhenRefValHasRefValAltAndEvalResultHasTakingAccountOf()
+        public void ShouldAddTakingAccountOfFootnoteRefsWhenRefValHasRefValAltFootnoteIdAndEvalResultHasTakingAccountOf()
         {
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
                 .Returns(_labReportParams);
@@ -275,7 +277,7 @@ namespace EnvDT.ModelTests.Core
             var takingAccountOfListLengthBefore = evalResult.TakingAccountOf.Length;
 
             _refValue.RValueAlt = 100;
-            _refValue.FootnoteId = "";
+            _refValue.FootnoteId = "footnote";
             HashSet<PublParam> missingParams = new()
             {
                 new PublParam()

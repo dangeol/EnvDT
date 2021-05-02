@@ -85,14 +85,19 @@ namespace EnvDT.Model.Core
 
                 foreach (RefValue refValue in refValues)
                 {
-                    var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
-                    if (exceedingValue != null)
-                    {
-                        exceedingValues.Add(exceedingValue);
-
-                        if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)
+                    if (publParam.FootnoteId.Length == 0 || 
+                        (publParam.FootnoteId.Length > 0 &&
+                        _footnotes.IsFootnoteCondTrue(evalArgs, 0, $"{_publication.PublIdent}_{publParam.FootnoteId}").Result))
+                    { 
+                        var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
+                        if (exceedingValue != null)
                         {
-                            highestLevel = exceedingValue.Level;
+                            exceedingValues.Add(exceedingValue);
+
+                            if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)
+                            {
+                                highestLevel = exceedingValue.Level;
+                            }
                         }
                     }
                 }
@@ -193,7 +198,8 @@ namespace EnvDT.Model.Core
             bool isNotExclusionCriterion = false;
 
             double refVal;
-            if ((publParam.FootnoteId.Length > 0 || refValue.RValueAlt > 0) && evalArgs.EvalFootnotes)
+            if ((publParam.FootnoteId.Length > 0 || refValue.FootnoteId.Length > 0) && 
+                refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
             {
                 var footnoteId = refValue.FootnoteId.Length > 0 ? refValue.FootnoteId : publParam.FootnoteId;
                 var footnoteRef = $"{_publication.PublIdent}_{footnoteId}";

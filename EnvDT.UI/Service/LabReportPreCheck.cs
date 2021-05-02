@@ -51,7 +51,7 @@ namespace EnvDT.Model.Core
                     // If footnote existing, checking if condition is met that makes this param mandatory ("really missing")
                     if (publParam.FootnoteId.Length > 0)
                     {
-                        var footnoteRef = $"{publication.Abbreviation}_{publParam.FootnoteId}";
+                        var footnoteRef = $"{publication.PublIdent}_{publParam.FootnoteId}";
                         EvalArgs evalArgs = new();
                         evalArgs.LabReportId = labReportId;
                         isParamReallyMissing = _footnotes.IsFootnoteCondTrue(evalArgs, 0, footnoteRef).Result;
