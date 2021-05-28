@@ -17,6 +17,10 @@ namespace EnvDT.Model.Entity
             builder.HasOne(r => r.ValuationClass)
                 .WithMany(r => r.RefValues)
                 .HasForeignKey(r => r.ValuationClassId);
+            builder.HasOne(r => r.Footnote)
+                .WithMany(r => r.RefValues)
+                .HasForeignKey(r => r.FootnoteId)
+                .IsRequired(false);
             var refValueJson = File.ReadAllText(DbResources.refValueJson);
             var refValues = JsonSerializer.Deserialize<List<RefValue>>(refValueJson);
             builder.HasData(refValues);

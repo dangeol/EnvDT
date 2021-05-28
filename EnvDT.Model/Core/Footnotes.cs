@@ -31,7 +31,7 @@ namespace EnvDT.Model.Core
              * [PublIdent of Publication]_[Footnote reference]_[c/e]
              * [Footnote reference] is composend of [char][footnoteNumber] or [Table ref.]_[footnoteNumber]
              * with [char] either 'e' (eluate) or 's' (solid matter)
-             */
+             *
             // GERMANY
             _footnotes.Add("VerfLfBY_e1", new Func<EvalArgs, int, FootnoteResult>(VerfLfBY_e1));
             _footnotes.Add("VerfLfBY_e5", new Func<EvalArgs, int, FootnoteResult>(VerfLfBY_e5));
@@ -39,6 +39,7 @@ namespace EnvDT.Model.Core
             _footnotes.Add("DihlmEBW_e5", new Func<EvalArgs, int, FootnoteResult>(DihlmEBW_e5));
             _footnotes.Add("DepV_e8", new Func<EvalArgs, int, FootnoteResult>(DepV_e8));
             _footnotes.Add("DepVBY_e13", new Func<EvalArgs, int, FootnoteResult>(DepVBY_e13));
+            */
         }
 
         // with evalType 0: check in LabReportPreCheck if condition is met
@@ -55,6 +56,7 @@ namespace EnvDT.Model.Core
             return method.Invoke(evalArgs, evalType);
         }
 
+        /*
         private FootnoteSValueList GetFinalSValues(EvalArgs evalArgs, Dictionary<string, FootnoteParam> footnoteParams)
         {
             Dictionary<string, double> finalSValues = new();
@@ -97,6 +99,7 @@ namespace EnvDT.Model.Core
             };
             return footnoteSValues;
         }
+        */
 
         /*
          * ========================================================================================
@@ -106,7 +109,7 @@ namespace EnvDT.Model.Core
 
         /*
          * Verf-Lf (BY) Footnote Eluate 1:
-         */
+         *
         private FootnoteResult VerfLfBY_e1(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new()
@@ -119,7 +122,7 @@ namespace EnvDT.Model.Core
             };
 
             return footnoteResult;
-        }
+        }*/
 
         /*
          * Verf-Lf (BY) Footnote Eluate 5:
@@ -131,8 +134,9 @@ namespace EnvDT.Model.Core
          * es genügt die Bestimmung von Chrom(gesamt)."
          */
         private FootnoteResult VerfLfBY_e5(EvalArgs evalArgs, int evalType)
-        {
+        {          
             FootnoteResult footnoteResult = new();
+            /*
             footnoteResult.Result = false;
             footnoteResult.IsNotExclusionCriterion = false;
             HashSet<PublParam> missingParams = new();
@@ -152,7 +156,7 @@ namespace EnvDT.Model.Core
                 },
             };
             switch (evalType)
-            {
+            {   /*
                 case 0:
                     // Check condition in LabReportPreCheck:
                     // return true if (Chrom Gesamt > 30 µg/l && Chrom Gesamt <= 50 µg/l)
@@ -189,14 +193,14 @@ namespace EnvDT.Model.Core
                     }
                     return footnoteResult;
 
-                default:
-                    return footnoteResult;
+                default:*/
+            return footnoteResult;
             }
         }
 
         /*
          * VwV (BW) Footnote Eluate 1:
-         */
+         *
         private FootnoteResult VwVBW_e1(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new()
@@ -207,11 +211,11 @@ namespace EnvDT.Model.Core
             };
 
             return footnoteResult;
-        }
+        }*/
 
         /*
          * Dihlm-E (BW) Footnote Eluate 5:
-         */
+         *
         private FootnoteResult DihlmEBW_e5(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new()
@@ -222,11 +226,11 @@ namespace EnvDT.Model.Core
             };
 
             return footnoteResult;
-        }
+        }*/
 
         /*
          * DepV Footnote Eluate 8:
-         */
+         *
         private FootnoteResult DepV_e8(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new()
@@ -243,7 +247,7 @@ namespace EnvDT.Model.Core
 
         /*
          * DepV (BY) Footnote Eluate 13:
-         */
+         *
         private FootnoteResult DepVBY_e13(EvalArgs evalArgs, int evalType)
         {
             FootnoteResult footnoteResult = new()
@@ -256,6 +260,5 @@ namespace EnvDT.Model.Core
             };
 
             return footnoteResult;
-        }
-    }
+        }*/
 }

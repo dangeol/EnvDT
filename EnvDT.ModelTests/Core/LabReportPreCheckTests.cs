@@ -50,7 +50,7 @@ namespace EnvDT.ModelTests.Core
             _publParam = new PublParam();
             _publParam.ParameterId = new Guid("019df8e5-0042-4e0a-b5b3-93686a81de6b");
             _publParam.IsMandatory = true;
-            _publParam.FootnoteId = "";
+            _publParam.FootnoteId = new Guid();
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _publication = new Publication();

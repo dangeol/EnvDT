@@ -45,14 +45,14 @@ namespace EnvDT.ModelTests.Core
             _footnotesMock = new Mock<IFootnotes>();
             _publParam = new PublParam();
             _publParam.IsMandatory = true;
-            _publParam.FootnoteId = "";
+            _publParam.FootnoteId = new Guid();
             _publParam.Tolerance = 0;
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
             _refValue = new RefValue();
             _refValue.RValue = 5.0;
             _refValue.RValueAlt = 10.0;
-            _refValue.FootnoteId = "";
+            _refValue.FootnoteId = new Guid();
             _refValues = new List<RefValue>();
             _refValues.Add(_refValue);
             _publication = new Publication();
@@ -164,8 +164,8 @@ namespace EnvDT.ModelTests.Core
             HashSet<string> generalFootnoteTexts = new();
             evalResult.GeneralFootnoteTexts = generalFootnoteTexts;
             
-            _publParam.FootnoteId = "footnoteId";
-            _refValue.FootnoteId = "";
+            _publParam.FootnoteId = Guid.NewGuid();
+            _refValue.FootnoteId = new Guid();
 
             FootnoteResult footnoteResult = new()
             {
@@ -201,8 +201,8 @@ namespace EnvDT.ModelTests.Core
             evalResult.GeneralFootnoteTexts = generalFootnoteTexts;
             var generalFootnoteTextsLengthBefore = evalResult.GeneralFootnoteTexts.Count;
 
-            _publParam.FootnoteId = "footnoteId";
-            _refValue.FootnoteId = "";
+            _publParam.FootnoteId = Guid.NewGuid();
+            _refValue.FootnoteId = new Guid();
 
             FootnoteResult footnoteResult = new()
             {
@@ -277,7 +277,7 @@ namespace EnvDT.ModelTests.Core
             var takingAccountOfListLengthBefore = evalResult.TakingAccountOf.Length;
 
             _refValue.RValueAlt = 100;
-            _refValue.FootnoteId = "footnote";
+            _refValue.FootnoteId = Guid.NewGuid();
             HashSet<PublParam> missingParams = new()
             {
                 new PublParam()

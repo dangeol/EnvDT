@@ -49,7 +49,7 @@ namespace EnvDT.Model.Core
                     var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, labReportId);
                     var isParamReallyMissing = true;
                     // If footnote existing, checking if condition is met that makes this param mandatory ("really missing")
-                    if (publParam.FootnoteId.Length > 0)
+                    if (publParam.FootnoteId != Guid.Empty)
                     {
                         var footnoteRef = $"{publication.PublIdent}_{publParam.FootnoteId}";
                         EvalArgs evalArgs = new();

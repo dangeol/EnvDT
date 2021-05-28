@@ -29,6 +29,8 @@ namespace EnvDT.DataAccess
         public DbSet<CAS> CASs { get; set; }
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Country> Countries { get; set; }
+        public DbSet<Footnote> Footnotes { get; set; }
+        public DbSet<FootnoteParam> FootnoteParams { get; set; }      
         public DbSet<Language> Languages { get; set; }
         public DbSet<Medium> Media { get; set; }
         public DbSet<MediumSubType> MediumSubTypes { get; set; }
@@ -72,6 +74,8 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new CASConfig());
             modelBuilder.ApplyConfiguration(new ConditionConfig());
             modelBuilder.ApplyConfiguration(new CountryConfig());
+            modelBuilder.ApplyConfiguration(new FootnoteConfig());
+            modelBuilder.ApplyConfiguration(new FootnoteParamConfig());
             modelBuilder.ApplyConfiguration(new LanguageConfig());
             modelBuilder.ApplyConfiguration(new MediumConfig());
             modelBuilder.ApplyConfiguration(new MediumSubTypeConfig());

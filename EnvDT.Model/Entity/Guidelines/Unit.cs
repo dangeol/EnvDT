@@ -10,8 +10,9 @@ namespace EnvDT.Model.Entity
         public string UnitDescEn { get; set; }
         public string UnitDescDe { get; set; }
 
-        public List<PublParam> PublParams { get; } = new List<PublParam>();
-        public List<LabReportParam> LabReportParams { get; } = new List<LabReportParam>();
+        public List<PublParam> PublParams { get; set; }
+        public List<FootnoteParam> FootnoteParams { get; set; }
+        public List<LabReportParam> LabReportParams { get; set; }
         public List<UnitNameVariant> UnitNameVariants { get; set; }
     }
 }

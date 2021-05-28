@@ -23,6 +23,10 @@ namespace EnvDT.Model.Entity
             builder.HasOne(p => p.Medium)
                 .WithMany(p => p.PublParams)
                 .HasForeignKey(p => p.MediumId);
+            builder.HasOne(p => p.Footnote)
+                .WithMany(p => p.PublParams)
+                .HasForeignKey(p => p.FootnoteId)
+                .IsRequired(false);
             var publParamJson = File.ReadAllText(DbResources.publParamJson);
             var publParams = JsonSerializer.Deserialize<List<PublParam>>(publParamJson);
             builder.HasData(publParams);

@@ -8,7 +8,6 @@ namespace EnvDT.Model.Entity
         public Guid PublParamId { get; set; }
         public int Position { get; set; }
         public bool IsMandatory { get; set; }
-        public string FootnoteId { get; set; }
         public double Tolerance { get; set; }
         public Guid PublicationId { get; set; }
         public Publication Publication { get; set; }
@@ -18,6 +17,8 @@ namespace EnvDT.Model.Entity
         public Unit Unit { get; set; }
         public Guid MediumId { get; set; }
         public Medium Medium { get; set; }
+        public Guid? FootnoteId { get; set; }
+        public Footnote Footnote { get; set; }
 
         public List<RefValue> RefValues { get; set; }
     }

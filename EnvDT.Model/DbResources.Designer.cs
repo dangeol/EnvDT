@@ -97,6 +97,24 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Footnote.json.
+        /// </summary>
+        internal static string footnoteJson {
+            get {
+                return ResourceManager.GetString("footnoteJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/FootnoteParam.json.
+        /// </summary>
+        internal static string footnoteParamJson {
+            get {
+                return ResourceManager.GetString("footnoteParamJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Laboratory.json.
         /// </summary>
         internal static string laboratoryJson {
@@ -223,7 +241,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/unitNameVariant.json.
+        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/UnitNameVariant.json.
         /// </summary>
         internal static string unitNameVariantJson {
             get {

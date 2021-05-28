@@ -54,7 +54,7 @@ namespace EnvDT.Model.Core
 
                 if (labReportParams.Count() == 0)
                 {
-                    if (publParam.IsMandatory && publParam.FootnoteId.Length == 0)
+                    if (publParam.IsMandatory && publParam.FootnoteId == Guid.Empty)
                     {
                         _missingParams.Add(publParam);
                     }                    
@@ -85,8 +85,8 @@ namespace EnvDT.Model.Core
 
                 foreach (RefValue refValue in refValues)
                 {
-                    if (publParam.FootnoteId.Length == 0 || 
-                        (publParam.FootnoteId.Length > 0 &&
+                    if (publParam.FootnoteId == Guid.Empty || 
+                        (publParam.FootnoteId != Guid.Empty &&
                         _footnotes.IsFootnoteCondTrue(evalArgs, 0, $"{_publication.PublIdent}_{publParam.FootnoteId}").Result))
                     { 
                         var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
@@ -198,10 +198,10 @@ namespace EnvDT.Model.Core
             bool isNotExclusionCriterion = false;
 
             double refVal;
-            if ((publParam.FootnoteId.Length > 0 || refValue.FootnoteId.Length > 0) && 
+            if ((publParam.FootnoteId != Guid.Empty || refValue.FootnoteId != Guid.Empty) && 
                 refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
             {
-                var footnoteId = refValue.FootnoteId.Length > 0 ? refValue.FootnoteId : publParam.FootnoteId;
+                var footnoteId = refValue.FootnoteId != Guid.Empty ? refValue.FootnoteId : publParam.FootnoteId;
                 var footnoteRef = $"{_publication.PublIdent}_{footnoteId}";
 
                 FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, 1, footnoteRef);
