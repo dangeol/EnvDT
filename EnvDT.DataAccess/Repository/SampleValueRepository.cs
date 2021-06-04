@@ -16,14 +16,20 @@ namespace EnvDT.DataAccess.Repository
         {
         }
 
+        public IEnumerable<SampleValue> GetSampleValuesByLabReportParamId(Guid labReportParamId)
+        {
+            return Context.Set<SampleValue>().AsNoTracking().ToList()
+                .Where(sv => sv.LabReportParamId == labReportParamId);
+        }
+
         public IEnumerable<SampleValue> GetSampleValuesBySampleIdAndLabReportParamId(Guid sampleId, Guid labReportParamId)
         {
             return Context.Set<SampleValue>().AsNoTracking().ToList()
                 .Where(sv => (sv.SampleId == sampleId && sv.LabReportParamId == labReportParamId));
         }
 
-        public IEnumerable<SampleValueAndLrUnitName> GetSampleValuesAndLrUnitNamesByLabReportIdParamNameDeAndUnitName(
-            Guid labReportId, string paramNameDe, string unitName)
+        public IEnumerable<SampleValueAndLrUnitName> GetSampleValuesAndLrUnitNamesByLabReportIdParameterIdAndUnitName(
+            Guid labReportId, Guid parameterId, string unitName)
         {
             return
             (
@@ -35,7 +41,7 @@ namespace EnvDT.DataAccess.Repository
                     u.UnitName.Substring(1, u.UnitName.Length - 1).Equals(unitName.Substring(1, unitName.Length - 1))) ||
                     (u.UnitName.Length == 0 && unitName.Length == 0)
                 join p in Context.Parameters on lp.ParameterId equals p.ParameterId
-                where (p.ParamNameDe.Equals(paramNameDe))
+                where (p.ParameterId == parameterId)
                 select new SampleValueAndLrUnitName
                 {
                     sampleValue = sv,

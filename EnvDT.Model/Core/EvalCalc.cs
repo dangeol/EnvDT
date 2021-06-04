@@ -34,9 +34,27 @@ namespace EnvDT.Model.Core
         }
 
         public List<KeyValuePair<LabReportParam, double>> GetLrParamSValuePairs(
-            IEnumerable<LabReportParam> labReportParams,
-            Guid sampleId,
-            string refValUnitName)
+            IEnumerable<LabReportParam> labReportParams, string refValUnitName)
+        {
+            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = new();
+
+            foreach (LabReportParam lrparam in labReportParams)
+            {
+                var sampleValueUnitName = _unitOfWork.Units.GetById(lrparam.UnitId).UnitName;
+                var sValuesFromLrParam = _unitOfWork.SampleValues.GetSampleValuesByLabReportParamId(lrparam.LabReportParamId);
+
+                foreach (SampleValue sValueFromLrParam in sValuesFromLrParam)
+                {
+                    var sValueConverted = SampleValueConversion(sValueFromLrParam.SValue, sampleValueUnitName, refValUnitName);
+                    LrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(lrparam, sValueConverted));
+                }
+            }
+
+            return LrParamSValuePairs;
+        }
+
+        public List<KeyValuePair<LabReportParam, double>> GetLrParamSValuePairs(
+            IEnumerable<LabReportParam> labReportParams, Guid sampleId, string refValUnitName)
         {
             List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = new();
 

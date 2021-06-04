@@ -5,6 +5,6 @@ namespace EnvDT.Model.Core
 {
     public interface IFootnotes
     {
-        public FootnoteResult IsFootnoteCondTrue(EvalArgs evalArgs, int evalType, string footnoteRef);
+        public FootnoteResult IsFootnoteCondTrue(EvalArgs evalArgs, Guid? footnoteId);
     }
 }

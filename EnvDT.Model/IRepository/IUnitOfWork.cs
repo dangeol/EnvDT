@@ -6,6 +6,8 @@ namespace EnvDT.Model.IRepository
     {
         public IConfigXlsxRepository ConfigXlsxs { get; }
         public IConfigCsvRepository ConfigCsvs { get; }
+        public IFootnoteRepository Footnotes { get; }
+        public IFootnoteParamRepository FootnoteParams { get; }
         public ILaboratoryRepository Laboratories { get; }
         public ILabReportRepository LabReports { get; }
         public ILabReportParamRepository LabReportParams { get; }

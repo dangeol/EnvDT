@@ -11,15 +11,9 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<FootnoteParam> builder)
         {
             builder.HasKey(fp => fp.FootnoteParamId);
-            builder.HasOne(fp => fp.Publication)
+            builder.HasOne(fp => fp.PublParam)
                 .WithMany(fp => fp.FootnoteParams)
-                .HasForeignKey(fp => fp.PublicationId);
-            builder.HasOne(fp => fp.Parameter)
-                .WithMany(fp => fp.FootnoteParams)
-                .HasForeignKey(fp => fp.ParameterId);
-            builder.HasOne(fp => fp.Unit)
-                .WithMany(fp => fp.FootnoteParams)
-                .HasForeignKey(fp => fp.UnitId);
+                .HasForeignKey(fp => fp.PublParamId);
             builder.HasOne(fp => fp.Footnote)
                 .WithMany(fp => fp.FootnoteParams)
                 .HasForeignKey(fp => fp.FootnoteId);

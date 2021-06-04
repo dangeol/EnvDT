@@ -174,7 +174,7 @@ namespace EnvDT.ModelTests.Core
                 GeneralFootnoteTexts = "Footnote1 text"
             };
 
-            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<Guid>()))
                 .Returns(footnoteResult);
 
             evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
@@ -211,7 +211,7 @@ namespace EnvDT.ModelTests.Core
                 GeneralFootnoteTexts = "Footnote1 text"
             };
 
-            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<Guid>()))
                 .Returns(footnoteResult);
 
             evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
@@ -291,7 +291,7 @@ namespace EnvDT.ModelTests.Core
                 TakingAccountOf = takingAccountOf
             };
 
-            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+            _footnotesMock.Setup(fm => fm.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<Guid>()))
                 .Returns(footnoteResult);
             
             evalResult = _evalLabReportService.GetEvalResult(_evalArgs);

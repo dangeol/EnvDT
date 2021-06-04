@@ -1,7 +1,7 @@
 [
 	{
 		"FootnoteId": "b2a358ad-198d-43e1-95ed-a2bfcf149ff0",
-		"FootnoteRef": "e5",
+		"FootnoteRef": "Fu\u00DFnote 5 (Eluat)",
 		"Expression1": "",
 		"Expression2": "",
 		"IsNotExclusionCriterion": true,
@@ -9,7 +9,7 @@
 	},
 	{
 		"FootnoteId": "c7b026b7-121f-4c7b-9335-2b38f47dac8b",
-		"FootnoteRef": "e1",
+		"FootnoteRef": "Fu\u00DFnote 1 (Eluat)",
 		"Expression1": "",
 		"Expression2": "",
 		"IsNotExclusionCriterion": true,
@@ -17,15 +17,15 @@
 	},
 	{
 		"FootnoteId": "67cb8ade-4b01-4fc2-a670-ef8cfdc71322",
-		"FootnoteRef": "e5",
-		"Expression1": "a > 30 && a <= 50",
+		"FootnoteRef": "Fu\u00DFnote 5 (Eluat)",
+		"Expression1": "param1 > 30 AND param1 <= 50",
 		"Expression2": "",
 		"IsNotExclusionCriterion": false,
 		"GeneralFootnoteTexts": ""
 	},
 	{
 		"FootnoteId": "a36d19be-6920-41ee-8926-ec7c18f070ae",
-		"FootnoteRef": "e1",
+		"FootnoteRef": "Fu\u00DFnote 1 (Eluat)",
 		"Expression1": "",
 		"Expression2": "",
 		"IsNotExclusionCriterion": true,
@@ -33,9 +33,9 @@
 	},
 	{
 		"FootnoteId": "7a7f7abd-6beb-49af-bd3c-e3c3a9b643cf",
-		"FootnoteRef": "e5",
-		"Expression1": "a > 30 && a <= 50",
-		"Expression2": "b <= 8",
+		"FootnoteRef": "Fu\u00DFnote 5 (Eluat)",
+		"Expression1": "param1 > 30 AND param1 <= 50",
+		"Expression2": "param2 <= 8",
 		"IsNotExclusionCriterion": false,
 		"GeneralFootnoteTexts": ""
 	}

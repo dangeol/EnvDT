@@ -11,7 +11,6 @@ namespace EnvDT.Model.Entity
         public string ParamAnnotation { get; set; }
 
         public List<PublParam> PublParams { get; set; }
-        public List<FootnoteParam> FootnoteParams { get; set; }
         public List<CAS> CASs { get; set; }
         public List<ParamNameVariant> ParamNameVariants { get; set; }
         public List<LabReportParam> LabReportParams { get; set; }

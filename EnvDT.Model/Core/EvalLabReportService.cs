@@ -54,7 +54,7 @@ namespace EnvDT.Model.Core
 
                 if (labReportParams.Count() == 0)
                 {
-                    if (publParam.IsMandatory && publParam.FootnoteId == Guid.Empty)
+                    if (publParam.IsMandatory && publParam.FootnoteId == null)
                     {
                         _missingParams.Add(publParam);
                     }                    
@@ -85,9 +85,9 @@ namespace EnvDT.Model.Core
 
                 foreach (RefValue refValue in refValues)
                 {
-                    if (publParam.FootnoteId == Guid.Empty || 
-                        (publParam.FootnoteId != Guid.Empty &&
-                        _footnotes.IsFootnoteCondTrue(evalArgs, 0, $"{_publication.PublIdent}_{publParam.FootnoteId}").Result))
+                    if (publParam.FootnoteId == null || 
+                        (publParam.FootnoteId != null &&
+                        _footnotes.IsFootnoteCondTrue(evalArgs, publParam.FootnoteId).Result))
                     { 
                         var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
                         if (exceedingValue != null)
@@ -198,13 +198,12 @@ namespace EnvDT.Model.Core
             bool isNotExclusionCriterion = false;
 
             double refVal;
-            if ((publParam.FootnoteId != Guid.Empty || refValue.FootnoteId != Guid.Empty) && 
+            if ((publParam.FootnoteId != null || refValue.FootnoteId != null) && 
                 refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
             {
-                var footnoteId = refValue.FootnoteId != Guid.Empty ? refValue.FootnoteId : publParam.FootnoteId;
-                var footnoteRef = $"{_publication.PublIdent}_{footnoteId}";
+                var footnoteId = refValue.FootnoteId != null ? refValue.FootnoteId : publParam.FootnoteId;
 
-                FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, 1, footnoteRef);
+                FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, footnoteId);
                 isNotExclusionCriterion = footnoteResult.IsNotExclusionCriterion;
                 bool shouldRefValueAltBeTaken = footnoteResult.Result;
                 refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;

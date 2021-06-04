@@ -2,25 +2,19 @@
 	{
 		"FootnoteParamId": "895ed4fe-7607-4b9c-8a78-738de7d57050",
 		"FootnoteId": "67cb8ade-4b01-4fc2-a670-ef8cfdc71322",
-		"OrderNo":  0,
-		"PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577",
-		"ParameterId": "8d9e46c1-dcbc-40d9-8b80-440b9f104486",
-		"UnitId": "e78e1c38-7177-45ba-b093-637143f4c568"
+		"OrderNo": 0,
+		"PublParamId": "43fa8ae1-2105-41bd-8d11-0e26c8147c6e"
 	},
 	{
 		"FootnoteParamId": "00da2fcd-95c8-4311-a6b6-0a800a32065e",
 		"FootnoteId": "7a7f7abd-6beb-49af-bd3c-e3c3a9b643cf",
 		"OrderNo": 0,
-		"PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577",
-		"ParameterId": "8d9e46c1-dcbc-40d9-8b80-440b9f104486",
-		"UnitId": "e78e1c38-7177-45ba-b093-637143f4c568"
+		"PublParamId": "43fa8ae1-2105-41bd-8d11-0e26c8147c6e"
 	},
 	{
 		"FootnoteParamId": "721a04cf-d6e7-4a18-a56a-7c74ee186ca7",
 		"FootnoteId": "7a7f7abd-6beb-49af-bd3c-e3c3a9b643cf",
 		"OrderNo": 1,
-		"PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577",
-		"ParameterId": "c7faa279-5838-4f54-92fb-e7830929566a",
-		"UnitId": "e78e1c38-7177-45ba-b093-637143f4c568"
+		"PublParamId": "c6c0f304-c0bc-494e-8f3d-cc71ea933e27"
 	}
 ]

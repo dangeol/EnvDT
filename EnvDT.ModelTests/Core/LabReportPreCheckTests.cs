@@ -45,7 +45,7 @@ namespace EnvDT.ModelTests.Core
             _footnoteResult = new FootnoteResult();
             _footnoteResult.Result = true;
             _footnotesMock = new Mock<IFootnotes>();
-            _footnotesMock.Setup(fn => fn.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<int>(), It.IsAny<string>()))
+            _footnotesMock.Setup(fn => fn.IsFootnoteCondTrue(It.IsAny<EvalArgs>(), It.IsAny<Guid>()))
                 .Returns(_footnoteResult);
             _publParam = new PublParam();
             _publParam.ParameterId = new Guid("019df8e5-0042-4e0a-b5b3-93686a81de6b");

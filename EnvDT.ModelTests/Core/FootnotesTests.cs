@@ -17,8 +17,9 @@ namespace EnvDT.ModelTests.Core
         private Mock<IEvalCalc> _evalCalcMock;
 
         private EvalArgs _evalArgs;
-        private int _evalType;
-        private string _footnoteRef;
+        private Footnote _footnote;
+        private FootnoteParam _footnoteParam1;
+        private FootnoteParam _footnoteParam2;
         private Sample _sample;
         private SampleValue _sampleValue;
         private List<SampleValue> _sValuesFromLrParam;
@@ -42,6 +43,12 @@ namespace EnvDT.ModelTests.Core
             _evalCalcMock = new Mock<IEvalCalc>();
 
             _evalArgs = new();
+            _footnote = new();
+            _footnote.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
+            _footnoteParam1 = new();
+            _footnoteParam1.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
+            _footnoteParam2 = new();
+            _footnoteParam2.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
             _sample = new();
             _sample.SampleId = new Guid();
             _sampleValue = new();
@@ -53,8 +60,7 @@ namespace EnvDT.ModelTests.Core
             _labReportParam = new();
             _labReportParams.Add(_labReportParam);
 
-            _unitOfWorkMock.Setup(uw => uw.PublParams.GetByPublIdParameterNameDeAndUnitName(
-                It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()))
+            _unitOfWorkMock.Setup(uw => uw.PublParams.GetById(It.IsAny<Guid>()))
                 .Returns(_publParam);
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(
                 It.IsAny<PublParam>(), It.IsAny<Guid>()))
@@ -73,22 +79,20 @@ namespace EnvDT.ModelTests.Core
             double sValue, bool expectedResult)
         {
             _evalArgs.Sample = _sample;
-            _evalType = 0;
-            _footnoteRef = "VerfLfBY_e5";
 
             //Chrome Gesamt
             _sValue = sValue;
 
             _sampleValueAndLrUnitNames = new();
             
-            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesAndLrUnitNamesByLabReportIdParamNameDeAndUnitName(
-                It.IsAny<Guid>(), It.IsAny<string>(), It.IsAny<string>()))
+            _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesAndLrUnitNamesByLabReportIdParameterIdAndUnitName(
+                It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>()))
                 .Returns(_sampleValueAndLrUnitNames);
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 It.IsAny<double>(), It.IsAny<string>(), It.IsAny<string>()))
                 .Returns(_sValue);
 
-            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _evalType, _footnoteRef).Result;
+            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _footnote.FootnoteId).Result;
             // Should return false by default
             Assert.False(calculatedResult);
 
@@ -98,7 +102,7 @@ namespace EnvDT.ModelTests.Core
             _sampleValueAndLrUnitName.unitName = "µg/l";
             _sampleValueAndLrUnitNames.Add(_sampleValueAndLrUnitName);
 
-            calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _evalType, _footnoteRef).Result;
+            calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _footnote.FootnoteId).Result;
             Assert.Equal(calculatedResult, expectedResult);
         }
 
@@ -111,8 +115,6 @@ namespace EnvDT.ModelTests.Core
             double sValue1, double sValue2, bool expectedResult)
         {
             _evalArgs.Sample = _sample;
-            _evalType = 1;
-            _footnoteRef = "VerfLfBY_e5";
 
             //Chrome Gesamt
             _sValue = sValue1;
@@ -139,7 +141,7 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_finalSValue1)
                 .Returns(_finalSValue2);
 
-            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _evalType, _footnoteRef);
+            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _footnote.FootnoteId);
 
             Assert.Equal(calculatedResult.Result, expectedResult);
             Assert.Equal(calculatedResult.TakingAccountOf.Count > 0, expectedResult);
@@ -152,8 +154,6 @@ namespace EnvDT.ModelTests.Core
             double sValue, bool expectedResult)
         {
             _evalArgs.Sample = _sample;
-            _evalType = 1;
-            _footnoteRef = "VerfLfBY_e5";
 
             //Chrom Gesamt
             _sValue = sValue;
@@ -175,7 +175,7 @@ namespace EnvDT.ModelTests.Core
                 It.IsAny<IEnumerable<LabReportParam>>(), It.IsAny<Guid>(), It.IsAny<string>()))
                 .Returns(_lrParamSValuePairs1);
 
-            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _evalType, _footnoteRef);
+            var calculatedResult = _footnotes.IsFootnoteCondTrue(_evalArgs, _footnote.FootnoteId);
 
             Assert.False(calculatedResult.Result);
             //In this specific footnote: Only when condition for first parameter is met, missingParams is added to result
