@@ -198,15 +198,14 @@ namespace EnvDT.Model.Core
             bool isNotExclusionCriterion = false;
 
             double refVal;
-            if ((publParam.FootnoteId != null || refValue.FootnoteId != null) && 
-                refValue.RValueAlt > 0 && evalArgs.EvalFootnotes)
+            if ((publParam.FootnoteId != null || refValue.FootnoteId != null) && evalArgs.EvalFootnotes)
             {
                 var footnoteId = refValue.FootnoteId != null ? refValue.FootnoteId : publParam.FootnoteId;
 
                 FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, footnoteId);
                 isNotExclusionCriterion = footnoteResult.IsNotExclusionCriterion;
                 bool shouldRefValueAltBeTaken = footnoteResult.Result;
-                refVal = shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
+                refVal = refValue.RValueAlt > 0 && shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
 
                 if (footnoteResult.GeneralFootnoteTexts != null)
                 {

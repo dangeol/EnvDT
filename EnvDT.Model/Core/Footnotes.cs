@@ -81,8 +81,8 @@ namespace EnvDT.Model.Core
                 footnoteResult.Result = true;
                 return footnoteResult;
             }
-            else
-            // Evaluate footnote in EvalLabReportService
+            else if (footnote.Expression1.Length > 0)
+            // Evaluate footnote with bool expressions in EvalLabReportService
             {
                 int index = 1;
 
@@ -130,6 +130,12 @@ namespace EnvDT.Model.Core
                     footnoteResult.TakingAccountOf.Add(footnote.FootnoteRef);
                 }
 
+                return footnoteResult;
+            }
+            else
+            // Evaluate footnote without bool expressions in EvalLabReportService
+            {
+                footnoteResult.Result = true;
                 return footnoteResult;
             }
         }
