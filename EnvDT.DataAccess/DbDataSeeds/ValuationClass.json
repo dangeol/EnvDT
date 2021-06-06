@@ -102,6 +102,12 @@
     "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
   },
   {
+    "ValuationClassId": "f7492b32-b859-41a1-a4ff-7fede734d3bf",
+    "ValuationClassName": "Z1.1",
+    "ValClassLevel": 2,
+    "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
+  },
+  {
     "ValuationClassId": "4f2cb7b2-7c78-4f19-91cd-0ebca786fc89",
     "ValuationClassName": "Z1.1",
     "ValClassLevel": 2,
@@ -114,6 +120,12 @@
     "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
   },
   {
+    "ValuationClassId": "370a191a-01a5-4adb-bcbe-7ca4172bca52",
+    "ValuationClassName": "Z1.2",
+    "ValClassLevel": 3,
+    "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
+  },
+  {
     "ValuationClassId": "862a9cd1-5214-42ff-ab9d-54e522becb40",
     "ValuationClassName": "Z1.2",
     "ValClassLevel": 3,
@@ -123,6 +135,12 @@
     "ValuationClassId": "1b3016ec-362c-46a8-b2f2-954c09825d95",
     "ValuationClassName": "Z1.2",
     "ValClassLevel": 3,
+    "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
+  },
+  {
+    "ValuationClassId": "30d64315-5dfb-459f-9c99-8ebad02e14d4",
+    "ValuationClassName": "Z2",
+    "ValClassLevel": 4,
     "PublicationId": "1bff9814-b3b9-45a9-b976-b07b0698d577"
   },
   {
