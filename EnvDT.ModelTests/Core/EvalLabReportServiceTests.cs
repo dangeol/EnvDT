@@ -26,6 +26,7 @@ namespace EnvDT.ModelTests.Core
 
         private SampleValue _sampleValue1;
         private SampleValue _sampleValue2;
+        private FootnoteResult _footnoteResult1;
         private FinalSValue _finalSValue;
         private Unit _unit;
         private Parameter _parameter;
@@ -45,7 +46,7 @@ namespace EnvDT.ModelTests.Core
             _footnotesMock = new Mock<IFootnotes>();
             _publParam = new PublParam();
             _publParam.IsMandatory = true;
-            _publParam.FootnoteId = new Guid();
+            _publParam.FootnoteId = null;
             _publParam.Tolerance = 0;
             _publParams = new List<PublParam>();
             _publParams.Add(_publParam);
@@ -90,6 +91,12 @@ namespace EnvDT.ModelTests.Core
             _sampleValue1.SValue = 10.0;
             _sampleValue2 = new SampleValue();
             _sampleValue2.SValue = 12.5;
+            _footnoteResult1 = new();
+            _footnoteResult1.Result = false;
+            _footnoteResult1.IsNotExclusionCriterion = false;
+            _footnoteResult1.MissingParams = null;
+            _footnoteResult1.TakingAccountOf = null;
+            _footnoteResult1.GeneralFootnoteTexts = "";
             _lrParamSValuePairs = new List<KeyValuePair<LabReportParam, double>>();
             _lrParamSValuePairs.Add(new KeyValuePair<LabReportParam, double>(_labReportParam, _sampleValue1.SValue));
             _finalSValue = new FinalSValue();
@@ -121,6 +128,10 @@ namespace EnvDT.ModelTests.Core
             _evalCalcMock.Setup(ec => ec.GetFinalSValue(
                 It.IsAny<EvalArgs>(), It.IsAny<string>(), It.IsAny<List<KeyValuePair<LabReportParam, double>>>()))
                 .Returns(_finalSValue);
+
+            _footnotesMock.Setup(fn => fn.IsFootnoteCondTrue(
+                It.IsAny<EvalArgs>(), It.IsAny<Guid>()))
+                .Returns(_footnoteResult1);
 
             // Instantiate class 
             _evalLabReportService = new EvalLabReportService(_unitOfWorkMock.Object,

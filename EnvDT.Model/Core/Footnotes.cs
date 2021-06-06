@@ -154,7 +154,6 @@ namespace EnvDT.Model.Core
                 if (LrParamSValuePairs.Count() == 1)
                 {
                     sValue = LrParamSValuePairs.First().Value;
-
                 }
                 else if (LrParamSValuePairs.Count() > 1)
                 {

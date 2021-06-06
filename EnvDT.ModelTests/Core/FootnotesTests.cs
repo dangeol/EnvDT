@@ -18,6 +18,7 @@ namespace EnvDT.ModelTests.Core
 
         private EvalArgs _evalArgs;
         private Footnote _footnote;
+        private List<FootnoteParam> _footnoteParams;
         private FootnoteParam _footnoteParam1;
         private FootnoteParam _footnoteParam2;
         private Sample _sample;
@@ -27,6 +28,8 @@ namespace EnvDT.ModelTests.Core
         private SampleValueAndLrUnitName _sampleValueAndLrUnitName;
         private List<SampleValueAndLrUnitName> _sampleValueAndLrUnitNames;
 
+        private Parameter _parameter;
+        private Unit _unit;
         private PublParam _publParam;
         private List<LabReportParam> _labReportParams;
         private LabReportParam _labReportParam;
@@ -45,21 +48,39 @@ namespace EnvDT.ModelTests.Core
             _evalArgs = new();
             _footnote = new();
             _footnote.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
+            _footnote.Expression1 = "param1 > 30 AND param1 <= 50";
+
             _footnoteParam1 = new();
             _footnoteParam1.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
             _footnoteParam2 = new();
             _footnoteParam2.FootnoteId = new Guid("06c38588-53b8-4953-9ba4-85d0afb445d5");
+            _footnoteParams = new List<FootnoteParam>();
+
             _sample = new();
             _sample.SampleId = new Guid();
             _sampleValue = new();
             _sValuesFromLrParam = new();
             _sValuesFromLrParam.Add(_sampleValue);
 
+            _parameter = new();
+            _parameter.ParamAnnotation = "";
+            _unit = new();
+            _unit.UnitName = "µg/l";
             _publParam = new();
             _labReportParams = new List<LabReportParam>();
             _labReportParam = new();
             _labReportParams.Add(_labReportParam);
 
+            _lrParamSValuePairs1 = new();
+
+            _unitOfWorkMock.Setup(uw => uw.Footnotes.GetById(It.IsAny<Guid>()))
+                .Returns(_footnote);
+            _unitOfWorkMock.Setup(uw => uw.FootnoteParams.GetFootnoteParamsByFootnoteId(It.IsAny<Guid>()))
+                .Returns(_footnoteParams);
+            _unitOfWorkMock.Setup(uw => uw.Parameters.GetById(It.IsAny<Guid>()))
+                .Returns(_parameter);
+            _unitOfWorkMock.Setup(uw => uw.Units.GetById(It.IsAny<Guid>()))
+                .Returns(_unit);
             _unitOfWorkMock.Setup(uw => uw.PublParams.GetById(It.IsAny<Guid>()))
                 .Returns(_publParam);
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(
@@ -75,16 +96,17 @@ namespace EnvDT.ModelTests.Core
         [InlineData(30.1, true)]
         [InlineData(50.0, true)]
         [InlineData(50.1, false)]
-        public void IsFootnoteCondTrueWithEvalType0ShouldReturnCorrectValue(
+        public void IsFootnoteCondTrueWithEvalTypeLabReportPreCheckShouldReturnCorrectValue(
             double sValue, bool expectedResult)
         {
-            _evalArgs.Sample = _sample;
+            _footnoteParams.Add(_footnoteParam1);
+            _footnote.Expression2 = "";
 
             //Chrome Gesamt
             _sValue = sValue;
 
             _sampleValueAndLrUnitNames = new();
-            
+
             _unitOfWorkMock.Setup(uw => uw.SampleValues.GetSampleValuesAndLrUnitNamesByLabReportIdParameterIdAndUnitName(
                 It.IsAny<Guid>(), It.IsAny<Guid>(), It.IsAny<string>()))
                 .Returns(_sampleValueAndLrUnitNames);
@@ -111,10 +133,13 @@ namespace EnvDT.ModelTests.Core
         [InlineData(30.1, 8.1, false)]
         [InlineData(50.0, 8.0, true)]
         [InlineData(50.1, 8.0, false)]
-        public void IsFootnoteCondTrueWithEvalType1ShouldReturnCorrectValue(
+        public void IsFootnoteCondTrueWithEvalTypeEvalLabReportServiceShouldReturnCorrectValue(
             double sValue1, double sValue2, bool expectedResult)
         {
             _evalArgs.Sample = _sample;
+            _footnoteParams.Add(_footnoteParam1);
+            _footnoteParams.Add(_footnoteParam2);
+            _footnote.Expression2 = "param2 <= 8";
 
             //Chrome Gesamt
             _sValue = sValue1;
@@ -147,6 +172,7 @@ namespace EnvDT.ModelTests.Core
             Assert.Equal(calculatedResult.TakingAccountOf.Count > 0, expectedResult);
         }
 
+        /* Below test case is not valid anymore after db model restructuring regarding footnotes; but the underlying specific feature is on the TO DO list.
         [Theory]
         [InlineData(30.0, false)]
         [InlineData(30.1, true)]
@@ -181,5 +207,6 @@ namespace EnvDT.ModelTests.Core
             //In this specific footnote: Only when condition for first parameter is met, missingParams is added to result
             Assert.Equal(calculatedResult.MissingParams.Count > 0, expectedResult);
         }
+        */
     }
 }
