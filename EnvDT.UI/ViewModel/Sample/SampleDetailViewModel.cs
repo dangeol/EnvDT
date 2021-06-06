@@ -538,7 +538,7 @@ namespace EnvDT.UI.ViewModel
 
         private void ConstructFootnotes(string footnoteText)
         {
-            if (!_footnoteStrings.ContainsValue(footnoteText))
+            if (footnoteText.Length > 0 && !_footnoteStrings.ContainsValue(footnoteText))
             {
                 _footnoteStrings.Add(_footnoteIndex, footnoteText);
                 DataRow dr = _footnotesTable.NewRow();
@@ -549,7 +549,7 @@ namespace EnvDT.UI.ViewModel
 
                 _footnoteIndex++;
             }
-            else
+            else if (footnoteText.Length > 0)
             {
                 var existingFootnoteIndex = _footnoteStrings.FirstOrDefault(x => x.Value == footnoteText).Key;
                 _footnoteIndexes.Add(existingFootnoteIndex);
