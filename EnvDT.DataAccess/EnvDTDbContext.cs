@@ -1,22 +1,16 @@
 ﻿using EnvDT.Model.Entity;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.IO;
 
 namespace EnvDT.DataAccess
 {
     public class EnvDTDbContext : DbContext
     {
         private DbContextOptions<EnvDTDbContext> _options;
-        private const string _envDtDir = "EnvDT";
-        private static string _appPath;
         private string _sqlitePath;
 
         public EnvDTDbContext()
         {
-            CreateAppDirectory();
-            _appPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), _envDtDir);
-            _sqlitePath = Path.Combine(_appPath, @"envdt.db");
+            _sqlitePath = "envdt.db";
         }
 
         public EnvDTDbContext(DbContextOptions<EnvDTDbContext> options)
@@ -30,7 +24,7 @@ namespace EnvDT.DataAccess
         public DbSet<Condition> Conditions { get; set; }
         public DbSet<Country> Countries { get; set; }
         public DbSet<Footnote> Footnotes { get; set; }
-        public DbSet<FootnoteParam> FootnoteParams { get; set; }      
+        public DbSet<FootnoteParam> FootnoteParams { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Medium> Media { get; set; }
         public DbSet<MediumSubType> MediumSubTypes { get; set; }
@@ -102,18 +96,6 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new ProjectConfig());
             modelBuilder.ApplyConfiguration(new SampleConfig());
             modelBuilder.ApplyConfiguration(new SampleValueConfig());
-        }
-
-        private void CreateAppDirectory()
-        {
-            try
-            {
-                Directory.CreateDirectory(Path.Combine(_appPath));
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-            }
         }
     }
 }
