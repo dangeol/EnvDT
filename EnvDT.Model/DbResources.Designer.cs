@@ -61,7 +61,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Condition.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Condition.json.
         /// </summary>
         internal static string conditionJson {
             get {
@@ -70,7 +70,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ConfigCsv.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ConfigCsv.json.
         /// </summary>
         internal static string configCsvJson {
             get {
@@ -79,7 +79,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ConfigXlsx.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ConfigXlsx.json.
         /// </summary>
         internal static string configXlsxJson {
             get {
@@ -88,7 +88,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Country.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Country.json.
         /// </summary>
         internal static string countryJson {
             get {
@@ -97,7 +97,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Footnote.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Footnote.json.
         /// </summary>
         internal static string footnoteJson {
             get {
@@ -106,7 +106,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/FootnoteParam.json.
+        ///   Looks up a localized string similar to DbDataSeeds/FootnoteParam.json.
         /// </summary>
         internal static string footnoteParamJson {
             get {
@@ -115,7 +115,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Laboratory.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Laboratory.json.
         /// </summary>
         internal static string laboratoryJson {
             get {
@@ -124,7 +124,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Language.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Language.json.
         /// </summary>
         internal static string languageJson {
             get {
@@ -133,7 +133,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Medium.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Medium.json.
         /// </summary>
         internal static string mediumJson {
             get {
@@ -142,7 +142,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/MediumSubType.json.
+        ///   Looks up a localized string similar to DbDataSeeds/MediumSubType.json.
         /// </summary>
         internal static string mediumSubTypeJson {
             get {
@@ -151,7 +151,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Parameter.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Parameter.json.
         /// </summary>
         internal static string parameterJson {
             get {
@@ -160,7 +160,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ParamNameVariant.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ParamNameVariant.json.
         /// </summary>
         internal static string paramNameVariantJson {
             get {
@@ -169,7 +169,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Project.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Project.json.
         /// </summary>
         internal static string projectJson {
             get {
@@ -178,7 +178,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublCountry.json.
+        ///   Looks up a localized string similar to DbDataSeeds/PublCountry.json.
         /// </summary>
         internal static string publCountryJson {
             get {
@@ -187,7 +187,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Publication.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Publication.json.
         /// </summary>
         internal static string publicationJson {
             get {
@@ -196,7 +196,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublParam.json.
+        ///   Looks up a localized string similar to DbDataSeeds/PublParam.json.
         /// </summary>
         internal static string publParamJson {
             get {
@@ -205,7 +205,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/PublRegion.json.
+        ///   Looks up a localized string similar to DbDataSeeds/PublRegion.json.
         /// </summary>
         internal static string publRegionJson {
             get {
@@ -214,7 +214,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/RefValue.json.
+        ///   Looks up a localized string similar to DbDataSeeds/RefValue.json.
         /// </summary>
         internal static string refValueJson {
             get {
@@ -223,7 +223,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Region.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Region.json.
         /// </summary>
         internal static string regionJson {
             get {
@@ -232,7 +232,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/Unit.json.
+        ///   Looks up a localized string similar to DbDataSeeds/Unit.json.
         /// </summary>
         internal static string unitJson {
             get {
@@ -241,7 +241,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/UnitNameVariant.json.
+        ///   Looks up a localized string similar to DbDataSeeds/UnitNameVariant.json.
         /// </summary>
         internal static string unitNameVariantJson {
             get {
@@ -250,7 +250,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClassCondition.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ValuationClassCondition.json.
         /// </summary>
         internal static string valuationClassConditionJson {
             get {
@@ -259,7 +259,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClass.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ValuationClass.json.
         /// </summary>
         internal static string valuationClassJson {
             get {
@@ -268,7 +268,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/ValuationClassMedSubType.json.
+        ///   Looks up a localized string similar to DbDataSeeds/ValuationClassMedSubType.json.
         /// </summary>
         internal static string valuationClassMedSubTypeJson {
             get {
@@ -277,7 +277,7 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ../EnvDT.DataAccess/DbDataSeeds/WasteCodeEWC.json.
+        ///   Looks up a localized string similar to DbDataSeeds/WasteCodeEWC.json.
         /// </summary>
         internal static string wasteCodeEWCJson {
             get {

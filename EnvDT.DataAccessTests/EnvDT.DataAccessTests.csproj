@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <TargetFramework>net5.0-windows7.0</TargetFramework>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess&#xD;&#xA;if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(SolutionDir)EnvDT.DataAccess\DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.DataAccessTests\bin\Debug\EnvDT.DataAccess\DbDataSeeds&quot;" />
+    <Exec Command="if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\net5.0-windows mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\net5.0-windows&#xD;&#xA;if not exist $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\net5.0-windows\DbDataSeeds mkdir $(SolutionDir)EnvDT.DataAccessTests\bin\Debug\net5.0-windows\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(SolutionDir)EnvDT.Model\DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.DataAccessTests\bin\Debug\net5.0-windows\DbDataSeeds&quot;" />
   </Target>
 
 </Project>

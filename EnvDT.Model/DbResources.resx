@@ -118,78 +118,78 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="conditionJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Condition.json</value>
+    <value>DbDataSeeds/Condition.json</value>
   </data>
   <data name="configCsvJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ConfigCsv.json</value>
+    <value>DbDataSeeds/ConfigCsv.json</value>
   </data>
   <data name="configXlsxJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ConfigXlsx.json</value>
+    <value>DbDataSeeds/ConfigXlsx.json</value>
   </data>
   <data name="countryJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Country.json</value>
+    <value>DbDataSeeds/Country.json</value>
   </data>
   <data name="footnoteJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Footnote.json</value>
+    <value>DbDataSeeds/Footnote.json</value>
   </data>
   <data name="footnoteParamJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/FootnoteParam.json</value>
+    <value>DbDataSeeds/FootnoteParam.json</value>
   </data>
   <data name="laboratoryJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Laboratory.json</value>
+    <value>DbDataSeeds/Laboratory.json</value>
   </data>
   <data name="languageJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Language.json</value>
+    <value>DbDataSeeds/Language.json</value>
   </data>
   <data name="mediumJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Medium.json</value>
+    <value>DbDataSeeds/Medium.json</value>
   </data>
   <data name="mediumSubTypeJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/MediumSubType.json</value>
+    <value>DbDataSeeds/MediumSubType.json</value>
   </data>
   <data name="parameterJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Parameter.json</value>
+    <value>DbDataSeeds/Parameter.json</value>
   </data>
   <data name="paramNameVariantJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ParamNameVariant.json</value>
+    <value>DbDataSeeds/ParamNameVariant.json</value>
   </data>
   <data name="projectJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Project.json</value>
+    <value>DbDataSeeds/Project.json</value>
   </data>
   <data name="publCountryJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/PublCountry.json</value>
+    <value>DbDataSeeds/PublCountry.json</value>
   </data>
   <data name="publicationJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Publication.json</value>
+    <value>DbDataSeeds/Publication.json</value>
   </data>
   <data name="publParamJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/PublParam.json</value>
+    <value>DbDataSeeds/PublParam.json</value>
   </data>
   <data name="publRegionJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/PublRegion.json</value>
+    <value>DbDataSeeds/PublRegion.json</value>
   </data>
   <data name="refValueJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/RefValue.json</value>
+    <value>DbDataSeeds/RefValue.json</value>
   </data>
   <data name="regionJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Region.json</value>
+    <value>DbDataSeeds/Region.json</value>
   </data>
   <data name="unitJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/Unit.json</value>
+    <value>DbDataSeeds/Unit.json</value>
   </data>
   <data name="unitNameVariantJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/UnitNameVariant.json</value>
+    <value>DbDataSeeds/UnitNameVariant.json</value>
   </data>
   <data name="valuationClassConditionJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ValuationClassCondition.json</value>
+    <value>DbDataSeeds/ValuationClassCondition.json</value>
   </data>
   <data name="valuationClassJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ValuationClass.json</value>
+    <value>DbDataSeeds/ValuationClass.json</value>
   </data>
   <data name="valuationClassMedSubTypeJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/ValuationClassMedSubType.json</value>
+    <value>DbDataSeeds/ValuationClassMedSubType.json</value>
   </data>
   <data name="wasteCodeEWCJson" xml:space="preserve">
-    <value>../EnvDT.DataAccess/DbDataSeeds/WasteCodeEWC.json</value>
+    <value>DbDataSeeds/WasteCodeEWC.json</value>
   </data>
 </root>
