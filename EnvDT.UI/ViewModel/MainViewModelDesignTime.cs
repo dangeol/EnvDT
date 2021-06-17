@@ -8,7 +8,8 @@ namespace EnvDT.UI.ViewModel
         public MainViewModelDesignTime()
             : base(ContainerProvider.Container.Resolve<MainTabViewModel>(),
                   ContainerProvider.Container.Resolve<ILabViewModel>(),
-                  ContainerProvider.Container.Resolve<ISettingsDetailViewModel>())
+                  ContainerProvider.Container.Resolve<ISettingsDetailViewModel>(),
+                  ContainerProvider.Container.Resolve<IInfoDetailViewModel>())
         {
         }
     }

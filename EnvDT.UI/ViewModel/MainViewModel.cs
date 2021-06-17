@@ -9,15 +9,17 @@ namespace EnvDT.UI.ViewModel
         private IMainTabViewModel _mainTabViewModel;
         private ILabViewModel _labViewModel;
         private ISettingsDetailViewModel _settingsDetailViewModel;
+        private IInfoDetailViewModel _infoDetailViewModel;
 
         public MainViewModel(IMainTabViewModel mainTabViewModel, ILabViewModel labViewModel,
-            ISettingsDetailViewModel settingsDetailViewModel)
+            ISettingsDetailViewModel settingsDetailViewModel, IInfoDetailViewModel infoDetailViewModel)
         {
             NavCommand = new DelegateCommand<string>(OnNavigationExecute);
 
             _mainTabViewModel = mainTabViewModel;
             _labViewModel = labViewModel;
             _settingsDetailViewModel = settingsDetailViewModel;
+            _infoDetailViewModel = infoDetailViewModel;
             CurrentViewModel = _mainTabViewModel;
         }
 
@@ -45,6 +47,9 @@ namespace EnvDT.UI.ViewModel
                     break;
                 case "settings":
                     CurrentViewModel = _settingsDetailViewModel;
+                    break;
+                case "info":
+                    CurrentViewModel = _infoDetailViewModel;
                     break;
                 default:
                     CurrentViewModel = _mainTabViewModel;

@@ -441,4 +441,22 @@ Parameter</value>
   <data name="SampleDetailVM_Footnote_ToleranceParams" xml:space="preserve">
     <value>Für folgende Parameter wurden in [{0}] definierte Toleranzwerte angewendet:</value>
   </data>
+  <data name="MainWindow_Header_Info" xml:space="preserve">
+    <value>?</value>
+  </data>
+  <data name="InfoDetailView_Label_Info" xml:space="preserve">
+    <value>Copyright © 2021 Daniel Oellers</value>
+  </data>
+  <data name="InfoDetailView_Label_Version" xml:space="preserve">
+    <value>Version/Build:</value>
+  </data>
+  <data name="InfoDetailView_Label_License" xml:space="preserve">
+    <value>Lizenz:</value>
+  </data>
+  <data name="InfoDetailView_Label_Disclaimer" xml:space="preserve">
+    <value>This program is experimental.
+It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+See the GNU General Public License for more details.</value>
+  </data>
 </root>

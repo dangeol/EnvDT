@@ -313,6 +313,45 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This program is experimental.
+        ///It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
+        ///without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+        ///See the GNU General Public License for more details..
+        /// </summary>
+        public static string InfoDetailView_Label_Disclaimer {
+            get {
+                return ResourceManager.GetString("InfoDetailView_Label_Disclaimer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Copyright © 2021 Daniel Oellers.
+        /// </summary>
+        public static string InfoDetailView_Label_Info {
+            get {
+                return ResourceManager.GetString("InfoDetailView_Label_Info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License:.
+        /// </summary>
+        public static string InfoDetailView_Label_License {
+            get {
+                return ResourceManager.GetString("InfoDetailView_Label_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version/Build:.
+        /// </summary>
+        public static string InfoDetailView_Label_Version {
+            get {
+                return ResourceManager.GetString("InfoDetailView_Label_Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Csv-Config..
         /// </summary>
         public static string LabDetailView_Button_NewCsvConfig {
@@ -480,6 +519,15 @@ namespace EnvDT.UI.Properties {
         public static string MainTabView_Header_Title {
             get {
                 return ResourceManager.GetString("MainTabView_Header_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ?.
+        /// </summary>
+        public static string MainWindow_Header_Info {
+            get {
+                return ResourceManager.GetString("MainWindow_Header_Info", resourceCulture);
             }
         }
         

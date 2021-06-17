@@ -22,6 +22,9 @@
     <DataTemplate DataType="{x:Type viewModel:SettingsDetailViewModel}">
       <view:SettingsDetailView />
     </DataTemplate>
+    <DataTemplate DataType="{x:Type viewModel:InfoDetailViewModel}">
+      <view:InfoDetailView />
+    </DataTemplate>
   </Window.Resources>
 
   <Grid>
@@ -37,9 +40,13 @@
       <MenuItem Header="{loc:Loc MainWindow_Header_LabConfig}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="labconfig" Height="30"/>
+      
       <MenuItem Header="{loc:Loc MainWindow_Header_Settings}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="settings" Height="30"/>
+      <MenuItem Header="{loc:Loc MainWindow_Header_Info}" 
+                Command="{Binding NavCommand}"
+                CommandParameter="info" Height="30"/>
     </Menu>
 
     <Grid x:Name="MainContent" Grid.Row="1">
