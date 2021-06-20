@@ -10,8 +10,8 @@
         xmlns:view="clr-namespace:EnvDT.UI.View" 
         xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"       
         d:DataContext="{d:DesignInstance viewModel:MainViewModelDesignTime, IsDesignTimeCreatable=True}"
-        Title="EnvDT" Height="768" Width="1024" WindowStartupLocation="CenterScreen">
-  
+        Title="EnvDT" Height="690" Width="1280" WindowStartupLocation="CenterScreen">
+
   <Window.Resources>
     <DataTemplate DataType="{x:Type viewModel:MainTabViewModel}">
       <view:MainTabView />

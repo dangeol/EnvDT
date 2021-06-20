@@ -14,6 +14,7 @@ using EnvDT.Model.Core.HelperEntity;
 using System.Threading;
 using System.Collections.Generic;
 using EnvDT.UI.ViewModel;
+using System.Linq;
 
 namespace EnvDT.UI.Service
 {
@@ -65,11 +66,18 @@ namespace EnvDT.UI.Service
                 }
                 if (filePath.EndsWith(".xls") || filePath.EndsWith(".xlsx"))
                 {
-                    return GetDataTableFromXlsx(filePath);
+                    ImportedFileData importedFileData = GetDataTableFromXlsx(filePath);
+                    // This overwrites reportLabIdent taken from the file content; for some Labs no unique LabReport identifier is present 
+                    // Here we just extract it from the file name 
+                    importedFileData.ReportLabIdent = GetReportLabIdent(filePath);
+                    return importedFileData;
                 }
                 else if (filePath.EndsWith(".csv"))
                 {
-                    return GetDataTableFromCsv(filePath);
+                    ImportedFileData importedFileData = GetDataTableFromCsv(filePath);
+                    // See above
+                    importedFileData.ReportLabIdent = GetReportLabIdent(filePath);
+                    return importedFileData;
                 }
                 else
                 {
@@ -80,6 +88,13 @@ namespace EnvDT.UI.Service
             {
                 throw new NotSupportedException("The file could not be read.");
             }
+        }
+
+        private string GetReportLabIdent(string filePath)
+        {
+            var fileName = Path.GetFileName(filePath);
+            var reportLabIdent = new string(fileName.Where(c => Char.IsDigit(c)).ToArray());
+            return reportLabIdent;
         }
 
         private ImportedFileData GetDataTableFromXlsx(string filePath)

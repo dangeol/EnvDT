@@ -12,10 +12,10 @@
              d:DesignHeight="450" d:DesignWidth="800">
   <Grid>
     <Grid.RowDefinitions>
-      <RowDefinition Height="400"/>
+      <RowDefinition Height="335"/>
     </Grid.RowDefinitions>
 
-    <DockPanel Margin="20 20 20 20">
+    <DockPanel Margin="20 20 300 20">
       <StackPanel DockPanel.Dock="Right">
 
         <Button Content="{loc:Loc LabReportView_Button_Open}" 
