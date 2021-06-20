@@ -454,9 +454,14 @@ Parameter</value>
     <value>Lizenz:</value>
   </data>
   <data name="InfoDetailView_Label_Disclaimer" xml:space="preserve">
-    <value>This program is experimental.
-It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-See the GNU General Public License for more details.</value>
+    <value>Dieses Programm ist experimentell.
+Es besteht keinerlei Gewährleistung für das Programm, soweit dies gesetzlich zulässig ist. 
+Sofern nicht anderweitig schriftlich bestätigt, stellen die Urheberrechtsinhaber und/oder Dritte
+das Programm so zur Verfügung, „wie es ist“, ohne irgendeine Gewährleistung, weder ausdrücklich 
+noch implizit, einschließlich – aber nicht begrenzt auf – die implizite Gewährleistung der Marktreife 
+oder der Verwendbarkeit für einen bestimmten Zweck. Das volle Risiko bezüglich Qualität und 
+Leistungsfähigkeit des Programms liegt bei Ihnen. Sollte sich das Programm als fehlerhaft 
+herausstellen, liegen die Kosten für notwendigen Service, Reparatur oder Korrektur bei Ihnen.
+Bitte konsultieren Sie die GNU General Public License für mehr Details.</value>
   </data>
 </root>

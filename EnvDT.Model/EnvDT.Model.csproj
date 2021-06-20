@@ -36,4 +36,50 @@
     <Folder Include="Core\Footnotes\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="DbDataSeeds\Condition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ConfigXlsx.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Footnote.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Laboratory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Medium.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Parameter.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Project.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Publication.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\PublRegion.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Region.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\UnitNameVariant.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ValuationClassCondition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\WasteCodeEWC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if not exist $(SolutionDir)EnvDT.UI\DbDataSeeds mkdir $(SolutionDir)EnvDT.UI\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.UI\DbDataSeeds&quot;" />
+  </Target>	
+
 </Project>

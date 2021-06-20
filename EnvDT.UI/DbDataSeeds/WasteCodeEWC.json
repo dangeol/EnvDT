@@ -1,0 +1,20 @@
+[
+  {
+    "WasteCodeEWCId": "6c9b76e7-3f40-4092-b033-bbd13e6ba28a",
+    "WasteCodeNumber": "17 01 01",
+    "WasteCodeDescrEn": "",
+    "WasteCodeDescrDeAVV": "Beton"
+  },
+  {
+    "WasteCodeEWCId": "3d85b6a0-210d-45db-b47f-46229ab32c38",
+    "WasteCodeNumber": "17 03 02",
+    "WasteCodeDescrEn": "",
+    "WasteCodeDescrDeAVV": "Bitumengemische mit Ausnahme derjenigen, die unter 17 03 01 fallen"
+  },
+  {
+    "WasteCodeEWCId": "46722d08-bbd0-4b85-824e-367fe1718e3d",
+    "WasteCodeNumber": "17 05 04",
+    "WasteCodeDescrEn": "",
+    "WasteCodeDescrDeAVV": "Boden und Steine mit Ausnahme derjenigen, die unter 17 05 03 fallen"
+  }
+]

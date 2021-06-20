@@ -263,7 +263,7 @@ namespace EnvDT.UI.ViewModel
             await OnEvalExecuteImpl();
         }
 
-        internal async Task OnEvalExecuteImpl()
+        public async Task OnEvalExecuteImpl()
         {
             IsEvalResultVisible = false;
             IsAnimationVisible = true;

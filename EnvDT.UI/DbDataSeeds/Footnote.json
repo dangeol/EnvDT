@@ -1,0 +1,42 @@
+[
+  {
+    "FootnoteId": "b2a358ad-198d-43e1-95ed-a2bfcf149ff0",
+    "FootnoteRef": "Fußnote 5 (Eluat)",
+    "Expression1": "",
+    "Expression2": "",
+    "IsNotExclusionCriterion": true,
+    "GeneralFootnoteTexts": "(pH-Wert): pH-Werte stellen allein kein Ausschlusskriterium dar."
+  },
+  {
+    "FootnoteId": "c7b026b7-121f-4c7b-9335-2b38f47dac8b",
+    "FootnoteRef": "Fußnote 1 (Eluat)",
+    "Expression1": "",
+    "Expression2": "",
+    "IsNotExclusionCriterion": true,
+    "GeneralFootnoteTexts": "Eine Überschreitung dieser Parameter allein ist kein Ausschlusskriterium."
+  },
+  {
+    "FootnoteId": "67cb8ade-4b01-4fc2-a670-ef8cfdc71322",
+    "FootnoteRef": "Fußnote 5 (Eluat)",
+    "Expression1": "param1 > 30 AND param1 <= 50",
+    "Expression2": "",
+    "IsNotExclusionCriterion": false,
+    "GeneralFootnoteTexts": ""
+  },
+  {
+    "FootnoteId": "a36d19be-6920-41ee-8926-ec7c18f070ae",
+    "FootnoteRef": "Fußnote 1 (Eluat)",
+    "Expression1": "",
+    "Expression2": "",
+    "IsNotExclusionCriterion": true,
+    "GeneralFootnoteTexts": "Abweichungen von den Bereichen der Zuordnungswerte für den pH-Wert und/oder die Überschreitung der elektrischen Leitfähigkeit im Eluat stellen allein kein Ausschlusskriterium dar, die Ursache ist im Einzelfall zu prüfen und zu dokumentieren."
+  },
+  {
+    "FootnoteId": "7a7f7abd-6beb-49af-bd3c-e3c3a9b643cf",
+    "FootnoteRef": "Fußnote 5 (Eluat)",
+    "Expression1": "param1 > 30 AND param1 <= 50",
+    "Expression2": "param2 <= 8",
+    "IsNotExclusionCriterion": false,
+    "GeneralFootnoteTexts": ""
+  }
+]

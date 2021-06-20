@@ -1,0 +1,72 @@
+[
+  {
+    "UnitNameVariantId": "838b4198-2aba-4ae2-840e-4a2f7abae14f",
+    "UnitNameAlias": "",
+    "UnitId": "19e53d84-abfc-411a-8fcf-4844340eace0"
+  },
+  {
+    "UnitNameVariantId": "c562f1c0-280a-4f76-882e-205839197ad4",
+    "UnitNameAlias": "µg/l",
+    "UnitId": "e78e1c38-7177-45ba-b093-637143f4c568"
+  },
+  {
+    "UnitNameVariantId": "0cfb76d5-31d5-4106-a23c-8a1288c8a861",
+    "UnitNameAlias": "mg/l",
+    "UnitId": "f7e78060-821d-4261-a620-2ac0b4809dd2"
+  },
+  {
+    "UnitNameVariantId": "d91d06f6-9d35-457f-8564-8df20050d4c2",
+    "UnitNameAlias": "mg/kg",
+    "UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830"
+  },
+  {
+    "UnitNameVariantId": "1b7c3089-37a4-4ebf-bb1c-a6e1f93ee79e",
+    "UnitNameAlias": "µS/cm",
+    "UnitId": "9d821e03-02e7-482d-a409-57221f92cc28"
+  },
+  {
+    "UnitNameVariantId": "95a9016b-178f-44a5-a521-ca90cfc02022",
+    "UnitNameAlias": "%",
+    "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+  },
+  {
+    "UnitNameVariantId": "07c145f7-a695-4c68-a173-452bfbc2c7fb",
+    "UnitNameAlias": "Mass-%",
+    "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+  },
+  {
+    "UnitNameVariantId": "26dcae2b-f7d1-4833-950f-25fc8ac9d5f7",
+    "UnitNameAlias": "mmol/kg",
+    "UnitId": "ba9f6425-3a21-45e2-8b13-f7d058233fb4"
+  },
+  {
+    "UnitNameVariantId": "a95bbc62-7d8c-4613-96a9-37168230a1f1",
+    "UnitNameAlias": "ng l-TEq/kg",
+    "UnitId": "25bf9b56-d7ad-44af-b8db-f3ef72ff1c3e"
+  },
+   {
+   "UnitNameVariantId": "a0508a28-8b25-43e7-beb9-a05a65c81ac8",
+   "UnitNameAlias": "Ma.-%",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "65eed3d8-64c3-4e42-87e2-da3f1339475a",
+   "UnitNameAlias": "Ma.-% OS",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "4e16ee7b-0556-43c0-943b-04e773953039",
+   "UnitNameAlias": "Ma.-% TS",
+   "UnitId": "150052b5-9dde-41c9-9ba7-e71639fb595c"
+ },
+ {
+   "UnitNameVariantId": "2598976d-e9cd-4b31-99a6-bb4a94b20acd",
+   "UnitNameAlias": "mg/kg TS",
+   "UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830"
+ },
+ {
+   "UnitNameVariantId": "93fd03dd-e591-48a4-b657-41aac5a971dc",
+   "UnitNameAlias": "mg/kg OS",
+   "UnitId": "2b827f0a-3f48-42e7-83e8-c5fb41f15830"
+ }
+]

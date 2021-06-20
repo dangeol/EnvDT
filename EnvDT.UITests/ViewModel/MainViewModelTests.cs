@@ -22,6 +22,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IMainTabViewModel> _mainTabViewModelMock;
         private Mock<ILabViewModel> _labViewModelMock;
         private Mock<ISettingsDetailViewModel> _settingsDetailViewModelMock;
+        private Mock<IInfoDetailViewModel> _infoDetailViewModelMock;
 
         public MainViewModelTests()
         {
@@ -41,9 +42,10 @@ namespace EnvDT.UITests.ViewModel
             _mainTabViewModelMock = new Mock<IMainTabViewModel>();
             _labViewModelMock = new Mock<ILabViewModel>();
             _settingsDetailViewModelMock = new Mock<ISettingsDetailViewModel>();
+            _infoDetailViewModelMock = new Mock<IInfoDetailViewModel>();
 
             _viewModel = new MainViewModel(_mainTabViewModelMock.Object, _labViewModelMock.Object,
-                _settingsDetailViewModelMock.Object);
+                _settingsDetailViewModelMock.Object, _infoDetailViewModelMock.Object);
         }
 
         [Fact]
