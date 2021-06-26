@@ -324,7 +324,8 @@ namespace EnvDT.UI.Service
                     Delimiter = configCsv.DelimiterChar,
                     IgnoreBlankLines = false,
                     DetectColumnCountChanges = false,
-                    MissingFieldFound = null
+                    MissingFieldFound = null,
+                    BadDataFound = null
                 };
                 using (var reader = new StreamReader(stream))
                 using (var csv = new CsvReader(reader, config))

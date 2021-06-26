@@ -40,7 +40,6 @@
       <MenuItem Header="{loc:Loc MainWindow_Header_LabConfig}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="labconfig" Height="30"/>
-      
       <MenuItem Header="{loc:Loc MainWindow_Header_Settings}" 
                 Command="{Binding NavCommand}"
                 CommandParameter="settings" Height="30"/>

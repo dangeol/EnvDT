@@ -20,6 +20,7 @@ Migrations/
 mono_crash.*
 
 # Build results
+VersionAutoIncrementer.cs
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/

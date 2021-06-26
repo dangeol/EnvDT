@@ -4371,7 +4371,7 @@
     "RefValueId": "df125ab4-b8f1-4e7f-82d9-9a2fab39e8f4",
     "RValue": 3,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "d0923e78-49be-4afc-8965-66ef988cc40b",
     "ValuationClassId": "11fef3e4-5651-4201-95af-81eeb66ca58f"
   },
@@ -4379,7 +4379,7 @@
     "RefValueId": "53a23597-bfd4-434a-9166-b4b492816024",
     "RValue": 1,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "86a9ea29-eed6-45e1-88fe-4e04a49b8ab1",
     "ValuationClassId": "11fef3e4-5651-4201-95af-81eeb66ca58f"
   },
@@ -4411,7 +4411,7 @@
     "RefValueId": "9f74e9ad-d36c-41b7-902b-d8f7a5582d1f",
     "RValue": 5,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "d0923e78-49be-4afc-8965-66ef988cc40b",
     "ValuationClassId": "0f4b15e7-875f-4f71-ad93-16e869c026c8"
   },
@@ -4419,7 +4419,7 @@
     "RefValueId": "d5bf2995-8665-4b65-bb0b-af00a9d35012",
     "RValue": 3,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "86a9ea29-eed6-45e1-88fe-4e04a49b8ab1",
     "ValuationClassId": "0f4b15e7-875f-4f71-ad93-16e869c026c8"
   },
@@ -4651,7 +4651,7 @@
     "RefValueId": "f435b56f-f01d-477b-97bc-8f58eb4d0aa7",
     "RValue": 50,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "7a2f6b9e-2468-4a6f-aac2-7e4f925879ff",
     "ValuationClassId": "11fef3e4-5651-4201-95af-81eeb66ca58f"
   },
@@ -4827,7 +4827,7 @@
     "RefValueId": "61883cd7-ce70-4fd0-b615-352574edd2cd",
     "RValue": 80,
     "RValueAlt": 0,
-    "FootnoteId": null,
+    "FootnoteId": "b2f0bacd-2e02-4404-ab9a-16b0112fdb41",
     "PublParamId": "7a2f6b9e-2468-4a6f-aac2-7e4f925879ff",
     "ValuationClassId": "0f4b15e7-875f-4f71-ad93-16e869c026c8"
   },
