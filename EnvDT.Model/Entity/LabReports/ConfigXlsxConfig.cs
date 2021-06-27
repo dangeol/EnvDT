@@ -14,9 +14,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(c => c.Laboratory)
                 .WithOne(l => l.ConfigXlsx)
                 .HasForeignKey<ConfigXlsx>(c => c.LaboratoryId);
-            var configXlsxJson = File.ReadAllText(DbResources.configXlsxJson);
-            var configXlsxs = JsonSerializer.Deserialize<List<ConfigXlsx>>(configXlsxJson);
-            builder.HasData(configXlsxs);
+            string seedFile = DbResources.configXlsxJson;
+            if (File.Exists(seedFile))
+            {
+                var configXlsxJson = File.ReadAllText(seedFile);
+                var configXlsxs = JsonSerializer.Deserialize<List<ConfigXlsx>>(configXlsxJson);
+                builder.HasData(configXlsxs);
+            }
         }
     }
 }

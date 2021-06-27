@@ -19,6 +19,7 @@
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
       <RowDefinition Height="Auto"/>
+      <RowDefinition Height="Auto"/>
       <RowDefinition />
     </Grid.RowDefinitions>
 
@@ -32,11 +33,19 @@
            Margin="10 0"/>
     <Label Grid.Column="1" Grid.Row="2" 
            Margin="10 0">
-      <Hyperlink NavigateUri="https://www.gnu.org/licenses/gpl-3.0.de.html" RequestNavigate="Hyperlink_RequestNavigate">
-        GNU GENERAL PUBLIC LICENSE - Version 3, 29 June 2007
+      <Hyperlink NavigateUri="https://creativecommons.org/licenses/by-sa/3.0/legalcode" RequestNavigate="Hyperlink_RequestNavigate">
+        CC BY-SA 3.0
       </Hyperlink>
     </Label>
-    <Label Grid.ColumnSpan="2" Grid.Row="3" Content="{loc:Loc InfoDetailView_Label_Disclaimer}" 
+    <Label Grid.Row="3" Content="Source Code:" 
+           Margin="10 0"/>
+    <Label Grid.Column="1" Grid.Row="3"
+           Margin="10 0">
+      <Hyperlink NavigateUri="https://github.com/dangeol/EnvDT" RequestNavigate="Hyperlink_RequestNavigate">
+        Link
+      </Hyperlink>
+    </Label>
+    <Label Grid.ColumnSpan="2" Grid.Row="4" Content="{loc:Loc InfoDetailView_Label_Disclaimer}" 
            Margin="10 30 0 0"/>
 
   </Grid>

@@ -17,9 +17,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(pv => pv.Language)
                 .WithMany(p => p.ParamNameVariants)
                 .HasForeignKey(pv => pv.LanguageId);
-            var paramNameVariantJson = File.ReadAllText(DbResources.paramNameVariantJson);
-            var paramNameVariants = JsonSerializer.Deserialize<List<ParamNameVariant>>(paramNameVariantJson);
-            builder.HasData(paramNameVariants);
+            string seedFile = DbResources.paramNameVariantJson;
+            if (File.Exists(seedFile))
+            {
+                var paramNameVariantJson = File.ReadAllText(seedFile);
+                var paramNameVariants = JsonSerializer.Deserialize<List<ParamNameVariant>>(paramNameVariantJson);
+                builder.HasData(paramNameVariants);
+            }
         }
     }
 }

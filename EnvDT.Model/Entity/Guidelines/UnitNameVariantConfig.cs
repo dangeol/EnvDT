@@ -14,9 +14,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(uv => uv.Unit)
                 .WithMany(u => u.UnitNameVariants)
                 .HasForeignKey(uv => uv.UnitId);
-            var unitNameVariantJson = File.ReadAllText(DbResources.unitNameVariantJson);
-            var unitNameVariants = JsonSerializer.Deserialize<List<UnitNameVariant>>(unitNameVariantJson);
-            builder.HasData(unitNameVariants);
+            string seedFile = DbResources.unitNameVariantJson;
+            if (File.Exists(seedFile))
+            {
+                var unitNameVariantJson = File.ReadAllText(seedFile);
+                var unitNameVariants = JsonSerializer.Deserialize<List<UnitNameVariant>>(unitNameVariantJson);
+                builder.HasData(unitNameVariants);
+            }
         }
     }
 }

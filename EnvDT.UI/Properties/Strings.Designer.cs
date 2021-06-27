@@ -314,9 +314,15 @@ namespace EnvDT.UI.Properties {
         
         /// <summary>
         ///   Looks up a localized string similar to This program is experimental.
-        ///It is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; 
-        ///without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
-        ///See the GNU General Public License for more details..
+        ///
+        ///UNLESS OTHERWISE MUTUALLY AGREED TO BY THE PARTIES IN WRITING, 
+        ///LICENSOR OFFERS THE WORK AS-IS AND MAKES NO REPRESENTATIONS 
+        ///OR WARRANTIES OF ANY KIND CONCERNING THE WORK, EXPRESS, 
+        ///IMPLIED, STATUTORY OR OTHERWISE, INCLUDING, WITHOUT LIMITATION, 
+        ///WARRANTIES OF TITLE, MERCHANTIBILITY, FITNESS FOR A PARTICULAR 
+        ///PURPOSE, NONINFRINGEMENT, OR THE ABSENCE OF LATENT OR OTHER 
+        ///DEFECTS, ACCURACY, OR THE PRESENCE OF ABSENCE OF ERRORS, 
+        ///WHETHER OR NOT DISCOVERABLE. SOME JURISDIC [rest of string was truncated]&quot;;.
         /// </summary>
         public static string InfoDetailView_Label_Disclaimer {
             get {

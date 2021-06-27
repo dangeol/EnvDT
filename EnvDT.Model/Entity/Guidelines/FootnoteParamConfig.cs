@@ -17,9 +17,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(fp => fp.Footnote)
                 .WithMany(fp => fp.FootnoteParams)
                 .HasForeignKey(fp => fp.FootnoteId);
-            var FootnoteParamJson = File.ReadAllText(DbResources.footnoteParamJson);
-            var FootnoteParams = JsonSerializer.Deserialize<List<FootnoteParam>>(FootnoteParamJson);
-            builder.HasData(FootnoteParams);
+            string seedFile = DbResources.footnoteParamJson;
+            if (File.Exists(seedFile))
+            {
+                var FootnoteParamJson = File.ReadAllText(seedFile);
+                var FootnoteParams = JsonSerializer.Deserialize<List<FootnoteParam>>(FootnoteParamJson);
+                builder.HasData(FootnoteParams);
+            }
         }
     }
 }

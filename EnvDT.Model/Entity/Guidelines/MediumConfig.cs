@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Medium> builder)
         {
             builder.HasKey(m => m.MediumId);
-            var mediumJson = File.ReadAllText(DbResources.mediumJson);
-            var media = JsonSerializer.Deserialize<List<Medium>>(mediumJson);
-            builder.HasData(media);
+            string seedFile = DbResources.mediumJson;
+            if (File.Exists(seedFile))
+            {
+                var mediumJson = File.ReadAllText(seedFile);
+                var media = JsonSerializer.Deserialize<List<Medium>>(mediumJson);
+                builder.HasData(media);
+            }
         }
     }
 }

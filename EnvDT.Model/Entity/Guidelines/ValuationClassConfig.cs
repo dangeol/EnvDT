@@ -14,9 +14,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(vp => vp.Publication)
                 .WithMany(p => p.ValuationClasses)
                 .HasForeignKey(vp => vp.PublicationId);
-            var valuationClassJson = File.ReadAllText(DbResources.valuationClassJson);
-            var valuationClasses = JsonSerializer.Deserialize<List<ValuationClass>>(valuationClassJson);
-            builder.HasData(valuationClasses);
+            string seedFile = DbResources.valuationClassJson;
+            if (File.Exists(seedFile))
+            {
+                var valuationClassJson = File.ReadAllText(seedFile);
+                var valuationClasses = JsonSerializer.Deserialize<List<ValuationClass>>(valuationClassJson);
+                builder.HasData(valuationClasses);
+            }
         }
     }
 }

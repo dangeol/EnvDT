@@ -77,9 +77,5 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
-  
-  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if not exist $(SolutionDir)EnvDT.UI\DbDataSeeds mkdir $(SolutionDir)EnvDT.UI\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(ProjectDir)DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.UI\DbDataSeeds&quot;" />
-  </Target>	
 
 </Project>

@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Unit> builder)
         {
             builder.HasKey(u => u.UnitId);
-            var unitJson = File.ReadAllText(DbResources.unitJson);
-            var units = JsonSerializer.Deserialize<List<Unit>>(unitJson);
-            builder.HasData(units);
+            string seedFile = DbResources.unitJson;
+            if (File.Exists(seedFile))
+            {
+                var unitJson = File.ReadAllText(seedFile);
+                var units = JsonSerializer.Deserialize<List<Unit>>(unitJson);
+                builder.HasData(units);
+            }
         }
     }
 }

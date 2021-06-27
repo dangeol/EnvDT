@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<WasteCodeEWC> builder)
         {
             builder.HasKey(w => w.WasteCodeEWCId);
-            var wasteCodeEWCJson = File.ReadAllText(DbResources.wasteCodeEWCJson);
-            var wasteCodesEWC = JsonSerializer.Deserialize<List<WasteCodeEWC>>(wasteCodeEWCJson);
-            builder.HasData(wasteCodesEWC);
+            string seedFile = DbResources.wasteCodeEWCJson;
+            if (File.Exists(seedFile))
+            {
+                var wasteCodeEWCJson = File.ReadAllText(seedFile);
+                var wasteCodesEWC = JsonSerializer.Deserialize<List<WasteCodeEWC>>(wasteCodeEWCJson);
+                builder.HasData(wasteCodesEWC);
+            }
         }
     }
 }

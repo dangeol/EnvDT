@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Language> builder)
         {
             builder.HasKey(r => r.LanguageId);
-            var languageJson = File.ReadAllText(DbResources.languageJson);
-            var languages = JsonSerializer.Deserialize<List<Language>>(languageJson);
-            builder.HasData(languages);
+            string seedFile = DbResources.languageJson;
+            if (File.Exists(seedFile))
+            {
+                var languageJson = File.ReadAllText(seedFile);
+                var languages = JsonSerializer.Deserialize<List<Language>>(languageJson);
+                builder.HasData(languages);
+            }
         }
     }
 }

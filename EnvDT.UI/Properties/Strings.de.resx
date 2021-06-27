@@ -455,6 +455,7 @@ Parameter</value>
   </data>
   <data name="InfoDetailView_Label_Disclaimer" xml:space="preserve">
     <value>Dieses Programm ist experimentell.
+
 Es besteht keinerlei Gewährleistung für das Programm, soweit dies gesetzlich zulässig ist. 
 Sofern nicht anderweitig schriftlich bestätigt, stellen die Urheberrechtsinhaber und/oder Dritte
 das Programm so zur Verfügung, „wie es ist“, ohne irgendeine Gewährleistung, weder ausdrücklich 
@@ -462,6 +463,7 @@ noch implizit, einschließlich – aber nicht begrenzt auf – die implizite Gew
 oder der Verwendbarkeit für einen bestimmten Zweck. Das volle Risiko bezüglich Qualität und 
 Leistungsfähigkeit des Programms liegt bei Ihnen. Sollte sich das Programm als fehlerhaft 
 herausstellen, liegen die Kosten für notwendigen Service, Reparatur oder Korrektur bei Ihnen.
-Bitte konsultieren Sie die GNU General Public License für mehr Details.</value>
+
+Bitte konsultieren Sie die Creative Commons Attribution-ShareAlike 3.0 Unported Lizenz für mehr Details.</value>
   </data>
 </root>

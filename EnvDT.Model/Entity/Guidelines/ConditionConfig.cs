@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Condition> builder)
         {
             builder.HasKey(c => c.ConditionId);
-            var conditionJson = File.ReadAllText(DbResources.conditionJson);
-            var conditions = JsonSerializer.Deserialize<List<Condition>>(conditionJson);
-            builder.HasData(conditions);
+            string seedFile = DbResources.conditionJson;
+            if (File.Exists(seedFile))
+            {
+                var conditionJson = File.ReadAllText(seedFile);
+                var conditions = JsonSerializer.Deserialize<List<Condition>>(conditionJson);
+                builder.HasData(conditions);
+            }            
         }
     }
 }

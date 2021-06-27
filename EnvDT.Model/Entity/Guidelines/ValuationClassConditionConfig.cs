@@ -17,9 +17,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(vc => vc.Condition)
                 .WithMany(v => v.ValuationClassConditions)
                 .HasForeignKey(vc => vc.ConditionId);
-            var valuationClassConditionJson = File.ReadAllText(DbResources.valuationClassConditionJson);
-            var valuationClassConditions = JsonSerializer.Deserialize<List<ValuationClassCondition>>(valuationClassConditionJson);
-            builder.HasData(valuationClassConditions);
+            string seedFile = DbResources.valuationClassConditionJson;
+            if (File.Exists(seedFile))
+            {
+                var valuationClassConditionJson = File.ReadAllText(seedFile);
+                var valuationClassConditions = JsonSerializer.Deserialize<List<ValuationClassCondition>>(valuationClassConditionJson);
+                builder.HasData(valuationClassConditions);
+            }
         }
     }
 }

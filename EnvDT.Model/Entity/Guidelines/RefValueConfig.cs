@@ -21,9 +21,13 @@ namespace EnvDT.Model.Entity
                 .WithMany(r => r.RefValues)
                 .HasForeignKey(r => r.FootnoteId)
                 .IsRequired(false);
-            var refValueJson = File.ReadAllText(DbResources.refValueJson);
-            var refValues = JsonSerializer.Deserialize<List<RefValue>>(refValueJson);
-            builder.HasData(refValues);
+            string seedFile = DbResources.refValueJson;
+            if (File.Exists(seedFile))
+            {
+                var refValueJson = File.ReadAllText(seedFile);
+                var refValues = JsonSerializer.Deserialize<List<RefValue>>(refValueJson);
+                builder.HasData(refValues);
+            }
         }
     }
 }

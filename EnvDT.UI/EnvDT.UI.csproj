@@ -29,6 +29,45 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <None Update="DbDataSeeds\Condition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ConfigXlsx.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Footnote.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Laboratory.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Medium.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Parameter.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Project.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Publication.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\PublRegion.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\Region.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\UnitNameVariant.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\ValuationClassCondition.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="DbDataSeeds\WasteCodeEWC.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="VersionAutoIncrement.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>VersionAutoIncrement.cs</LastGenOutput>
@@ -37,7 +76,7 @@
 
   <ItemGroup>
     <None Remove="Properties\Settings.settings" />
-    <None Remove="splash.gif" />
+    <None Remove="splash.PNG" />
     <None Remove="Styling\Images\bar.gif" />
     <None Remove="Styling\Images\wheel.gif" />
   </ItemGroup>
@@ -191,7 +230,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <SplashScreen Include="splash.gif" />
+    <SplashScreen Include="splash.PNG" />
   </ItemGroup>
 
   <ItemGroup>

@@ -17,9 +17,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(vm => vm.MediumSubType)
                 .WithMany(v => v.ValuationClassMedSubTypes)
                 .HasForeignKey(vm => vm.MedSubTypeId);
-            var valuationClassMedSubTypeJson = File.ReadAllText(DbResources.valuationClassMedSubTypeJson);
-            var valuationClassMedSubTypes = JsonSerializer.Deserialize<List<ValuationClassMedSubType>>(valuationClassMedSubTypeJson);
-            builder.HasData(valuationClassMedSubTypes);
+            string seedFile = DbResources.valuationClassMedSubTypeJson;
+            if (File.Exists(seedFile))
+            {
+                var valuationClassMedSubTypeJson = File.ReadAllText(seedFile);
+                var valuationClassMedSubTypes = JsonSerializer.Deserialize<List<ValuationClassMedSubType>>(valuationClassMedSubTypeJson);
+                builder.HasData(valuationClassMedSubTypes);
+            }
         }
     }
 }

@@ -12,6 +12,7 @@
 docs/
 EnvDT/
 Migrations/
+DbDataSeeds/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

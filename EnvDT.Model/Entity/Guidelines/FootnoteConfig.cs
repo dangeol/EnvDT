@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Footnote> builder)
         {
             builder.HasKey(f => f.FootnoteId);
-            var footnoteJson = File.ReadAllText(DbResources.footnoteJson);
-            var footnotes = JsonSerializer.Deserialize<List<Footnote>>(footnoteJson);
-            builder.HasData(footnotes);
+            string seedFile = DbResources.footnoteJson;
+            if (File.Exists(seedFile))
+            {
+                var footnoteJson = File.ReadAllText(seedFile);
+                var footnotes = JsonSerializer.Deserialize<List<Footnote>>(footnoteJson);
+                builder.HasData(footnotes);
+            }
         }
     }
 }

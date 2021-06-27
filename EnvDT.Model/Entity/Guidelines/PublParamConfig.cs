@@ -27,9 +27,13 @@ namespace EnvDT.Model.Entity
                 .WithMany(p => p.PublParams)
                 .HasForeignKey(p => p.FootnoteId)
                 .IsRequired(false);
-            var publParamJson = File.ReadAllText(DbResources.publParamJson);
-            var publParams = JsonSerializer.Deserialize<List<PublParam>>(publParamJson);
-            builder.HasData(publParams);
+            string seedFile = DbResources.publParamJson;
+            if (File.Exists(seedFile))
+            {
+                var publParamJson = File.ReadAllText(seedFile);
+                var publParams = JsonSerializer.Deserialize<List<PublParam>>(publParamJson);
+                builder.HasData(publParams);
+            }
         }
     }
 }

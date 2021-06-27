@@ -17,9 +17,13 @@ namespace EnvDT.Model.Entity
             builder.HasOne(pc => pc.Country)
                 .WithMany(p => p.PublCountries)
                 .HasForeignKey(pc => pc.CountryId);
-            var publCountryJson = File.ReadAllText(DbResources.publCountryJson);
-            var publCountries = JsonSerializer.Deserialize<List<PublCountry>>(publCountryJson);
-            builder.HasData(publCountries);
+            string seedFile = DbResources.publCountryJson;
+            if (File.Exists(seedFile))
+            {
+                var publCountryJson = File.ReadAllText(seedFile);
+                var publCountries = JsonSerializer.Deserialize<List<PublCountry>>(publCountryJson);
+                builder.HasData(publCountries);
+            }
         }
     }
 }

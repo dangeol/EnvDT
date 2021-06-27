@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if not exist $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows mkdir $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows&#xD;&#xA;if not exist $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds mkdir $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(SolutionDir)EnvDT.Model\DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds&quot;" />
+    <Exec Command="if exist $(SolutionDir)EnvDT.Model\DbDataSeeds (if not exist $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows mkdir $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows&#xD;&#xA;if not exist $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds mkdir $(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds&#xD;&#xA;xcopy /E /Y &quot;$(SolutionDir)EnvDT.Model\DbDataSeeds&quot; &quot;$(SolutionDir)EnvDT.ModelTests\bin\Debug\net5.0-windows\DbDataSeeds&quot;)" />
   </Target>
 
 </Project>

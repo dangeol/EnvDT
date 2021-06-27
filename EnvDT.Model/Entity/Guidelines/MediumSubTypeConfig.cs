@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<MediumSubType> builder)
         {
             builder.HasKey(m => m.MedSubTypeId);
-            var mediumSubTypeJson = File.ReadAllText(DbResources.mediumSubTypeJson);
-            var mediumSubTypes = JsonSerializer.Deserialize<List<MediumSubType>>(mediumSubTypeJson);
-            builder.HasData(mediumSubTypes);
+            string seedFile = DbResources.mediumSubTypeJson;
+            if (File.Exists(seedFile))
+            {
+                var mediumSubTypeJson = File.ReadAllText(seedFile);
+                var mediumSubTypes = JsonSerializer.Deserialize<List<MediumSubType>>(mediumSubTypeJson);
+                builder.HasData(mediumSubTypes);
+            }
         }
     }
 }

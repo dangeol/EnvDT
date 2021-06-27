@@ -13,9 +13,13 @@ namespace EnvDT.Model.Entity
             builder.HasKey(p => p.ProjectId);
             builder.Property(p => p.ProjectId).ValueGeneratedOnAdd();
             builder.Property(p => p.ProjectName).IsRequired();
-            var projectJson = File.ReadAllText(DbResources.projectJson);
-            var projects = JsonSerializer.Deserialize<List<Project>>(projectJson);
-            builder.HasData(projects);
+            string seedFile = DbResources.projectJson;
+            if (File.Exists(seedFile))
+            {
+                var projectJson = File.ReadAllText(seedFile);
+                var projects = JsonSerializer.Deserialize<List<Project>>(projectJson);
+                builder.HasData(projects);
+            }
         }
     }
 }

@@ -11,9 +11,13 @@ namespace EnvDT.Model.Entity
         public void Configure(EntityTypeBuilder<Parameter> builder)
         {
             builder.HasKey(p => p.ParameterId);
-            var parameterJson = File.ReadAllText(DbResources.parameterJson);
-            var parameters = JsonSerializer.Deserialize<List<Parameter>>(parameterJson);
-            builder.HasData(parameters);
+            string seedFile = DbResources.parameterJson;
+            if (File.Exists(seedFile))
+            {
+                var parameterJson = File.ReadAllText(seedFile);
+                var parameters = JsonSerializer.Deserialize<List<Parameter>>(parameterJson);
+                builder.HasData(parameters);
+            }
         }
     }
 }
