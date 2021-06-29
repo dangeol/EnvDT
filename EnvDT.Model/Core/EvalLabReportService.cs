@@ -197,6 +197,7 @@ namespace EnvDT.Model.Core
         {
             var sampleId = evalArgs.Sample.SampleId;
             bool isNotExclusionCriterion = false;
+            var generalFootnoteTexts = "";
 
             double refVal;
             if ((publParam.FootnoteId != null || refValue.FootnoteId != null) && evalArgs.EvalFootnotes)
@@ -210,7 +211,7 @@ namespace EnvDT.Model.Core
 
                 if (footnoteResult.GeneralFootnoteTexts != null)
                 {
-                    _generalFootnoteTexts.Add(footnoteResult.GeneralFootnoteTexts);
+                    generalFootnoteTexts = footnoteResult.GeneralFootnoteTexts;
                 }
                 if (footnoteResult.MissingParams != null)
                 { 
@@ -266,8 +267,8 @@ namespace EnvDT.Model.Core
 
             if (_evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refVal, refValParamAnnot))
             {
-                
-                
+                _generalFootnoteTexts.Add(generalFootnoteTexts);
+
                 return new ExceedingValue()
                 {
                     Level = refValueValClassLevel,

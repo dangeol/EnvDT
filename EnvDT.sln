@@ -16,7 +16,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.UITests", "EnvDT.UITe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.ModelTests", "EnvDT.ModelTests\EnvDT.ModelTests.csproj", "{2D20FF6B-5D01-46AC-B433-064A144968E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EnvDT.DataAccessTests", "EnvDT.DataAccessTests\EnvDT.DataAccessTests.csproj", "{7DFA694E-B762-446F-A7CC-1D20F5302F12}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnvDT.DataAccessTests", "EnvDT.DataAccessTests\EnvDT.DataAccessTests.csproj", "{7DFA694E-B762-446F-A7CC-1D20F5302F12}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

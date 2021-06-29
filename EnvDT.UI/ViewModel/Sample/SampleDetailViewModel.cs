@@ -410,6 +410,7 @@ namespace EnvDT.UI.ViewModel
                 _isColumnEmpty = true;
                 while (r < _sampleTable.Rows.Count)
                 {
+                    _footnoteIndexes.Clear();
                     if (c == c_init)
                     {
                         DataRow dr = _evalResultTable.NewRow();
@@ -495,7 +496,9 @@ namespace EnvDT.UI.ViewModel
                 {
                     ConstructFootnotes(generalFootnoteText);
                 }
-                exceedingValues = exceedingValues.Replace("\u2070\u207E", $"{ToSuperscript(_footnoteIndex - 1)}\u207E");
+                // doesn't work, wrong indexes
+                //exceedingValues = exceedingValues.Replace("\u2070\u207E", $"{ToSuperscript(_footnoteIndex - 1)}\u207E");
+                exceedingValues = exceedingValues.Replace("\u2070\u207E", $"");
             }
             else
             {
