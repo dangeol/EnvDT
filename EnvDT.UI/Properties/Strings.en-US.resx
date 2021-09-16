@@ -475,4 +475,10 @@ LICENSOR HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.
 
 Please see the Creative Commons Attribution-ShareAlike 4.0 International License for details.</value>
   </data>
+  <data name="ProjectDetailView_Label_Country" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="ProjectDetailView_Label_Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
 </root>

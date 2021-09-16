@@ -13,6 +13,12 @@ namespace EnvDT.Model.Entity
             builder.HasKey(p => p.ProjectId);
             builder.Property(p => p.ProjectId).ValueGeneratedOnAdd();
             builder.Property(p => p.ProjectName).IsRequired();
+            builder.HasOne(pc => pc.Country)
+                .WithMany(c => c.Projects)
+                .HasForeignKey(pc => pc.CountryId);
+            builder.HasOne(pr => pr.Region)
+                .WithMany(r => r.Projects)
+                .HasForeignKey(pr => pr.RegionId);
             string seedFile = DbResources.projectJson;
             if (File.Exists(seedFile))
             {

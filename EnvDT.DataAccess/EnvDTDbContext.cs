@@ -40,7 +40,7 @@ namespace EnvDT.DataAccess
         public DbSet<UnitNameVariant> UnitNameVariants { get; set; }
         public DbSet<ValuationClass> ValuationClasses { get; set; }
         public DbSet<ValuationClassCondition> ValuationClassConditions { get; set; }
-        public DbSet<ValuationClassMedSubType> ValuationClassMedMedSubTypes { get; set; }
+        public DbSet<ValuationClassMedSubType> ValuationClassMedSubTypes { get; set; }
         public DbSet<WasteCodeEWC> WasteCodeEWCs { get; set; }
 
         //LabReports

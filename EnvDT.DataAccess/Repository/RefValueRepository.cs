@@ -53,7 +53,7 @@ namespace EnvDT.DataAccess.Repository
 						.Where(rv => rv.PublParamId == publParamId)
 					join vc in Context.ValuationClasses on rv.ValuationClassId equals vc.ValuationClassId
 					where (vc.ValuationClassConditions.Count == 0)
-					join vcmst in Context.ValuationClassMedMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
+					join vcmst in Context.ValuationClassMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
 					where (vcmst.MedSubTypeId == sample.MediumSubTypeId)
 					select rv
 				)
@@ -123,7 +123,7 @@ namespace EnvDT.DataAccess.Repository
 						.Where(rv => rv.PublParamId == publParamId)
 					join vc in Context.ValuationClasses on rv.ValuationClassId equals vc.ValuationClassId
 					where (vc.ValuationClassConditions.Count == 0)
-					join vcmst in Context.ValuationClassMedMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
+					join vcmst in Context.ValuationClassMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
 					where (vcmst.MedSubTypeId == sample.MediumSubTypeId)
 					select rv
 				)
@@ -152,7 +152,7 @@ namespace EnvDT.DataAccess.Repository
 					from rv in Context.RefValues
 						.Where(rv => rv.PublParamId == publParamId)
 					join vc in Context.ValuationClasses on rv.ValuationClassId equals vc.ValuationClassId
-					join vcmst in Context.ValuationClassMedMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
+					join vcmst in Context.ValuationClassMedSubTypes on vc.ValuationClassId equals vcmst.ValuationClassId
 					join vcc in Context.ValuationClassConditions on vc.ValuationClassId equals vcc.ValuationClassId
 					where (vcmst.MedSubTypeId == sample.MediumSubTypeId && vcc.ConditionId == sample.ConditionId)
 					select rv

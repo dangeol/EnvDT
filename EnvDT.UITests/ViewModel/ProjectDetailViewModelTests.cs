@@ -8,6 +8,9 @@ using Prism.Events;
 using System;
 using Xunit;
 using System.Collections.ObjectModel;
+using EnvDT.Model.IDataService;
+using System.Collections.Generic;
+using EnvDT.Model.Entity;
 
 namespace EnvDT.UITests.ViewModel
 {
@@ -17,6 +20,7 @@ namespace EnvDT.UITests.ViewModel
         private Mock<IUnitOfWork> _unitOfWorkMock;
         private Mock<IEventAggregator> _eventAggregatorMock;
         private Mock<IMessageDialogService> _messageDialogServiceMock;
+        private Mock<ILookupDataService> _lookupDataServiceMock;
         private Mock<ILabReportViewModel> _labReportViewModelMock;
         private ProjectDetailViewModel _viewModel;
         private Mock<DetailSavedEvent> _projectSavedEventMock;
@@ -34,7 +38,7 @@ namespace EnvDT.UITests.ViewModel
             _projectDeletedEventMock = new Mock<DetailDeletedEvent>();
             _labReportImportedEventMock = new Mock<LabReportImportedEvent>();
             _unitOfWorkMock = new Mock<IUnitOfWork>();
-            _unitOfWorkMock.Setup(pr => pr.Projects.GetById(_projectId))
+            _unitOfWorkMock.Setup(pr => pr.Projects.GetById(It.IsAny<Guid>()))
                 .Returns(new Model.Entity.Project { ProjectId = _projectId, 
                     ProjectNumber = "012345", ProjectName = "name" });
             _eventAggregatorMock = new Mock<IEventAggregator>(); 
@@ -45,6 +49,35 @@ namespace EnvDT.UITests.ViewModel
             _eventAggregatorMock.Setup(ea => ea.GetEvent<LabReportImportedEvent>())
                 .Returns(_labReportImportedEventMock.Object);
             _messageDialogServiceMock = new Mock<IMessageDialogService>();
+            _lookupDataServiceMock = new Mock<ILookupDataService>();
+            _lookupDataServiceMock.Setup(pr => pr.GetAllCountriesLookup())
+                .Returns(new List<LookupItem>
+                {
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("bcc7d1d9-069b-4d7d-83ab-1e53f98a96a6"),
+                        DisplayMember = "Country1"
+                    },
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("8f2c0b27-f774-423b-9c2a-40da0ffc8e8f"),
+                        DisplayMember = "Country2"
+                    }
+                });
+            _lookupDataServiceMock.Setup(pr => pr.GetAllRegionsLookupByCountryId(It.IsAny<Guid>()))
+                .Returns(new List<LookupItem>
+                {
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("20b045c3-9f7c-4dd3-b603-994ddfa61fc2"),
+                        DisplayMember = "Region1"
+                    },
+                    new LookupItem
+                    {
+                        LookupItemId = new Guid("6840572d-41d1-4db8-b4d9-931ade3cdac4"),
+                        DisplayMember = "Region2"
+                    }
+                });
             _projectViewModelMock = new Mock<IProjectViewModel>();
             _sampleDetailViewModelMock = new Mock<ISampleDetailViewModel>();
             _sampleDetailViewModelMock.SetupGet(vm => vm.LabReportId)
@@ -56,7 +89,8 @@ namespace EnvDT.UITests.ViewModel
 
             _viewModel = new ProjectDetailViewModel(_unitOfWorkMock.Object, 
                 _eventAggregatorMock.Object, _messageDialogServiceMock.Object,
-                CreateLabReportViewModel, _tabMock.Object);
+                _lookupDataServiceMock.Object, CreateLabReportViewModel,
+                _tabMock.Object);
         }
 
         private ILabReportViewModel CreateLabReportViewModel()
@@ -246,7 +280,7 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Theory]
-        [InlineData(MessageDialogResult.Yes, 1, true)]
+        [InlineData(MessageDialogResult.OK, 1, true)]
         [InlineData(MessageDialogResult.No, 0, false)]
         public void ShouldCallDeleteMethodOfProjectRepositoryWhenDeleteCommandIsExecuted(
             MessageDialogResult result, int expectedDeleteProjectCalls, bool laboratoryReportViewModelIsNull)
@@ -266,7 +300,7 @@ namespace EnvDT.UITests.ViewModel
         }
 
         [Theory]
-        [InlineData(MessageDialogResult.Yes, 1)]
+        [InlineData(MessageDialogResult.OK, 1)]
         [InlineData(MessageDialogResult.No, 0)]
         public void ShouldPublishProjectDeletedEventWhenDeleteCommandIsExecuted(
             MessageDialogResult result, int expectedPublishCalls)

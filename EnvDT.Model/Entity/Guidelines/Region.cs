@@ -12,5 +12,6 @@ namespace EnvDT.Model.Entity
         public Guid CountryId { get; set; }
         public Country Country { get; set; }
         public List<PublRegion> PublRegions { get; set; }
+        public List<Project> Projects { get; set; }
     }
 }

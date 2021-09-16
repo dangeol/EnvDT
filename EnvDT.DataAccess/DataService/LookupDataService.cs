@@ -112,6 +112,21 @@ namespace EnvDT.DataAccess.DataService
             }
         }
 
+        public IEnumerable<LookupItem> GetAllRegionsLookupByCountryId(Guid countryId)
+        {
+            using (var ctx = _contextCreator())
+            {
+                return ctx.Set<Region>().AsNoTracking().ToList()
+                    .Where(r => r.CountryId == countryId)
+                    .Select(l => new LookupItem
+                    {
+                        LookupItemId = l.RegionId,
+                        DisplayMember = $"{l.RegionNameDe}"
+                    })
+                    .OrderBy(l => l.DisplayMember);
+            }
+        }
+
         public IEnumerable<LookupItem> GetAllConfigXlsxs()
         {
             using (var ctx = _contextCreator())

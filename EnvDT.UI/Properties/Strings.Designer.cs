@@ -639,6 +639,15 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string ProjectDetailView_Label_Country {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_Country", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Project address.
         /// </summary>
         public static string ProjectDetailView_Label_ProjectAddress {
@@ -671,6 +680,15 @@ namespace EnvDT.UI.Properties {
         public static string ProjectDetailView_Label_ProjectNumber {
             get {
                 return ResourceManager.GetString("ProjectDetailView_Label_ProjectNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Region.
+        /// </summary>
+        public static string ProjectDetailView_Label_Region {
+            get {
+                return ResourceManager.GetString("ProjectDetailView_Label_Region", resourceCulture);
             }
         }
         

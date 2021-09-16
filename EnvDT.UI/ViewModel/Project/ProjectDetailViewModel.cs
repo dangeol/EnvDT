@@ -1,4 +1,5 @@
 ﻿using EnvDT.Model.Entity;
+using EnvDT.Model.IDataService;
 using EnvDT.Model.IRepository;
 using EnvDT.UI.Dialogs;
 using EnvDT.UI.Event;
@@ -11,17 +12,20 @@ namespace EnvDT.UI.ViewModel
 {
     public class ProjectDetailViewModel : DetailViewModelBase, IProjectDetailViewModel
     {
+        private ILookupDataService _lookupDataService;
         private Func<ILabReportViewModel> _labReportDetailVmCreator;
         private ILabReportViewModel _labReportViewModel;
         private ITab _tab;
 
         private ProjectWrapper _project;
+        private Guid _standardGuid = new Guid("875dbf0f-5e3c-4012-9828-692e0ffa39ab");
 
         public ProjectDetailViewModel(IUnitOfWork unitOfWork, IEventAggregator eventAggregator,
-            IMessageDialogService messageDialogService, Func<ILabReportViewModel> labReportDetailVmCreator,
-            ITab tab)
+            IMessageDialogService messageDialogService, ILookupDataService lookupDataService,
+            Func<ILabReportViewModel> labReportDetailVmCreator, ITab tab)
             :base(eventAggregator, messageDialogService, unitOfWork)
         {
+            _lookupDataService = lookupDataService;
             _labReportDetailVmCreator = labReportDetailVmCreator;
             _tab = tab;
             eventAggregator.GetEvent<DetailSavedEvent>().Subscribe(OnDetailSaved);
@@ -63,7 +67,7 @@ namespace EnvDT.UI.ViewModel
         {
             Project = new ProjectWrapper(project);
             Project.PropertyChanged += (s, e) =>
-            {
+            {           
                 if (!HasChanges)
                 {
                     HasChanges = UnitOfWork.Projects.HasChanges();
@@ -72,15 +76,43 @@ namespace EnvDT.UI.ViewModel
                 {
                     ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
                 }
+                if (e.PropertyName == nameof(Project.CountryId))
+                {
+                    LoadRegions();
+                }
             };
             ((DelegateCommand)DeleteCommand).RaiseCanExecuteChanged();
             ((DelegateCommand)SaveCommand).RaiseCanExecuteChanged();
+
             if (projectId == null)
             {
                 // Trigger the validation
                 Project.ProjectNumber = "";
                 Project.ProjectClient = "";
                 Project.ProjectName = "";
+                Project.CountryId = Guid.Empty;
+                Project.RegionId = Guid.Empty;
+            }
+            
+            var countries = _lookupDataService.GetAllCountriesLookup();
+            foreach (LookupItem country in countries)
+            {
+                Project.Countries.Add(country);
+            }
+
+            LoadRegions();
+        }
+
+        private void LoadRegions()
+        {
+            Project.Regions.Clear();
+            if (!Guid.Equals(Project.CountryId, Guid.Empty))
+            {
+                var regions = _lookupDataService.GetAllRegionsLookupByCountryId(Project.CountryId);
+                foreach (LookupItem region in regions)
+                {
+                    Project.Regions.Add(region);
+                }
             }
         }
 
@@ -139,7 +171,7 @@ namespace EnvDT.UI.ViewModel
                 string.Format(Translator["EnvDT.UI.Properties.Strings.ProjectDetailVM_DialogMsg_ConfirmDeletion"],
                 Project.ProjectClient, Project.ProjectName));
 
-            if (result == MessageDialogResult.Yes)
+            if (result == MessageDialogResult.OK)
             {
                 RaiseDetailDeletedEvent(Project.Model.ProjectId);
                 SetPropertyValueToNull(this, "LabReportViewModel");

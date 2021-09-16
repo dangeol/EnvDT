@@ -12,5 +12,6 @@ namespace EnvDT.Model.Entity
         public List<PublCountry> PublCountries { get; set; }
         public List<Region> Regions { get; set; }
         public List<Laboratory> Laboratories { get; set; }
+        public List<Project> Projects { get; set; }
     }
 }
