@@ -15,5 +15,6 @@ namespace EnvDT.Model.Entity
         public List<FootnoteParam> FootnoteParams { get; set; }
         public List<PublParam> PublParams { get; set; }
         public List<RefValue> RefValues { get; set; }
+        public List<FootnoteRegion> FootnoteRegions { get; set; }
     }
 }

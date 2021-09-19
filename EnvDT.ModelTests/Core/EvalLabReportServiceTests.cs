@@ -5,6 +5,7 @@ using EnvDT.Model.IRepository;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 namespace EnvDT.ModelTests.Core
@@ -118,6 +119,10 @@ namespace EnvDT.ModelTests.Core
                 .Returns(_parameter);
             _unitOfWorkMock.Setup(uw => uw.ValuationClasses.GetById(It.IsAny<Guid>()))
                 .Returns(_valuationClass1);
+            _unitOfWorkMock.Setup(uw => uw.Regions.GetRegionByLabreportId(It.IsAny<Guid>()))
+                .Returns(It.IsAny<Region>());
+            _unitOfWorkMock.Setup(uw => uw.Regions.GetRegionsByFootnoteId(It.IsAny<Guid>()))
+                .Returns(Enumerable.Empty<Region>());
 
             _evalCalcMock.Setup(ec => ec.SampleValueConversion(
                 _sampleValue1.SValue, It.IsAny<string>(), It.IsAny<string>()))

@@ -135,6 +135,9 @@
   <data name="footnoteParamJson" xml:space="preserve">
     <value>DbDataSeeds/FootnoteParam.json</value>
   </data>
+  <data name="footnoteRegionJson" xml:space="preserve">
+    <value>DbDataSeeds/FootnoteRegion.json</value>
+  </data>
   <data name="laboratoryJson" xml:space="preserve">
     <value>DbDataSeeds/Laboratory.json</value>
   </data>

@@ -115,6 +115,15 @@ namespace EnvDT.Model {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DbDataSeeds/FootnoteRegion.json.
+        /// </summary>
+        internal static string footnoteRegionJson {
+            get {
+                return ResourceManager.GetString("footnoteRegionJson", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DbDataSeeds/Laboratory.json.
         /// </summary>
         internal static string laboratoryJson {

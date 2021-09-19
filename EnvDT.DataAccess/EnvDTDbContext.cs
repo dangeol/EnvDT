@@ -25,6 +25,7 @@ namespace EnvDT.DataAccess
         public DbSet<Country> Countries { get; set; }
         public DbSet<Footnote> Footnotes { get; set; }
         public DbSet<FootnoteParam> FootnoteParams { get; set; }
+        public DbSet<FootnoteRegion> FootnoteRegions { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Medium> Media { get; set; }
         public DbSet<MediumSubType> MediumSubTypes { get; set; }
@@ -70,6 +71,7 @@ namespace EnvDT.DataAccess
             modelBuilder.ApplyConfiguration(new CountryConfig());
             modelBuilder.ApplyConfiguration(new FootnoteConfig());
             modelBuilder.ApplyConfiguration(new FootnoteParamConfig());
+            modelBuilder.ApplyConfiguration(new FootnoteRegionConfig());
             modelBuilder.ApplyConfiguration(new LanguageConfig());
             modelBuilder.ApplyConfiguration(new MediumConfig());
             modelBuilder.ApplyConfiguration(new MediumSubTypeConfig());

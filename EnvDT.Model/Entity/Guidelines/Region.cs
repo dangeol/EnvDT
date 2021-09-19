@@ -13,5 +13,6 @@ namespace EnvDT.Model.Entity
         public Country Country { get; set; }
         public List<PublRegion> PublRegions { get; set; }
         public List<Project> Projects { get; set; }
+        public List<FootnoteRegion> FootnoteRegions { get; set; }
     }
 }

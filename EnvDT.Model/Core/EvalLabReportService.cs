@@ -46,6 +46,7 @@ namespace EnvDT.Model.Core
             _publication = _unitOfWork.Publications.GetById(evalArgs.PublicationId);
             var publParams = _publication.PublParams;
             var highestLevel = 0;
+            var notValidForRegion = false;
             List<ExceedingValue> exceedingValues = new();
 
             foreach (PublParam publParam in publParams)
@@ -59,6 +60,26 @@ namespace EnvDT.Model.Core
                         _missingParams.Add(publParam);
                     }                    
                     continue;
+                }
+
+                var projectRegion = _unitOfWork.Regions.GetRegionByLabreportId(evalArgs.LabReportId);
+                var footnoteRegions = Enumerable.Empty<Region>();
+                if (publParam.FootnoteId != null)
+                { 
+                    footnoteRegions = _unitOfWork.Regions.GetRegionsByFootnoteId((Guid)publParam.FootnoteId);
+                }
+
+                if (footnoteRegions.Count() > 0)
+                {
+                    var matchedRegions = footnoteRegions
+                    .Where(x => x.RegionId == projectRegion.RegionId);
+                    if (matchedRegions.Count() == 0)
+                    {
+                        // The footnote must be ignored because it's valid for other regions only
+                        {
+                            notValidForRegion = true;
+                        }
+                    }
                 }
 
                 var refValues = Enumerable.Empty<RefValue>();
@@ -86,12 +107,18 @@ namespace EnvDT.Model.Core
                 foreach (RefValue refValue in refValues)
                 {
                     if (publParam.FootnoteId == null || 
-                        (publParam.FootnoteId != null &&
+                        (publParam.FootnoteId != null && 
                         _footnotes.IsFootnoteCondTrue(evalArgs, publParam.FootnoteId).Result))
                     { 
                         var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
                         if (exceedingValue != null)
                         {
+                            // TO DO: this is a temporary hack
+                            if (notValidForRegion)
+                            {
+                                exceedingValue.IsNotExclusionCriterion = false;
+                            }
+                            // end of hack
                             exceedingValues.Add(exceedingValue);
 
                             if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)

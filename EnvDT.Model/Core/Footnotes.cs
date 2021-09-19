@@ -29,8 +29,8 @@ namespace EnvDT.Model.Core
             var footnoteParams = _unitOfWork.FootnoteParams.GetFootnoteParamsByFootnoteId(footnoteId);
 
             FootnoteResult footnoteResult = new();
-
             footnoteResult.Result = false;
+
             footnoteResult.IsNotExclusionCriterion = footnote.IsNotExclusionCriterion;
             HashSet<PublParam> missingParams = new();
             HashSet<string> takingAccountOf = new();
