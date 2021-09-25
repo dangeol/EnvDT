@@ -17,7 +17,7 @@ namespace EnvDT.DataAccess.Repository
         public string GetValClassNameNextLevelFromLevel(int level, Guid publicationId)
         {
             return Context.ValuationClasses.AsNoTracking()
-                .FirstOrDefault(v => v.ValClassLevel == level + 1 && v.PublicationId == publicationId)?
+                .FirstOrDefault(v => v.ValClassLevel == level + 1 && v.PublicationId == publicationId && !v.IsGroupClass)?
                 .ValuationClassName ?? string.Empty;
         }
     }

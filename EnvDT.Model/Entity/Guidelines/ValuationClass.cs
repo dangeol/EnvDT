@@ -8,6 +8,7 @@ namespace EnvDT.Model.Entity
         public Guid ValuationClassId { get; set; }
         public string ValuationClassName { get; set; }
         public int ValClassLevel { get; set; }
+        public bool IsGroupClass { get; set; }
 
         public Guid PublicationId { get; set; }
         public Publication Publication { get; set; }
