@@ -406,7 +406,7 @@ Falls Sie keinen passenden Parameternamen in der Liste finden können oder wenn 
     <value>Legt fest, welcher Analysewert gewählt wird, wenn für einen Parameter mehrere Werte mit verschiedenen Analysemethoden gefunden wurden.</value>
   </data>
   <data name="SampleEditDialog_Label_EditSamples" xml:space="preserve">
-    <value>Bearbeitung der Proben:</value>
+    <value>Bearbeitung der Proben.</value>
   </data>
   <data name="SampleEditDialog_GridHeader_Condition" xml:space="preserve">
     <value>Bedingung</value>
@@ -471,5 +471,8 @@ Bitte konsultieren Sie die Creative Commons Attribution-ShareAlike 4.0 Internati
   </data>
   <data name="ProjectDetailView_Label_Region" xml:space="preserve">
     <value>Region/Bundesland</value>
+  </data>
+  <data name="SampleEditDialog_Label_EditSamples_Alert" xml:space="preserve">
+    <value>Achtung: Eine falsche Parameter-Auswahl führt zu einem fehlerhaften Ergebnis.</value>
   </data>
 </root>

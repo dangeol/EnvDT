@@ -406,7 +406,7 @@ If there is no corresponding parameter name or in the case of doubt, please sele
     <value>Defines which analytical value is selected if multiple values were found for the same parameter using different analytical methods.</value>
   </data>
   <data name="SampleEditDialog_Label_EditSamples" xml:space="preserve">
-    <value>Edit the samples:</value>
+    <value>Edit the samples.</value>
   </data>
   <data name="SampleEditDialog_GridHeader_Sample" xml:space="preserve">
     <value>Sample</value>
@@ -480,5 +480,8 @@ Please see the Creative Commons Attribution-ShareAlike 4.0 International License
   </data>
   <data name="ProjectDetailView_Label_Region" xml:space="preserve">
     <value>Region</value>
+  </data>
+  <data name="SampleEditDialog_Label_EditSamples_Alert" xml:space="preserve">
+    <value>Attention: Selecting the wrong parameters results in an erroneous result.</value>
   </data>
 </root>

@@ -120,7 +120,7 @@ namespace EnvDT.Model.Core
 
             foreach (ExceedingValue exceedingValue in exceedingValues)
             {              
-                if (exceedingValue.Level >= highestLevel)
+                if (exceedingValue.Level >= highestLevel || (exceedingValue.IsGroupClass && exceedingValue.Level >= highestLevel - 1))
                 {
                     var exceedingValuesStrOrig = $"{exceedingValue.ParamName} ({exceedingValue.Value} {exceedingValue.Unit})";
                     var exceedingValuesStr = exceedingValuesStrOrig;

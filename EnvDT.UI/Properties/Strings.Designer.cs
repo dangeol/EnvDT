@@ -1011,11 +1011,20 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit the samples:.
+        ///   Looks up a localized string similar to Edit the samples..
         /// </summary>
         public static string SampleEditDialog_Label_EditSamples {
             get {
                 return ResourceManager.GetString("SampleEditDialog_Label_EditSamples", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention: Selecting the wrong parameters results in an erroneous result..
+        /// </summary>
+        public static string SampleEditDialog_Label_EditSamples_Alert {
+            get {
+                return ResourceManager.GetString("SampleEditDialog_Label_EditSamples_Alert", resourceCulture);
             }
         }
         

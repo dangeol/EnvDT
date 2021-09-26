@@ -24,8 +24,9 @@
       </Grid.RowDefinitions>
 
       <StackPanel Orientation="Vertical">
-        <Label Content="{loc:Loc SampleEditDialog_Label_EditSamples}" 
-             HorizontalAlignment="Left" Margin="10 0 10 0"/>
+        <TextBlock HorizontalAlignment="Left" Margin="10 0 10 0"
+            Text="{loc:Loc SampleEditDialog_Label_EditSamples_Alert}" Style="{StaticResource RedBoldTextBlockStyle}">
+        </TextBlock>
         <DataGrid ItemsSource="{Binding Samples}" 
                   AutoGenerateColumns="False" Margin="10">
           <DataGrid.Columns>
