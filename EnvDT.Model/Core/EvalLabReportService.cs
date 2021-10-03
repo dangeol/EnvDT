@@ -90,11 +90,11 @@ namespace EnvDT.Model.Core
                         _footnotes.IsFootnoteCondTrue(evalArgs, publParam.FootnoteId).Result))
                     { 
                         var exceedingValue = GetExceedingValue(evalArgs, publParam, refValue, labReportParams);
-                        if (exceedingValue != null)
+                        if (exceedingValue.IsExceeding)
                         {
                             exceedingValues.Add(exceedingValue);
 
-                            if (!exceedingValue.IsNotExclusionCriterion && exceedingValue.Level > highestLevel)
+                            if (!exceedingValue.IsNotExclusionCriterion && !exceedingValue.IsBetweenRefValueRefValAlt && exceedingValue.Level > highestLevel)
                             {
                                 if (!exceedingValue.IsGroupClass)
                                 {
@@ -144,7 +144,7 @@ namespace EnvDT.Model.Core
                         testList.Add(exceedingValuesStrOrig);
                     }
                 }
-                if (exceedingValue.Level > highestLevel)
+                if (exceedingValue.Level > highestLevel || (exceedingValue.IsBetweenRefValueRefValAlt && exceedingValue.Level >= highestLevel))
                 {
                     mustGeneralFootnoteTextsBeShown = true;
                 }
@@ -204,6 +204,10 @@ namespace EnvDT.Model.Core
         {
             var sampleId = evalArgs.Sample.SampleId;
             bool isNotExclusionCriterion = false;
+            bool shouldRefValueAltBeTaken = false;
+            bool isExceeding;
+            bool isExceedingRefValue = false;
+            bool isSValueBetweenRefValueRefValAlt;
             var generalFootnoteTexts = "";
 
             double refVal;
@@ -213,7 +217,7 @@ namespace EnvDT.Model.Core
 
                 FootnoteResult footnoteResult = _footnotes.IsFootnoteCondTrue(evalArgs, footnoteId);
                 isNotExclusionCriterion = footnoteResult.IsNotExclusionCriterion;
-                bool shouldRefValueAltBeTaken = footnoteResult.Result;
+                shouldRefValueAltBeTaken = footnoteResult.Result;
                 refVal = refValue.RValueAlt > 0 && shouldRefValueAltBeTaken ? refValue.RValueAlt : refValue.RValue;
 
                 if (footnoteResult.GeneralFootnoteTexts != null)
@@ -221,7 +225,7 @@ namespace EnvDT.Model.Core
                     generalFootnoteTexts = footnoteResult.GeneralFootnoteTexts;
                 }
                 if (footnoteResult.MissingParams != null)
-                { 
+                {
                     _missingParams.UnionWith(footnoteResult.MissingParams);
                 }
                 if (footnoteResult.TakingAccountOf != null)
@@ -241,7 +245,7 @@ namespace EnvDT.Model.Core
             var refValueValClassLevel = refValueValClass.ValClassLevel;
             var refValueIsGroupClass = refValueValClass.IsGroupClass;
 
-            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs = 
+            List<KeyValuePair<LabReportParam, double>> LrParamSValuePairs =
                 _evalCalc.GetLrParamSValuePairs(labReportParams, sampleId, refValUnitName);
 
             FinalSValue finalSValue = new();
@@ -249,7 +253,10 @@ namespace EnvDT.Model.Core
             if (LrParamSValuePairs.Count() == 0)
             {
                 _missingParams.Add(publParam);
-                return null;
+                return new ExceedingValue()
+                {
+                    IsExceeding = false
+                };
             }
             else if (LrParamSValuePairs.Count() == 1)
             {
@@ -265,29 +272,39 @@ namespace EnvDT.Model.Core
             }
             var refValUnchanged = refVal;
             if (publParam.Tolerance > 0)
-            {              
+            {
                 refVal += refVal * publParam.Tolerance;
                 if (finalSValue.SValue > refValUnchanged && finalSValue.SValue <= refVal)
-                { 
+                {
                     _toleranceParams.Add($"{refValParamNameDe} ({refValUnitName})");
                 }
             }
 
-            if (_evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refVal, refValParamAnnot))
+            isExceeding = _evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refVal, refValParamAnnot);
+
+            if (shouldRefValueAltBeTaken)
+            {
+                isExceedingRefValue = _evalCalc.IsSampleValueExceedingRefValue(finalSValue.SValue, refValue.RValue, refValParamAnnot);
+            }
+
+            isSValueBetweenRefValueRefValAlt = !isExceeding && isExceedingRefValue;
+
+            if (isExceeding || isSValueBetweenRefValueRefValAlt)
             {
                 _generalFootnoteTexts.Add(generalFootnoteTexts);
-
-                return new ExceedingValue()
-                {
-                    Level = refValueValClassLevel,
-                    IsGroupClass = refValueIsGroupClass,
-                    ParamName = refValParamNameDe,
-                    Value = finalSValue.SValue,
-                    Unit = refValUnitName,
-                    IsNotExclusionCriterion = isNotExclusionCriterion
-                };
             }
-            return null;
+
+            return new ExceedingValue()
+            {
+                IsExceeding = isExceeding || isSValueBetweenRefValueRefValAlt,
+                IsBetweenRefValueRefValAlt = isSValueBetweenRefValueRefValAlt,
+                Level = refValueValClassLevel,
+                IsGroupClass = refValueIsGroupClass,
+                ParamName = refValParamNameDe,
+                Value = finalSValue.SValue,
+                Unit = refValUnitName,
+                IsNotExclusionCriterion = isNotExclusionCriterion
+            };
         }
     }
 }

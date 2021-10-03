@@ -256,6 +256,7 @@ namespace EnvDT.ModelTests.Core
         {
             _unitOfWorkMock.Setup(uw => uw.LabReportParams.GetLabReportParamsByPublParam(It.IsAny<PublParam>(), It.IsAny<Guid>()))
                 .Returns(_labReportParams);
+
             var evalResult = _evalLabReportService.GetEvalResult(_evalArgs);
             var missingParamsLengthBefore = evalResult.MissingParams.Length;
 
