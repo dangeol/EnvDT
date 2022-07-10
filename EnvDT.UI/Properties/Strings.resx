@@ -465,7 +465,7 @@ Params.</value>
     <value>?</value>
   </data>
   <data name="InfoDetailView_Label_Info" xml:space="preserve">
-    <value>Copyright © 2021 Daniel Oellers</value>
+    <value>Copyright © 2021-2022 Daniel Oellers</value>
   </data>
   <data name="InfoDetailView_Label_Version" xml:space="preserve">
     <value>Version/Build:</value>

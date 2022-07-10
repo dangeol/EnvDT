@@ -340,7 +340,7 @@ namespace EnvDT.UI.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copyright © 2021 Daniel Oellers.
+        ///   Looks up a localized string similar to Copyright © 2021-2022 Daniel Oellers.
         /// </summary>
         public static string InfoDetailView_Label_Info {
             get {
