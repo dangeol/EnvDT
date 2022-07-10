@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 
 namespace EnvDT.UI.Wrapper
 {
@@ -11,17 +12,26 @@ namespace EnvDT.UI.Wrapper
         {
             Rows = new Dictionary<int, int>();
             Cols = new ObservableCollection<int>();
+            Encodings = new ObservableCollection<String>();
             FeedRows();
             FeedCols();
+            FeedEncodings();
         }
 
         public Dictionary<int, int> Rows { get; }
 
         public ObservableCollection<int> Cols { get; }
+        public ObservableCollection<String> Encodings { get; }
 
         public Guid ConfigCsvId
         {
             get { return Model.ConfigCsvId; }
+        }
+
+        public String Encoding
+        {
+            get { return GetValue<String>(); }
+            set { SetValue(value); }
         }
 
         public int HeaderRow
@@ -119,6 +129,12 @@ namespace EnvDT.UI.Wrapper
             ClearErrors(propertyName);
             switch (propertyName)
             {
+                case nameof(Encoding):
+                    if (string.Equals(IdentWord, "", StringComparison.OrdinalIgnoreCase))
+                    {
+                        yield return Translator["EnvDT.UI.Properties.Strings.Wrapper_TextBlock_ValidationText"];
+                    }
+                    break;
                 case nameof(HeaderRow):
                     if (HeaderRow == -1)
                     {
@@ -219,6 +235,15 @@ namespace EnvDT.UI.Wrapper
             for (int i = 0; i < 31; i++)
             {
                 Rows.Add(i + 1, i);
+            }
+        }
+
+        private void FeedEncodings()
+        {
+            var encodings = Enum.GetValues(typeof(Encoding));
+            foreach (var encoding in encodings)
+            {
+                Encodings.Add(encoding.ToString());
             }
         }
     }

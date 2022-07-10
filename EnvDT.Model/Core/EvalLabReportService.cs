@@ -9,17 +9,17 @@ namespace EnvDT.Model.Core
 {
     public class EvalLabReportService : IEvalLabReportService
     {   
-        private IUnitOfWork _unitOfWork;
-        private ILabReportPreCheck _labReportPreCheck;
-        private IEvalCalc _evalCalc;
-        private IFootnotes _footnotes;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILabReportPreCheck _labReportPreCheck;
+        private readonly IEvalCalc _evalCalc;
+        private readonly IFootnotes _footnotes;
         private EvalResult _evalResult;
         private Publication _publication;
-        private HashSet<string> _generalFootnoteTexts = new();
-        private HashSet<PublParam> _missingParams = new();
-        private HashSet<string> _paramNamesForMin = new();
-        private HashSet<string> _toleranceParams = new();
-        private HashSet<string> _takingAccountOf = new();
+        private readonly HashSet<string> _generalFootnoteTexts = new();
+        private readonly HashSet<PublParam> _missingParams = new();
+        private readonly HashSet<string> _paramNamesForMin = new();
+        private readonly HashSet<string> _toleranceParams = new();
+        private readonly HashSet<string> _takingAccountOf = new();
 
         public EvalLabReportService(IUnitOfWork unitOfWork, ILabReportPreCheck labReportPreCheck, 
             IEvalCalc evalCalc, IFootnotes footnotes)
@@ -52,7 +52,7 @@ namespace EnvDT.Model.Core
             {
                 var labReportParams = _unitOfWork.LabReportParams.GetLabReportParamsByPublParam(publParam, evalArgs.LabReportId);
 
-                if (labReportParams.Count() == 0)
+                if (!labReportParams.Any())
                 {
                     if (publParam.IsMandatory && publParam.FootnoteId == null)
                     {

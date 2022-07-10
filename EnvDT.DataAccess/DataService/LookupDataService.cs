@@ -10,8 +10,8 @@ namespace EnvDT.DataAccess.DataService
 {
     public class LookupDataService : ILookupDataService
     {
-        private Func<EnvDTDbContext> _contextCreator;
-        private ILabReportRepository _labReportRepository;
+        private readonly Func<EnvDTDbContext> _contextCreator;
+        private readonly ILabReportRepository _labReportRepository;
 
         public LookupDataService(Func<EnvDTDbContext> contextCreator, ILabReportRepository labReportRepository)
         {

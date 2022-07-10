@@ -504,4 +504,7 @@ Please see the Creative Commons Attribution-ShareAlike 4.0 International License
   <data name="SampleEditDialog_Label_EditSamples_Alert" xml:space="preserve">
     <value>Attention: Selecting the wrong parameters results in an erroneous result.</value>
   </data>
+  <data name="ConfigDetailView_Label_Encoding" xml:space="preserve">
+    <value>Encoding:</value>
+  </data>
 </root>

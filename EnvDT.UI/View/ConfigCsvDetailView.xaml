@@ -11,8 +11,7 @@
              xmlns:viewModel="clr-namespace:EnvDT.UI.ViewModel"            
              d:DesignHeight="450" d:DesignWidth="800">
 
-
-  <Grid>
+    <Grid>
     <Grid.ColumnDefinitions>
       <ColumnDefinition Width="Auto" />
       <ColumnDefinition Width="Auto" />
@@ -54,13 +53,17 @@
     <Label Content="{loc:Loc ConfigCsvDetailView_Label_Title}" 
             Style="{StaticResource BoldLabelStyle}" Margin="10 10"/>
 
-    <StackPanel Grid.Row="1" Grid.ColumnSpan="3" Orientation="Horizontal">
+    <StackPanel Grid.Row="1" Grid.ColumnSpan="5" Orientation="Horizontal">
+      <Label Content="{loc:Loc ConfigDetailView_Label_Encoding}" Margin="10 0"/>
+      <ComboBox Width="75" Margin="5"
+        SelectedValue="{Binding Path=ConfigCsv.Encoding,UpdateSourceTrigger=PropertyChanged}"
+        ItemsSource="{Binding Path=ConfigCsv.Encodings}"/>
       <Label Content="{loc:Loc ConfigDetailView_Label_DelimiterChar}" Margin="10 0"/>
       <TextBox Text="{Binding ConfigCsv.DelimiterChar,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                TextAlignment="Center" Width="20" Margin="5"/>
+                TextAlignment="Center" Width="30" Margin="5"/>
       <Label Content="{loc:Loc ConfigDetailView_Label_DecimalSepChar}" Margin="10 0"/>
       <TextBox Text="{Binding ConfigCsv.DecimalSepChar,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" 
-                TextAlignment="Center" Width="20" Margin="5"/>
+                TextAlignment="Center" Width="30" Margin="5"/>
     </StackPanel>
 
     <Label Grid.Row="2" Content="{loc:Loc ConfigDetailView_Label_IdentWord}" Margin="10 0"/>

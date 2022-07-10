@@ -5,8 +5,8 @@ namespace EnvDT.DataAccess
 {
     public class EnvDTDbContext : DbContext
     {
-        private DbContextOptions<EnvDTDbContext> _options;
-        private string _sqlitePath;
+        private readonly DbContextOptions<EnvDTDbContext> _options;
+        private readonly string _sqlitePath;
 
         public EnvDTDbContext()
         {

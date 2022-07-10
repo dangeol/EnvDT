@@ -9,7 +9,7 @@ namespace EnvDT.Model.Core
 {
     public class EvalCalc : IEvalCalc
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public EvalCalc(IUnitOfWork unitOfWork)
         {
@@ -18,11 +18,11 @@ namespace EnvDT.Model.Core
 
         public double SampleValueConversion(double sampleValue, string sampleValueUnitName, string refValUnitName)
         {
-            if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) ==
-                "m" && sampleValueUnitName.Substring(0, 1) == "µ")
+            if (refValUnitName.Length > 0 && refValUnitName[..1] ==
+                "m" && sampleValueUnitName[..1] == "µ")
                 sampleValue /= 1000;
-            else if (refValUnitName.Length > 0 && refValUnitName.Substring(0, 1) ==
-                "µ" && sampleValueUnitName.Substring(0, 1) == "m")
+            else if (refValUnitName.Length > 0 && refValUnitName[..1] ==
+                "µ" && sampleValueUnitName[..1] == "m")
                 sampleValue *= 1000;
             return sampleValue;
         }

@@ -255,14 +255,14 @@ namespace EnvDT.UI.Service
 
             using (FileStream fs1 = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
             using (FileStream fs2 = File.Open(filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
-            using (BufferedStream bs1 = new BufferedStream(fs1))
             using (BufferedStream bs2 = new BufferedStream(fs2))
             using (var stream = new MemoryStream())
-            using (StreamReader sr1 = new StreamReader(bs1))
-            using (StreamReader sr2 = new StreamReader(bs2))
             using (StreamWriter sw = new StreamWriter(stream))
             {
-                ConfigCsv configCsv = GetConfigCsvId(sr1);
+                ConfigCsv configCsv = GetConfigCsvId(fs1);
+
+                var encoding = configCsv.Encoding.Equals(Encoding.ANSI.ToString()) ? System.Text.Encoding.GetEncoding(1252) : System.Text.Encoding.UTF8;
+                StreamReader sr2 = new StreamReader(bs2, encoding);
 
                 if (configCsv == null)
                 {
@@ -290,6 +290,10 @@ namespace EnvDT.UI.Service
                 int i = 0;
                 while ((line = sr2.ReadLine()) != null)
                 {
+                    if (line.Length > 0 && line[^1..].Equals(";"))
+                    {
+                        line = line[..^1];
+                    }              
                     if (i == configCsv.ReportLabidentRow && i < headerRow)
                     {
                         reportLabIdent = line;
@@ -315,6 +319,8 @@ namespace EnvDT.UI.Service
                         sw.Flush();
                     }
                 }
+                bs2.Position = 0;
+                sr2.DiscardBufferedData();
 
                 sw.Flush();
                 stream.Position = 0;
@@ -392,12 +398,16 @@ namespace EnvDT.UI.Service
             }
         }
 
-        private ConfigCsv GetConfigCsvId(StreamReader sr)
+        private ConfigCsv GetConfigCsvId(FileStream fs)
         {
+            BufferedStream bs = new BufferedStream(fs);
+            StreamReader sr = new StreamReader(bs);
             var configCsvs = _unitOfWork.ConfigCsvs.GetAll();
 
             foreach (var configCsv in configCsvs)
             {
+                bs.Position = 0;
+                sr.DiscardBufferedData();
                 var identWord = configCsv.IdentWord;
                 var identWordRow = configCsv.IdentWordRow;
                 string line;

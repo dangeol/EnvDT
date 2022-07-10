@@ -475,4 +475,7 @@ Bitte konsultieren Sie die Creative Commons Attribution-ShareAlike 4.0 Internati
   <data name="SampleEditDialog_Label_EditSamples_Alert" xml:space="preserve">
     <value>Achtung: Eine falsche Parameter-Auswahl führt zu einem fehlerhaften Ergebnis.</value>
   </data>
+  <data name="ConfigDetailView_Label_Encoding" xml:space="preserve">
+    <value>Encoding:</value>
+  </data>
 </root>
